@@ -1,94 +1,49 @@
-import { Typography } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+// TODO: Remove from production app. Hide in some way or host elsewhere.
 
+import React from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 
-import { useRoutes, useLocation } from 'react-router-dom';
-
-import getKontentData from "./client";
-
-interface Data {
-    name: {
-        value: string
-    }
-}
-
-const Routes: React.FC = () => {
-    const routes = [
-        { path: '/', element: <Component /> },
-        { path: '/:page', element: <Component /> },
-        { path: '/styles', element: <Styles /> }
-    ]
-    return useRoutes(routes);
-}
-
-export default Routes;
-
-const Component: React.FC = () => {
-    const page = useLocation();
-    const [pageVal, setPageVal] = useState<string>('');
-    const [data, getData] = useState<Data>({ name: { value: '' } });
-
-    console.log(pageVal)
-
-    useEffect(() => {
-        if (!page.state) {
-            setPageVal('home')
-        }
-        else {
-            setPageVal(page?.state?.data)
-        }
-    }, [page?.state?.data]);
-
-    getKontentData({ name: pageVal ? pageVal : 'home', getData });
+const Swatch = (props:any) => {
+    const { color, variant } = props;
+    const theme = useTheme();
 
     return (
-        <Typography variant="h2">
-            {data && data.name.value}
-        </Typography>
-    )
+        <Box sx={{
+            alignItems: 'center',
+            backgroundColor: `${color}.${variant}`,
+            borderRadius: '8px',
+            // color: theme.palette.getContrastText(theme.palette[color][variant]),
+            display: 'flex',
+            height: 80,
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: 80,
+        }}>
+            {/* {variant}<br />{theme.palette[color][variant]} */}
+        </Box>
+    );
 }
 
-const Styles: React.FC = () => {
-    const Swatch = (props: any) => {
-        const { color, variant } = props;
-        const theme = useTheme();
+const Palette = (props: any) => {
+    const { color } = props;
+    return (
+        <Box sx={{ alignItems: 'center', display: 'flex', gap: 1, my: 1 }}>
+            <Typography variant="body1" sx={{ width: 100 }}>{color}</Typography>
+            <Swatch color={color} variant="main" />
+            <Swatch color={color} variant="light" />
+            <Swatch color={color} variant="dark" />
+        </Box>
+    );
+};
 
-        return (
-            <Box sx={{
-                alignItems: 'center',
-                backgroundColor: `${color}.${variant}`,
-                borderRadius: '8px',
-                // color: theme.palette.getContrastText(theme.palette[color][variant]),
-                display: 'flex',
-                height: 80,
-                justifyContent: 'center',
-                textAlign: 'center',
-                width: 80,
-            }}>
-                {/* {variant}<br />{theme.palette[color][variant]} */}
-            </Box>
-        );
-    }
-
-    const Palette = (props: any) => {
-        const { color } = props;
-        return (
-            <Box sx={{ alignItems: 'center', display: 'flex', gap: 1, my: 1 }}>
-                <Typography variant="body1" sx={{ width: 100 }}>{color}</Typography>
-                <Swatch color={color} variant="main" />
-                <Swatch color={color} variant="light" />
-                <Swatch color={color} variant="dark" />
-            </Box>
-        );
-    };
+const StyleGuide = () => {
 
     return (
-   
         <Paper sx={{ my: 2, p: 2 }}>
             <Typography variant="h1" gutterBottom>Typography</Typography>
             <Typography variant="h1" gutterBottom>h1. Headline 1</Typography>
@@ -117,5 +72,7 @@ const Styles: React.FC = () => {
             <Palette color="success" />
             <Typography variant="body1" color="GrayText" gutterBottom>color=&quot;GrayText&quot;</Typography>
         </Paper>
-    )
-}
+    );
+};
+
+export default StyleGuide;
