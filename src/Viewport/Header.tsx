@@ -30,15 +30,18 @@ const Header: React.FC = () => {
         }
     }
 
+    // hides home from nav menu
+    const filter = data.nested_items?.value.filter((item: string) => item !== "home");
+
     return (
-        <AppBar >
+        <AppBar elevation={0}>
             <Toolbar>
                 <Box sx={{ flexGrow: 1 }}>
                     <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer' }} underline="none" color="inherit">
                         Sandra Kaminski
                     </Link>
                 </Box>
-                {data.nested_items?.value.map((item: string, index: number) =>
+                {filter?.map((item: string, index: number) =>
                     <Button color="inherit" onClick={() => handleNavigate(item)} key={index}>
                         {item}
                     </Button>
