@@ -5,6 +5,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
 import { FacebookIcon } from '../assets/FacebookIcon';
@@ -21,9 +22,10 @@ const Footer: React.FC = () => {
                     All rights reserved.
                 </Typography>
             </Stack>
-            <Stack direction="row" alignItems="center" spacing={1}>
+
+            <Stack sx={{ '&:hover': { color: 'grayText' }, }} direction="row" alignItems="center" spacing={1}>
                 {social.map((item, index) =>
-                    <Link color="inherit" href={item.link} key={index} target="_blank" rel="noreferrer">
+                    <Link sx={{ '&:hover': { color: '#000' }, }} color="inherit" href={item.link} key={index} >
                         {item.icon}
                     </Link>
                 )}
@@ -41,8 +43,8 @@ type SocialArray = {
 
 const social: SocialArray[] = [
     { icon: <FacebookIcon />, link: 'https://www.facebook.com/sandra.kaminskinz' },
-    { icon: <TwitterIcon />, link: 'https://twitter.com/sandramkaminski1' },
-    { icon: <TumblrIcon />, link: 'https://sandramkaminskinz.tumblr.com/' },
+    { icon: <TwitterIcon />, link: 'https://twitter.com/Sandrakaminski1' },
+    { icon: <TumblrIcon />, link: 'https://sandrakaminskinz.tumblr.com/' },
     { icon: <PinterestIcon />, link: 'https://www.pinterest.com/stylistnz/' },
     { icon: <InstagramIcon />, link: 'https://www.instagram.com/sandra.kaminski/' }
 ]
