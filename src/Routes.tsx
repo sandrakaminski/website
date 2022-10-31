@@ -107,7 +107,7 @@ const Styles: React.FC = () => {
     return (
 
         <Paper sx={{ my: 2, p: 2 }}>
-            <Typography variant="h1" gutterBottom>Typography</Typography>
+            <Typography variant="h1" gutterBottom>Sandra Kaminski</Typography>
             <Typography variant="h1" gutterBottom>h1. Headline 1</Typography>
             <Typography variant="h2" gutterBottom>h2. Headline 2</Typography>
             <Typography variant="h3" gutterBottom>h3. Headline 3</Typography>
@@ -121,9 +121,11 @@ const Styles: React.FC = () => {
             <Typography variant="caption" gutterBottom sx={{ display: 'block ' }}>caption</Typography>
             <Typography variant="overline" gutterBottom sx={{ display: 'block ' }}>overline</Typography>
             <Box sx={{ display: 'flex', gap: 2 }}>
+
                 <Button variant="text">Text Button</Button>
                 <Button variant="contained">Contained Button</Button>
                 <Button variant="outlined">Outlined Button</Button>
+
             </Box>
             <Typography variant="h1" gutterBottom sx={{ mt: 4 }}>Palette</Typography>
             <Palette color="primary" />

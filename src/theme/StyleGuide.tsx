@@ -45,7 +45,7 @@ const StyleGuide = () => {
 
     return (
         <Paper sx={{ my: 2, p: 2 }}>
-            <Typography variant="h1" gutterBottom>Typography</Typography>
+            <Typography variant="h1" gutterBottom>Sandra Kaminski</Typography>
             <Typography variant="h1" gutterBottom>h1. Headline 1</Typography>
             <Typography variant="h2" gutterBottom>h2. Headline 2</Typography>
             <Typography variant="h3" gutterBottom>h3. Headline 3</Typography>
