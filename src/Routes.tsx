@@ -1,13 +1,13 @@
-import { Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
-import { useRoutes, useLocation } from 'react-router-dom';
+import { useRoutes, useLocation, useNavigate } from 'react-router-dom';
 
 import getKontentData from "./client";
 
@@ -21,7 +21,8 @@ const Routes: React.FC = () => {
     const routes = [
         { path: '/', element: <Component /> },
         { path: '/:page', element: <Component /> },
-        { path: '/styles', element: <Styles /> }
+        { path: '/styles', element: <Styles /> },
+        { path: '/404', element: <NotFound /> },
     ]
     return useRoutes(routes);
 }
@@ -30,14 +31,13 @@ export default Routes;
 
 const Component: React.FC = () => {
     const page = useLocation();
+    const navigate = useNavigate();
     const [pageVal, setPageVal] = useState<string>('');
     const [data, getData] = useState<Data>({ name: { value: '' } });
 
-    console.log(pageVal)
-
     useEffect(() => {
         if (!page.state) {
-            setPageVal('home')
+            navigate('/404')
         }
         else {
             setPageVal(page?.state?.data)
@@ -52,6 +52,15 @@ const Component: React.FC = () => {
         </Typography>
     )
 }
+
+const NotFound: React.FC = () => {
+    return (
+        <Typography variant="h2">
+            404 not found
+        </Typography>
+    )
+}
+
 
 const Styles: React.FC = () => {
     const Swatch = (props: any) => {
@@ -88,7 +97,7 @@ const Styles: React.FC = () => {
     };
 
     return (
-   
+
         <Paper sx={{ my: 2, p: 2 }}>
             <Typography variant="h1" gutterBottom>Typography</Typography>
             <Typography variant="h1" gutterBottom>h1. Headline 1</Typography>
