@@ -5,7 +5,6 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
 import { FacebookIcon } from '../assets/FacebookIcon';
@@ -25,7 +24,7 @@ const Footer: React.FC = () => {
 
             <Stack sx={{ '&:hover': { color: 'grayText' }, }} direction="row" alignItems="center" spacing={1}>
                 {social.map((item, index) =>
-                    <Link sx={{ '&:hover': { color: '#000' }, }} color="inherit" href={item.link} key={index} >
+                    <Link sx={{ '&:hover': { color: 'text.primary' }, }} color="inherit" href={item.link} key={index} >
                         {item.icon}
                     </Link>
                 )}
