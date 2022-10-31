@@ -6,7 +6,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
-import { useRoutes, useLocation, useNavigate } from 'react-router-dom';
+import { useRoutes, useLocation, useNavigate, Navigate } from 'react-router-dom';
 
 import getKontentData from "./client";
 
@@ -21,7 +21,9 @@ const Routes: React.FC = () => {
         { path: '/', element: <Component /> },
         { path: '/:page', element: <Component /> },
         { path: '/styles', element: <Styles /> },
-        { path: '*', element: <NotFound /> },
+        // err handling
+        { path: '*', element: <Navigate to="/404" /> },
+        { path: '/404', element: <NotFound /> }
     ]
     return useRoutes(routes);
 }
@@ -36,7 +38,7 @@ const Component: React.FC = () => {
 
     useEffect(() => {
         if (!page.state) {
-            navigate('*');
+            navigate('/404', { replace: true });
         }
         else {
             setPageVal(page?.state?.data)
