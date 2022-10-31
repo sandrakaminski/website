@@ -9,7 +9,7 @@ import { typography } from './typography';
 export const theme: Theme = responsiveFontSizes(createTheme({
     palette,
     typography,
-    // components,
+
 }));
 
 export default theme;
