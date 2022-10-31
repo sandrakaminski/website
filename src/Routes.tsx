@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 import { useRoutes, useLocation } from 'react-router-dom';
 
-import getKontentData from "./Client";
+import getKontentData from "./client";
 
-type Data = {
+interface Data {
     item: {
         elements: {
             name: {
@@ -18,6 +18,7 @@ const Routes: React.FC = () => {
     const routes = [
         { path: '/', element: <Component /> },
         { path: '/:item', element: <Component /> },
+        // { path: '*', element: <NotFound /> },
     ]
     return useRoutes(routes);
 }
@@ -29,8 +30,10 @@ const Component: React.FC = () => {
     const [pageVal, setPageVal] = useState<string>('');
     const [data, getData] = useState<Data>();
 
+    console.log(item)
+
     useEffect(() => {
-        if (!item?.state?.data) {
+        if (!item.state) {
             setPageVal('home')
         }
         else {
@@ -41,8 +44,14 @@ const Component: React.FC = () => {
     getKontentData({ name: pageVal ? pageVal : 'home', getData });
 
     return (
-        <div>
+        <h1>
             {data?.item?.elements.name?.value}
-        </div>
+        </h1>
     )
 }
+
+// const NotFound = () => {
+//     return (
+//         <h1>Not found</h1>
+//     )
+// }

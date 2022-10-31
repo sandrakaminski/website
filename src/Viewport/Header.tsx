@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 
-import getKontentData from "../Client";
+import getKontentData from "../client";
 
 type Data = {
     item: {
@@ -36,11 +38,13 @@ const Header: React.FC = () => {
     return (
         <AppBar >
             <Toolbar>
-                <p>
-                    Sandra Kaminski
-                </p>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Typography>
+                        Sandra Kaminski
+                    </Typography>
+                </Box>
                 {array?.value.map((item: string, index: number) =>
-                    <Button onClick={() => handleNavigate(item)} color="secondary" key={index}>
+                    <Button color="inherit" onClick={() => handleNavigate(item)} key={index}>
                         {item}
                     </Button>
                 )}
