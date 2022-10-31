@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect } from 'react';
 
-import Cookies from 'universal-cookie';
-import packageInfo from '../package.json';
+// import Cookies from 'universal-cookie';
+// import packageInfo from '../package.json';
 import {
     camelCasePropertyNameResolver,
     DeliveryClient,
@@ -12,8 +12,7 @@ import {
 const projectId = import.meta.env.VITE_KONTENT_PROJECT_ID;
 const previewApiKey = import.meta.env.VITE_PREVIEW_API_KEY;
 
-
-const Client = new DeliveryClient({ projectId: projectId });
+// const client = new DeliveryClient({ projectId: projectId, propertyNameResolver: camelCasePropertyNameResolver, });
 
 interface ConfigProps {
     name?: string | any
@@ -23,26 +22,8 @@ interface ConfigProps {
 export const getKontentData = async (props: ConfigProps) => {
     const { name, getData } = props;
 
-    // try {
-    //     const resp = await Client.items().type(name)
-    //     console.log(name, resp)
-    // }
-    // catch (error) {
-    //     console.log(error)
-    // }
-
-
-
-
-
     const get = useCallback(async () => {
-        // try {
-        //     const response = await Client.items().type(name).toPromise()
-        //     console.log(name, response)
-        // }
-        // catch (error) {
-        //     console.log(error)
-        // }
+        // const response = await client.items().type('assembly').toPromise()
         try {
             const response = await fetch(`https://preview-deliver.kontent.ai/${projectId}/items/${name}`, {
                 headers: {
@@ -50,7 +31,8 @@ export const getKontentData = async (props: ConfigProps) => {
                 }
             })
             const kontentData = await response.json()
-            getData(kontentData)
+            console.log("DATA", kontentData?.item?.elements)
+            getData(kontentData?.item?.elements)
         }
         catch (error) {
             console.log(error)
@@ -58,10 +40,8 @@ export const getKontentData = async (props: ConfigProps) => {
 
     }, [name, getData])
 
-
     useEffect(() => {
         get()
-
     }, [get])
 }
 export default getKontentData; 

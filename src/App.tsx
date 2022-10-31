@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Viewport from './Viewport'
 import Routes from './Routes'
 
-export const App = () => {
+export const App = (): JSX.Element => {
   return (
     <BrowserRouter>
       <Viewport>

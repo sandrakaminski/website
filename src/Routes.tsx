@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
 import { useRoutes, useLocation } from 'react-router-dom';
@@ -5,20 +6,16 @@ import { useRoutes, useLocation } from 'react-router-dom';
 import getKontentData from "./client";
 
 interface Data {
-    item: {
-        elements: {
-            name: {
-                value: string
-            }
-        }
+    name: {
+        value: string
     }
 }
 
 const Routes: React.FC = () => {
     const routes = [
         { path: '/', element: <Component /> },
-        { path: '/:item', element: <Component /> },
-        // { path: '*', element: <NotFound /> },
+        { path: '/:page', element: <Component /> },
+        { path: '/styles', element: <Styles /> }
     ]
     return useRoutes(routes);
 }
@@ -26,32 +23,32 @@ const Routes: React.FC = () => {
 export default Routes;
 
 const Component: React.FC = () => {
-    const item = useLocation();
+    const page = useLocation();
     const [pageVal, setPageVal] = useState<string>('');
-    const [data, getData] = useState<Data>();
+    const [data, getData] = useState<Data>({ name: { value: '' } });
 
-    console.log(item)
+    console.log(pageVal)
 
     useEffect(() => {
-        if (!item.state) {
+        if (!page.state) {
             setPageVal('home')
         }
         else {
-            setPageVal(item?.state?.data)
+            setPageVal(page?.state?.data)
         }
-    }, [item?.state?.data]);
+    }, [page?.state?.data]);
 
     getKontentData({ name: pageVal ? pageVal : 'home', getData });
 
     return (
-        <h1>
-            {data?.item?.elements.name?.value}
-        </h1>
+        <Typography variant="h2">
+            {data && data.name.value}
+        </Typography>
     )
 }
 
-// const NotFound = () => {
-//     return (
-//         <h1>Not found</h1>
-//     )
-// }
+const Styles: React.FC = () => {
+    return (
+        <p>Styles</p>
+    )
+}

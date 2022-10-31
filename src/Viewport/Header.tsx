@@ -4,27 +4,22 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
 
 import getKontentData from "../client";
 
 type Data = {
-    item: {
-        elements: {
-            nested_items: {
-                value: string[]
-            }
-        }
+    nested_items: {
+        value: string[]
     }
 }
 
 const Header: React.FC = () => {
-    const [data, getData] = useState<Data>({ item: { elements: { nested_items: { value: [] } } } });
+    const [data, getData] = useState<Data>({ nested_items: { value: [] } });
     const navigate = useNavigate();
 
     getKontentData({ name: "assembly", getData });
-    const array = data?.item?.elements.nested_items
 
     const handleNavigate = (path: string) => {
         if (path === "home") {
@@ -39,11 +34,11 @@ const Header: React.FC = () => {
         <AppBar >
             <Toolbar>
                 <Box sx={{ flexGrow: 1 }}>
-                    <Typography>
+                    <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer' }} underline="none" color="inherit">
                         Sandra Kaminski
-                    </Typography>
+                    </Link>
                 </Box>
-                {array?.value.map((item: string, index: number) =>
+                {data.nested_items?.value.map((item: string, index: number) =>
                     <Button color="inherit" onClick={() => handleNavigate(item)} key={index}>
                         {item}
                     </Button>
