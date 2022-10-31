@@ -37,14 +37,15 @@ const Component: React.FC = () => {
 
     useEffect(() => {
         if (!page.state) {
-            navigate('/404')
+            navigate('/404');
         }
         else {
             setPageVal(page?.state?.data)
         }
-    }, [page?.state?.data]);
+    }, [page?.state?.data, pageVal]);
 
-    getKontentData({ name: pageVal ? pageVal : 'home', getData });
+    const defaultVal = page?.state?.data;
+    getKontentData({ name: pageVal ? pageVal : defaultVal, getData });
 
     return (
         <Typography variant="h2">
@@ -54,10 +55,18 @@ const Component: React.FC = () => {
 }
 
 const NotFound: React.FC = () => {
+    const navigate = useNavigate();
+    
     return (
-        <Typography variant="h2">
-            404 not found
-        </Typography>
+        <>
+            <Typography variant="h2">
+                Error 404
+            </Typography>
+            <Typography variant="h4">
+                Page not found
+            </Typography>
+            <Button onClick={() => navigate("/", { state: { data: 'home' } })}>Return Home</Button>
+        </>
     )
 }
 
