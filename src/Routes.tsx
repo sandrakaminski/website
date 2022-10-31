@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
@@ -22,7 +21,7 @@ const Routes: React.FC = () => {
         { path: '/', element: <Component /> },
         { path: '/:page', element: <Component /> },
         { path: '/styles', element: <Styles /> },
-        { path: '/404', element: <NotFound /> },
+        { path: '*', element: <NotFound /> },
     ]
     return useRoutes(routes);
 }
@@ -37,7 +36,7 @@ const Component: React.FC = () => {
 
     useEffect(() => {
         if (!page.state) {
-            navigate('/404');
+            navigate('*');
         }
         else {
             setPageVal(page?.state?.data)
@@ -56,7 +55,7 @@ const Component: React.FC = () => {
 
 const NotFound: React.FC = () => {
     const navigate = useNavigate();
-    
+
     return (
         <>
             <Typography variant="h2">
