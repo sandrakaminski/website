@@ -2,10 +2,10 @@ import React, { Suspense } from 'react'
 
 import { BrowserRouter } from 'react-router-dom';
 
-import Viewport from './Viewport'
-import Routes from './Routes'
+import Viewport from './Viewport'; 
+import Routes from './Routes'; 
 
-export const App = (): JSX.Element => {
+export const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Viewport>

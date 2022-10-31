@@ -21,10 +21,9 @@ const Footer: React.FC = () => {
                     All rights reserved.
                 </Typography>
             </Stack>
-
             <Stack sx={{ '&:hover': { color: 'grayText' }, }} direction="row" alignItems="center" spacing={1}>
                 {social.map((item, index) =>
-                    <Link sx={{ '&:hover': { color: 'text.primary' }, }} color="inherit" href={item.link} key={index} >
+                    <Link target="_blank" rel="noopener noreferrer" sx={{ '&:hover': { color: 'text.primary' }, }} color="inherit" href={item.link} key={index} >
                         {item.icon}
                     </Link>
                 )}
@@ -33,7 +32,6 @@ const Footer: React.FC = () => {
     )
 }
 export default Footer;
-
 
 type SocialArray = {
     icon: JSX.Element;
