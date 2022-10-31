@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import '@/App.css'
+import React, { Suspense } from 'react'
 
-import getKontentData from './config'
+import { BrowserRouter } from 'react-router-dom';
 
-type Item = Array<Item>
-
+import Viewport from './Viewport'
+import Routes from './Routes'
 
 export const App = () => {
-  const [data, getData] = useState<Item>([])
-
-  getKontentData({ name: 'assembly', getData })
-
-  console.log(data?.item?.elements.name)
-
   return (
-    <div className="App">
-      my world
-    </div>
+    <BrowserRouter>
+      <Viewport>
+        <Suspense fallback={<p>...loading</p>}>
+          <Routes />
+        </Suspense>
+      </Viewport>
+    </BrowserRouter>
   )
 }
 
