@@ -1,3 +1,5 @@
+import React from 'react';
+
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import PinterestIcon from '@mui/icons-material/Pinterest';
@@ -8,7 +10,7 @@ import Stack from '@mui/material/Stack';
 import { FacebookIcon } from '../assets/FacebookIcon';
 import { TumblrIcon } from '../assets/TumblrIcon';
 
-const Footer = () => {
+const Footer: React.FC = () => {
     return (
         <Stack component="footer" sx={{ py: 6 }} alignItems="center" justifyContent="center" spacing={2}>
             <Stack alignItems="center" spacing={2}>
@@ -31,7 +33,13 @@ const Footer = () => {
 }
 export default Footer;
 
-const social = [
+
+type SocialArray = {
+    icon: JSX.Element;
+    link: string;
+}
+
+const social: SocialArray[] = [
     { icon: <FacebookIcon />, link: 'https://www.facebook.com/sandra.kaminskinz' },
     { icon: <TwitterIcon />, link: 'https://twitter.com/sandramkaminski1' },
     { icon: <TumblrIcon />, link: 'https://sandramkaminskinz.tumblr.com/' },

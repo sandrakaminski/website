@@ -31,7 +31,7 @@ const Header: React.FC = () => {
     }
 
     // hides home from nav menu
-    const filter = data.nested_items?.value.filter((item: string) => item !== "home");
+    const filter: string[] = data.nested_items?.value.filter((item: string) => item !== "home");
 
     return (
         <AppBar elevation={0}>
