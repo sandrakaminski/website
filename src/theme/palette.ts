@@ -1,40 +1,40 @@
 export const palette = {
     primary: {
-        light: '#5597ca',
-        main: '#156999',
-        dark: '#003f6b',
+        light: '#8ACDEA',
+        main: '#7D93DA',
+        dark: '#6F58C9',
     },
     secondary: {
-        light: '#393939',
-        main: '#131313',
-        dark: '#000000',
+        light: '#F8F8F8',
+        main: '#D5D5D6',
+        dark: '#404247',
     },
     text: {
-        primary: '#212121',
-
+        primary: '#212121 ',
     },
     background: {
-        default: '#f8f8f8',
-        paper: '#ffffff',
+        light: '#E0E1E3',
+        default: '#ffffff',
+        dark: '#ACB1B6',
     },
     error: {
-        light: '#fa716b',
-        main: '#c24040',
-        dark: '#8b0019',
+        light: '#D84654',
+        main: '#C03818',
+        dark: '#121517',
     },
     warning: {
         light: '#ffac5b',
-        main: '#de7c2c',
-        dark: '#a74f00',
+        main: '#D97706',
+        dark: '#92400E',
     },
     info: {
-        light: '#72c4f7',
-        main: '#3994c4',
-        dark: '#006693',
+        light: '#FECEE9',
+        main: '#cf77c1',
+        dark: '#462040',
     },
     success: {
-        light: '#5e9d5d',
-        main: '#2f6e32',
-        dark: '#004209',
+        light: '#D8F3Dc',
+        main: '#52B788',
+        dark: '#1B4332',
     },
 };

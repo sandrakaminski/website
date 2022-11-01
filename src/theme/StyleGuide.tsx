@@ -5,10 +5,10 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import { useTheme } from '@mui/material/styles';
+import { Palette, useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
-const Swatch = (props:any) => {
+const Swatch = (props: any) => {
     const { color, variant } = props;
     const theme = useTheme();
 
@@ -70,6 +70,7 @@ const StyleGuide = () => {
             <Palette color="warning" />
             <Palette color="info" />
             <Palette color="success" />
+            <Palette color="text" />
             <Typography variant="body1" color="GrayText" gutterBottom>color=&quot;GrayText&quot;</Typography>
         </Paper>
     );
