@@ -12,21 +12,19 @@ import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
 
 import logo from '../assets/logo.png';
-import getKontentData from "../client";
+import getData from "../client";
 
 type Data = {
-    nested_items: {
-        value: string[]
-    }
+   
 }
 
 const Header: React.FC = () => {
-    const [data, getData] = useState<Data>({ nested_items: { value: [] } });
+    const [data, setData] = useState<Data>();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
     const navigate = useNavigate();
-    getKontentData({ name: "assembly", getData });
+    getData({ name: "assembly", setData });
 
     const handleClick = (e: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(e.currentTarget);
@@ -37,6 +35,7 @@ const Header: React.FC = () => {
 
     const handleNavigate = (path: string) => {
         if (path === "home") {
+            
             navigate("/", { state: { data: path } });
         }
         else {
@@ -45,7 +44,7 @@ const Header: React.FC = () => {
     }
 
     // hides home from nav menu
-    const filter: string[] = data.nested_items?.value.filter((item: string) => item !== "home");
+    console.log("big cocks", data);
 
     return (
         <AppBar color="transparent" position="static" elevation={0}>
@@ -56,9 +55,9 @@ const Header: React.FC = () => {
                     </Link>
                 </Box>
                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                    {filter?.map((item: string, index: number) =>
-                        <Button color="inherit" onClick={() => handleNavigate(item)} key={index}>
-                            {item}
+                    {data?.map((item, index) =>
+                        <Button color="inherit" onClick={() => handleNavigate(item.fields.slug)} key={index}>
+                            {item.fields.name}
                         </Button>
                     )}
                 </Box>
@@ -67,8 +66,8 @@ const Header: React.FC = () => {
                         <MenuIcon />
                     </IconButton>
                     <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
-                        {filter?.map((item: string, index: number) =>
-                            <MenuItem key={index} sx={{ textTransform: 'capitalize' }} onClick={() => { handleNavigate(item), handleClose() }}>{item}</MenuItem>
+                        {data?.map((item, index) =>
+                            <MenuItem key={index} sx={{ textTransform: 'capitalize' }} onClick={() => { handleNavigate(item.fields.slug), handleClose() }}>{item.fields.name}</MenuItem>
                         )}
                     </Menu>
                 </Box>

@@ -1,47 +1,40 @@
 
 
 import { useCallback, useEffect } from 'react';
+import { createClient } from 'contentful';
 
-// import Cookies from 'universal-cookie';
-// import packageInfo from '../package.json';
-import {
-    camelCasePropertyNameResolver,
-    DeliveryClient,
-} from '@kontent-ai/delivery-sdk';
+const spaceId = import.meta.env.VITE_CONTENTFUL_SPACE_ID
 
-const projectId = import.meta.env.VITE_KONTENT_PROJECT_ID;
-const previewApiKey = import.meta.env.VITE_PREVIEW_API_KEY;
-
-// const client = new DeliveryClient({ projectId: projectId, propertyNameResolver: camelCasePropertyNameResolver, });
+const deliveryApiToken = "9pech2A_lP4MlSZDwNSzKneYCW1riVr4tC-n8J_Ix4Y"
+const preview = "T5vZEfV8hvR8ASdKP6RHKIibn620oF-epl5Dpt7wiBE"
 
 interface ConfigProps {
     name?: string | any
-    getData: (data: any) => void
+    setData: (data: any) => void
 }
 
-export const getKontentData = async (props: ConfigProps) => {
-    const { name, getData } = props;
+export const getData = async (props: ConfigProps) => {
+    const { name, setData } = props;
 
     const get = useCallback(async () => {
-        // const response = await client.items().type('assembly').toPromise()
         try {
-            const response = await fetch(`https://preview-deliver.kontent.ai/${projectId}/items/${name}`, {
-                headers: {
-                    'Authorization': `Bearer ${previewApiKey}`
-                }
-            })
-            const kontentData = await response.json()
-            console.log("DATA", kontentData?.item?.elements)
-            getData(kontentData?.item?.elements)
+            const resp = await client.getEntries({ content_type: 'assembly', 'fields.slug': name });
+            setData(resp.items[0].fields.references); 
         }
         catch (error) {
             console.log(error)
         }
 
-    }, [name, getData])
+    }, [name, setData])
 
     useEffect(() => {
         get()
     }, [get])
 }
-export default getKontentData; 
+export default getData;
+
+const client = createClient({
+    space: spaceId,
+    environment: 'production',
+    accessToken: deliveryApiToken
+})

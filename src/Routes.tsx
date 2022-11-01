@@ -8,7 +8,7 @@ import { useTheme } from '@mui/material/styles';
 
 import { useRoutes, useLocation, useNavigate, Navigate } from 'react-router-dom';
 
-import getKontentData from "./client";
+import getData from "./client";
 
 interface Data {
     name: {
@@ -34,7 +34,7 @@ const Component: React.FC = () => {
     const page = useLocation();
     const navigate = useNavigate();
     const [pageVal, setPageVal] = useState<string>('');
-    const [data, getData] = useState<Data>({ name: { value: '' } });
+    const [data, setData] = useState<any>();
 
     useEffect(() => {
         if (!page.state) {
@@ -46,17 +46,19 @@ const Component: React.FC = () => {
     }, [page?.state?.data, pageVal]);
 
     const defaultVal = page?.state?.data;
-    getKontentData({ name: pageVal ? pageVal : defaultVal, getData });
+
+    getData({ name: pageVal ? pageVal : defaultVal, setData });
 
     return (
         <Typography variant="h2">
-            {data && data.name.value}
+            {data && data[0]?.fields?.name}
         </Typography>
     )
 }
 
 const NotFound: React.FC = () => {
     const navigate = useNavigate();
+    const page = useLocation();
 
     return (
         <>
