@@ -1,16 +1,18 @@
-
-
 import { useCallback, useEffect } from 'react';
 import { createClient } from 'contentful';
 
-const spaceId = import.meta.env.VITE_CONTENTFUL_SPACE_ID
-
-const deliveryApiToken = "9pech2A_lP4MlSZDwNSzKneYCW1riVr4tC-n8J_Ix4Y"
-const preview = "T5vZEfV8hvR8ASdKP6RHKIibn620oF-epl5Dpt7wiBE"
+const spaceId = import.meta.env.VITE_CONTENTFUL_SPACE_ID;
+const deliveryApiToken = import.meta.env.VITE_DELIVERY_TOKEN;
+const preview = import.meta.env.VITE_PREVIEW_TOKEN;
+const environment = import.meta.env.VITE_ENVIRONMENT;
 
 interface ConfigProps {
     name?: string | any
     setData: (data: any) => void
+}
+
+type Response = {
+    items: any[]
 }
 
 export const getData = async (props: ConfigProps) => {
@@ -18,8 +20,8 @@ export const getData = async (props: ConfigProps) => {
 
     const get = useCallback(async () => {
         try {
-            const resp = await client.getEntries({ content_type: 'assembly', 'fields.slug': name });
-            setData(resp.items[0].fields.references); 
+            const resp: Response = await client.getEntries({ content_type: 'assembly', 'fields.slug': name });
+            setData(resp.items[0].fields.references);
         }
         catch (error) {
             console.log(error)
@@ -35,6 +37,8 @@ export default getData;
 
 const client = createClient({
     space: spaceId,
-    environment: 'production',
-    accessToken: deliveryApiToken
+    environment: environment,
+    accessToken: deliveryApiToken,
+    host: 'https://cdn.contentful.com',
+    removeUnresolved: true
 })
