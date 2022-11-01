@@ -14,9 +14,7 @@ import { useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png';
 import getData from "../client";
 
-type Data = {
-
-}
+type Data = Array<any>
 
 const Header: React.FC = () => {
     const [data, setData] = useState<Data>();
@@ -35,43 +33,44 @@ const Header: React.FC = () => {
 
     const handleNavigate = (path: string) => {
         if (path === "home") {
-
             navigate("/", { state: { data: path } });
         }
         else {
             navigate(`/${path}`, { state: { data: path } });
         }
     }
-
-    // hides home from nav menu
     console.log(data);
+    // hides home from nav menu
+    const menu = data?.filter((item) => item.fields.slug !== "home");
 
     return (
         <AppBar color="transparent" position="static" elevation={0}>
-            <Toolbar>
-                <Box sx={{ flexGrow: 1 }}>
-                    <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer' }} underline="none" color="inherit">
-                        <img style={{ width: 200, height: 'auto' }} src={logo} alt="Sandra Kaminski" />
-                    </Link>
-                </Box>
-                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                    {data?.map((item, index) =>
-                        <Button color="inherit" onClick={() => handleNavigate(item.fields.slug)} key={index}>
-                            {item.fields.name}
-                        </Button>
-                    )}
-                </Box>
-                <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                    <IconButton onClick={handleClick} color="inherit">
-                        <MenuIcon />
-                    </IconButton>
-                    <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
-                        {data?.map((item, index) =>
-                            <MenuItem key={index} sx={{ textTransform: 'capitalize' }} onClick={() => { handleNavigate(item.fields.slug), handleClose() }}>{item.fields.name}</MenuItem>
+            {menu &&
+                <Toolbar>
+                    <Box sx={{ flexGrow: 1 }}>
+                        <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer' }} underline="none" color="inherit">
+                            <img style={{ width: 200, height: 'auto' }} src={logo} alt="Sandra Kaminski" />
+                        </Link>
+                    </Box>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                        {menu.map((item, index) =>
+                            <Button color="inherit" onClick={() => handleNavigate(item.fields.slug)} key={index}>
+                                {item.fields.name}
+                            </Button>
                         )}
-                    </Menu>
-                </Box>
-            </Toolbar>
+                    </Box>
+                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                        <IconButton onClick={handleClick} color="inherit">
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
+                            {menu.map((item, index) =>
+                                <MenuItem key={index} onClick={() => { handleNavigate(item.fields.slug), handleClose() }}>{item.fields.name}</MenuItem>
+                            )}
+                        </Menu>
+                    </Box>
+                </Toolbar>
+            }
         </AppBar>
 
     )
