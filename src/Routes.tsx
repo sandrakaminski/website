@@ -124,11 +124,9 @@ const Styles: React.FC = () => {
             <Typography variant="caption" gutterBottom sx={{ display: 'block ' }}>caption</Typography>
             <Typography variant="overline" gutterBottom sx={{ display: 'block ' }}>overline</Typography>
             <Box sx={{ display: 'flex', gap: 2 }}>
-
                 <Button variant="text">Text Button</Button>
                 <Button variant="contained">Contained Button</Button>
                 <Button variant="outlined">Outlined Button</Button>
-
             </Box>
             <Typography variant="h1" gutterBottom sx={{ mt: 4 }}>Palette</Typography>
             <Palette color="primary" />
@@ -137,6 +135,7 @@ const Styles: React.FC = () => {
             <Palette color="warning" />
             <Palette color="info" />
             <Palette color="success" />
+            {/* <Palette color="background" /> */}
             <Typography variant="body1" color="GrayText" gutterBottom>color=&quot;GrayText&quot;</Typography>
         </Paper>
     )
