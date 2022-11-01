@@ -93,14 +93,12 @@ const Styles: React.FC = () => {
             <Box sx={{ alignItems: 'center', display: 'flex', gap: 1, my: 1 }}>
                 <Typography variant="body1" sx={{ width: 100 }}>{color}</Typography>
                 <Swatch color={color} variant="main" />
-                <Swatch color={color} variant="light" />
-                <Swatch color={color} variant="dark" />
+
             </Box>
         );
     };
 
     return (
-
         <Paper sx={{ my: 2, p: 2 }}>
             <Typography variant="h1" gutterBottom>Sandra Kaminski</Typography>
             <Typography variant="h1" gutterBottom>h1. Headline 1</Typography>
@@ -127,7 +125,6 @@ const Styles: React.FC = () => {
             <Palette color="warning" />
             <Palette color="info" />
             <Palette color="success" />
-            {/* <Palette color="background" /> */}
             <Typography variant="body1" color="GrayText" gutterBottom>color=&quot;GrayText&quot;</Typography>
         </Paper>
     )
