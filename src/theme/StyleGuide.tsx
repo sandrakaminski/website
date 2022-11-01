@@ -2,15 +2,22 @@
 
 import React from 'react';
 
+import type { Theme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import { Palette, useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
-const Swatch = (props: any) => {
+type ThemeProps = {
+    color: string | any
+    variant: string
+}
+
+
+const Swatch = (props: ThemeProps) => {
     const { color, variant } = props;
-    const theme = useTheme();
+    const theme: Theme = useTheme();
 
     return (
         <Box sx={{
@@ -29,7 +36,11 @@ const Swatch = (props: any) => {
     );
 }
 
-const Palette = (props: any) => {
+type PaletteProps = {
+    color: string
+}
+
+const Palette = (props: PaletteProps) => {
     const { color } = props;
     return (
         <Box sx={{ alignItems: 'center', display: 'flex', gap: 1, my: 1 }}>
@@ -41,7 +52,7 @@ const Palette = (props: any) => {
     );
 };
 
-const StyleGuide = () => {
+const StyleGuide: React.FC = () => {
 
     return (
         <Paper sx={{ my: 2, p: 2 }}>

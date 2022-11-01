@@ -1,6 +1,6 @@
 import FuturaCyrillicBook from './FuturaCyrillicBook.ttf';
 
-export const typography = {
+export const typography: Object = {
     h1: {
         fontSize: '2.5rem',
         fontWeight: 600,

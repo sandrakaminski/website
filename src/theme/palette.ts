@@ -1,4 +1,4 @@
-export const palette = {
+export const palette: Object = {
     primary: {
         light: '#8ACDEA',
         main: '#7D93DA',
