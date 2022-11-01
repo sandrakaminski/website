@@ -45,12 +45,14 @@ export const typography: Object = {
         fontSize: '15px',
         fontWeight: 300,
         fontFamily: 'proxima-nova',
+        letterSpacing: '.05em',
     },
     body2: {
         fontSize: '15px',
         fontWeight: 300,
         fontFamily: 'proxima-nova',
-        color: '#00000080'
+        color: '#00000080',
+        letterSpacing: '.05em'
     },
     paragraph: {
         fontSize: '15px',
