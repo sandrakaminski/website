@@ -15,7 +15,7 @@ import logo from '../assets/logo.png';
 import getData from "../client";
 
 type Data = {
-   
+
 }
 
 const Header: React.FC = () => {
@@ -35,7 +35,7 @@ const Header: React.FC = () => {
 
     const handleNavigate = (path: string) => {
         if (path === "home") {
-            
+
             navigate("/", { state: { data: path } });
         }
         else {
@@ -44,7 +44,7 @@ const Header: React.FC = () => {
     }
 
     // hides home from nav menu
-    console.log("big cocks", data);
+    console.log(data);
 
     return (
         <AppBar color="transparent" position="static" elevation={0}>
