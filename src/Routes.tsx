@@ -27,6 +27,8 @@ const Component: React.FC = () => {
     [type, slug] = [type || "assembly", slug || "home"];
     const { content, error } = useView({ type, slug });
 
+    console.log("CONTENT", content)
+
     if (error && error.status === 404) {
         return (<NotFound />)
     }
