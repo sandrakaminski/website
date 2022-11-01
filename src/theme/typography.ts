@@ -45,12 +45,12 @@ export const typography = {
         fontSize: '15px',
         fontWeight: 300,
         fontFamily: 'proxima-nova',
-        fontColor: '#000080',
     },
     body2: {
         fontSize: '15px',
-        fontWeight: 500,
+        fontWeight: 300,
         fontFamily: 'proxima-nova',
+        color: '#00000080'
     },
     paragraph: {
         fontSize: '15px',
