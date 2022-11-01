@@ -29,4 +29,35 @@ export const typography = {
         fontWeight: 700,
         fontFamily: 'proxima-nova',
     },
+    subtitle1: {
+        fontSize: '1rem',
+        fontWeight: 400,
+        fontFamily: 'proxima-nova',
+    },
+    subtitle2: {
+        fontSize: '0.875rem',
+        fontWeight: 500,
+        fontFamily: 'proxima-nova',
+    },
+    body1: {
+        fontSize: '15px',
+        fontWeight: 300,
+        fontFamily: 'proxima-nova',
+        fontColor: '#000080',
+    },
+    paragraph: {
+        fontSize: '15px',
+        fontWeight: 300,
+        fontFamily: 'proxima-nova',
+    },
+    button: {
+        fontSize: '1rem',
+        fontWeight: 400,
+        fontFamily: 'futura-pt',
+    },
+    caption: {
+        fontSize: '0.75rem',
+        fontWeight: 400,
+        fontFamily: 'proxima-nova',
+    },
 };
