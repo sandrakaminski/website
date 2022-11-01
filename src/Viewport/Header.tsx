@@ -12,17 +12,13 @@ import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
 
 import logo from '@/assets/logo.png';
-import getData from "@/client";
-
-type Data = Array<any>
+import { useMenu } from "@/client";
 
 const Header: React.FC = () => {
-    const [data, setData] = useState<Data>();
+    const { menuItems } = useMenu();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
-
     const navigate = useNavigate();
-    getData({ name: "assembly", setData });
 
     const handleClick = (e: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(e.currentTarget);
@@ -39,12 +35,10 @@ const Header: React.FC = () => {
             navigate(`/${path}`, { state: { data: path } });
         }
     }
-    // hides home from nav menu
-    const menu = data?.filter((item) => item.fields.slug !== "home");
 
     return (
         <AppBar color="transparent" position="static" elevation={0}>
-            {menu &&
+            {menuItems &&
                 <Toolbar>
                     <Box sx={{ flexGrow: 1 }}>
                         <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer' }} underline="none" color="inherit">
@@ -52,7 +46,7 @@ const Header: React.FC = () => {
                         </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        {menu.map((item, index) =>
+                        {menuItems.map((item: any, index: number) =>
                             <Button color="inherit" onClick={() => handleNavigate(item.fields.slug)} key={index}>
                                 {item.fields.name}
                             </Button>
@@ -63,7 +57,7 @@ const Header: React.FC = () => {
                             <MenuIcon />
                         </IconButton>
                         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
-                            {menu.map((item, index) =>
+                            {menuItems.map((item: any, index: number) =>
                                 <MenuItem key={index} onClick={() => { handleNavigate(item.fields.slug), handleClose() }}>{item.fields.name}</MenuItem>
                             )}
                         </Menu>

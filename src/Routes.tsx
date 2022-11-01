@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -6,18 +6,16 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
-import { useRoutes, useLocation, useNavigate, Navigate } from 'react-router-dom';
+import { useRoutes, useNavigate, useParams } from 'react-router-dom';
 
-import getData from "./client";
+import Outline from './components/Outline';
+import { useView } from "./client";
 
 const Routes: React.FC = () => {
     const routes = [
         { path: '/', element: <Component /> },
         { path: '/:slug', element: <Component /> },
-        { path: '/styles', element: <Styles /> },
-        // err handling
-        { path: '*', element: <Navigate to="/404" /> },
-        { path: '/404', element: <NotFound /> }
+        { path: '/styles', element: <Styles /> }
     ]
     return useRoutes(routes);
 }
@@ -25,31 +23,30 @@ const Routes: React.FC = () => {
 export default Routes;
 
 const Component: React.FC = () => {
-    const slug = useLocation();
-    const navigate = useNavigate();
-    const [page, setPage] = useState<string>('');
-    const [data, setData] = useState<any>();
+    var { type, slug } = useParams();
+    [type, slug] = [type || "assembly", slug || "home"];
+    const { content, error } = useView({ type, slug });
 
-    console.log(data)
-
-    useEffect(() => {
-        if (!slug.state) {
-            navigate('/404', { replace: true });
-        }
-        else {
-            setPage(slug?.state?.data)
-        }
-    }, [slug?.state?.data, page]);
-
-    const defaultVal = slug?.state?.data;
-
-    getData({ name: page ? page : defaultVal, setData });
-
-    return (
-        <Typography variant="h2">
-            {data && data[0]?.fields?.name}
-        </Typography>
-    )
+    if (error && error.status === 404) {
+        return (<NotFound />)
+    } else {
+        return (
+            <>
+                {content ?
+                    <Box>
+                        <Typography variant="h1" component="h1">
+                            {content?.fields.references[0].fields.headline}
+                        </Typography>
+                        <Typography variant="body1" component="p">
+                            {content?.fields.references[0].fields.subheader}
+                        </Typography>
+                    </Box>
+                    :
+                    <Outline />
+                }
+            </>
+        )
+    }
 }
 
 const NotFound: React.FC = () => {
