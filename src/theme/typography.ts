@@ -1,4 +1,4 @@
-import FuturaCyrillicBook from './fonts/FuturaCyrillicBook.ttf';
+import FuturaCyrillicBook from './FuturaCyrillicBook.ttf';
 
 export const typography = {
     h1: {
@@ -60,7 +60,9 @@ export const typography = {
     button: {
         fontSize: '12px',
         fontWeight: 500,
-        fontFamily: 'FuturaCyrillicBook',
+        fontFamily: "Futura",
+        letterSpacing: '.25em',
+        src: `local('Futura'), local('FuturaCyrillicBook'), url(${FuturaCyrillicBook}) format('ttf')`,
     },
     caption: {
         fontSize: '0.75rem',
