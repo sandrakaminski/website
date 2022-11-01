@@ -10,12 +10,6 @@ import { useRoutes, useLocation, useNavigate, Navigate } from 'react-router-dom'
 
 import getData from "./client";
 
-interface Data {
-    name: {
-        value: string
-    }
-}
-
 const Routes: React.FC = () => {
     const routes = [
         { path: '/', element: <Component /> },
@@ -35,6 +29,8 @@ const Component: React.FC = () => {
     const navigate = useNavigate();
     const [page, setPage] = useState<string>('');
     const [data, setData] = useState<any>();
+
+    console.log(data)
 
     useEffect(() => {
         if (!slug.state) {

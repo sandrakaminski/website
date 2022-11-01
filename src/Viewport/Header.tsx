@@ -11,8 +11,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
 
-import logo from '../assets/logo.png';
-import getData from "../client";
+import logo from '@/assets/logo.png';
+import getData from "@/client";
 
 type Data = Array<any>
 
@@ -39,7 +39,6 @@ const Header: React.FC = () => {
             navigate(`/${path}`, { state: { data: path } });
         }
     }
-    console.log(data);
     // hides home from nav menu
     const menu = data?.filter((item) => item.fields.slug !== "home");
 
