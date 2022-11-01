@@ -1,13 +1,12 @@
 import { useCallback, useEffect } from 'react';
 import { createClient } from 'contentful';
 
-const spaceId = import.meta.env.VITE_CONTENTFUL_SPACE_ID;
-const deliveryApiToken = import.meta.env.VITE_DELIVERY_TOKEN;
-const preview = import.meta.env.VITE_PREVIEW_TOKEN;
-const environment = import.meta.env.VITE_ENVIRONMENT;
+const spaceId: string = import.meta.env.VITE_CONTENTFUL_SPACE_ID;
+const deliveryApiToken: string = import.meta.env.VITE_DELIVERY_TOKEN;
+const environment: string = import.meta.env.VITE_ENVIRONMENT;
 
 interface ConfigProps {
-    name?: string | any
+    name?: string
     setData: (data: any) => void
 }
 

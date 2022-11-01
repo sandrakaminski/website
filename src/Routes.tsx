@@ -19,7 +19,7 @@ interface Data {
 const Routes: React.FC = () => {
     const routes = [
         { path: '/', element: <Component /> },
-        { path: '/:page', element: <Component /> },
+        { path: '/:slug', element: <Component /> },
         { path: '/styles', element: <Styles /> },
         // err handling
         { path: '*', element: <Navigate to="/404" /> },
@@ -31,23 +31,23 @@ const Routes: React.FC = () => {
 export default Routes;
 
 const Component: React.FC = () => {
-    const page = useLocation();
+    const slug = useLocation();
     const navigate = useNavigate();
-    const [pageVal, setPageVal] = useState<string>('');
+    const [page, setPage] = useState<string>('');
     const [data, setData] = useState<any>();
 
     useEffect(() => {
-        if (!page.state) {
+        if (!slug.state) {
             navigate('/404', { replace: true });
         }
         else {
-            setPageVal(page?.state?.data)
+            setPage(slug?.state?.data)
         }
-    }, [page?.state?.data, pageVal]);
+    }, [slug?.state?.data, page]);
 
-    const defaultVal = page?.state?.data;
+    const defaultVal = slug?.state?.data;
 
-    getData({ name: pageVal ? pageVal : defaultVal, setData });
+    getData({ name: page ? page : defaultVal, setData });
 
     return (
         <Typography variant="h2">
@@ -58,7 +58,6 @@ const Component: React.FC = () => {
 
 const NotFound: React.FC = () => {
     const navigate = useNavigate();
-    const page = useLocation();
 
     return (
         <>
