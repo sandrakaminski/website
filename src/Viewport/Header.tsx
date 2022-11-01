@@ -49,7 +49,7 @@ const Header: React.FC = () => {
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         {menu.map((item: any, index: number) =>
-                            <Button color="inherit" onClick={() => handleNavigate(item.fields.slug)} key={index}>
+                            <Button sx={{ mx: 1 }} color="inherit" onClick={() => handleNavigate(item.fields.slug)} key={index}>
                                 {item.fields.name}
                             </Button>
                         )}
