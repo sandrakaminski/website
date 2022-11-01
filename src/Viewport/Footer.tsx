@@ -11,7 +11,8 @@ import { FacebookIcon } from '../assets/FacebookIcon';
 import { TumblrIcon } from '../assets/TumblrIcon';
 
 const Footer: React.FC = () => {
-    const date = new Date().getFullYear()
+    const date = new Date().getFullYear();
+
     return (
         <Stack component="footer" sx={{ py: 6 }} alignItems="center" justifyContent="center" spacing={2}>
             <Stack alignItems="center" spacing={2}>
