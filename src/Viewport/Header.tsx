@@ -36,9 +36,11 @@ const Header: React.FC = () => {
         }
     }
 
+    const menu = menuItems?.filter((item: any) => item.fields.slug !== "home");
+
     return (
         <AppBar color="transparent" position="static" elevation={0}>
-            {menuItems &&
+            {menu &&
                 <Toolbar>
                     <Box sx={{ flexGrow: 1 }}>
                         <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer' }} underline="none" color="inherit">
@@ -46,7 +48,7 @@ const Header: React.FC = () => {
                         </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        {menuItems.map((item: any, index: number) =>
+                        {menu.map((item: any, index: number) =>
                             <Button color="inherit" onClick={() => handleNavigate(item.fields.slug)} key={index}>
                                 {item.fields.name}
                             </Button>
@@ -57,7 +59,7 @@ const Header: React.FC = () => {
                             <MenuIcon />
                         </IconButton>
                         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
-                            {menuItems.map((item: any, index: number) =>
+                            {menu.map((item: any, index: number) =>
                                 <MenuItem key={index} onClick={() => { handleNavigate(item.fields.slug), handleClose() }}>{item.fields.name}</MenuItem>
                             )}
                         </Menu>

@@ -29,24 +29,23 @@ const Component: React.FC = () => {
 
     if (error && error.status === 404) {
         return (<NotFound />)
-    } else {
-        return (
-            <>
-                {content ?
-                    <Box>
-                        <Typography variant="h1" component="h1">
-                            {content?.fields.references[0].fields.headline}
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {content?.fields.references[0].fields.subheader}
-                        </Typography>
-                    </Box>
-                    :
-                    <Outline />
-                }
-            </>
-        )
     }
+    return (
+        <>
+            {content ?
+                <Box>
+                    <Typography variant="h1" component="h1">
+                        {content?.fields.references[0].fields.headline}
+                    </Typography>
+                    <Typography variant="body1" component="p">
+                        {content?.fields.references[0].fields.subheader}
+                    </Typography>
+                </Box>
+                :
+                <Outline />
+            }
+        </>
+    )
 }
 
 const NotFound: React.FC = () => {
