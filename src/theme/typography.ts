@@ -1,3 +1,5 @@
+import FuturaCyrillicBook from './fonts/FuturaCyrillicBook.ttf';
+
 export const typography = {
     h1: {
         fontSize: '2.5rem',
@@ -43,7 +45,12 @@ export const typography = {
         fontSize: '15px',
         fontWeight: 300,
         fontFamily: 'proxima-nova',
-        fontColor: '#000080',
+    },
+    body2: {
+        fontSize: '15px',
+        fontWeight: 300,
+        fontFamily: 'proxima-nova',
+        color: '#00000080'
     },
     paragraph: {
         fontSize: '15px',
@@ -51,9 +58,9 @@ export const typography = {
         fontFamily: 'proxima-nova',
     },
     button: {
-        fontSize: '1rem',
-        fontWeight: 400,
-        fontFamily: 'futura-pt',
+        fontSize: '12px',
+        fontWeight: 500,
+        fontFamily: 'FuturaCyrillicBook',
     },
     caption: {
         fontSize: '0.75rem',
