@@ -10,6 +10,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 const audienceId: string = import.meta.env.VITE_MAILCHIMP_LIST_ID
 const mailApi: string = import.meta.env.VITE_MAILCHIMP_API_KEY
 const url: string = `https://sandrakaminski.us20.list-manage.com/subscribe/post?u=${mailApi}&id=${audienceId}`;
+const validEmail: RegExp = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
 
 const CustomForm = ({ status, message, onValidated }: any) => {
     const [fields, setFields] = useState<any>({
@@ -72,7 +73,7 @@ const CustomForm = ({ status, message, onValidated }: any) => {
                         />
                     </Grid>
                     <Grid xs={12} >
-                        <Button loading={status === "sending"} size="large" onClick={handleSubmit}>
+                        <Button disabled={status === "sending"} loading={status === "sending"} size="large" onClick={handleSubmit}>
                             Submit
                         </Button>
                     </Grid>

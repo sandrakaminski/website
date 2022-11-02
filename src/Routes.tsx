@@ -9,8 +9,9 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
-import { useRoutes, useNavigate, useParams } from 'react-router-dom';
+import { useRoutes, useParams } from 'react-router-dom';
 
+import NotFound from './blocks/NotFound';
 import Outline from './components/Outline';
 import { useView } from "./client";
 
@@ -69,21 +70,7 @@ const Component: React.FC = () => {
     )
 }
 
-const NotFound: React.FC = () => {
-    const navigate = useNavigate();
 
-    return (
-        <>
-            <Typography variant="h2">
-                Error 404
-            </Typography>
-            <Typography variant="h4">
-                Page not found
-            </Typography>
-            <Button onClick={() => navigate("/", { state: { data: 'home' } })}>Return Home</Button>
-        </>
-    )
-}
 
 
 const Styles: React.FC = () => {
