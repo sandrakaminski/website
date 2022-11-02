@@ -1,6 +1,8 @@
 import React from 'react';
 
 import Box from '@mui/material/Box';
+import CardMedia from '@mui/material/CardMedia';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -35,13 +37,24 @@ const Component: React.FC = () => {
     return (
         <>
             {content ?
-                <Box>
-                    <Typography variant="h1" component="h1">
-                        {content?.fields.references[0].fields.headline}
-                    </Typography>
-                    <Typography variant="body1" component="p">
-                        {content?.fields.references[0].fields.subheader}
-                    </Typography>
+                <Box >
+                    <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
+                        {content?.fields.references[0].fields.heroImage?.fields.file.url &&
+                            <CardMedia
+                                component="img"
+                                src={content.fields.references[0].fields.heroImage.fields.file.url}
+                                alt={content.fields.references[0].fields.heroImage.fields.title}
+                                width="auto"
+                                height="100%"
+                            />
+                        }
+                        <Typography variant="h1" component="h1" sx={{ p: 10 }}>
+                            {content?.fields.references[0].fields.headline}
+                        </Typography>
+                        <Typography variant="body1" component="p">
+                            {content?.fields.references[0].fields.subheader}
+                        </Typography>
+                    </Stack>
                 </Box>
                 :
                 <Outline />
