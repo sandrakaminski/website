@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Link } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CardMedia from '@mui/material/CardMedia';
@@ -32,31 +33,30 @@ const Component: React.FC = () => {
     [type, slug] = [type || "assembly", slug || "home"];
     const { content, error } = useView({ type, slug });
 
-    console.log("CONTENT", content)
 
     if (error && error.status === 404) {
         return (<NotFound />)
     }
-    // console.log(content?.fields.references[1])
+    console.log(content?.fields?.references[0].fields.body)
 
     return (
         <>
 
             {content ?
                 <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
-                    {content?.fields.references[0].fields.image?.fields.file.url &&
+                    {content?.fields?.references[0].fields.image?.fields.file.url &&
                         <CardMedia
-                            sx={{ width: content?.fields.references[0].fields.bannerStyle === false ? "60%" : "100%", height: 'auto' }}
+                            sx={{ width: content?.fields?.references[0].fields.bannerStyle === false ? "60%" : "100%", height: 'auto' }}
                             component="img"
-                            src={content?.fields.references[0].fields.image.fields.file.url}
-                            alt={content?.fields.references[0].fields.image.fields.title}
+                            src={content?.fields?.references[0].fields.image.fields.file.url}
+                            alt={content?.fields?.references[0].fields.image.fields.title}
                         />
                     }
                     <Typography variant="h1" component="h1" sx={{ p: 6 }}>
-                        {content?.fields.references[0].fields.headline}
+                        {content?.fields?.references[0].fields.headline}
                     </Typography>
                     <Container maxWidth="sm">
-                        <ReactMarkdown>{content?.fields.references[0].fields.body}</ReactMarkdown>
+                        <ReactMarkdown >{content?.fields?.references[0].fields.body}</ReactMarkdown>
                     </Container>
                 </Stack>
                 :
@@ -65,10 +65,6 @@ const Component: React.FC = () => {
         </>
     )
 }
-
-const Markdown = {
-    renderers: { link: Button }
-};
 
 
 
