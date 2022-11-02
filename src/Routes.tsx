@@ -35,6 +35,7 @@ const Component: React.FC = () => {
     if (error && error.status === 404) {
         return (<NotFound />)
     }
+    console.log(content?.fields.references[0].fields.imageWidth)
 
     return (
         <>
@@ -42,12 +43,12 @@ const Component: React.FC = () => {
                 <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
                     {content?.fields.references[0].fields.heroImage?.fields.file.url &&
                         <CardMedia
-                            sx={{ width: content.fields.references[0].fields.heroImage.fields.file.details.image.width, height: content.fields.references[0].fields.heroImage.fields.file.details.image.height }}
+                            sx={{ width: `${content.fields.references[0].fields.imageWidth}%`, height: 'auto' }}
                             component="img"
                             src={content.fields.references[0].fields.heroImage.fields.file.url}
                             alt={content.fields.references[0].fields.heroImage.fields.title}
-                            // width={"auto"}
-                            // height={"100%"}
+                        // width={"auto"}
+                        // height={"100%"}
                         />
                     }
                     <Typography variant="h1" component="h1" sx={{ p: 6 }}>
