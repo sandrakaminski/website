@@ -3,8 +3,10 @@ import FuturaCyrillicBook from './FuturaCyrillicBook.ttf';
 export const typography: Object = {
     h1: {
         fontSize: '2.5rem',
-        fontWeight: 600,
-        fontFamily: 'proxima-nova'
+        fontWeight: 400,
+        fontFamily: 'arno-pro',
+        // 'playfair-display-sc'  'arno-pro'
+        letterSpacing: '.02em',
     },
     h2: {
         fontSize: '2.25rem',
