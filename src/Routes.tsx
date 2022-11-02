@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+import ReactMarkdown from 'react-markdown';
 
 import { useRoutes, useParams } from 'react-router-dom';
 
@@ -36,30 +37,27 @@ const Component: React.FC = () => {
     if (error && error.status === 404) {
         return (<NotFound />)
     }
-    console.log(content?.fields.references[0].fields.imageWidth)
+    // console.log(content?.fields.references[1])
 
     return (
         <>
-        
+
             {content ?
                 <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
-                    {content?.fields.references[0].fields.heroImage?.fields.file.url &&
+                    {content?.fields.references[0].fields.image?.fields.file.url &&
                         <CardMedia
-                            sx={{ width: `${content.fields.references[0].fields.imageWidth}%`, height: 'auto' }}
+                            sx={{ width: content?.fields.references[0].fields.bannerStyle === false ? "60%" : "100%", height: 'auto' }}
                             component="img"
-                            src={content.fields.references[0].fields.heroImage.fields.file.url}
-                            alt={content.fields.references[0].fields.heroImage.fields.title}
+                            src={content?.fields.references[0].fields.image.fields.file.url}
+                            alt={content?.fields.references[0].fields.image.fields.title}
                         />
                     }
                     <Typography variant="h1" component="h1" sx={{ p: 6 }}>
                         {content?.fields.references[0].fields.headline}
                     </Typography>
                     <Container maxWidth="sm">
-                        <Typography variant="body2" component="p">
-                            {content?.fields.references[0].fields.subheader}
-                        </Typography>
+                        <ReactMarkdown>{content?.fields.references[0].fields.body}</ReactMarkdown>
                     </Container>
-
                 </Stack>
                 :
                 <Outline />
@@ -67,6 +65,11 @@ const Component: React.FC = () => {
         </>
     )
 }
+
+const Markdown = {
+    renderers: { link: Button }
+};
+
 
 
 
