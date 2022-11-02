@@ -41,11 +41,12 @@ const Component: React.FC = () => {
                 <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
                     {content?.fields.references[0].fields.heroImage?.fields.file.url &&
                         <CardMedia
+                            sx={{ width: "60%" }}
                             component="img"
                             src={content.fields.references[0].fields.heroImage.fields.file.url}
                             alt={content.fields.references[0].fields.heroImage.fields.title}
                             width="auto"
-                            height="100%"
+                            height="auto"
                         />
                     }
                     <Typography variant="h1" component="h1" sx={{ p: 6 }}>
@@ -53,10 +54,10 @@ const Component: React.FC = () => {
                     </Typography>
                     <Container maxWidth="sm">
                         <Typography variant="body2" component="p">
-                        {content?.fields.references[0].fields.subheader}
-                    </Typography>
+                            {content?.fields.references[0].fields.subheader}
+                        </Typography>
                     </Container>
-                    
+
                 </Stack>
                 :
                 <Outline />
