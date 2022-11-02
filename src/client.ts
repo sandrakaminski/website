@@ -28,7 +28,6 @@ export const useMenu = () => {
 
     return menu
 }
-export default useMenu;
 
 type UseView = {
     type: any
