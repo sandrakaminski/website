@@ -35,18 +35,19 @@ const Component: React.FC = () => {
     if (error && error.status === 404) {
         return (<NotFound />)
     }
+
     return (
         <>
             {content ?
                 <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
                     {content?.fields.references[0].fields.heroImage?.fields.file.url &&
                         <CardMedia
-                            sx={{ width: "60%" }}
+                            sx={{ width: content.fields.references[0].fields.heroImage.fields.file.details.image.width, height: content.fields.references[0].fields.heroImage.fields.file.details.image.height }}
                             component="img"
                             src={content.fields.references[0].fields.heroImage.fields.file.url}
                             alt={content.fields.references[0].fields.heroImage.fields.title}
-                            width="auto"
-                            height="auto"
+                            // width={"auto"}
+                            // height={"100%"}
                         />
                     }
                     <Typography variant="h1" component="h1" sx={{ p: 6 }}>
