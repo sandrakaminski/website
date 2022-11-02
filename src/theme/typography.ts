@@ -4,7 +4,7 @@ export const typography: Object = {
     h1: {
         fontSize: '2.5rem',
         fontWeight: 400,
-        fontFamily: 'arno-pro',
+        fontFamily: 'playfair-display-sc',
         // 'playfair-display-sc'  'arno-pro'
         letterSpacing: '.02em',
     },

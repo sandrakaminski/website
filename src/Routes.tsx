@@ -49,8 +49,6 @@ const Component: React.FC = () => {
                             component="img"
                             src={content.fields.references[0].fields.heroImage.fields.file.url}
                             alt={content.fields.references[0].fields.heroImage.fields.title}
-                        // width={"auto"}
-                        // height={"100%"}
                         />
                     }
                     <Typography variant="h1" component="h1" sx={{ p: 6 }}>
