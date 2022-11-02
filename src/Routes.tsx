@@ -39,6 +39,7 @@ const Component: React.FC = () => {
 
     return (
         <>
+        
             {content ?
                 <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
                     {content?.fields.references[0].fields.heroImage?.fields.file.url &&

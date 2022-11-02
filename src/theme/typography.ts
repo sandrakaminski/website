@@ -35,8 +35,9 @@ export const typography: Object = {
     },
     subtitle1: {
         fontSize: '1rem',
-        fontWeight: 400,
-        fontFamily: 'proxima-nova',
+        fontWeight: 800,
+        letterSpacing: '.025em',
+        // fontFamily: 'proxima-nova',
     },
     subtitle2: {
         fontSize: '0.875rem',
