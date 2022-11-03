@@ -8,33 +8,33 @@ import ReactMarkdown from 'react-markdown';
 
 import { Markdown } from '../../shared';
 
-const Detail = (props: ContentProps) => {
+const Detail = (props: any) => {
     const { content } = props;
+
 
     return (
         <>
             {content &&
                 <Stack>
-                    {content?.fields?.references[0].fields.image &&
+                    {content.fields.image &&
                         <>
                             <CardMedia
                                 component="img"
                                 sx={{ width: '50%', height: 'auto' }}
-                                src={content?.fields?.references[0].fields.image.fields.file.url}
-                                alt={content?.fields?.references[0].fields.image.fields.title}
+                                src={content?.fields.image.fields.file.url}
+                                alt={content.fields.image.fields.title}
                             />
                             <Typography variant="h2" component="caption" sx={{ p: 6 }}>
-                                {content.fields.references[0].fields.name}
+                                {content.fields.name}
                             </Typography>
                         </>
                     }
                     <Typography variant="h2" component="h2" sx={{ p: 6 }}>
-                        {content.fields.references[0].fields.title}
+                        {content.fields.title}
                     </Typography>
                     <Container maxWidth="sm">
-                        <ReactMarkdown components={Markdown} >{content.fields?.references[0].fields.body}</ReactMarkdown>
+                        <ReactMarkdown components={Markdown} >{content.fields.body}</ReactMarkdown>
                     </Container>
-
                 </Stack>
             }
         </>

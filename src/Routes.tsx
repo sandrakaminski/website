@@ -12,6 +12,7 @@ import ReactMarkdown from 'react-markdown';
 
 import { useRoutes, useParams } from 'react-router-dom';
 
+import Renderer from './blocks/Renderer';
 import NotFound from './blocks/NotFound';
 import Outline from './components/Outline';
 import { useView } from "./client";
@@ -37,26 +38,28 @@ const Component: React.FC = () => {
         return (<NotFound />)
     }
 
-    console.log(content)
     return (
         <>
 
             {content ?
-                <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
-                    {content?.fields?.references[0].fields.image?.fields.file.url &&
-                        <CardMedia
-                            component="img"
-                            src={content?.fields?.references[0].fields.image.fields.file.url}
-                            alt={content?.fields?.references[0].fields.image.fields.title}
-                        />
-                    }
-                    <Typography variant="h1" component="h1" sx={{ p: 6 }}>
-                        {content?.fields?.references[0].fields.headline}
-                    </Typography>
-                    <Container maxWidth="sm">
-                        <ReactMarkdown >{content?.fields?.references[0].fields.body}</ReactMarkdown>
-                    </Container>
-                </Stack>
+                <>
+                    <Renderer content={content} />
+                    <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
+                        {content?.fields?.references[0].fields.image?.fields.file.url &&
+                            <CardMedia
+                                component="img"
+                                src={content?.fields?.references[0].fields.image.fields.file.url}
+                                alt={content?.fields?.references[0].fields.image.fields.title}
+                            />
+                        }
+                        <Typography variant="h1" component="h1" sx={{ p: 6 }}>
+                            {content?.fields?.references[0].fields.headline}
+                        </Typography>
+                        <Container maxWidth="sm">
+                            <ReactMarkdown >{content?.fields?.references[0].fields.body}</ReactMarkdown>
+                        </Container>
+                    </Stack>
+                </>
                 :
                 <Outline />
             }

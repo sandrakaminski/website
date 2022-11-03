@@ -1,22 +1,39 @@
-import React from 'react';
+import React, { createElement } from 'react';
 
 import Profile from './Profile';
 import ContactUs from './ContactUs';
 
-const blocks = { Profile, ContactUs }
+const blocks: any = { Profile }
 
 const block = (content: any) => {
-    let name;
+    let name: string;
+
     if (content.sys.contentType.sys.id === 'assembly') {
-        name = `Layout${(content.fields.layout || 'Grid')}`;
-    } else {
+        name = `${(content.fields.layout)}`;
+    }
+    else {
         name = content.sys.contentType.sys.id;
     }
+    return blocks[name];
+}
 
-    return blocks[name.charAt(0).toUpperCase() + name.slice(1)];
+
+const Factory = (props: any) => {
+    const { content } = props;
+    console.log("51", content)
+    return block(content);
 }
 
 export const Renderer = (props: any) => {
     const { content } = props;
-    return React.createElement(block(content), props);
+
+    return (
+        <>
+            {content?.fields.references.map((block: any, index: number) =>
+                <Factory key={index} content={block} />
+            )}
+        </>
+    )
 }
+
+export default Renderer;

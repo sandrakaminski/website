@@ -5,7 +5,9 @@ import Card from "@mui/material/Card";
 const Summary = ({ content }: any) => {
     return (
         <Card>
-            {content}
+            {content &&
+                "Hello world"
+            }
         </Card>
     )
 }

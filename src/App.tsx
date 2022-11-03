@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { theme } from './theme';
 import Viewport from './Viewport';
 import Routes from './Routes';
-import Outline from '@/components/Outline';
+import Outline from './components/Outline';
 
 export const App: React.FC = () => {
   return (
