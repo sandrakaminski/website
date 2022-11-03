@@ -2,10 +2,10 @@ import React from 'react';
 
 import Grid from '@mui/material/Unstable_Grid2';
 
-import About from './About';
+import Profile from './Profile';
 import Section from './Section';
 
-const blocks: any = { About, Section }
+const blocks: any = { about: Profile, section: Section }
 
 const block = (content: any) => {
     let name: string;
@@ -13,10 +13,14 @@ const block = (content: any) => {
     if (content.sys.contentType.sys.id === 'assembly') {
         name = `${(content.fields.layout)}`;
     }
+    else if (content.sys.contentType.sys.id === 'profile') {
+        name = `about`;
+    }
     else {
         name = content.sys.contentType.sys.id;
     }
-    return name.charAt(0).toUpperCase() + name.slice(1);
+    console.log(content.fields)
+    return name
 }
 
 type FactoryProps = {
@@ -27,6 +31,7 @@ type FactoryProps = {
 const Factory = (props: FactoryProps) => {
     const { content, detail } = props;
     const name: string = block(content)
+    console.log(name)
     return blocks[name]({ content, detail })
 }
 
