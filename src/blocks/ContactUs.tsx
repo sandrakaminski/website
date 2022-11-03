@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import MailchimpSubscribe from "react-mailchimp-subscribe"
-import { LoadingButton as Button } from '@mui/lab';
+import Button from '@mui/material/Button';
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -73,9 +73,9 @@ const CustomForm = ({ status, message, onValidated }: any) => {
                         />
                     </Grid>
                     <Grid xs={12} >
-                        <Button disabled={status === "sending"} loading={status === "sending"} size="large" onClick={handleSubmit}>
+                        {/* <Button size="large" onClick={handleSubmit}>
                             Submit
-                        </Button>
+                        </Button> */}
                     </Grid>
                 </Grid>
             }
