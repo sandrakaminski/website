@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
+
 import { createClient } from 'contentful';
-import { useLocation } from 'react-router-dom';
 
 const spaceId: string = import.meta.env.VITE_CONTENTFUL_SPACE_ID;
 const deliveryApiToken: string = import.meta.env.VITE_DELIVERY_TOKEN;
@@ -49,9 +49,8 @@ export const useView = (props: UseView) => {
     }
 
     useEffect(() => {
-        const fetch = async (type: Event, slug: Event) => {
+        const fetch = async (contentType: Event, slug: Event) => {
             try {
-                // get content for view or preview
                 const getContent = async () => {
                     const resp = await client.getEntries({ content_type: contentType, 'fields.slug': slug, include: 3 }); //locale,
                     if (resp.items.length > 0) {
@@ -66,13 +65,12 @@ export const useView = (props: UseView) => {
                     setView({ content: null, error: { status: 404, msg: 'No matching content' } });
                 }
             } catch (e) {
-                // console.error(e);
                 setView({ content: null, error: { status: 500, msg: 'An issue occurred while fetching page content.' } });
             }
         };
 
-        fetch(type, slug);
-    }, [type, slug]);
+        fetch(contentType, slug);
+    }, [contentType, slug]);
 
     return view
 }

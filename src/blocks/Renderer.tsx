@@ -16,7 +16,6 @@ const block = (content: any) => {
     else {
         name = content.sys.contentType.sys.id;
     }
-    console.log(content.sys.contentType.sys.id)
     return name
 }
 
