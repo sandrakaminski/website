@@ -11,7 +11,7 @@ import { Markdown } from '../../shared';
 
 export const Section = (props: Content) => {
     const { content } = props;
-
+    console.log(content)
     switch (content.fields.sectionType) {
         case "Right":
             return <Right content={content} />
@@ -31,6 +31,7 @@ type Content = {
 
 const Center = (props: Content) => {
     const { content } = props;
+
     return (
         <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
             {content.fields.image?.fields.file.url &&
@@ -55,7 +56,7 @@ const Center = (props: Content) => {
 
 const Left = (props: Content) => {
     const { content } = props;
-    
+
     return (
         <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
             {content.fields.image?.fields.file.url &&
