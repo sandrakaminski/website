@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Link } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CardMedia from '@mui/material/CardMedia';
@@ -38,6 +37,7 @@ const Component: React.FC = () => {
         return (<NotFound />)
     }
 
+    console.log(content)
     return (
         <>
 

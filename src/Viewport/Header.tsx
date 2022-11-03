@@ -12,10 +12,10 @@ import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
 
 import logo from '@/assets/logo.png';
-import { useMenu } from "@/client";
+import { useMenu } from "../client";
 
 const Header: React.FC = () => {
-    const { menuItems } = useMenu();
+    const { menuItems }: any = useMenu();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const navigate = useNavigate();
