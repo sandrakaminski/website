@@ -1,9 +1,9 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import { Profile } from './Profile';
+import About from './About';
 import Section from './Section';
 
-const blocks: any = { Profile, Section }
+const blocks: any = { About, Section }
 
 const block = (content: any) => {
     let name: string;
@@ -19,9 +19,9 @@ const block = (content: any) => {
 
 
 const Factory = (props: any) => {
-    const { content } = props;
+    const { content, detail } = props;
     const name: string = block(content)
-    return blocks[name]({ content })
+    return blocks[name]({ content, detail })
 }
 
 const Renderer = (props: any) => {

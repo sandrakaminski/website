@@ -10,7 +10,6 @@ import { Markdown } from '../../shared';
 
 const Detail = (props: ContentProps) => {
     const { content } = props;
-    console.log("Test", content)
 
     return (
         <Stack>
@@ -38,7 +37,7 @@ const Detail = (props: ContentProps) => {
 }
 export default Detail;
 
-interface ContentProps {
+export type ContentProps = {
     content: {
         fields: {
             title: string;
