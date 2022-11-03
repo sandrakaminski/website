@@ -1,4 +1,7 @@
 import React from 'react';
+
+import Grid from '@mui/material/Unstable_Grid2';
+
 import About from './About';
 import Section from './Section';
 
@@ -27,6 +30,30 @@ const Factory = (props: FactoryProps) => {
     return blocks[name]({ content, detail })
 }
 
+type LayoutProps = {
+    content: {
+        fields: {
+            layout: string;
+        }
+    };
+    children: JSX.Element;
+}
+
+const Layout = (props: LayoutProps) => {
+    const { content, children } = props;
+
+    if (content.fields.layout === 'Grid') {
+        return (
+            <Grid container spacing={2}>
+                {children}
+            </Grid>
+        )
+    }
+    else {
+        return children
+    }
+}
+
 const Renderer = (props: any) => {
     const { content } = props;
 
@@ -35,12 +62,12 @@ const Renderer = (props: any) => {
 
             {content.sys.contentType.sys.id === 'assembly'
                 ?
-                <>
+                <Layout content={content}>
                     {content.fields.references.map((block: any, index: number) =>
                         <Factory key={index} content={block} />
                     )}
 
-                </>
+                </Layout>
                 :
                 <Factory content={content} detail={true} />
             }
