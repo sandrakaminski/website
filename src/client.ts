@@ -38,10 +38,7 @@ type UseView = {
 
 export const useView = (props: UseView) => {
     const { type, slug } = props
-    const { state } = useLocation();
     const [view, setView] = useState<any>({ content: null, error: null });
-
-    console.log("useView", state)
 
     let contentType: any
     if (type === 'about') {
