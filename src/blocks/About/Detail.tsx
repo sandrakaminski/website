@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container';
@@ -9,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
 
 import Trail from '../../components/Trail';
-import { Markdown } from '../../shared';
+import { Markdown, Image } from '../../shared';
 
 const Detail = (props: ContentProps) => {
     const { content } = props;
@@ -54,7 +52,6 @@ const Detail = (props: ContentProps) => {
                     <Divider />
                 </Container>
             </Stack>
-
         </>
     )
 }
@@ -70,15 +67,5 @@ type ContentProps = {
             otherImages: Image[];
             image: Image
         }
-    }
-}
-
-type Image = {
-    fields: {
-        file: {
-            url: string;
-        }
-        title: string;
-        description: string;
     }
 }

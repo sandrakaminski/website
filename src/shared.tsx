@@ -7,3 +7,12 @@ export const Markdown = {
     p: ({ ...props }: any) => <Typography color="grayText" variant="body1" {...props} />,
 };
 
+export type Image = {
+    fields: {
+        file: {
+            url: string;
+        }
+        title: string;
+        description: string;
+    }
+}
