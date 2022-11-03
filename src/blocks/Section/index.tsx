@@ -15,7 +15,7 @@ export const Section = (props: Content) => {
     
     switch (content.fields.sectionType) {
         case "Center":
-            return <Column content={content} />
+            return <Center content={content} />
         case "Right":
             return <Right content={content} />
         case "Left":
