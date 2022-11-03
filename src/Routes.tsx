@@ -1,14 +1,10 @@
 import React from 'react';
 
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import CardMedia from '@mui/material/CardMedia';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import ReactMarkdown from 'react-markdown';
 
 import { useRoutes, useParams } from 'react-router-dom';
 
@@ -16,6 +12,7 @@ import Renderer from './blocks/Renderer';
 import NotFound from './blocks/NotFound';
 import Outline from './components/Outline';
 import { useView } from "./client";
+import Section from './blocks/Section';
 
 const Routes: React.FC = () => {
     const routes = [
@@ -40,36 +37,14 @@ const Component: React.FC = () => {
 
     return (
         <>
-
             {content ?
-                <>
-                    <Renderer content={content} />
-                    <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
-                        {content?.fields?.references[0].fields.image?.fields.file.url &&
-                            <CardMedia
-                                component="img"
-                                src={content?.fields?.references[0].fields.image.fields.file.url}
-                                alt={content?.fields?.references[0].fields.image.fields.title}
-                            />
-                        }
-                        <Typography variant="h1" component="h1" sx={{ p: 6 }}>
-                            {content?.fields?.references[0].fields.headline}
-                        </Typography>
-                        <Container maxWidth="sm">
-                            <ReactMarkdown >{content?.fields?.references[0].fields.body}</ReactMarkdown>
-                        </Container>
-                    </Stack>
-                </>
+                <Section content={content} />
                 :
                 <Outline />
             }
         </>
     )
 }
-
-
-
-
 
 const Styles: React.FC = () => {
     const Swatch = (props: any) => {
