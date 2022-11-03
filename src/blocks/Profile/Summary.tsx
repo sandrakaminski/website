@@ -11,7 +11,7 @@ const Summary = ({ content }: any) => {
     return (
         <Card>
             {content &&
-                <CardActionArea onClick={() => navigate(`/about/${content.fields.slug}`)}>
+                <CardActionArea onClick={() => navigate(`/about/${content.fields.slug}`, { state: { data: 'profile' } })}>
                     <CardMedia component="img" src={content?.fields.image.fields.file.url} alt={content.fields.image.fields.title} />
                     <CardHeader title={content.fields.name} subheader={content.fields.name} />
                 </CardActionArea>

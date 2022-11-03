@@ -20,7 +20,6 @@ export default Routes;
 
 const Component: React.FC = () => {
     var { type, slug } = useParams();
-
     [type, slug] = [type || "assembly", slug || "home"];
     const { content, error } = useView({ type, slug });
 

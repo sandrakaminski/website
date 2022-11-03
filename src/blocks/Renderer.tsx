@@ -5,7 +5,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Profile from './Profile';
 import Section from './Section';
 
-const blocks: any = { about: Profile, section: Section }
+const blocks: any = { profile: Profile, section: Section }
 
 const block = (content: any) => {
     let name: string;
@@ -13,13 +13,10 @@ const block = (content: any) => {
     if (content.sys.contentType.sys.id === 'assembly') {
         name = `${(content.fields.layout)}`;
     }
-    else if (content.sys.contentType.sys.id === 'profile') {
-        name = `about`;
-    }
     else {
         name = content.sys.contentType.sys.id;
     }
-    console.log(content.fields)
+    console.log(content.sys.contentType.sys.id)
     return name
 }
 
@@ -64,7 +61,6 @@ const Renderer = (props: any) => {
 
     return (
         <>
-
             {content.sys.contentType.sys.id === 'assembly'
                 ?
                 <Layout content={content}>
