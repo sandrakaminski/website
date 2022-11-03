@@ -4,7 +4,6 @@ import Summary from './Summary';
 import Detail from './Detail';
 
 export const Profile = ({ content, detail }: any) => {
-    console.log("Logic")
     return (
         <>
             {detail

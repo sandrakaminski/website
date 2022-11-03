@@ -1,9 +1,9 @@
-import React, { createElement } from 'react';
+import React from 'react';
+import Box from '@mui/material/Box';
+import { Profile } from './Profile';
+// import { ContactUs } from './ContactUs';
 
-import Profile from './Profile';
-import ContactUs from './ContactUs';
-
-const blocks: any = { Profile }
+const blocks: any = { profile: Profile }
 
 const block = (content: any) => {
     let name: string;
@@ -14,24 +14,48 @@ const block = (content: any) => {
     else {
         name = content.sys.contentType.sys.id;
     }
-    return blocks[name];
+    return name.charAt(0).toUpperCase() + name.slice(1);
 }
+
+
 
 
 const Factory = (props: any) => {
     const { content } = props;
-    console.log("51", content)
-    return block(content);
+    const name: string = content.sys.contentType.sys.id
+    const newName = name.charAt(0).toUpperCase() + name.slice(1);
+    console.log(name)
+
+    if (name !== 'profile') {
+        return
+    }
+    // const Block = blocks[name]({ content });
+    // const item = Block?.toString()
+    // console.log(name.charAt(0).toUpperCase() + name.slice(1))
+
+    return blocks[name]({ content })
+
 }
 
-export const Renderer = (props: any) => {
+const Renderer = (props: any) => {
     const { content } = props;
 
     return (
         <>
-            {content?.fields.references.map((block: any, index: number) =>
-                <Factory key={index} content={block} />
-            )}
+
+            {content.sys.contentType.sys.id === 'assembly'
+                ?
+                <>
+                    {content.fields.references.map((block: any, index: number) =>
+                        <Box key={index}   >
+                            <Factory content={block} />
+                        </Box>
+                    )}
+
+                </>
+                :
+                <Factory content={content} detail={true} />
+            }
         </>
     )
 }

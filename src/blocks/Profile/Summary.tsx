@@ -6,7 +6,9 @@ const Summary = ({ content }: any) => {
     return (
         <Card>
             {content &&
-                "Hello world"
+                <p>
+                    {content.fields.name}
+                </p>
             }
         </Card>
     )

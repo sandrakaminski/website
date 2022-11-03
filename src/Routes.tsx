@@ -40,26 +40,8 @@ const Component: React.FC = () => {
 
     return (
         <>
-
             {content ?
-                <>
-                    <Renderer content={content} />
-                    <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
-                        {content?.fields?.references[0].fields.image?.fields.file.url &&
-                            <CardMedia
-                                component="img"
-                                src={content?.fields?.references[0].fields.image.fields.file.url}
-                                alt={content?.fields?.references[0].fields.image.fields.title}
-                            />
-                        }
-                        <Typography variant="h1" component="h1" sx={{ p: 6 }}>
-                            {content?.fields?.references[0].fields.headline}
-                        </Typography>
-                        <Container maxWidth="sm">
-                            <ReactMarkdown >{content?.fields?.references[0].fields.body}</ReactMarkdown>
-                        </Container>
-                    </Stack>
-                </>
+                <Renderer content={content} />
                 :
                 <Outline />
             }
