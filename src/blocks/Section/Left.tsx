@@ -27,11 +27,9 @@ export const Left = (props: Content) => {
                 {content.fields.image.fields.title}
             </Typography>
             <Container maxWidth="sm">
-                
-                    <ReactMarkdown components={Markdown} >
-                        {content.fields.body}
-                    </ReactMarkdown>
-                
+                <ReactMarkdown components={Markdown} >
+                    {content.fields.body}
+                </ReactMarkdown>
             </Container>
         </Stack>
     )
