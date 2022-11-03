@@ -14,18 +14,16 @@ const Detail = (props: ContentProps) => {
     return (
         <Stack>
             {content.fields.image &&
-                <>
-                    <CardMedia
-                        component="img"
-                        sx={{ width: '50%', height: 'auto' }}
-                        src={content?.fields.image.fields.file.url}
-                        alt={content.fields.image.fields.title}
-                    />
-                    <Typography variant="h2" component="caption" sx={{ p: 6 }}>
-                        {content.fields.name}
-                    </Typography>
-                </>
+                <CardMedia
+                    component="img"
+                    sx={{ width: '50%', height: 'auto' }}
+                    src={content?.fields.image.fields.file.url}
+                    alt={content.fields.image.fields.title}
+                />
             }
+            <Typography variant="h2" component="caption" sx={{ p: 6 }}>
+                {content.fields.name}
+            </Typography>
             <Typography variant="h2" component="h2" sx={{ p: 6 }}>
                 {content.fields.title}
             </Typography>
