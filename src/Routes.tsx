@@ -37,7 +37,6 @@ const Component: React.FC = () => {
     if (error && error.status === 404) {
         return (<NotFound />)
     }
-    console.log(content?.fields?.references[0].fields.body)
 
     return (
         <>
@@ -46,7 +45,6 @@ const Component: React.FC = () => {
                 <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
                     {content?.fields?.references[0].fields.image?.fields.file.url &&
                         <CardMedia
-                            sx={{ width: content?.fields?.references[0].fields.bannerStyle === false ? "60%" : "100%", height: 'auto' }}
                             component="img"
                             src={content?.fields?.references[0].fields.image.fields.file.url}
                             alt={content?.fields?.references[0].fields.image.fields.title}
