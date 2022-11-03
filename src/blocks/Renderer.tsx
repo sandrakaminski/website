@@ -1,5 +1,4 @@
 import React from 'react';
-import Box from '@mui/material/Box';
 import About from './About';
 import Section from './Section';
 
@@ -17,12 +16,18 @@ const block = (content: any) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
+type FactoryProps = {
+    content: any;
+    detail: Boolean;
+}
 
-const Factory = (props: any) => {
+const Factory = (props: FactoryProps) => {
     const { content, detail } = props;
     const name: string = block(content)
     return blocks[name]({ content, detail })
 }
+
+
 
 const Renderer = (props: any) => {
     const { content } = props;
@@ -34,9 +39,7 @@ const Renderer = (props: any) => {
                 ?
                 <>
                     {content.fields.references.map((block: any, index: number) =>
-                        <Box key={index}   >
-                            <Factory content={block} />
-                        </Box>
+                        <Factory key={index} content={block} />
                     )}
 
                 </>
