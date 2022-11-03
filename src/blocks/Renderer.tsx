@@ -2,7 +2,6 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { Profile } from './Profile';
 import Section from './Section';
-// import { ContactUs } from './ContactUs';
 
 const blocks: any = { Profile, Section }
 

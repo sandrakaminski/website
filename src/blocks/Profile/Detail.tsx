@@ -8,36 +8,32 @@ import ReactMarkdown from 'react-markdown';
 
 import { Markdown } from '../../shared';
 
-const Detail = (props: any) => {
+const Detail = (props: ContentProps) => {
     const { content } = props;
-
+    console.log(content)
 
     return (
-        <>
-            {content &&
-                <Stack>
-                    {content.fields.image &&
-                        <>
-                            <CardMedia
-                                component="img"
-                                sx={{ width: '50%', height: 'auto' }}
-                                src={content?.fields.image.fields.file.url}
-                                alt={content.fields.image.fields.title}
-                            />
-                            <Typography variant="h2" component="caption" sx={{ p: 6 }}>
-                                {content.fields.name}
-                            </Typography>
-                        </>
-                    }
-                    <Typography variant="h2" component="h2" sx={{ p: 6 }}>
-                        {content.fields.title}
+        <Stack>
+            {content.fields.image &&
+                <>
+                    <CardMedia
+                        component="img"
+                        sx={{ width: '50%', height: 'auto' }}
+                        src={content?.fields.image.fields.file.url}
+                        alt={content.fields.image.fields.title}
+                    />
+                    <Typography variant="h2" component="caption" sx={{ p: 6 }}>
+                        {content.fields.name}
                     </Typography>
-                    <Container maxWidth="sm">
-                        <ReactMarkdown components={Markdown} >{content.fields.body}</ReactMarkdown>
-                    </Container>
-                </Stack>
+                </>
             }
-        </>
+            <Typography variant="h2" component="h2" sx={{ p: 6 }}>
+                {content.fields.title}
+            </Typography>
+            <Container maxWidth="sm">
+                <ReactMarkdown components={Markdown} >{content.fields.body}</ReactMarkdown>
+            </Container>
+        </Stack>
     )
 }
 export default Detail;
@@ -45,22 +41,18 @@ export default Detail;
 interface ContentProps {
     content: {
         fields: {
-            references: {
+            title: string;
+            name: string;
+            headline: string;
+            body: string;
+            image: {
                 fields: {
-                    title: string;
-                    name: string;
-                    headline: string;
-                    body: string;
-                    image: {
-                        fields: {
-                            file: {
-                                url: string;
-                            }
-                            title: string;
-                        }
+                    file: {
+                        url: string;
                     }
+                    title: string;
                 }
-            }[]
+            }
         }
     }
 }

@@ -10,7 +10,8 @@ import { useView } from "./client";
 const Routes: React.FC = () => {
     const routes = [
         { path: '/', element: <Component /> },
-        { path: '/:slug', element: <Component /> }
+        { path: '/:slug', element: <Component /> },
+        { path: '/:type/:slug', element: <Component /> }
     ]
     return useRoutes(routes);
 }
@@ -19,9 +20,10 @@ export default Routes;
 
 const Component: React.FC = () => {
     var { type, slug } = useParams();
+
     [type, slug] = [type || "assembly", slug || "home"];
     const { content, error } = useView({ type, slug });
-
+    console.log(type)
 
     if (error && error.status === 404) {
         return (<NotFound />)
