@@ -21,7 +21,7 @@ const block = (content: any) => {
 
 type FactoryProps = {
     content: any;
-    detail: Boolean;
+    detail?: Boolean;
 }
 
 const Factory = (props: FactoryProps) => {
