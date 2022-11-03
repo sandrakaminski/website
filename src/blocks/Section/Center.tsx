@@ -2,7 +2,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import CardMedia from '@mui/material/CardMedia';
 import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 import ReactMarkdown from 'react-markdown';
 import { Markdown } from '../../shared';
@@ -24,11 +24,11 @@ export const Center = (props: Content) => {
                     alt={content.fields.image.fields.title}
                 />
             }
-            <Typography variant="h1" component="h1" sx={{ p: 6 }}>
+            <Typography variant="h1" sx={{ p: 6 }}>
                 {content.fields.headline}
             </Typography>
-            <Container maxWidth="sm" >
-                <ReactMarkdown components={Markdown} >
+            <Container maxWidth="sm">
+                <ReactMarkdown components={CenterMD} >
                     {content.fields.body}
                 </ReactMarkdown>
             </Container>
@@ -37,3 +37,8 @@ export const Center = (props: Content) => {
 }
 
 export default Center;
+
+export const CenterMD = {
+    a: ({ ...props }: any) => <Button size="large" sx={{ my: 2 }} variant="outlined" {...props} />,
+    p: ({ ...props }: any) => <Typography variant="body1" textAlign="center" {...props} />,
+};
