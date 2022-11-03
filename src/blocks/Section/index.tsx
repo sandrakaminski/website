@@ -55,6 +55,7 @@ const Center = (props: Content) => {
 
 const Left = (props: Content) => {
     const { content } = props;
+    
     return (
         <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
             {content.fields.image?.fields.file.url &&
