@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 const Summary = ({ content }: any) => {
     const navigate = useNavigate();
 
-    console.log(content)
     return (
         <Card>
             {content &&

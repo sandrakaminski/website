@@ -10,7 +10,7 @@ import { Markdown } from '../../shared';
 
 const Detail = (props: ContentProps) => {
     const { content } = props;
-    console.log(content)
+    console.log("Test", content)
 
     return (
         <Stack>
