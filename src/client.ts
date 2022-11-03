@@ -21,7 +21,7 @@ export const useMenu = () => {
                 setMenu({ menuItems: resp.items[0].fields.references, error: null });
             }
             catch (e) {
-                console.log("Epic fail", e)
+                console.log("fail", e)
                 setMenu({ menuItems: null, error: { status: 500, msg: 'An issue occurred while menu items.' } });
             }
         }
