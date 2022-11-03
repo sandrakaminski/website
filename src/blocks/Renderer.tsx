@@ -1,9 +1,10 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import { Profile } from './Profile';
+import Section from './Section';
 // import { ContactUs } from './ContactUs';
 
-const blocks: any = { profile: Profile }
+const blocks: any = { profile: Profile, section: Section }
 
 const block = (content: any) => {
     let name: string;
@@ -26,9 +27,9 @@ const Factory = (props: any) => {
     const newName = name.charAt(0).toUpperCase() + name.slice(1);
     console.log(name)
 
-    if (name !== 'profile') {
-        return
-    }
+    // if (name !== 'profile') {
+    //     return
+    // }
     // const Block = blocks[name]({ content });
     // const item = Block?.toString()
     // console.log(name.charAt(0).toUpperCase() + name.slice(1))

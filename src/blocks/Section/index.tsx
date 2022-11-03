@@ -6,16 +6,15 @@ import CardMedia from '@mui/material/CardMedia';
 import Stack from '@mui/material/Stack';
 
 import ReactMarkdown from 'react-markdown';
-// import Markdown from './shared';
+import { Markdown } from '../../shared';
 
 
 export const Section = (props: Content) => {
     const { content } = props;
 
-    console.log(content)
-    switch (content.fields.references[0].fields.sectionType) {
-        // case "Right":
-        //     return <Right content={content} />
+    switch (content.fields.sectionType) {
+        case "Right":
+            return <Right content={content} />
         case "Left":
             return <Left content={content} />
         case "Center":
@@ -34,20 +33,20 @@ const Center = (props: Content) => {
     const { content } = props;
     return (
         <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
-            {content?.fields?.references[0].fields.image?.fields.file.url &&
+            {content.fields.image?.fields.file.url &&
                 <CardMedia
-                    sx={{ width: content?.fields?.references[0].fields.bannerStyle === false ? "60%" : "100%", height: 'auto' }}
+                    sx={{ width: content.fields.bannerStyle === false ? "60%" : "100%", height: 'auto' }}
                     component="img"
-                    src={content?.fields?.references[0].fields.image.fields.file.url}
-                    alt={content?.fields?.references[0].fields.image.fields.title}
+                    src={content.fields.image.fields.file.url}
+                    alt={content.fields.image.fields.title}
                 />
             }
             <Typography variant="h1" component="h1" sx={{ p: 6 }}>
-                {content?.fields?.references[0].fields.headline}
+                {content.fields.headline}
             </Typography>
             <Container maxWidth="sm">
-                <ReactMarkdown >
-                    {content?.fields?.references[0].fields.body}
+                <ReactMarkdown components={Markdown} >
+                    {content.fields.body}
                 </ReactMarkdown>
             </Container>
         </Stack>
@@ -58,45 +57,47 @@ const Left = (props: Content) => {
     const { content } = props;
     return (
         <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
-            {content?.fields?.references[0].fields.image?.fields.file.url &&
+            {content.fields.image?.fields.file.url &&
                 <CardMedia
-                    sx={{ width: content?.fields?.references[0].fields.bannerStyle === false ? "60%" : "100%", height: 'auto' }}
+                    sx={{ width: content.fields.bannerStyle === false ? "60%" : "100%", height: 'auto' }}
                     component="img"
-                    src={content?.fields?.references[0].fields.image.fields.file.url}
-                    alt={content?.fields?.references[0].fields.image.fields.title}
+                    src={content.fields.image.fields.file.url}
+                    alt={content.fields.image.fields.title}
                 />
             }
             <Typography variant="h1" component="h1" sx={{ p: 6 }}>
-                {content?.fields?.references[0].fields.headline}
+                {content.fields.headline}
             </Typography>
             <Container maxWidth="sm">
-                <ReactMarkdown >
-                    {content?.fields?.references[0].fields.body}
+                <ReactMarkdown components={Markdown} >
+                    {content.fields.body}
                 </ReactMarkdown>
             </Container>
         </Stack>
     )
 }
 
+const Right = (props: Content) => {
+    const { content } = props;
 
-
-    // return (
-    //     <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
-    //         {content?.fields?.references[0].fields.image?.fields.file.url &&
-    //             <CardMedia
-    //                 sx={{ width: content?.fields?.references[0].fields.bannerStyle === false ? "60%" : "100%", height: 'auto' }}
-    //                 component="img"
-    //                 src={content?.fields?.references[0].fields.image.fields.file.url}
-    //                 alt={content?.fields?.references[0].fields.image.fields.title}
-    //             />
-    //         }
-    //         <Typography variant="h1" component="h1" sx={{ p: 6 }}>
-    //             {content?.fields?.references[0].fields.headline}
-    //         </Typography>
-    //         <Container maxWidth="sm">
-    //             <ReactMarkdown >
-    //                 {content?.fields?.references[0].fields.body}
-    //             </ReactMarkdown>
-    //         </Container>
-    //     </Stack>
-    // )
+    return (
+        <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
+            {content.fields.image?.fields.file.url &&
+                <CardMedia
+                    sx={{ width: content.fields.bannerStyle === false ? "60%" : "100%", height: 'auto' }}
+                    component="img"
+                    src={content.fields.image.fields.file.url}
+                    alt={content.fields.image.fields.title}
+                />
+            }
+            <Typography variant="h1" component="h1" sx={{ p: 6 }}>
+                {content.fields.headline}
+            </Typography>
+            <Container maxWidth="sm">
+                <ReactMarkdown components={Markdown} >
+                    {content.fields.body}
+                </ReactMarkdown>
+            </Container>
+        </Stack>
+    )
+}
