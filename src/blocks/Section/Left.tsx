@@ -14,10 +14,10 @@ export const Left = (props: Content) => {
     const { content } = props;
 
     return (
-        <Stack direction="row" justifyContent="center" alignItems="center" spacing={2}>
+        <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ p: 10 }}>
             {content.fields.image?.fields.file.url &&
                 <CardMedia
-                    sx={{ width: content.fields.bannerStyle === false ? "60%" : "100%", height: 'auto', p: 20 }}
+                    sx={{ width: content.fields.bannerStyle === false ? "60%" : "50%", height: 'auto' }}
                     component="img"
                     src={content.fields.image.fields.file.url}
                     alt={content.fields.image.fields.title}

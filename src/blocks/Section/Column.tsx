@@ -11,19 +11,11 @@ type Content = {
     content: any;
 }
 
-export const Center = (props: Content) => {
+export const Column = (props: Content) => {
     const { content } = props;
 
     return (
-        <Stack direction="column" alignItems="center" justifyContent="center" sx={{p: 8}}>
-            {content.fields.image?.fields.file.url &&
-                <CardMedia
-                    sx={{ width: content.fields.bannerStyle === false ? "60%" : "100%", height: 'auto' }}
-                    component="img"
-                    src={content.fields.image.fields.file.url}
-                    alt={content.fields.image.fields.title}
-                />
-            }
+        <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
             <Typography variant="h1" sx={{ p: 6 }}>
                 {content.fields.headline}
             </Typography>
@@ -36,7 +28,7 @@ export const Center = (props: Content) => {
     )
 }
 
-export default Center;
+export default Column;
 
 export const CenterMD = {
     a: ({ ...props }: any) => <Button size="large" sx={{ my: 2 }} variant="outlined" {...props} />,
