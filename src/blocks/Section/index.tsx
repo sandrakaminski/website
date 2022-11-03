@@ -9,6 +9,7 @@ type Content = {
 export const Section = (props: Content) => {
     const { content } = props;
     console.log(content)
+    console.log(content.fields.sectionType)
     switch (content.fields.sectionType) {
         case "Right":
             return <Right content={content} />

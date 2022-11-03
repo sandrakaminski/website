@@ -14,22 +14,24 @@ export const Left = (props: Content) => {
     const { content } = props;
 
     return (
-        <Stack direction="column" alignItems="center" justifyContent="center" sx={{ p: 8 }}>
+        <Stack direction="row" justifyContent="center" alignItems="center" spacing={2}>
             {content.fields.image?.fields.file.url &&
                 <CardMedia
-                    sx={{ width: content.fields.bannerStyle === false ? "60%" : "100%", height: 'auto' }}
+                    sx={{ width: content.fields.bannerStyle === false ? "60%" : "100%", height: 'auto', p: 20 }}
                     component="img"
                     src={content.fields.image.fields.file.url}
                     alt={content.fields.image.fields.title}
                 />
             }
-            <Typography variant="h1" component="h1" sx={{ p: 6 }}>
-                {content.fields.headline}
+            <Typography align="center" variant="h1" component="h1" sx={{ p: 6 }}>
+                {content.fields.image.fields.title}
             </Typography>
             <Container maxWidth="sm">
-                <ReactMarkdown components={Markdown} >
-                    {content.fields.body}
-                </ReactMarkdown>
+                
+                    <ReactMarkdown components={Markdown} >
+                        {content.fields.body}
+                    </ReactMarkdown>
+                
             </Container>
         </Stack>
     )

@@ -2,12 +2,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import CardMedia from '@mui/material/CardMedia';
 import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 
 import ReactMarkdown from 'react-markdown';
 import { Markdown } from '../../shared';
 
 type Content = {
-    content: any
+    content: any;
 }
 
 export const Center = (props: Content) => {
@@ -26,12 +27,12 @@ export const Center = (props: Content) => {
             <Typography variant="h1" component="h1" sx={{ p: 6 }}>
                 {content.fields.headline}
             </Typography>
-            <Container maxWidth="sm">
+            <Container maxWidth="sm" >
                 <ReactMarkdown components={Markdown} >
                     {content.fields.body}
                 </ReactMarkdown>
             </Container>
-        </Stack>
+        </Stack >
     )
 }
 
