@@ -18,7 +18,7 @@ const Summary = ({ content }: any) => {
         <Card>
             {content &&
                 <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`)}>
-                    <CardMedia component="img" src={content?.fields.image.fields.file.url} alt={content.fields.image.fields.title} />
+                    <CardMedia sx={{ height: 400 }} component="img" src={content?.fields.image.fields.file.url} alt={content.fields.image.fields.title} />
                     <CardHeader title={content.fields.name} subheader={txt} />
                 </CardActionArea>
             }
