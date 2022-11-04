@@ -26,7 +26,7 @@ export type Image = {
             url: string;
         }
         title: string;
-        description: string;
+        description?: string;
     }
 }
 export interface BlockProps {

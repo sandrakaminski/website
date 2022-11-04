@@ -13,18 +13,6 @@ const blocks: any = {
     imageContainer: ImageContainer
 }
 
-const block = (content: any) => {
-    let name: string;
-
-    if (content.sys.contentType.sys.id === 'assembly') {
-        name = `${(content.fields.layout)}`;
-    }
-    else {
-        name = content.sys.contentType.sys.id;
-    }
-    return name
-}
-
 type FactoryProps = {
     content: any;
     detail?: Boolean;
@@ -32,16 +20,15 @@ type FactoryProps = {
 
 const Factory = (props: FactoryProps) => {
     const { content, detail } = props;
-    const name: string = block(content)
+    const name: string = content.sys.contentType.sys.id;
     return blocks[name]({ content, detail })
-
 }
 
 const Renderer = (props: any) => {
     const { content } = props;
 
     return (
-        <>
+        <Box sx={{ my: 4 }}>
             {content.sys.contentType.sys.id === 'assembly'
                 ?
                 <>
@@ -65,7 +52,7 @@ const Renderer = (props: any) => {
                 :
                 <Factory detail={true} content={content} />
             }
-        </>
+        </Box>
     )
 }
 

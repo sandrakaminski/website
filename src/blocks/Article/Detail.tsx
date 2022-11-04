@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
@@ -13,7 +12,21 @@ import Trail from '../../components/Trail';
 import { ArticleMarkdown, Image } from '../../shared';
 
 
-export const Detail = (props: any) => {
+interface DetailProps {
+    content: {
+        fields: {
+            author: any;
+            name: string;
+            title: string;
+            body: string;
+            date: string;
+            slug: string;
+            coverImage: Image
+        }
+    }
+}
+
+export const Detail = (props: DetailProps) => {
     const { content } = props;
     const location = useLocation();
     const navigate = useNavigate();
@@ -52,9 +65,6 @@ export const Detail = (props: any) => {
                 <Container maxWidth="sm">
                     <ReactMarkdown components={ArticleMarkdown} >{content.fields.body}</ReactMarkdown>
                 </Container>
-                <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
-
-                </Stack>
             </Stack>
         </>
     )
