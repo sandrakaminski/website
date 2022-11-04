@@ -24,7 +24,7 @@ export const Detail = (props: any) => {
         <>
             <Trail root={{ name: name, path: location.state.data }} current={{ name: content.fields.title }} />
             <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
-                <Typography variant="h3" component="h2" >
+                <Typography variant="h2"  >
                     {content.fields.title}
                 </Typography>
                 <Stack direction="row"
