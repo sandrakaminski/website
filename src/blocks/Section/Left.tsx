@@ -13,50 +13,43 @@ type Content = {
 
 export const Left = (props: Content) => {
     const { content } = props;
+    // console.log(content)
+    const resources = content.fields.resources;
+    const title = resources;
+    const subtitle = content.fields.resources[1].fields.files; //[0].fields.title
 
-    const title = content.fields.resources[0].fields.files;
-    const title2 = content.fields.resources[1].fields.files; //[0].fields.title
+    console.log("##", title[0]);
 
     return (
         <Grid container spacing={2} sx={{ p: 10 }}>
-            <Grid item lg={6}>
+            <Grid item xs={12} md={4} lg={6}>
                 {content.fields.image?.fields.file.url &&
                     <CardMedia
-                        sx={{ width: content.fields.bannerStyle === false ? "60%" : "100%", height: 'auto' }}
+                        sx={{ width: "100%", height: 'auto' }}
                         component="img"
                         src={content.fields.image.fields.file.url}
                         alt={content.fields.image.fields.title}
                     />
                 }
             </Grid>
-            <Grid item lg={6}>
-                <Typography align="center" variant="h1" component="h1" sx={{ p: 4 }}>
-                    {content.fields.resources[0].fields.headline}
-                </Typography>
-                {title.map((item: any, index: number) => (
-                    <Typography key={index} align="center" variant="body1" component="h1">
-                        <Link to={`${item.fields.file.url}`} target="_blank">
-                            {item.fields.title}
-                        </Link>
-                    </Typography>
-                    
+            <Grid item xs={12} md={4} lg={6}>
+                {resources.map((item: any, index: number) => (
+                    <>
+                        <Typography key={index} align="center" variant="h1" component="h1" sx={{ p: 4 }}>
+                            {item.fields.headline}
+                            
+                            {console.log("@@", item.fields["files"][0].fields.title)}
+                            
+                           {/* {console.log("!!", item.fields)} */}
+                            {/* {files[0].fields.title} */}
+                            
+                        </Typography>
+                        <Typography align="center" variant="body1" component="h1">
+                            {item.fields["files"][0].fields.title}
+                        </Typography>
+
+                    </>
                 ))}
-                <Typography align="center" variant="h4" component="h1" sx={{ p: 4 }}>
-                    {content.fields.resources[1].fields.headline}
-                </Typography>
-                {title2.map((item: any, index: number) => (
-                    <Typography key={index} align="center" variant="body1" component="h1">
-                        <Link to={`${item.fields.file.url}`} target="_blank">
-                            {item.fields.title}
-                        </Link>
-                    </Typography>
-
-                ))}
-                <Grid item lg={6}>
-                    
-
-                </Grid>
-
             </Grid>
             <Container maxWidth="sm">
                 <ReactMarkdown components={Markdown} >
@@ -68,13 +61,3 @@ export const Left = (props: Content) => {
     )
 }
 export default Left;
-
-
-
-{/* title.set(key, content.fields.resources[0].fields.files[0].fields.title[key])} */ }
-
-
-{/* <Link to={`${content.fields.resources[0].fields.files[0].fields.file.url}`}>
-                         
-                            {content.fields.resources[0].fields.files[0].fields.title}
-                        </Link> */}
