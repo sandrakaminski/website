@@ -34,6 +34,7 @@ const Factory = (props: FactoryProps) => {
     const { content, detail } = props;
     const name: string = block(content)
     return blocks[name]({ content, detail })
+
 }
 
 const Renderer = (props: any) => {
