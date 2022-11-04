@@ -1,11 +1,11 @@
-import React from 'react';
-
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import Profile from './Profile';
 import Section from './Section';
+import Article from './Article';
 
-const blocks: any = { profile: Profile, section: Section }
+const blocks: any = { profile: Profile, section: Section, article: Article }
 
 const block = (content: any) => {
     let name: string;
@@ -27,32 +27,7 @@ type FactoryProps = {
 const Factory = (props: FactoryProps) => {
     const { content, detail } = props;
     const name: string = block(content)
-    console.log(name)
     return blocks[name]({ content, detail })
-}
-
-type LayoutProps = {
-    content: {
-        fields: {
-            layout: string;
-        }
-    };
-    children: JSX.Element;
-}
-
-const Layout = (props: LayoutProps) => {
-    const { content, children } = props;
-
-    if (content.fields.layout === 'Grid') {
-        return (
-            <Grid container spacing={2}>
-                {children}
-            </Grid>
-        )
-    }
-    else {
-        return children
-    }
 }
 
 const Renderer = (props: any) => {
@@ -62,14 +37,26 @@ const Renderer = (props: any) => {
         <>
             {content.sys.contentType.sys.id === 'assembly'
                 ?
-                <Layout content={content}>
-                    {content.fields.references.map((block: any, index: number) =>
-                        <Factory key={index} content={block} />
-                    )}
-
-                </Layout>
+                <>
+                    {content.fields.layout === 'Grid'
+                        ?
+                        <Grid container spacing={2}>
+                            {content.fields.references.map((block: any, index: number) =>
+                                <Grid xs={4} sm={6} md={4} key={index}>
+                                    <Factory content={block} />
+                                </Grid>
+                            )}
+                        </Grid>
+                        :
+                        <Box>
+                            {content.fields.references.map((block: any, index: number) =>
+                                <Factory key={index} content={block} />
+                            )}
+                        </Box>
+                    }
+                </>
                 :
-                <Factory content={content} detail={true} />
+                <Factory detail={true} content={content} />
             }
         </>
     )
