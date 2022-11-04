@@ -44,6 +44,12 @@ export const useView = (props: UseView) => {
     if (type === 'about') {
         contentType = 'profile'
     }
+    else if (type === 'inspiration') {
+        contentType = 'article'
+    }
+    else if (type === 'blog') {
+        contentType = 'article'
+    }
     else {
         contentType = type
     }

@@ -16,3 +16,7 @@ export type Image = {
         description: string;
     }
 }
+export interface BlockProps {
+    detail: Boolean;
+    content: any;
+}

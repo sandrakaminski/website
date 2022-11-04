@@ -1,18 +1,19 @@
 import Summary from './Summary';
-import Detail from './Detail';
-import { BlockProps } from '../../shared'; 
+import { BlockProps } from '../../shared';
 
-export const Profile = (props: BlockProps) => {
+
+export const Article = (props: BlockProps) => {
     const { content, detail } = props;
+    console.log(content)
 
     return (
         <>
             {detail === true
-                ? <Detail content={content} />
+                ? <>
+                    hello world</>
                 : <Summary content={content} />
             }
         </>
     )
 }
-
-export default Profile
+export default Article;
