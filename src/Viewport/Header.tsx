@@ -48,6 +48,7 @@ const Header: React.FC = () => {
                         </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                        <Button onClick={() => handleNavigate('shop')} color="inherit">Shop</Button>
                         {menu.map((item: any, index: number) =>
                             <Button sx={{ mx: 1 }} color="inherit" onClick={() => handleNavigate(item.fields.slug)} key={index}>
                                 {item.fields.name}
@@ -62,6 +63,7 @@ const Header: React.FC = () => {
                             {menu.map((item: any, index: number) =>
                                 <MenuItem key={index} onClick={() => { handleNavigate(item.fields.slug), handleClose() }}>{item.fields.name}</MenuItem>
                             )}
+                            <MenuItem onClick={() => { handleNavigate('store'), handleClose() }}>Store</MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>

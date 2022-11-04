@@ -7,9 +7,10 @@ import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
 
 import Trail from '../../components/Trail';
-import { Markdown, Image } from '../../shared';
+import { Markdown } from '../../shared';
+import type { ProfileType } from './ProfileType';
 
-const Detail = (props: ContentProps) => {
+const Detail = (props: ProfileType) => {
     const { content } = props;
 
     return (
@@ -34,12 +35,12 @@ const Detail = (props: ContentProps) => {
                 </Typography>
                 <Container maxWidth="sm">
                     <ReactMarkdown components={Markdown} >{content.fields.body}</ReactMarkdown>
-                    <Stack sx={{ my: 4 }} direction={{ xs: "column", sm: "row" }} spacing={2} alignItems="flex-start">
+                    <Stack sx={{ my: 4 }} direction={{ xs: "column", sm: "row" }} spacing={1} alignItems="flex-start">
                         {content.fields.otherImages.map((image: any, index: number) =>
                             <Box key={index} >
                                 <CardMedia
                                     component="img"
-                                    sx={{ width: '100%' }}
+                                    sx={{ height: { sm: 300 } }}
                                     src={image.fields.file.url}
                                     alt={image.fields.title}
                                 />
@@ -56,16 +57,3 @@ const Detail = (props: ContentProps) => {
     )
 }
 export default Detail;
-
-type ContentProps = {
-    content: {
-        fields: {
-            title: string;
-            name: string;
-            headline: string;
-            body: string;
-            otherImages: Image[];
-            image: Image
-        }
-    }
-}

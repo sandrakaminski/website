@@ -20,7 +20,7 @@ type Author = {
     fields: {
         name: string;
         slug: string;
-        image: Image;
+        image?: Image;
     }
 }
 export default ArticleType;

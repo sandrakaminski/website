@@ -49,7 +49,7 @@ export const Detail = (props: ArticleType) => {
                     }
                 </Box>
                 <Container maxWidth="sm">
-                    <ReactMarkdown components={ArticleMarkdown} >{content.fields.body}</ReactMarkdown>
+                    <ReactMarkdown components={ArticleMarkdown}>{content.fields.body}</ReactMarkdown>
                 </Container>
             </Stack>
         </>

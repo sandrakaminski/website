@@ -637,6 +637,29 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
+"@shopify/polaris-icons@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris-icons/-/polaris-icons-6.5.0.tgz#2192b52e9909388ddc02ba9a58fbd161def7f5c1"
+  integrity sha512-/PtTzYNsGzhrg+1B07o+Gxp2W9s83YY/4+JszP05zbKsr9iW7rza15pa03P3C9RoGb/1GR0ZKhxVIpaxpljNwA==
+
+"@shopify/polaris-tokens@^6.3.0":
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris-tokens/-/polaris-tokens-6.3.0.tgz#6c127ba92231d7c46cc1b630c93cf10ea8a492b9"
+  integrity sha512-ZYcV/yzTDw/qizqb2zKYi0ryNTWg1fKs492sZajs5Rk6TdEYIJSuIHG4U1iP2RFadIFWyHu5ELC5UZWsUCxP9w==
+
+"@shopify/polaris@^10.11.0":
+  version "10.11.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-10.11.0.tgz#160444135be329be3371e11d25418e51df4bcd8c"
+  integrity sha512-KwWlRhCz+SK+yF9q+Z/Qq+7Fdzk7AvDeR/Rq8BJbMbujgjk9j4GVgVISlA02SZ2tB7/M5XloWta9J13F5iBJoQ==
+  dependencies:
+    "@shopify/polaris-icons" "^6.5.0"
+    "@shopify/polaris-tokens" "^6.3.0"
+    "@types/react" "^18.0.15"
+    "@types/react-dom" "^18.0.6"
+    "@types/react-transition-group" "^4.4.2"
+    react-fast-compare "^3.2.0"
+    react-transition-group "^4.4.2"
+
 "@types/cookie@^0.3.3":
   version "0.3.3"
   resolved "https://registry.npmjs.org/@types/cookie/-/cookie-0.3.3.tgz"
@@ -688,7 +711,7 @@
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
-"@types/react-dom@^18.0.7":
+"@types/react-dom@^18.0.6", "@types/react-dom@^18.0.7":
   version "18.0.8"
   resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.0.8.tgz"
   integrity sha512-C3GYO0HLaOkk9dDAz3Dl4sbe4AKUGTCfFIZsz3n/82dPNN8Du533HzKatDxeUYWu24wJgMP1xICqkWk1YOLOIw==
@@ -709,7 +732,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-transition-group@^4.4.5":
+"@types/react-transition-group@^4.4.2", "@types/react-transition-group@^4.4.5":
   version "4.4.5"
   resolved "https://registry.npmjs.org/@types/react-transition-group/-/react-transition-group-4.4.5.tgz"
   integrity sha512-juKD/eiSM3/xZYzjuzH6ZwpP+/lejltmiS3QEzV/vmb/Q8+HfDmxu+Baga8UEMGBqV88Nbg4l2hY/K2DkyaLLA==
@@ -720,6 +743,15 @@
   version "18.0.24"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.0.24.tgz"
   integrity sha512-wRJWT6ouziGUy+9uX0aW4YOJxAY0bG6/AOk5AW5QSvZqI7dk6VBIbXvcVgIw/W5Jrl24f77df98GEKTJGOLx7Q==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@^18.0.15":
+  version "18.0.25"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.25.tgz#8b1dcd7e56fe7315535a4af25435e0bb55c8ae44"
+  integrity sha512-xD6c0KDT4m7n9uD4ZHi02lzskaiqcBxf4zi+tXZY98a04wvc0hi/TcCPC2FOESZi51Nd7tlUeOJY8RofL799/g==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -2775,6 +2807,11 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
+react-fast-compare@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
+  integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
+
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
@@ -2840,7 +2877,7 @@ react-router@6.4.2:
   dependencies:
     "@remix-run/router" "1.0.2"
 
-react-transition-group@^4.4.5:
+react-transition-group@^4.4.2, react-transition-group@^4.4.5:
   version "4.4.5"
   resolved "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.5.tgz"
   integrity sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==

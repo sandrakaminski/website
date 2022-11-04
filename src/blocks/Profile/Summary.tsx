@@ -5,7 +5,9 @@ import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const Summary = ({ content }: any) => {
+import type { ProfileType } from './ProfileType';
+
+const Summary = ({ content }: ProfileType) => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
 

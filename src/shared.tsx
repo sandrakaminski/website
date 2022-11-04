@@ -32,5 +32,7 @@ export type Image = {
 }
 export interface BlockProps {
     detail: Boolean;
-    content: any;
+    content: {
+        fields: any[]
+    };
 }
