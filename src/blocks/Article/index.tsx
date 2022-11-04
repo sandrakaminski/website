@@ -1,4 +1,5 @@
 import Summary from './Summary';
+import Detail from './Detail';
 import { BlockProps } from '../../shared';
 
 
@@ -9,8 +10,7 @@ export const Article = (props: BlockProps) => {
     return (
         <>
             {detail === true
-                ? <>
-                    hello world</>
+                ? <Detail content={content} />
                 : <Summary content={content} />
             }
         </>

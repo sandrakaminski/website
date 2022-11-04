@@ -24,7 +24,7 @@ export const Trail = (props: TrailProps) => {
                 sx={{ cursor: 'pointer' }}
                 underline="hover"
                 color="inherit"
-                onClick={() => navigate(`/${root.path}`)}
+                onClick={() => navigate(`/${root.path}`, { state: { data: root.path } })}
             >
                 {root.name}
             </Link>
