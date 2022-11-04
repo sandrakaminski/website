@@ -19,18 +19,19 @@ export const Right = (props: Content) => {
 
     return (
         <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ p: 10 }}>
-
             <Grid item xs={12} md={4} lg={6}>
                 {resources.map((item: any, index: number) => (
                     <Box key={index}>
-                        <Typography align="center" variant="h1" component="h1" sx={{ p: 4 }}>
+                        <Typography align="center" variant="h2" component="h1" sx={{ p: 4 }}>
                             {item.fields.headline}
                         </Typography>
-                        <Typography align="center" variant="body1" component="h1">
-                            <Link href={`${item.fields.files[0].fields.file.url}`}>
-                                {item.fields["files"][0].fields.title}
-                            </Link>
-                        </Typography>
+                        {item.fields.files.map((file: any) => (
+                            <Typography align="center" variant="body1" component="h1">
+                                <Link href={`${file.fields.file.url}`} target="_blank">
+                                    {file.fields.title}
+                                </Link>
+                            </Typography>
+                        ))}
                     </Box>
                 ))}
             </Grid>
