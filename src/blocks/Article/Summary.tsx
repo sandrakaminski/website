@@ -9,8 +9,9 @@ import Stack from "@mui/material/Stack";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 
 import DateFormatter from "../../components/DateFormatter";
+import type { ArticleType } from "./ArticleType";
 
-const Summary = ({ content }: any) => {
+const Summary = ({ content }: ArticleType) => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const { slug } = useParams();

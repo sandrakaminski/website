@@ -24,6 +24,7 @@ export type Image = {
     fields: {
         file: {
             url: string;
+            title?: string;
         }
         title: string;
         description?: string;

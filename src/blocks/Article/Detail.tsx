@@ -9,24 +9,10 @@ import Link from '@mui/material/Link';
 
 import DateFormatter from "../../components/DateFormatter";
 import Trail from '../../components/Trail';
-import { ArticleMarkdown, Image } from '../../shared';
+import type { ArticleType } from './ArticleType'
+import { ArticleMarkdown } from '../../shared';
 
-
-interface DetailProps {
-    content: {
-        fields: {
-            author: any;
-            name: string;
-            title: string;
-            body: string;
-            date: string;
-            slug: string;
-            coverImage: Image
-        }
-    }
-}
-
-export const Detail = (props: DetailProps) => {
+export const Detail = (props: ArticleType) => {
     const { content } = props;
     const location = useLocation();
     const navigate = useNavigate();
