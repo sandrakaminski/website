@@ -35,7 +35,7 @@ export const Left = (props: Content) => {
                         <Typography align="center" variant="h1" component="h1" sx={{ p: 4 }}>
                             {item.fields.headline}
                         </Typography>
-                        {item.fields.files.map((file: any, index: number) => (
+                        {item.fields.files?.map((file: any, index: number) => (
                             <Box key={index}>
                                 {item.fields.flexDirection === "Flex" ?
                                     <Stack flexDirection="column">
