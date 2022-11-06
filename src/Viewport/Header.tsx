@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -48,12 +49,14 @@ const Header: React.FC = () => {
                         </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <Button onClick={() => handleNavigate('shop')} color="inherit">Shop</Button>
                         {menu.map((item: any, index: number) =>
                             <Button sx={{ mx: 1 }} color="inherit" onClick={() => handleNavigate(item.fields.slug)} key={index}>
                                 {item.fields.name}
                             </Button>
                         )}
+                        <IconButton>
+                            <ShoppingCartOutlinedIcon />
+                        </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton onClick={handleClick} color="inherit">
@@ -63,7 +66,6 @@ const Header: React.FC = () => {
                             {menu.map((item: any, index: number) =>
                                 <MenuItem key={index} onClick={() => { handleNavigate(item.fields.slug), handleClose() }}>{item.fields.name}</MenuItem>
                             )}
-                            <MenuItem onClick={() => { handleNavigate('store'), handleClose() }}>Store</MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>

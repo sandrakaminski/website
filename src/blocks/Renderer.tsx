@@ -5,12 +5,14 @@ import ImageContainer from './ImageContainer';
 import Profile from './Profile';
 import Section from './Section';
 import Article from './Article';
+import Products from './Products';
 
 const blocks: any = {
     profile: Profile,
     section: Section,
     article: Article,
-    imageContainer: ImageContainer
+    imageContainer: ImageContainer,
+    product: Products
 }
 
 type FactoryProps = {

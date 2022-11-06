@@ -5,15 +5,13 @@ import { useRoutes, useParams } from 'react-router-dom';
 import Renderer from './blocks/Renderer';
 import NotFound from './blocks/NotFound';
 import Outline from './components/Outline';
-import Store from './blocks/Store';
 import { useView } from "./client";
 
 const Routes: React.FC = () => {
     const routes = [
         { path: '/', element: <Component /> },
         { path: '/:slug', element: <Component /> },
-        { path: '/:type/:slug', element: <Component /> },
-        { path: '/shop', element: <Store /> }
+        { path: '/:type/:slug', element: <Component /> }
     ]
     return useRoutes(routes);
 }
