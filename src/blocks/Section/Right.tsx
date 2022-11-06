@@ -3,6 +3,7 @@ import Container from '@mui/material/Container';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
 
 import ReactMarkdown from 'react-markdown';
@@ -14,23 +15,33 @@ type Content = {
 
 export const Right = (props: Content) => {
     const { content } = props;
-
     const resources = content.fields.resources;
 
     return (
-        <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ p: 10 }}>
+        <Grid container direction="row" spacing={2} sx={{ my: 5 }}>
             <Grid item xs={12} md={4} lg={6}>
                 {resources.map((item: any, index: number) => (
-                    <Box key={index}>
-                        <Typography align="center" variant="h2" component="h1" sx={{ p: 4 }}>
+                    <Box key={index} >
+                        <Typography align="center" variant="h1" component="h1" sx={{ p: 4 }}>
                             {item.fields.headline}
                         </Typography>
-                        {item.fields.files.map((file: any) => (
-                            <Typography align="center" variant="body1" component="h1">
-                                <Link href={`${file.fields.file.url}`} target="_blank">
-                                    {file.fields.title}
-                                </Link>
-                            </Typography>
+                        {item.fields.files.map((file: any, index: number) => (
+                            <Box key={index}>
+                                {item.fields.flexDirection === "Flex" ?
+                                    <Stack flexDirection="column">
+                                        <Link href={`${file.fields.file.url}`} align="center" target="_blank" >
+                                            {file.fields.title},
+                                        </Link>
+                                    </Stack>
+                                    :
+                                    <Typography key={index} align="center" variant="body1" component="h1">
+                                        <Link href={`${file.fields.file.url}`} target="_blank">
+                                            {file.fields.title}
+                                        </Link>
+                                    </Typography>
+                                }
+                            </Box>
+
                         ))}
                     </Box>
                 ))}
@@ -51,7 +62,6 @@ export const Right = (props: Content) => {
                 </ReactMarkdown>
             </Container>
         </Grid >
-
     )
 }
 export default Right;

@@ -9,9 +9,9 @@ type Content = {
 
 export const Section = (props: Content) => {
     const { content } = props;
-console.log(content)
-    console.log(content.fields.sectionType)
-    
+    // console.log("INDEX", content)
+    // console.log(content.fields.sectionType)
+
     switch (content.fields.sectionType) {
         case "Center":
             return <Center content={content} />
@@ -19,11 +19,10 @@ console.log(content)
             return <Right content={content} />
         case "Left":
             return <Left content={content} />
-        // case "Center":
-        //     return <Center content={content} />
+        case "Column":
+            return <Column content={content} />
         default:
             return <Center content={content} />
     }
 }
 export default Section;
-
