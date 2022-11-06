@@ -3,10 +3,10 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavigateFunction } from 'react-router-dom';
 
 const NotFound: React.FC = () => {
-    const navigate = useNavigate();
+    const navigate: NavigateFunction = useNavigate();
 
     return (
         <Stack

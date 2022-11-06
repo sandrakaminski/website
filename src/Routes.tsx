@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { lazy } from 'react';
 
 import { useRoutes, useParams } from 'react-router-dom';
 
-import Renderer from './blocks/Renderer';
-import NotFound from './views/NotFound';
-import Payment from './views/Payment';
 import Outline from './components/Outline';
 import { useView } from "./client";
 
+const Renderer = lazy(() => import('./blocks/Renderer'));
+const NotFound = lazy(() => import('./views/NotFound'));
+const Payment = lazy(() => import('./views/Payment'));
+
+type Router = {
+    path: string;
+    element: React.ReactElement;
+}
+
 const Routes: React.FC = () => {
-    const routes = [
+    const routes: Router[] = [
         { path: '/', element: <Component /> },
         { path: '/:slug', element: <Component /> },
         { path: '/:type/:slug', element: <Component /> },
@@ -23,7 +29,7 @@ export default Routes;
 const Component: React.FC = () => {
     var { type, slug } = useParams();
     [type, slug] = [type || "assembly", slug || "home"];
-    const { content, error }: any = useView({ type, slug });
+    const { content, error } = useView({ type, slug });
 
     if (error && error.status === 404) {
         return (<NotFound />)
