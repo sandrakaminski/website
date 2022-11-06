@@ -1,18 +1,29 @@
 import { useEffect, useState } from 'react';
 
-import { createClient } from 'contentful';
+import { createClient, ContentfulClientApi } from 'contentful';
 
 const spaceId: string = import.meta.env.VITE_CONTENTFUL_SPACE_ID;
 const deliveryApiToken: string = import.meta.env.VITE_DELIVERY_TOKEN;
 const environment: string = import.meta.env.VITE_ENVIRONMENT;
 
 type Response = {
-    items: any[]
+    items: {
+        fields: {
+            references: Object;
+        }
+    }[]
+}
+
+type Menu = {
+    menuItems: null | Object;
+    error: null | {
+        status: number;
+        msg: string;
+    };
 }
 
 export const useMenu = () => {
-    const [menu, setMenu] = useState<Object>({ menuItems: null, error: null });
-
+    const [menu, setMenu] = useState<Menu>({ menuItems: null, error: null });
 
     useEffect(() => {
         const fetch = async () => {
@@ -20,8 +31,8 @@ export const useMenu = () => {
                 const resp: Response = await client.getEntries({ content_type: 'assembly', 'fields.slug': 'site-root', include: 1 });
                 setMenu({ menuItems: resp.items[0].fields.references, error: null });
             }
-            catch (e) {
-                console.log("fail", e)
+            catch (e: any) {
+                console.error("content failed to render", e)
                 setMenu({ menuItems: null, error: { status: 500, msg: 'An issue occurred while menu items.' } });
             }
         }
@@ -32,15 +43,23 @@ export const useMenu = () => {
 }
 
 type UseView = {
-    type: any
-    slug: any
+    type: string
+    slug: string
+}
+
+type View = {
+    content: null | Object;
+    error: null | {
+        status: number;
+        msg: string;
+    };
 }
 
 export const useView = (props: UseView) => {
     const { type, slug } = props
-    const [view, setView] = useState<any>({ content: null, error: null });
+    const [view, setView] = useState<View>({ content: null, error: null });
 
-    let contentType: any
+    let contentType: string
     if (type === 'about') {
         contentType = 'profile'
     }
@@ -58,7 +77,7 @@ export const useView = (props: UseView) => {
     }
 
     useEffect(() => {
-        const fetch = async (contentType: Event, slug: Event) => {
+        const fetch = async (contentType: string, slug: string) => {
             try {
                 const getContent = async () => {
                     const resp = await client.getEntries({ content_type: contentType, 'fields.slug': slug, include: 3 }); //locale,
@@ -84,7 +103,7 @@ export const useView = (props: UseView) => {
     return view
 }
 
-const client = createClient({
+const client: ContentfulClientApi = createClient({
     space: spaceId,
     environment: environment,
     accessToken: deliveryApiToken,

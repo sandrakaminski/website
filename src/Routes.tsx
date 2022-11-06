@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useRoutes, useParams } from 'react-router-dom';
 
-
 import Renderer from './blocks/Renderer';
 import NotFound from './views/NotFound';
 import Payment from './views/Payment';
@@ -24,7 +23,7 @@ export default Routes;
 const Component: React.FC = () => {
     var { type, slug } = useParams();
     [type, slug] = [type || "assembly", slug || "home"];
-    const { content, error } = useView({ type, slug });
+    const { content, error }: any = useView({ type, slug });
 
     if (error && error.status === 404) {
         return (<NotFound />)

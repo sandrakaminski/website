@@ -43,7 +43,7 @@ const Header: React.FC = () => {
     return (
         <AppBar color="transparent" position="static" elevation={0}>
             {menu &&
-                <Toolbar>
+                <Toolbar >
                     <Box sx={{ flexGrow: 1 }}>
                         <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer' }} underline="none" color="inherit">
                             <img style={{ width: 200, height: 'auto' }} src={logo} alt="Sandra Kaminski" />
