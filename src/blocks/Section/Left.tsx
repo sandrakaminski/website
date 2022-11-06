@@ -16,7 +16,7 @@ type Content = {
 export const Left = (props: Content) => {
     const { content } = props;
     const resources = content.fields.resources;
-
+    console.log(content)
     return (
         <Grid container direction="row" spacing={2} sx={{ my: 5 }}>
             <Grid item xs={12} md={4} lg={6}>
@@ -31,18 +31,20 @@ export const Left = (props: Content) => {
             </Grid>
             <Grid item xs={12} md={4} lg={6}>
                 {resources.map((item: any, index: number) => (
-                    <Box key={index} >
+                    <Box key={index} justifyContent="center" alignContent="center">
                         <Typography align="center" variant="h1" component="h1" sx={{ p: 4 }}>
                             {item.fields.headline}
                         </Typography>
                         {item.fields.files?.map((file: any, index: number) => (
-                            <Box key={index}>
+                            <>
                                 {item.fields.flexDirection === "Flex" ?
-                                    <Stack flexDirection="column">
-                                        <Link href={`${file.fields.file.url}`} align="center" target="_blank" >
-                                            {file.fields.title},
-                                        </Link>
-                                    </Stack>
+                                    <>
+                                        <Stack direction="row" justifyContent="center" alignItems="center" spacing={2}>
+                                            <Link sx={{ justifyContent: "center", alignItems: "center" }} href={`${file.fields.file.url}`} align="center" target="_blank" >
+                                                {file.fields.title},
+                                            </Link>
+                                        </Stack>
+                                    </>
                                     :
                                     <Typography key={index} align="center" variant="body1" component="h1">
                                         <Link href={`${file.fields.file.url}`} target="_blank">
@@ -50,7 +52,7 @@ export const Left = (props: Content) => {
                                         </Link>
                                     </Typography>
                                 }
-                            </Box>
+                            </>
                         ))}
                     </Box>
                 ))}
