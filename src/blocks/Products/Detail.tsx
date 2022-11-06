@@ -15,6 +15,7 @@ import FormControl from '@mui/material/FormControl';
 
 import { useNavigate } from 'react-router-dom';
 
+import Trail from '../../components/Trail';
 import { Markdown } from '../../shared';
 
 export const Detail = ({ content }: any) => {
@@ -33,7 +34,7 @@ export const Detail = ({ content }: any) => {
 
     return (
         <>
-
+            <Trail root={{ name: 'Shop', path: 'shop' }} current={{ name: content.fields.name }} />
             <Grid container spacing={2} justifyContent="center" alignItems="center" >
                 <Grid xs={12} sm={6}>
                     <Typography variant="h2">

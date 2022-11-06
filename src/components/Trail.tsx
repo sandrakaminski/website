@@ -19,7 +19,7 @@ export const Trail = (props: TrailProps) => {
     const navigate = useNavigate();
 
     return (
-        <Breadcrumbs aria-label="breadcrumb">
+        <Breadcrumbs separator="›" aria-label="breadcrumb">
             <Link
                 sx={{ cursor: 'pointer' }}
                 underline="hover"
