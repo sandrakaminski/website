@@ -23,8 +23,8 @@ export const Detail = (props: ArticleType) => {
         <>
             <Trail root={{ name: name, path: location.state.data }} current={{ name: content.fields.title }} />
             <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
-                <Typography variant="h2"  >
-                    {content.fields.title}
+                <Typography variant="h2" align="center" >
+                    {content.fields.headline}
                 </Typography>
                 <Stack direction="row"
                     justifyContent="space-between"
