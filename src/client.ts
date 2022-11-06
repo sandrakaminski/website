@@ -59,6 +59,8 @@ export const useView = (props: UseView) => {
     const { type, slug } = props
     const [view, setView] = useState<View>({ content: null, error: null });
 
+    // seperates the slug from the content type 
+    // only add or change this if the content type is not the same as the slug
     let contentType: string
     if (type === 'about') {
         contentType = 'profile'

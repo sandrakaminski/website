@@ -7,7 +7,11 @@ import Section from './Section';
 import Article from './Article';
 import Products from './Products';
 
-const blocks: any = {
+type Blocks = {
+    [key: string]: any;
+}
+
+const blocks: Blocks = {
     profile: Profile,
     section: Section,
     article: Article,
@@ -37,7 +41,7 @@ const Renderer = (props: any) => {
                     {content.fields.layout === 'Grid'
                         ?
                         <Grid container spacing={2}>
-                            {content.fields.references.map((block: any, index: number) =>
+                            {content.fields.references.map((block: Object, index: number) =>
                                 <Grid xs={12} sm={6} md={4} key={index}>
                                     <Factory content={block} />
                                 </Grid>
@@ -45,7 +49,7 @@ const Renderer = (props: any) => {
                         </Grid>
                         :
                         <Box>
-                            {content.fields.references.map((block: any, index: number) =>
+                            {content.fields.references.map((block: Object, index: number) =>
                                 <Factory key={index} content={block} />
                             )}
                         </Box>

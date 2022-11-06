@@ -35,16 +35,15 @@ export const Detail = ({ content }: any) => {
     return (
         <>
             <Trail root={{ name: 'Shop', path: 'shop' }} current={{ name: content.fields.name }} />
-            <Grid container spacing={2} justifyContent="center" alignItems="center" >
+            <Grid container spacing={2} justifyContent="center"  >
                 <Grid xs={12} sm={6}>
-                    <Typography variant="h2">
+                    <Typography sx={{ my: 4 }} align="center" gutterBottom variant="h2">
                         {content.fields.name}
                     </Typography>
-                    <Divider sx={{ my: 2 }} />
-                    <Stack spacing={2} direction="row">
-                        <Button onClick={handleCart} startIcon={<ShoppingCartOutlinedIcon />} variant={"outlined"}>
-                            Add to Cart
-                        </Button>
+                    <Stack spacing={2} direction="row" alignItems="center">
+                        <Typography >
+                            ${content.fields.price}
+                        </Typography>
                         <FormControl size="small" sx={{ minWidth: 200 }}>
                             <InputLabel id="quantity">Quantity</InputLabel>
                             <Select onChange={handleChange} label="Quantity" defaultValue={'1'}>
@@ -53,6 +52,9 @@ export const Detail = ({ content }: any) => {
                                 <MenuItem value={3}>3</MenuItem>
                             </Select>
                         </FormControl>
+                        <Button onClick={handleCart} startIcon={<ShoppingCartOutlinedIcon />} variant={"outlined"}>
+                            Add to Cart
+                        </Button>
                     </Stack>
                     <Divider sx={{ my: 2 }} />
                     <ReactMarkdown components={Markdown} >{content.fields.description}</ReactMarkdown>
