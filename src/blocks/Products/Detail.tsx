@@ -36,7 +36,7 @@ export const Detail = ({ content }: any) => {
         <>
             <Trail root={{ name: 'Shop', path: 'shop' }} current={{ name: content.fields.name }} />
             <Grid container spacing={2} justifyContent="center"  >
-                <Grid xs={12} sm={6}>
+                <Grid xs={12} md={6}>
                     <Typography sx={{ my: 4 }} align="center" gutterBottom variant="h2">
                         {content.fields.name}
                     </Typography>
@@ -59,7 +59,7 @@ export const Detail = ({ content }: any) => {
                     <Divider sx={{ my: 2 }} />
                     <ReactMarkdown components={Markdown} >{content.fields.description}</ReactMarkdown>
                 </Grid>
-                <Grid xs={12} sm={6}>
+                <Grid xs={12} md={6}>
                     {content.fields.featureImage &&
                         <CardMedia
                             component="img"

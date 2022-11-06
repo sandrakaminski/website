@@ -22,7 +22,8 @@
     "react-dom": "^18.2.0",
     "react-mailchimp-subscribe": "^2.1.3",
     "react-markdown": "^8.0.3",
-    "react-router-dom": "^6.4.2"
+    "react-router-dom": "^6.4.2",
+    "use-stripe-cart": "^1.2.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.22",

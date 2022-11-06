@@ -4,12 +4,20 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from "react-router-dom";
+import type { Image } from '../../shared'
 
 interface ImageContainerProps {
     content: {
         fields: {
             blocks: Block[]
         }
+    }
+}
+
+type Block = {
+    fields: {
+        imageRows: number
+        image: Image
     }
 }
 
@@ -43,20 +51,6 @@ const FloatingText = (props: FloatingTextProps) => {
             <Typography variant="h5" sx={{ display: { xs: 'none', sm: 'flex' }, color: 'background.paper' }}>{content.fields.subheader}</Typography>
         </Box>
     )
-}
-
-type Block = {
-    fields: {
-        imageRows: number
-        image: {
-            fields: {
-                file: {
-                    url: string
-                    title: string
-                }
-            }
-        }
-    }
 }
 
 type FloatingTextProps = {
