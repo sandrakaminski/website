@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from "@mui/material/AppBar";
+import Badge from '@mui/material/Badge';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -54,9 +55,6 @@ const Header: React.FC = () => {
                                 {item.fields.name}
                             </Button>
                         )}
-                        <IconButton>
-                            <ShoppingCartOutlinedIcon />
-                        </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton onClick={handleClick} color="inherit">
@@ -68,6 +66,11 @@ const Header: React.FC = () => {
                             )}
                         </Menu>
                     </Box>
+                    <IconButton color="inherit" onClick={() => handleNavigate('cart')}>
+                        <Badge badgeContent={4} color="info">
+                            <ShoppingCartOutlinedIcon />
+                        </Badge>
+                    </IconButton>
                 </Toolbar>
             }
         </AppBar>

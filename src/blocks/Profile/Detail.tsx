@@ -30,7 +30,7 @@ const Detail = (props: ProfileType) => {
                         {content.fields.name}
                     </Typography>
                 </Box>
-                <Typography variant="h2" component="h2" >
+                <Typography variant="h2">
                     {content.fields.title}
                 </Typography>
                 <Container maxWidth="sm">

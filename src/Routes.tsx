@@ -2,8 +2,10 @@ import React from 'react';
 
 import { useRoutes, useParams } from 'react-router-dom';
 
+
 import Renderer from './blocks/Renderer';
-import NotFound from './blocks/NotFound';
+import NotFound from './views/NotFound';
+import Payment from './views/Payment';
 import Outline from './components/Outline';
 import { useView } from "./client";
 
@@ -11,7 +13,8 @@ const Routes: React.FC = () => {
     const routes = [
         { path: '/', element: <Component /> },
         { path: '/:slug', element: <Component /> },
-        { path: '/:type/:slug', element: <Component /> }
+        { path: '/:type/:slug', element: <Component /> },
+        { path: '/cart', element: <Payment /> }
     ]
     return useRoutes(routes);
 }
