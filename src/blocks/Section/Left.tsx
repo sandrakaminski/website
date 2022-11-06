@@ -36,7 +36,7 @@ export const Left = (props: Content) => {
                             {item.fields.headline}
                         </Typography>
                         {item.fields.files?.map((file: any, index: number) => (
-                            <>
+                            <Box key={index}>
                                 {item.fields.flexDirection === "Flex" ?
                                     <>
                                         <Stack direction="row" justifyContent="center" alignItems="center" spacing={2}>
@@ -52,7 +52,7 @@ export const Left = (props: Content) => {
                                         </Link>
                                     </Typography>
                                 }
-                            </>
+                            </Box>
                         ))}
                     </Box>
                 ))}
