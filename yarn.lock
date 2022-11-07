@@ -600,6 +600,11 @@
   dependencies:
     prop-types "^15.7.2"
 
+"@stripe/stripe-js@^1.42.1":
+  version "1.42.1"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.42.1.tgz#09f303fe298f81e5dc618f0df88bf929d758fa0f"
+  integrity sha512-5H7P7rVNDMdiJCUKsKXRUyr6IjZ4/9f8FB62NCa5O4rDftRfs4u2dPjjHs/tIs4OLeBB6oSzJIkE7cPr4ykPHg==
+
 "@types/debug@^4.0.0":
   version "4.1.7"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.7.tgz#7cc0ea761509124709b8b2d1090d8f6c17aadb82"
@@ -2794,11 +2799,6 @@ react-router@6.4.3:
   dependencies:
     "@remix-run/router" "1.0.3"
 
-react-storage-hooks@^4.0.0:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/react-storage-hooks/-/react-storage-hooks-4.0.1.tgz#e30ed5cda48c77c431ecc02ec3824bd615f5b7fb"
-  integrity sha512-fetDkT5RDHGruc2NrdD1iqqoLuXgbx6AUpQSQLLkrCiJf8i97EtwJNXNTy3+GRfsATLG8TZgNc9lGRZOaU5yQA==
-
 react-transition-group@^4.4.5:
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.5.tgz#e53d4e3f3344da8521489fbef8f2581d42becdd1"
@@ -3220,13 +3220,6 @@ uri-js@^4.2.2:
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
-
-use-stripe-cart@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/use-stripe-cart/-/use-stripe-cart-1.2.1.tgz#f67a611dde533ad96903b56f1d83b2303d86fc08"
-  integrity sha512-fPLozTlgXJ5CyC7IQgn3xQlKR9glftlpqOCozyu11nVvlbRVs8FKgrhs7jgsVAxPMbE4HeD2Rps/uxqlb/Ty+A==
-  dependencies:
-    react-storage-hooks "^4.0.0"
 
 uvu@^0.5.0:
   version "0.5.6"

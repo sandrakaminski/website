@@ -4,7 +4,9 @@ import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
-export const Summary = ({ content }: any) => {
+import type { ProductTypes } from './ProductTypes';
+
+export const Summary = ({ content }: ProductTypes) => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const { slug } = useParams();

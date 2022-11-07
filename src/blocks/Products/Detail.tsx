@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import CardMedia from '@mui/material/CardMedia';
@@ -15,10 +14,11 @@ import FormControl from '@mui/material/FormControl';
 
 import { useNavigate } from 'react-router-dom';
 
+import type { ProductTypes } from './ProductTypes';
 import Trail from '../../components/Trail';
 import { Markdown } from '../../shared';
 
-export const Detail = ({ content }: any) => {
+export const Detail = ({ content }: ProductTypes) => {
     const [quantity, setQuantity] = useState<string>('1');
     const navigate = useNavigate();
 

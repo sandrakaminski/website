@@ -15,6 +15,7 @@
     "@mui/lab": "^5.0.0-alpha.106",
     "@mui/material": "^5.10.11",
     "@stripe/react-stripe-js": "^1.14.2",
+    "@stripe/stripe-js": "^1.42.1",
     "@vitejs/plugin-react-refresh": "^1.3.6",
     "contentful": "^9.2.9",
     "dotenv": "^16.0.3",
@@ -22,8 +23,7 @@
     "react-dom": "^18.2.0",
     "react-mailchimp-subscribe": "^2.1.3",
     "react-markdown": "^8.0.3",
-    "react-router-dom": "^6.4.2",
-    "use-stripe-cart": "^1.2.1"
+    "react-router-dom": "^6.4.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.22",
