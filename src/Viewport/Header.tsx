@@ -56,9 +56,7 @@ const Header: React.FC = () => {
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         {menuItems.map((item: MenuItem, index: number) =>
-                            <Button sx={{ mx: 1, display: item.fields.slug === 'home' && 'none' }} color="inherit" onClick={() => handleNavigate(item.fields.slug)} key={index}>
-                                {item.fields.name}
-                            </Button>
+                            <MenuButton item={item} onClick={() => handleNavigate(item.fields.slug)} key={index} />
                         )}
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -67,7 +65,7 @@ const Header: React.FC = () => {
                         </IconButton>
                         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
                             {menuItems.map((item: MenuItem, index: number) =>
-                                <MenuItem sx={{ display: item.fields.slug === 'home' && 'none' }} key={index} onClick={() => { handleNavigate(item.fields.slug), handleClose() }}>{item.fields.name}</MenuItem>
+                                <SmallMenuButton item={item} key={index} onClick={() => { handleNavigate(item.fields.slug), handleClose() }} />
                             )}
                         </Menu>
                     </Box>
@@ -83,3 +81,41 @@ const Header: React.FC = () => {
     )
 }
 export default Header;
+
+type MenuButtonProps = {
+    item: MenuItem;
+    onClick: () => void;
+}
+
+const SmallMenuButton = (props: MenuButtonProps) => {
+    const { item } = props;
+
+    return (
+        <>
+            {item.fields.slug === 'home' ?
+                null
+                :
+                <MenuItem {...props}>
+                    {item.fields.name}
+                </MenuItem>
+            }
+        </>
+    )
+
+}
+
+const MenuButton = (props: MenuButtonProps) => {
+    const { item } = props;
+
+    return (
+        <>
+            {item.fields.slug === 'home' ?
+                null
+                :
+                <Button sx={{ mx: 1 }} color="inherit" {...props}>
+                    {item.fields.name}
+                </Button>
+            }
+        </>
+    )
+}

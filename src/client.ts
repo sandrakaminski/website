@@ -18,7 +18,7 @@ type Response = {
 }
 
 type Menu = {
-    menuItems: any[] | null | {}
+    menuItems: any
     error: null | {
         status: number;
         msg: string;
@@ -51,7 +51,7 @@ type UseView = {
 }
 
 type View = {
-    content: null | object;
+    content: null | any;
     error: null | {
         status: number;
         msg: string;
