@@ -13,7 +13,7 @@ export const Center = (props: Content) => {
     const { content } = props;
 
     return (
-        <Grid container direction="column" justifyContent="center" sx={{ p: { md: 4 } }}>
+        <Grid container direction="column" justifyContent="center">
             <Grid item xs={12} sm={6} >
                 {content.fields.image?.fields.file.url &&
                     <CardMedia
