@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 // import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { useNavigate } from 'react-router-dom';
 
-import { useCartContext } from "@/cartProvider";
+import { useCartContext } from "@/views/Cart/cartProvider";
 
 export const Payment = () => {
     const navigate = useNavigate();

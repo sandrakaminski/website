@@ -14,7 +14,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import ReactMarkdown from 'react-markdown';
 
 import type { ProductTypes } from './ProductTypes';
-import { useCartContext } from "@/cartProvider";
+import { useCartContext } from "@/views/Cart/cartProvider";
 import Trail from '@/components/Trail';
 import { Markdown } from '@/shared';
 

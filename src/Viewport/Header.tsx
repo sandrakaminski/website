@@ -14,7 +14,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
 
 import logo from '@/assets/logo.png';
-import { useCartContext } from "@/cartProvider";
+import { useCartContext } from "@/views/Cart/cartProvider";
 import { useMenu } from "@/client";
 import type { MenuItemType } from '@/client';
 

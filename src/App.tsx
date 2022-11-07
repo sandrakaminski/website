@@ -6,7 +6,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { BrowserRouter } from 'react-router-dom';
 
-import { CartProvider } from '@/cartProvider';
+import { CartProvider } from '@/views/Cart/cartProvider';
 import Outline from '@/components/Outline';
 import Routes from '@/Routes';
 import { theme } from '@/theme';
