@@ -28,7 +28,7 @@ export const Resource = (props: ResourceProps) => {
                     direction="row"
                     justifyContent="center"
                     alignItems="center">
-                    {resource.fields.files?.map((file: any, index: number) => (
+                    {resource.fields.files?.map((file: Image, index: number) => (
                         <Box key={index}>
                             <Link sx={{ justifyContent: "center", alignItems: "center" }} href={`${file.fields.file.url}`} align="center" target="_blank" >
                                 {file.fields.title},
@@ -39,7 +39,7 @@ export const Resource = (props: ResourceProps) => {
                 </Stack>
                 :
                 <Stack>
-                    {resource.fields.files?.map((file: any, index: number) =>
+                    {resource.fields.files?.map((file: Image, index: number) =>
                         <Box key={index}>
                             <Typography key={index} align="center" variant="body1" component="h1">
                                 <Link href={`${file.fields.file.url}`} target="_blank">

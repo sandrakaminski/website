@@ -13,11 +13,11 @@ export const Center = (props: Content) => {
     const { content } = props;
 
     return (
-        <Grid container direction="column" justifyContent="center" sx={{ p: 4 }}>
-            <Grid item xs={12} sm={6} md={6}>
+        <Grid container direction="column" justifyContent="center" sx={{ p: { md: 4 } }}>
+            <Grid item xs={12} sm={6} >
                 {content.fields.image?.fields.file.url &&
                     <CardMedia
-                        sx={{ width: "100%", height: 'auto' }}
+                        sx={{ width: '100%', height: 'auto' }}
                         component="img"
                         src={content.fields.image.fields.file.url}
                         alt={content.fields.image.fields.title}
@@ -27,7 +27,7 @@ export const Center = (props: Content) => {
                     {content.fields.headline}
                 </Typography>
             </Grid>
-            <Grid item xs={12} sm={6} md={6}>
+            <Grid item xs={12} sm={6} >
                 {content.fields.resources?.map((item: ResourceType, index: number) => (
                     <Box key={index} justifyContent="center" alignContent="center">
                         <Typography align="center" variant="h1" component="h1" sx={{ p: 4 }}>
@@ -43,11 +43,9 @@ export const Center = (props: Content) => {
                         {content.fields.body}
                     </ReactMarkdown>
                 </Box>
-
             </Container>
         </Grid >
     )
 }
 
 export default Center;
-

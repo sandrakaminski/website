@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import { useNavigate, useParams } from 'react-router-dom';
 
 interface TrailProps {
-    current: String
+    current: String;
 }
 
 export const Trail = (props: TrailProps) => {
@@ -15,9 +15,9 @@ export const Trail = (props: TrailProps) => {
     return (
         <Breadcrumbs separator="›" aria-label="breadcrumb">
             <Link
-                sx={{ cursor: 'pointer' }}
+                sx={{ cursor: 'pointer', textTransform: 'capitalize' }}
                 underline="hover"
-                color="inherit"
+                color="grayText"
                 onClick={() => navigate(`/${type}`, { state: { data: type } })}
             >
                 {type}
