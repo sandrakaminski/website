@@ -31,9 +31,13 @@ export const Resource = (props: ResourceProps) => {
                     {resource.fields.files?.map((file: Image, index: number) => (
                         <Box key={index}>
                             <Link sx={{ justifyContent: "center", alignItems: "center" }} href={`${file.fields.file.url}`} align="center" target="_blank" >
-                                {file.fields.title},
+                                {file.fields.title}
                             </Link>
-
+                            {resource.fields.files?.length - 1 !== index &&
+                                <>
+                                    {","}
+                                </>
+                            }
                         </Box>
                     ))}
                 </Stack>
