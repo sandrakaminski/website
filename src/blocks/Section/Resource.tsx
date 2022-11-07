@@ -1,9 +1,8 @@
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 
-import type { Image } from '../../shared';
+import type { Image } from '@/shared';
 
 interface ResourceProps {
     resource: {
@@ -42,14 +41,15 @@ export const Resource = (props: ResourceProps) => {
                     ))}
                 </Stack>
                 :
-                <Stack>
+                <Stack
+                    spacing={1}
+                    justifyContent="center"
+                    alignItems="center">
                     {resource.fields.files?.map((file: Image, index: number) =>
                         <Box key={index}>
-                            <Typography key={index} align="center" variant="body1" component="h1">
-                                <Link href={`${file.fields.file.url}`} target="_blank">
-                                    {file.fields.title}
-                                </Link>
-                            </Typography>
+                            <Link href={`${file.fields.file.url}`} target="_blank">
+                                {file.fields.title}
+                            </Link>
                         </Box>
                     )}
                 </Stack>
