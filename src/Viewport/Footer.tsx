@@ -1,11 +1,11 @@
 import React from 'react';
 
 import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
 import PinterestIcon from '@mui/icons-material/Pinterest';
+import TwitterIcon from '@mui/icons-material/Twitter';
 import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 import { FacebookIcon } from '../components/icons/FacebookIcon';
 import { TumblrIcon } from '../components/icons/TumblrIcon';

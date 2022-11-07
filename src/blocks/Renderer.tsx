@@ -1,11 +1,11 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 
+import Article from './Article';
 import ImageContainer from './ImageContainer';
+import Products from './Products';
 import Profile from './Profile';
 import Section from './Section';
-import Article from './Article';
-import Products from './Products';
 
 type Blocks = {
     [key: string]: any;
@@ -20,8 +20,25 @@ const blocks: Blocks = {
 }
 
 type FactoryProps = {
-    content: any;
-    detail?: Boolean;
+    content: {
+        fields: {
+            type: string;
+            references: {
+                sys?: {
+                    id: string;
+                }
+            }[]
+            layout: string;
+        }
+        sys: {
+            contentType: {
+                sys: {
+                    id: string;
+                }
+            }
+        }
+    };
+    detail?: boolean;
 }
 
 const Factory = (props: FactoryProps) => {
@@ -30,7 +47,7 @@ const Factory = (props: FactoryProps) => {
     return blocks[name]({ content, detail })
 }
 
-const Renderer = (props: any) => {
+const Renderer = (props: FactoryProps) => {
     const { content } = props;
 
     return (
@@ -41,7 +58,7 @@ const Renderer = (props: any) => {
                     {content.fields.layout === 'Grid'
                         ?
                         <Grid container spacing={2}>
-                            {content.fields.references.map((block: Object, index: number) =>
+                            {content.fields.references.map((block, index) =>
                                 <Grid xs={12} sm={6} md={4} key={index}>
                                     <Factory content={block} />
                                 </Grid>
@@ -49,7 +66,7 @@ const Renderer = (props: any) => {
                         </Grid>
                         :
                         <Box>
-                            {content.fields.references.map((block: Object, index: number) =>
+                            {content.fields.references.map((block, index) =>
                                 <Factory key={index} content={block} />
                             )}
                         </Box>

@@ -15,7 +15,7 @@ type Response = {
 }
 
 type Menu = {
-    menuItems: null | object;
+    menuItems: any[]
     error: null | {
         status: number;
         msg: string;

@@ -16,11 +16,10 @@
     "eslint:recommended",
     "plugin:react-hooks/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    // "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
     "react/prop-types": 0,
-    "camelcase": ["error"],
     "prefer-template": "error",
     "prefer-const": "error",
     "eqeqeq": ["error", "smart"],
