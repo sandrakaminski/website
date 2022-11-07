@@ -19,7 +19,7 @@ export const Right = (props: Content) => {
     return (
         <Grid container direction="row" spacing={2} sx={{ my: 5 }}>
             <Grid item xs={12} md={6}>
-                {resources.map((item: any, index: number) => (
+                {resources?.map((item: any, index: number) => (
                     <Box key={index} >
                         <Typography align="center" variant="h1" component="h1" sx={{ p: 4 }}>
                             {item.fields.headline}

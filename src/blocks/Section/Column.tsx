@@ -14,10 +14,7 @@ type Content = {
 
 export const Column = (props: Content) => {
     const { content } = props;
-
     const resources = content.fields.resources;
-
-    // console.log("COLUMN", content)
 
     return (
         <Box sx={{ p: 5 }}>
