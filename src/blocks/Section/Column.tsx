@@ -1,20 +1,13 @@
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import ReactMarkdown from 'react-markdown';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 import Resource from './Resource';
-import { Markdown } from '../../shared';
-
-type Content = {
-    content: any;
-}
+import type { Content, ResourceType } from './SectionTypes';
 
 export const Column = (props: Content) => {
     const { content } = props;
-    const resources = content.fields.resources;
 
     return (
         <Box sx={{ p: 5 }}>
@@ -22,7 +15,7 @@ export const Column = (props: Content) => {
                 {content.fields.headline}
             </Typography>
             <Grid container>
-                {resources.map((item: any, index: number) => (
+                {content.fields.resources.map((item: ResourceType, index: number) => (
                     <Grid item key={index} xs={12} md={6} >
                         <Typography align="center" variant="h2" component="h1" sx={{ p: 4 }}>
                             {item.fields.headline}
