@@ -14,6 +14,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
 
 import logo from '@/assets/logo.png';
+import { useCartContext } from "@/cartProvider";
 import { useMenu } from "@/client";
 import type { MenuItemType } from '@/client';
 
@@ -22,6 +23,7 @@ const Header: React.FC = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const navigate = useNavigate();
+    const { amount } = useCartContext();
 
     const handleClick = (e: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(e.currentTarget);
@@ -64,7 +66,7 @@ const Header: React.FC = () => {
                         </Menu>
                     </Box>
                     <IconButton color="inherit" onClick={() => handleNavigate('cart')}>
-                        <Badge badgeContent={4} color="info">
+                        <Badge badgeContent={amount.length - 1 > 0 ? amount.length - 1 : 0} color="info">
                             <ShoppingCartOutlinedIcon />
                         </Badge>
                     </IconButton>

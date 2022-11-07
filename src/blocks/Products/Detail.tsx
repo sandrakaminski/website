@@ -12,21 +12,19 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import ReactMarkdown from 'react-markdown';
-import { useNavigate } from 'react-router-dom';
 
 import type { ProductTypes } from './ProductTypes';
+import { useCartContext } from "@/cartProvider";
 import Trail from '@/components/Trail';
 import { Markdown } from '@/shared';
 
 export const Detail = (props: ProductTypes) => {
-    const { content } = props
+    const { content } = props;
+    const { addToCart }: any = useCartContext();
     const [quantity, setQuantity] = useState<string>('1');
-    const navigate = useNavigate();
 
     const handleCart = () => {
-        navigate('/cart', {
-            state: { data: content, quantity: quantity },
-        })
+        addToCart(content.fields.productId, quantity, content.fields)
     }
 
     const handleChange = (e: SelectChangeEvent) => {

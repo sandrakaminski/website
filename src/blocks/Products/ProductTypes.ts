@@ -8,6 +8,7 @@ export type ProductTypes = {
             description: string;
             featureImage: Image;
             slug: string;
+            productId: string;
         }
     }
 }
