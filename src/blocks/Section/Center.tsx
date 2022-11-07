@@ -11,10 +11,10 @@ import type { Content, ResourceType } from './SectionTypes';
 
 export const Center = (props: Content) => {
     const { content } = props;
- 
+
     return (
-        <Grid container direction="column" justifyContent="center" sx={{ py: 8 }}>
-            <Grid item xs={12} md={6}>
+        <Grid container direction="column" justifyContent="center" sx={{ p: 4 }}>
+            <Grid item xs={12} sm={6} md={6}>
                 {content.fields.image?.fields.file.url &&
                     <CardMedia
                         sx={{ width: "100%", height: 'auto' }}
@@ -27,7 +27,7 @@ export const Center = (props: Content) => {
                     {content.fields.headline}
                 </Typography>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} sm={6} md={6}>
                 {content.fields.resources?.map((item: ResourceType, index: number) => (
                     <Box key={index} justifyContent="center" alignContent="center">
                         <Typography align="center" variant="h1" component="h1" sx={{ p: 4 }}>
@@ -37,10 +37,13 @@ export const Center = (props: Content) => {
                     </Box>
                 ))}
             </Grid>
-            <Container maxWidth="sm">
-                <ReactMarkdown components={SectionMarkDown} >
-                    {content.fields.body}
-                </ReactMarkdown>
+            <Container maxWidth="sm" sx={{ justifyContent: "center", alignItems: "center" }}>
+                <Box justifyContent="center" alignContent="center">
+                    <ReactMarkdown components={SectionMarkDown} >
+                        {content.fields.body}
+                    </ReactMarkdown>
+                </Box>
+
             </Container>
         </Grid >
     )

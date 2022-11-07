@@ -14,7 +14,7 @@ export const Left = (props: Content) => {
 
     return (
         <Grid container direction="row" spacing={2} sx={{ my: 5 }}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} sm={6} md={6}>
                 {content.fields.image?.fields.file.url &&
                     <CardMedia
                         sx={{ width: "100%", height: 'auto' }}
@@ -24,7 +24,7 @@ export const Left = (props: Content) => {
                     />
                 }
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} sm={6} md={6}>
                 {content.fields.resources?.map((item: ResourceType, index: number) => (
                     <Box key={index} justifyContent="center" alignContent="center">
                         <Typography align="center" variant="h1" component="h1" sx={{ p: 4 }}>
