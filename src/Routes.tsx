@@ -2,8 +2,8 @@ import React, { lazy } from 'react';
 
 import { useRoutes, useParams } from 'react-router-dom';
 
-import Outline from './components/Outline';
 import { useView } from "./client";
+import Outline from './components/Outline';
 
 const Renderer = lazy(() => import('./blocks/Renderer'));
 const NotFound = lazy(() => import('./views/NotFound'));
@@ -27,7 +27,7 @@ const Routes: React.FC = () => {
 export default Routes;
 
 const Component: React.FC = () => {
-    var { type, slug } = useParams();
+    let { type, slug } = useParams();
     [type, slug] = [type || "assembly", slug || "home"];
     const { content, error } = useView({ type, slug });
 

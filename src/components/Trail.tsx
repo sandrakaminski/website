@@ -1,7 +1,6 @@
-import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
-
+import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
 interface TrailProps {
