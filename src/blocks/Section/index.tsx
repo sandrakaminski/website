@@ -2,15 +2,10 @@ import Center from './Center';
 import Column from './Column';
 import Left from './Left';
 import Right from './Right';
-
-type Content = {
-    content: any
-}
+import type { Content } from './SectionTypes';
 
 export const Section = (props: Content) => {
     const { content } = props;
-    // console.log("INDEX", content)
-    // console.log(content.fields.sectionType)
 
     switch (content.fields.sectionType) {
         case "Center":
