@@ -35,7 +35,7 @@ export const Detail = (props: ProductTypes) => {
 
     return (
         <>
-            <Trail root={{ name: 'Shop', path: 'shop' }} current={{ name: content.fields.name }} />
+            <Trail current={content.fields.name} />
             <Grid container spacing={2} justifyContent="center"  >
                 <Grid xs={12} md={6}>
                     <Typography sx={{ my: 4 }} align="center" gutterBottom variant="h2">

@@ -15,7 +15,7 @@ const Detail = (props: ProfileType) => {
 
     return (
         <>
-            <Trail root={{ name: 'About', path: 'about' }} current={{ name: content.fields.name }} />
+            <Trail current={content.fields.title} />
             <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
                 <Box sx={{ mt: 4 }}>
                     {content.fields.image &&

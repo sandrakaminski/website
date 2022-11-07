@@ -53,8 +53,8 @@ export const useMenu = () => {
 }
 
 type UseView = {
-    type: string
-    slug: string
+    type: string;
+    slug: string;
 }
 
 type View = {

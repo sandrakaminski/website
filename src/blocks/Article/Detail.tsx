@@ -5,7 +5,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import type { ArticleType } from './ArticleType'
 import DateFormatter from "@/components/DateFormatter";
@@ -14,14 +14,13 @@ import { ArticleMarkdown } from '@/shared';
 
 export const Detail = (props: ArticleType) => {
     const { content } = props;
-    const location = useLocation();
     const navigate = useNavigate();
 
-    const name = location.state.data.slice(0, 1).toUpperCase() + location.state.data.slice(1);
+
 
     return (
         <>
-            <Trail root={{ name: name, path: location.state.data }} current={{ name: content.fields.title }} />
+            <Trail current={content.fields.title} />
             <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
                 <Typography variant="h2" align="center" >
                     {content.fields.headline}

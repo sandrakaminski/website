@@ -49,7 +49,7 @@ const FloatingText = (props: FloatingTextProps) => {
     return (
         <Box sx={{ height: '100%', width: '100%', background: 'rgba(0,0,0,0.25)', position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <Typography variant="h1" gutterBottom sx={{ color: 'background.paper' }}>{content.fields.title}</Typography>
-            <Typography variant="h5" sx={{ display: { xs: 'none', sm: 'flex' }, color: 'background.paper' }}>{content.fields.subheader}</Typography>
+            <Typography variant="h5" sx={{ display: { xs: 'none', md: 'flex' }, color: 'background.paper' }}>{content.fields.subheader}</Typography>
         </Box>
     )
 }

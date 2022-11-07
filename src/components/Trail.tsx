@@ -1,21 +1,16 @@
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface TrailProps {
-    current: {
-        name: string;
-    }
-    root: {
-        name: string;
-        path: string;
-    }
+    current: String
 }
 
 export const Trail = (props: TrailProps) => {
-    const { current, root } = props;
+    const { current } = props;
     const navigate = useNavigate();
+    const { type } = useParams();
 
     return (
         <Breadcrumbs separator="›" aria-label="breadcrumb">
@@ -23,11 +18,11 @@ export const Trail = (props: TrailProps) => {
                 sx={{ cursor: 'pointer' }}
                 underline="hover"
                 color="inherit"
-                onClick={() => navigate(`/${root.path}`, { state: { data: root.path } })}
+                onClick={() => navigate(`/${type}`, { state: { data: type } })}
             >
-                {root.name}
+                {type}
             </Link>
-            <Typography color="text.primary">{current.name}</Typography>
+            <Typography color="text.primary">{current}</Typography>
         </Breadcrumbs>
     );
 }
