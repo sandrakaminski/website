@@ -1,7 +1,29 @@
 import { useReducer, createContext, useEffect, useContext } from "react";
 
-const cartContext = createContext(undefined);
-const reducer = (state: any, action: any) => {
+type State = {
+    cart: CartItem[];
+    amount: number
+    total: number
+}
+
+type CartItem = {
+    id: string
+    slug: string
+    name: string
+    amount: number
+    image: string
+    max: number
+}
+
+type Action = {
+    type: any
+    payload: any
+}
+
+const init: any = {}
+const cartContext: React.Context<any> = createContext(init);
+
+const reducer = (state: State, action: Action) => {
     // Clear Cart
     if (action.type === "CLEAR") {
         return { ...state, cart: [] };
@@ -9,14 +31,14 @@ const reducer = (state: any, action: any) => {
 
     //Remove items from Cart
     if (action.type === "REMOVE") {
-        const tempCart = state.cart.filter((item: any) => item.id !== action.payload);
+        const tempCart = state.cart.filter((item: CartItem) => item.id !== action.payload);
         return { ...state, cart: tempCart };
     }
 
     //Add to cart
     if (action.type === "CART") {
         const { id, amount, product }: any = action.payload;
-        const tempItem = state.cart.find((i: any) => i.id === id);
+        const tempItem = state.cart.find((i: CartItem) => i.id === id);
         if (tempItem) {
             const tempCart = state.cart.map((cartItem: any) => {
                 if (cartItem.id === id) {
@@ -47,7 +69,7 @@ const reducer = (state: any, action: any) => {
 
     //Increase amount of items
     if (action.type === "INC") {
-        const tempCart = state.cart.map((item: any) => {
+        const tempCart = state.cart.map((item: CartItem) => {
             if (item.id === action.payload && state.amount < 10) {
                 let newAmount = item.amount + 1;
                 if (newAmount > item.max && state.amount < 10) {
@@ -68,7 +90,7 @@ const reducer = (state: any, action: any) => {
 
     //Decrease amount of items
     if (action.type === "DEC") {
-        const tempCart: any = state.cart.map((item: any) => {
+        const tempCart = state.cart.map((item: CartItem) => {
             if (item.id === action.payload) {
                 let decAmount = item.amount - 1;
                 if (decAmount < 1) {
@@ -89,7 +111,7 @@ const reducer = (state: any, action: any) => {
 
     //Calculate total amount of items in Cart
     if (action.type === "GET_TOTALS") {
-        let { total, amount }: any = state.cart.reduce(
+        let { total }: State = state.cart.reduce(
             (cartTotal: any, cartItem: any) => {
                 const { price, amount } = cartItem;
                 const itemTotal = price * amount;
@@ -105,7 +127,7 @@ const reducer = (state: any, action: any) => {
         );
         total = parseFloat(total.toFixed(2));
 
-        return { ...state, total, amount };
+        return { ...state, total };
     }
     return state;
 };
@@ -130,32 +152,38 @@ const CartProvider = (props: any) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     // add to cart
-    const addToCart: any = (id: any, amount: any, product: any) => {
+    const addToCart: Function = (id: number, amount: number, product: any) => {
         dispatch({ type: "CART", payload: { id, amount, product } });
     };
 
     // remove
-    const remove: any = (id: any) => {
+    const remove: Function = (id: number) => {
         dispatch({ type: "REMOVE", payload: id });
     };
 
     // increase
-    const increase: any = (id: any) => {
+    const increase: Function = (id: number) => {
         dispatch({ type: "INC", payload: id });
     };
 
     // decrease
-    const decrease: any = (id: any) => {
+    const decrease: Function = (id: number) => {
         dispatch({ type: "DEC", payload: id });
     };
 
     // clear
-    const clear: any = () => {
-        dispatch({ type: "CLEAR" });
+    const clear: Function = () => {
+        dispatch({
+            type: "CLEAR",
+            payload: undefined
+        });
     };
 
     useEffect(() => {
-        dispatch({ type: "GET_TOTALS" });
+        dispatch({
+            type: "GET_TOTALS",
+            payload: undefined
+        });
         localStorage.setItem("cart", JSON.stringify(state.cart));
     }, [state.cart]);
 

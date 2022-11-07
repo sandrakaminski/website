@@ -33,7 +33,6 @@ export const Payment = () => {
                                     <Avatar variant="square" alt={item.name} src={item.image.fields.file.url} />
                                 </ListItemAvatar>
                                 <ListItemText primary={item.name} secondary={`$${item.price}`} />
-
                             </ListItem>
                         )}
                     </List>
@@ -42,7 +41,7 @@ export const Payment = () => {
                 </>
             }
 
-            <Stack spacing={2}>
+            <Stack spacing={2} sx={{ minHeight: 300 }}>
                 <Button variant="outlined" onClick={() => navigate("/shop")} >
                     Buy now
                 </Button>

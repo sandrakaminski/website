@@ -7,7 +7,7 @@ import Outline from '@/components/Outline';
 
 const Renderer = lazy(() => import('./blocks/Renderer'));
 const NotFound = lazy(() => import('./views/NotFound'));
-const Payment = lazy(() => import('./views/Payment'));
+const Payment = lazy(() => import('./views/Cart'));
 
 type Router = {
     path: string;
