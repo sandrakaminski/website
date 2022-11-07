@@ -6,6 +6,13 @@ const spaceId: string = import.meta.env.VITE_CONTENTFUL_SPACE_ID;
 const deliveryApiToken: string = import.meta.env.VITE_DELIVERY_TOKEN;
 const environment: string = import.meta.env.VITE_ENVIRONMENT;
 
+export type MenuItemType = {
+    fields: {
+        name: string;
+        slug: string;
+    }
+}
+
 type Response = {
     items: {
         fields: {
@@ -18,12 +25,7 @@ type Response = {
 }
 
 type Menu = {
-    menuItems: {
-        fields: {
-            name: string;
-            slug: string;
-        }
-    }[] | null
+    menuItems: MenuItemType[] | null
     error: null | {
         status: number;
         msg: string;

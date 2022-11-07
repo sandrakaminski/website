@@ -13,15 +13,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
 
+import type { MenuItemType } from '../client';
 import { useMenu } from "../client";
 import logo from '@/assets/logo.png';
-
-type MenuItem = {
-    fields: {
-        name: string;
-        slug: string;
-    }
-}
 
 const Header: React.FC = () => {
     const { menuItems } = useMenu();
@@ -55,7 +49,7 @@ const Header: React.FC = () => {
                         </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        {menuItems.map((item: MenuItem, index: number) =>
+                        {menuItems.map((item: MenuItemType, index: number) =>
                             <MenuButton item={item} onClick={() => handleNavigate(item.fields.slug)} key={index} />
                         )}
                     </Box>
@@ -64,7 +58,7 @@ const Header: React.FC = () => {
                             <MenuIcon />
                         </IconButton>
                         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
-                            {menuItems.map((item: MenuItem, index: number) =>
+                            {menuItems.map((item: MenuItemType, index: number) =>
                                 <SmallMenuButton item={item} key={index} onClick={() => { handleNavigate(item.fields.slug), handleClose() }} />
                             )}
                         </Menu>
@@ -83,7 +77,7 @@ const Header: React.FC = () => {
 export default Header;
 
 type MenuButtonProps = {
-    item: MenuItem;
+    item: MenuItemType;
     onClick: () => void;
 }
 
