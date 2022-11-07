@@ -9,13 +9,13 @@ const environment: string = import.meta.env.VITE_ENVIRONMENT;
 type Response = {
     items: {
         fields: {
-            references: Object;
+            references: object;
         }
     }[]
 }
 
 type Menu = {
-    menuItems: null | Object;
+    menuItems: null | object;
     error: null | {
         status: number;
         msg: string;
@@ -31,7 +31,7 @@ export const useMenu = () => {
                 const resp: Response = await client.getEntries({ content_type: 'assembly', 'fields.slug': 'site-root', include: 1 });
                 setMenu({ menuItems: resp.items[0].fields.references, error: null });
             }
-            catch (e: any) {
+            catch (e) {
                 console.error("content failed to render", e)
                 setMenu({ menuItems: null, error: { status: 500, msg: 'An issue occurred while menu items.' } });
             }
@@ -48,7 +48,7 @@ type UseView = {
 }
 
 type View = {
-    content: null | Object;
+    content: null | object;
     error: null | {
         status: number;
         msg: string;

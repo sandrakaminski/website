@@ -11,7 +11,23 @@ export const Payment = () => {
     const stripe = useStripe();
     const elements = useElements();
     const CartElement = useCartElementState();
-    console.log(CartElement)
+
+
+    const handlePayment = async () => {
+        try {
+            const resp = await fetch("https://localhost:4242/create-payment-intent", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: "Zach" })
+            })
+            const data = resp.json()
+            return data
+        }
+        catch (e) {
+            console.log("error", e)
+        }
+
+    }
 
     // const total = state?.quantity * state?.data.fields.price
 
@@ -26,7 +42,7 @@ export const Payment = () => {
                 </ListItem>
             </List>
             <Stack spacing={2}>
-                <Button variant="outlined" >
+                <Button onClick={() => handlePayment} variant="outlined" >
                     Buy now
                 </Button>
             </Stack>

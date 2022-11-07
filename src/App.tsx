@@ -12,6 +12,8 @@ import Routes from './Routes';
 import Outline from './components/Outline';
 
 export const App: React.FC = () => {
+  const stripePromise = loadStripe('pk_test_51M1Gs9K6cFrWOI6cJMPJzD2m66DcvjBBAqHldcmRWMB4EVkBJ8X7sFv5oDjAMZMs50er2AvzN9zLEC8MA5iqfyKn00UdGx6RtX');
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -30,4 +32,3 @@ export const App: React.FC = () => {
 
 export default App;
 
-const stripePromise = loadStripe('pk_test_51M1Gs9K6cFrWOI6cJMPJzD2m66DcvjBBAqHldcmRWMB4EVkBJ8X7sFv5oDjAMZMs50er2AvzN9zLEC8MA5iqfyKn00UdGx6RtX');
