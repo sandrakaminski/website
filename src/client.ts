@@ -18,7 +18,12 @@ type Response = {
 }
 
 type Menu = {
-    menuItems: any
+    menuItems: {
+        fields: {
+            name: string;
+            slug: string;
+        }
+    }[] | null
     error: null | {
         status: number;
         msg: string;
