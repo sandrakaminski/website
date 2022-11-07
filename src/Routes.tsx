@@ -3,7 +3,7 @@ import React, { lazy } from 'react';
 import { useRoutes, useParams } from 'react-router-dom';
 
 import { useView } from "./client";
-import Outline from './components/Outline';
+import Outline from '@/components/Outline';
 
 const Renderer = lazy(() => import('./blocks/Renderer'));
 const NotFound = lazy(() => import('./views/NotFound'));

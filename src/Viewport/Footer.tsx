@@ -7,8 +7,8 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { FacebookIcon } from '../components/icons/FacebookIcon';
-import { TumblrIcon } from '../components/icons/TumblrIcon';
+import { FacebookIcon } from '@/components/icons/FacebookIcon';
+import { TumblrIcon } from '@/components/icons/TumblrIcon';
 
 const Footer: React.FC = () => {
     const date = new Date().getFullYear();

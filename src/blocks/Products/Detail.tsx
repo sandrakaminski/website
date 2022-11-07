@@ -14,9 +14,9 @@ import Grid from '@mui/material/Unstable_Grid2';
 import ReactMarkdown from 'react-markdown';
 import { useNavigate } from 'react-router-dom';
 
-import Trail from '../../components/Trail';
-import { Markdown } from '../../shared';
 import type { ProductTypes } from './ProductTypes';
+import Trail from '@/components/Trail';
+import { Markdown } from '@/shared';
 
 export const Detail = (props: ProductTypes) => {
     const { content } = props

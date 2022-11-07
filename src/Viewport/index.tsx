@@ -2,9 +2,9 @@ import React from 'react'
 
 import Container from '@mui/material/Container';
 
-import ContactUs from '../blocks/ContactUs';
 import Footer from './Footer';
 import Header from './Header';
+import ContactUs from '@/blocks/ContactUs';
 
 type ViewportProps = {
     children: React.ReactNode;

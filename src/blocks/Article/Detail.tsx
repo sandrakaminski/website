@@ -7,10 +7,10 @@ import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import DateFormatter from "../../components/DateFormatter";
-import Trail from '../../components/Trail';
-import { ArticleMarkdown } from '../../shared';
 import type { ArticleType } from './ArticleType'
+import DateFormatter from "@/components/DateFormatter";
+import Trail from '@/components/Trail';
+import { ArticleMarkdown } from '@/shared';
 
 export const Detail = (props: ArticleType) => {
     const { content } = props;

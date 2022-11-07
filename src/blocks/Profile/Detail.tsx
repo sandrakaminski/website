@@ -6,9 +6,9 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
 
-import Trail from '../../components/Trail';
-import { Markdown } from '../../shared';
 import type { ProfileType } from './ProfileType';
+import Trail from '@/components/Trail';
+import { Markdown } from '@/shared';
 
 const Detail = (props: ProfileType) => {
     const { content } = props;

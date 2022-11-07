@@ -13,7 +13,7 @@ const Summary = ({ content }: ProfileType) => {
 
     let txt = content.fields.body
     if (txt.length >= 75) {
-        txt = txt.substring(0, 75) + '...';
+        txt = `${txt.substring(0, 75)  }...`;
     }
 
     return (

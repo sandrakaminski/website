@@ -1,4 +1,4 @@
-import path from 'path';
+// import path from 'path';
 
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
@@ -15,7 +15,6 @@ export default defineConfig({
     port: 3000
   },
   resolve: {
-    // eslint-disable-next-line no-undef
-    alias: { '@': path.resolve(__dirname, './src') }
+    alias: [{ find: '@', replacement: '/src' }],
   },
 })

@@ -13,9 +13,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
 
-import type { MenuItemType } from '../client';
-import { useMenu } from "../client";
 import logo from '@/assets/logo.png';
+import { useMenu } from "@/client";
+import type { MenuItemType } from '@/client';
 
 const Header: React.FC = () => {
     const { menuItems } = useMenu();
