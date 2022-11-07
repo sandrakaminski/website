@@ -23,11 +23,7 @@ type FactoryProps = {
     content: {
         fields: {
             type: string;
-            references: {
-                sys?: {
-                    id: string;
-                }
-            }[]
+            references: any[];
             layout: string;
         }
         sys: {

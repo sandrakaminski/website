@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useMenu } from "../client";
 import logo from '@/assets/logo.png';
 
-type MenuItems = {
+type MenuItem = {
     fields: {
         name: string;
         slug: string;
@@ -55,7 +55,7 @@ const Header: React.FC = () => {
                         </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        {menuItems.map((item: MenuItems, index: number) =>
+                        {menuItems.map((item: MenuItem, index: number) =>
                             <Button sx={{ mx: 1, display: item.fields.slug === 'home' && 'none' }} color="inherit" onClick={() => handleNavigate(item.fields.slug)} key={index}>
                                 {item.fields.name}
                             </Button>
@@ -66,7 +66,7 @@ const Header: React.FC = () => {
                             <MenuIcon />
                         </IconButton>
                         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
-                            {menuItems.map((item: MenuItems, index: number) =>
+                            {menuItems.map((item: MenuItem, index: number) =>
                                 <MenuItem sx={{ display: item.fields.slug === 'home' && 'none' }} key={index} onClick={() => { handleNavigate(item.fields.slug), handleClose() }}>{item.fields.name}</MenuItem>
                             )}
                         </Menu>

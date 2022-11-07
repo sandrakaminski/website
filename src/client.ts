@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { createClient, ContentfulClientApi } from 'contentful';
+import { createClient, ContentfulClientApi, EntryCollection } from 'contentful';
 
 const spaceId: string = import.meta.env.VITE_CONTENTFUL_SPACE_ID;
 const deliveryApiToken: string = import.meta.env.VITE_DELIVERY_TOKEN;
@@ -9,13 +9,16 @@ const environment: string = import.meta.env.VITE_ENVIRONMENT;
 type Response = {
     items: {
         fields: {
-            references: object;
+            references: {
+                name: string;
+                slug: string;
+            }
         }
     }[]
 }
 
 type Menu = {
-    menuItems: any[]
+    menuItems: any[] | null | {}
     error: null | {
         status: number;
         msg: string;
@@ -28,7 +31,7 @@ export const useMenu = () => {
     useEffect(() => {
         const fetch = async () => {
             try {
-                const resp: Response = await client.getEntries({ content_type: 'assembly', 'fields.slug': 'site-root', include: 1 });
+                const resp: EntryCollection<any[] | any> = await client.getEntries({ content_type: 'assembly', 'fields.slug': 'site-root', include: 1 });
                 setMenu({ menuItems: resp.items[0].fields.references, error: null });
             }
             catch (e) {

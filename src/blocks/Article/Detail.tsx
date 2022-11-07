@@ -1,16 +1,16 @@
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container';
+import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Link from '@mui/material/Link';
 
 import DateFormatter from "../../components/DateFormatter";
 import Trail from '../../components/Trail';
-import type { ArticleType } from './ArticleType'
 import { ArticleMarkdown } from '../../shared';
+import type { ArticleType } from './ArticleType'
 
 export const Detail = (props: ArticleType) => {
     const { content } = props;

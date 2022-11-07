@@ -4,6 +4,7 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from "react-router-dom";
+
 import type { Image } from '../../shared'
 
 interface ImageContainerProps {

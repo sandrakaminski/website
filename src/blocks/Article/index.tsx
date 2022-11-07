@@ -1,4 +1,4 @@
-import { BlockProps } from '../../shared';
+import type { BlockProps } from '../../shared';
 import Detail from './Detail';
 import Summary from './Summary';
 
@@ -15,3 +15,4 @@ export const Article = (props: BlockProps) => {
     )
 }
 export default Article;
+

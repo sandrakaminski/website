@@ -36,6 +36,6 @@ export type Image = {
 export type BlockProps = {
     detail: boolean;
     content: {
-        fields: object[]
-    };
+        fields: any
+    }
 }

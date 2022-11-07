@@ -10,9 +10,9 @@ import MailchimpSubscribe from "react-mailchimp-subscribe"
 const audienceId: string = import.meta.env.VITE_MAILCHIMP_LIST_ID
 const mailApi: string = import.meta.env.VITE_MAILCHIMP_API_KEY
 const url = `https://sandrakaminski.us20.list-manage.com/subscribe/post?u=${mailApi}&id=${audienceId}`;
-const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
+// const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
 
-const CustomForm = ({ status, message, onValidated }: any) => {
+const CustomForm = ({ status, message }: any) => {
     const [fields, setFields] = useState<any>({
         firstName: "",
         lastName: "",
@@ -24,16 +24,16 @@ const CustomForm = ({ status, message, onValidated }: any) => {
         setFields({ ...fields, [name]: value });
     }
 
-    const handleSubmit = () => {
-        fields.email &&
-            fields.firstName &&
-            fields.lastName &&
-            onValidated({
-                EMAIL: fields.email.value,
-                FNAME: fields.firstName.value,
-                LNAME: fields.lastName.value
-            });
-    }
+    // const handleSubmit = () => {
+    //     fields.email &&
+    //         fields.firstName &&
+    //         fields.lastName &&
+    //         onValidated({
+    //             EMAIL: fields.email.value,
+    //             FNAME: fields.firstName.value,
+    //             LNAME: fields.lastName.value
+    //         });
+    // }
 
     return (
         <>

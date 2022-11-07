@@ -1,16 +1,16 @@
 
-import { useStripe, useElements, useCartElementState } from '@stripe/react-stripe-js';
+import { Button, Typography, Stack } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+// import { useStripe, useElements, useCartElementState } from '@stripe/react-stripe-js';
 
-import { Button, Typography, Stack, Divider } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 export const Payment = () => {
-    const { state } = useLocation()
-    const stripe = useStripe();
-    const elements = useElements();
-    const CartElement = useCartElementState();
+    // const { state } = useLocation()
+    // const stripe = useStripe();
+    // const elements = useElements();
+    // const CartElement = useCartElementState();
 
 
     const handlePayment = async () => {

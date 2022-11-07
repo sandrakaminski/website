@@ -1,7 +1,7 @@
-import Column from './Column';
 import Center from './Center';
-import Right from './Right';
+import Column from './Column';
 import Left from './Left';
+import Right from './Right';
 
 type Content = {
     content: any

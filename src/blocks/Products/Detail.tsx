@@ -1,23 +1,25 @@
 import { useState } from 'react';
+
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import CardMedia from '@mui/material/CardMedia';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Unstable_Grid2';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Typography from '@mui/material/Typography';
-import ReactMarkdown from 'react-markdown';
+import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';
+import ReactMarkdown from 'react-markdown';
 import { useNavigate } from 'react-router-dom';
 
-import type { ProductTypes } from './ProductTypes';
 import Trail from '../../components/Trail';
 import { Markdown } from '../../shared';
+import type { ProductTypes } from './ProductTypes';
 
-export const Detail = ({ content }: ProductTypes) => {
+export const Detail = (props: ProductTypes) => {
+    const { content } = props
     const [quantity, setQuantity] = useState<string>('1');
     const navigate = useNavigate();
 
