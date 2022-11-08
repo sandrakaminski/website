@@ -33,8 +33,8 @@ export const Detail = (props: ProductTypes) => {
                             ${content.fields.price}
                         </Typography>
 
-                        <Button onClick={handleCart} startIcon={<ShoppingCartOutlinedIcon />} variant={"outlined"}>
-                            Add to Cart
+                        <Button disabled={!content.fields.inStock} onClick={handleCart} startIcon={<ShoppingCartOutlinedIcon />} variant={"outlined"}>
+                            {!content.fields.inStock ? "Sold out" : "Add to Cart"}
                         </Button>
                     </Stack>
                     <Divider sx={{ my: 2 }} />

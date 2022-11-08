@@ -9,6 +9,7 @@ export type ProductTypes = {
             featureImage: Image;
             slug: string;
             productId: string;
+            inStock: boolean;
         }
     }
 }
