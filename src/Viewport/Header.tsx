@@ -66,7 +66,7 @@ const Header: React.FC = () => {
                         </Menu>
                     </Box>
                     <IconButton color="inherit" onClick={() => handleNavigate('cart')}>
-                        <Badge badgeContent={amount.length - 1 > 0 ? amount.length - 1 : 0} color="info">
+                        <Badge badgeContent={amount - 1 > 0 ? amount - 1 : 0} color="info">
                             <ShoppingCartOutlinedIcon />
                         </Badge>
                     </IconButton>

@@ -2,7 +2,7 @@ import { useReducer, createContext, useEffect, useContext } from "react";
 
 type State = {
     cart: CartItem[];
-    amount: number
+    amount: number[] | number | any;
     total: number
 }
 
@@ -10,7 +10,7 @@ type CartItem = {
     id: string
     slug: string
     name: string
-    amount: number
+    amount: number[] | number | any;
     image: string
     max: number
 }
@@ -70,14 +70,13 @@ const reducer = (state: State, action: Action) => {
     //Increase amount of items
     if (action.type === "INC") {
         const tempCart = state.cart.map((item: CartItem) => {
-            if (item.id === action.payload && state.amount < 10) {
+            if (item.id === action.payload && state.amount < 30) {
                 let newAmount = item.amount + 1;
-                if (newAmount > item.max && state.amount < 10) {
+                if (newAmount > item.max && state.amount < 30) {
                     newAmount = item.max;
 
                     return {
                         ...item,
-
                         amount: newAmount,
                     };
                 }
@@ -91,20 +90,12 @@ const reducer = (state: State, action: Action) => {
     //Decrease amount of items
     if (action.type === "DEC") {
         const tempCart = state.cart.map((item: CartItem) => {
-            if (item.id === action.payload) {
-                let decAmount = item.amount - 1;
-                if (decAmount < 1) {
-                    decAmount = 1;
-                    return {
-                        ...item,
-
-                        amount: decAmount,
-                    };
-                }
-
-                return { ...item, amount: decAmount };
+            if (item.id !== action.payload) {
+                return item
             }
-            return item;
+            const remainder = item.amount - 1;
+            return { ...item, amount: remainder };
+
         });
         return { ...state, cart: tempCart };
     }
@@ -126,7 +117,7 @@ const reducer = (state: State, action: Action) => {
                 amount: 0,
             }
         );
-        amount = amount || 0;
+        amount = amount.length || 0;
         total = parseFloat(total.toFixed(2));
 
         return { ...state, total, amount };

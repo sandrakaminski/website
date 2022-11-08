@@ -1,16 +1,16 @@
-// import { useState } from 'react';
+import { useEffect } from "react";
 
+import AddIcon from '@mui/icons-material/Add';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import RemoveIcon from '@mui/icons-material/Remove';
 import { Button, Stack } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-// import FormControl from '@mui/material/FormControl';
-// import InputLabel from '@mui/material/InputLabel';
+import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-// import MenuItem from '@mui/material/MenuItem';
-// import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,11 +18,7 @@ import { useCartContext } from "@/views/Cart/cartProvider";
 
 export const Payment = () => {
     const navigate = useNavigate();
-    // const stripe = useStripe();
-    // const elements = useElements();
-    const { cart, clear, total } = useCartContext();
-
-    console.log(cart)
+    const { cart, clear, total, decrease, increase, remove } = useCartContext();
 
     return (
         <Stack direction="column" justifyContent="center" alignItems="center" spacing={2} >
@@ -36,13 +32,15 @@ export const Payment = () => {
                 :
                 <>
                     <Typography variant="h4" >Your cart</Typography>
-                    <List sx={{ width: '50%' }} >
+                    <List sx={{ width: '100%' }} >
                         {cart?.map((item: any, index: number) =>
-                            <ListItem secondaryAction={item.amount.length > 0 ? item.amount.length : 0} onClick={() => navigate(`/shop/${item.slug}`)} component={ListItemButton} key={index}>
-                                <ListItemAvatar>
-                                    <Avatar variant="square" alt={item.name} src={item.image.fields.file.url} />
-                                </ListItemAvatar>
-                                <ListItemText primary={item.name} secondary={`$${item.price}`} />
+                            <ListItem secondaryAction={<AmountButtons increase={() => increase(item.id)} remove={() => remove(item.id)} amount={item} decrease={() => decrease(item.id)} />} key={index}>
+                                <ListItemButton onClick={() => navigate(`/shop/${item.slug}`)}>
+                                    <ListItemAvatar>
+                                        <Avatar variant="square" alt={item.name} src={item.image.fields.file.url} />
+                                    </ListItemAvatar>
+                                    <ListItemText primary={item.name} secondary={`$${item.price}`} />
+                                </ListItemButton>
                             </ListItem>
                         )}
                     </List>
@@ -53,18 +51,33 @@ export const Payment = () => {
                     </Button>
                 </>
             }
-        </Stack>
+        </Stack >
     )
 }
 
 export default Payment;
 
+const AmountButtons = (props: any) => {
+    const { decrease, increase, amount, remove } = props;
 
-// <FormControl size="small" sx={{ minWidth: 200 }}>
-//     <InputLabel id="quantity">Quantity</InputLabel>
-//     <Select onChange={handleChange} label="Quantity" >
-//         {num.map((item: any, index: number) =>
-//             <MenuItem key={index} value={item.value}>{item.label}</MenuItem>
-//         )}
-//     </Select>
-// </FormControl>
+    useEffect(() => {
+        if (amount.amount.length === undefined || amount.amount.length === 0) {
+            remove();
+        }
+    }, [amount.amount.length, remove])
+
+    return (
+        <Stack direction="row">
+            <IconButton onClick={decrease} size="small">
+                <RemoveIcon fontSize="inherit" />
+            </IconButton>
+            <Typography>{amount.amount.length > 0 ? amount.amount.length : 0}</Typography>
+            <IconButton onClick={increase} size="small">
+                <AddIcon fontSize="inherit" />
+            </IconButton>
+            <IconButton onClick={remove} size="small">
+                <DeleteForeverIcon color="error" fontSize="inherit" />
+            </IconButton>
+        </Stack>
+    );
+}
