@@ -1,16 +1,20 @@
 import { useEffect } from "react";
 
 import AddIcon from '@mui/icons-material/Add';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import CloseIcon from '@mui/icons-material/Close';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { Button, Stack } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from "@mui/material/Button";
+import Chip from '@mui/material/Chip';
+import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,21 +25,29 @@ export const Payment = () => {
     const { cart, clear, total, decrease, increase, remove } = useCartContext();
 
     return (
-        <Stack direction="column" justifyContent="center" alignItems="center" spacing={2} >
+        <Box sx={{ my: 4 }}>
             {cart?.length === 0 ?
-                <Stack spacing={2}>
-                    <Typography sx={{ height: 300 }} variant="h4" >Your cart is empty</Typography>
-                    <Button variant="outlined" onClick={() => navigate("/shop")} >
-                        Shop now
-                    </Button>
-                </Stack>
+                <Stack alignItems="center" direction="column" spacing={2} >
+                    <Stack sx={{ height: 400, mt: 4 }} spacing={2}>
+                        <Typography variant="h3" align="center" gutterBottom>Shopping cart</Typography>
+                        <Typography gutterBottom color="grayText" variant="h5" >You have nothing in your shopping cart.</Typography>
+                        <Button variant="outlined" onClick={() => navigate("/shop")} >
+                            Shop now
+                        </Button>
+                    </Stack>
+                </Stack >
                 :
                 <>
-                    <Typography variant="h4" >Your cart</Typography>
+                    <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                        <Typography variant="h4" >Shopping cart</Typography>
+                        <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
+                    </Stack>
                     <List sx={{ width: '100%' }} >
                         {cart?.map((item: any, index: number) =>
-                            <ListItem secondaryAction={<AmountButtons increase={() => increase(item.id)} remove={() => remove(item.id)} amount={item} decrease={() => decrease(item.id)} />} key={index}>
-                                <ListItemButton onClick={() => navigate(`/shop/${item.slug}`)}>
+                            <ListItem secondaryAction={
+                                <AmountButtons increase={() => increase(item.id)} remove={() => remove(item.id)} amount={item} decrease={() => decrease(item.id)} />
+                            } key={index}>
+                                <ListItemButton sx={{ maxWidth: "90%" }} onClick={() => navigate(`/shop/${item.slug}`)}>
                                     <ListItemAvatar>
                                         <Avatar variant="square" alt={item.name} src={item.image.fields.file.url} />
                                     </ListItemAvatar>
@@ -44,14 +56,17 @@ export const Payment = () => {
                             </ListItem>
                         )}
                     </List>
-                    <Button onClick={clear}>Clear cart</Button>
-                    <Typography variant="h4">Total: ${total}</Typography>
-                    <Button variant="outlined" onClick={() => navigate("/shop")} >
-                        Buy now
-                    </Button>
+                    <Divider sx={{ my: 2 }} />
+                    <Stack alignItems="flex-end" direction="column" spacing={2} >
+                        <Typography variant="h4">Total: ${total}</Typography>
+                        <Button variant="outlined" onClick={() => navigate("/shop")} >
+                            Buy now
+                        </Button>
+                    </Stack>
                 </>
             }
-        </Stack >
+        </Box>
+
     )
 }
 
@@ -67,16 +82,19 @@ const AmountButtons = (props: any) => {
     }, [amount.amount.length, remove])
 
     return (
-        <Stack direction="row">
+        <Stack direction="row"
+            justifyContent="center"
+            alignItems="center"
+        >
             <IconButton onClick={decrease} size="small">
                 <RemoveIcon fontSize="inherit" />
             </IconButton>
-            <Typography>{amount.amount.length > 0 ? amount.amount.length : 0}</Typography>
+            <Chip variant="outlined" label={amount.amount.length} />
             <IconButton onClick={increase} size="small">
                 <AddIcon fontSize="inherit" />
             </IconButton>
             <IconButton onClick={remove} size="small">
-                <DeleteForeverIcon color="error" fontSize="inherit" />
+                <CloseIcon color="error" fontSize="inherit" />
             </IconButton>
         </Stack>
     );
