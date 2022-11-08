@@ -58,7 +58,7 @@ export const Payment = () => {
                     </List>
                     <Divider sx={{ my: 2 }} />
                     <Stack alignItems="flex-end" direction="column" spacing={2} >
-                        <Typography variant="h4">Total: ${total}</Typography>
+                        <Typography variant="subtitle1">Total: ${total}</Typography>
                         <Button variant="outlined" onClick={() => navigate("/shop")} >
                             Buy now
                         </Button>
