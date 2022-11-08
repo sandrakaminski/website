@@ -7,7 +7,8 @@ import Outline from '@/components/Outline';
 
 const Renderer = lazy(() => import('./blocks/Renderer'));
 const NotFound = lazy(() => import('./views/NotFound'));
-const Payment = lazy(() => import('./views/Cart'));
+const Cart = lazy(() => import('./views/Cart'));
+const Payment = lazy(() => import('./views/Payment'));
 
 type Router = {
     path: string;
@@ -19,7 +20,8 @@ const Routes: React.FC = () => {
         { path: '/', element: <Component /> },
         { path: '/:slug', element: <Component /> },
         { path: '/:type/:slug', element: <Component /> },
-        { path: '/cart', element: <Payment /> }
+        { path: '/cart', element: <Cart /> },
+        { path: '/payment', element: <Payment /> },
     ]
     return useRoutes(routes);
 }

@@ -45,7 +45,7 @@ const reducer = (state: State, action: Action) => {
         const tempItem = state.cart.find((i: CartItem) => i.id === id);
 
         if (tempItem) {
-            const tempCart = state.cart.map((cartItem: any) => {
+            const tempCart = state.cart.map((cartItem: CartItem) => {
                 if (cartItem.id !== id) {
                     return cartItem;
                 }

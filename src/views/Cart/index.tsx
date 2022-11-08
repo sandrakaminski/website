@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useCartContext } from "@/views/Cart/cartProvider";
 
-export const Payment = () => {
+const Cart = () => {
     const navigate = useNavigate();
     const { cart, clear, total, decrease, increase, remove }: any = useCartContext();
 
@@ -59,7 +59,7 @@ export const Payment = () => {
                     <Divider sx={{ my: 2 }} />
                     <Stack alignItems="flex-end" direction="column" spacing={2} >
                         <Typography variant="subtitle1">Total: ${total}</Typography>
-                        <Button variant="outlined" onClick={() => navigate("/shop")} >
+                        <Button variant="outlined" onClick={() => navigate("/payment")} >
                             Buy now
                         </Button>
                     </Stack>
@@ -70,7 +70,7 @@ export const Payment = () => {
     )
 }
 
-export default Payment;
+export default Cart;
 
 const AmountButtons = (props: any) => {
     const { decrease, increase, amount, remove } = props;

@@ -25,8 +25,13 @@ export const Summary = ({ content }: ProductTypes) => {
 }
 export default Summary;
 
-const SoldOutBanner = (props: any) => {
+type SoldOutType = {
+    soldOut: boolean
+}
+
+const SoldOutBanner = (props: SoldOutType) => {
     const { soldOut } = props;
+
     return (
         <>
             {soldOut &&
