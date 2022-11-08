@@ -1,4 +1,4 @@
-import { useReducer, createContext, useEffect, useContext } from "react";
+import React, { useReducer, createContext, useEffect, useContext } from "react";
 
 type State = {
     cart: CartItem[];
@@ -20,7 +20,11 @@ type Action = {
     payload: any
 }
 
-const init: any = {}
+const init: State = {
+    cart: [],
+    amount: [],
+    total: 0
+}
 const cartContext: React.Context<any> = createContext(init);
 
 const reducer = (state: State, action: Action) => {
@@ -39,32 +43,31 @@ const reducer = (state: State, action: Action) => {
     if (action.type === "CART") {
         const { id, amount, product }: any = action.payload;
         const tempItem = state.cart.find((i: CartItem) => i.id === id);
+
         if (tempItem) {
             const tempCart = state.cart.map((cartItem: any) => {
-                if (cartItem.id === id) {
-                    let newAmount = cartItem.amount + amount;
-                    if (newAmount > cartItem.max) {
-                        newAmount = cartItem.max;
-                    }
-                    return { ...cartItem, amount: newAmount };
-                } else {
+                if (cartItem.id !== id) {
                     return cartItem;
                 }
+                let newAmount = cartItem.amount + amount;
+                if (newAmount > cartItem.max) {
+                    newAmount = cartItem.max;
+                }
+                return { ...cartItem, amount: newAmount };
             });
 
             return { ...state, cart: tempCart };
-        } else {
-            const newItem = {
-                id: id,
-                slug: product.slug,
-                name: product.name,
-                amount,
-                image: product.featureImage,
-                price: product.price,
-                max: product.stock,
-            };
-            return { ...state, cart: [...state.cart, newItem] };
         }
+        const newItem = {
+            id: id,
+            slug: product.slug,
+            name: product.name,
+            amount,
+            image: product.featureImage,
+            price: product.price,
+            max: product.stock,
+        };
+        return { ...state, cart: [...state.cart, newItem] };
     }
 
     //Increase amount of items

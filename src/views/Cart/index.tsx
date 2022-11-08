@@ -22,7 +22,7 @@ import { useCartContext } from "@/views/Cart/cartProvider";
 
 export const Payment = () => {
     const navigate = useNavigate();
-    const { cart, clear, total, decrease, increase, remove } = useCartContext();
+    const { cart, clear, total, decrease, increase, remove }: any = useCartContext();
 
     return (
         <Box sx={{ my: 4 }}>
