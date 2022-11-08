@@ -2,18 +2,11 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 
+import type { ResourceType } from './SectionTypes';
 import type { Image } from '@/shared';
 
 interface ResourceProps {
-    resource: {
-        fields: {
-            flexDirection: string;
-            headline: string;
-            description: string;
-            link: string;
-            files: Image[];
-        }
-    };
+    resource: ResourceType;
 }
 
 export const Resource = (props: ResourceProps) => {

@@ -2,27 +2,27 @@ import React, { useReducer, createContext, useEffect, useContext } from "react";
 
 type State = {
     cart: CartItem[];
-    amount: number[] | number | any;
-    total: number
+    amount: number[] | any;
+    total: number;
 }
 
 type CartItem = {
-    id: string
-    slug: string
-    name: string
-    amount: number[] | number | any;
-    image: string
-    max: number
+    id: string;
+    slug: string;
+    name: string;
+    amount: number[] | any;
+    image: string;
+    max: number;
 }
 
 type Action = {
-    type: any
-    payload: any
+    type: String;
+    payload: any;
 }
 
 const init: State = {
     cart: [],
-    amount: [],
+    amount: 0,
     total: 0
 }
 const cartContext: React.Context<any> = createContext(init);
@@ -130,13 +130,17 @@ const getLocalStorage = () => {
     }
 };
 
-const initialState = {
+const initialState: State = {
     cart: getLocalStorage(),
     amount: 0,
     total: 0,
 };
 
-const CartProvider = (props: any) => {
+type CartProviderProps = {
+    children: React.ReactNode
+}
+
+const CartProvider = ({ children }: CartProviderProps) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     // add to cart
@@ -177,7 +181,7 @@ const CartProvider = (props: any) => {
 
     return (
         <cartContext.Provider value={{ ...state, addToCart, clear, decrease, increase, remove }}>
-            {props.children}
+            {children}
         </cartContext.Provider>
     );
 };

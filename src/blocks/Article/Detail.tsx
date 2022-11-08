@@ -16,8 +16,6 @@ export const Detail = (props: ArticleType) => {
     const { content } = props;
     const navigate = useNavigate();
 
-
-
     return (
         <>
             <Trail current={content.fields.title} />

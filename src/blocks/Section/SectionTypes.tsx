@@ -1,4 +1,4 @@
-import type { Image } from '../../shared';
+import type { Image } from '@/shared';
 
 export type Content = {
     content: {
@@ -6,14 +6,8 @@ export type Content = {
             body: string;
             image: Image;
             headline: string;
-            sectionType: string,
-            resources: {
-                map: any;
-                fields: {
-                    headline: string;
-                    files: Image[];
-                }
-            }
+            sectionType: string;
+            resources: ResourceType[];
         }
     }
 }
