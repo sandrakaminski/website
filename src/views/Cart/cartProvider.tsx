@@ -93,7 +93,7 @@ const reducer = (state: State, action: Action) => {
             if (item.id !== action.payload) {
                 return item
             }
-            const remainder = item.amount - 1;
+            const remainder = item.amount.slice(0, -1);
             return { ...item, amount: remainder };
 
         });
@@ -106,7 +106,7 @@ const reducer = (state: State, action: Action) => {
             (cartTotal: any, cartItem: any) => {
                 const { price, amount } = cartItem;
 
-                const itemTotal = price * amount.length || 0;
+                const itemTotal = price * amount || 0;
                 cartTotal.total += itemTotal
                 cartTotal.amount += amount;
 
