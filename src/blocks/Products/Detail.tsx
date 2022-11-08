@@ -1,35 +1,24 @@
-import { useState } from 'react';
-
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Button from '@mui/material/Button';
 import CardMedia from '@mui/material/CardMedia';
 import Divider from '@mui/material/Divider';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import ReactMarkdown from 'react-markdown';
 
 import type { ProductTypes } from './ProductTypes';
-import { useCartContext } from "@/views/Cart/cartProvider";
 import Trail from '@/components/Trail';
 import { Markdown } from '@/shared';
+import { useCartContext } from "@/views/Cart/cartProvider";
 
 export const Detail = (props: ProductTypes) => {
     const { content } = props;
     const { addToCart }: any = useCartContext();
-    const [quantity, setQuantity] = useState<string>('1');
 
     const handleCart = () => {
-        addToCart(content.fields.productId, quantity, content.fields)
+        addToCart(content.fields.productId, '1', content.fields)
     }
-
-    const handleChange = (e: SelectChangeEvent) => {
-        setQuantity(e.target.value);
-    };
 
     return (
         <>
@@ -43,14 +32,7 @@ export const Detail = (props: ProductTypes) => {
                         <Typography >
                             ${content.fields.price}
                         </Typography>
-                        <FormControl size="small" sx={{ minWidth: 200 }}>
-                            <InputLabel id="quantity">Quantity</InputLabel>
-                            <Select onChange={handleChange} label="Quantity" defaultValue={'1'}>
-                                <MenuItem value={1}>1</MenuItem>
-                                <MenuItem value={2}>2</MenuItem>
-                                <MenuItem value={3}>3</MenuItem>
-                            </Select>
-                        </FormControl>
+
                         <Button onClick={handleCart} startIcon={<ShoppingCartOutlinedIcon />} variant={"outlined"}>
                             Add to Cart
                         </Button>
