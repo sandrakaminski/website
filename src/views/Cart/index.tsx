@@ -15,7 +15,7 @@ export const Payment = () => {
     const navigate = useNavigate();
     // const stripe = useStripe();
     // const elements = useElements();
-    const { cart, clear, total }: any = useCartContext();
+    const { cart, clear, total } = useCartContext();
 
     console.log(cart)
 

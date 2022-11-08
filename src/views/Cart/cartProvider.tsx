@@ -111,13 +111,14 @@ const reducer = (state: State, action: Action) => {
 
     //Calculate total amount of items in Cart
     if (action.type === "GET_TOTALS") {
-        let { total }: State = state.cart.reduce(
+        let { total, amount }: State = state.cart.reduce(
             (cartTotal: any, cartItem: any) => {
                 const { price, amount } = cartItem;
-                const itemTotal = price * amount;
 
-                cartTotal.total += itemTotal;
+                const itemTotal = price * amount.length || 0;
+                cartTotal.total += itemTotal
                 cartTotal.amount += amount;
+
                 return cartTotal;
             },
             {
@@ -125,9 +126,10 @@ const reducer = (state: State, action: Action) => {
                 amount: 0,
             }
         );
+        amount = amount || 0;
         total = parseFloat(total.toFixed(2));
 
-        return { ...state, total };
+        return { ...state, total, amount };
     }
     return state;
 };
