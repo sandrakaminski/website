@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 
-// import Button from '@mui/material/Button';
+import Box from "@mui/material/Box";
+import Button from '@mui/material/Button';
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
-import MailchimpSubscribe from "react-mailchimp-subscribe"
 
-const audienceId: string = import.meta.env.VITE_MAILCHIMP_LIST_ID
-const mailApi: string = import.meta.env.VITE_MAILCHIMP_API_KEY
-const url = `https://sandrakaminski.us20.list-manage.com/subscribe/post?u=${mailApi}&id=${audienceId}`;
+import { fetchJSON } from "@/components/fetch";
+
+const url = `http://localhost:8080/person`
+
+// const url = `https://sandrakaminski.us20.list-manage.com/subscribe/post?u=${mailApi}&id=${audienceId}`;
 // const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
 
-const CustomForm = ({ status, message }: any) => {
+const CustomForm = () => {
+    const [status, setStatus] = useState<any>()
     const [fields, setFields] = useState<any>({
         firstName: "",
         lastName: "",
@@ -24,23 +27,30 @@ const CustomForm = ({ status, message }: any) => {
         setFields({ ...fields, [name]: value });
     }
 
-    // const handleSubmit = () => {
-    //     fields.email &&
-    //         fields.firstName &&
-    //         fields.lastName &&
-    //         onValidated({
-    //             EMAIL: fields.email.value,
-    //             FNAME: fields.firstName.value,
-    //             LNAME: fields.lastName.value
-    //         });
-    // }
+    const handleSubmit = () => {
+
+        fields.email &&
+        fields.firstName &&
+        fields.lastName &&
+        fetchJSON({
+            url,
+            method: "POST",
+            body: fields
+        })
+        setStatus("success")
+        // onValidated({
+        //     EMAIL: fields.email.value,
+        //     FNAME: fields.firstName.value,
+        //     LNAME: fields.lastName.value
+        // });
+    }
 
     return (
         <>
             {status === "error" && (
                 <div
                     style={{ color: "red" }}
-                    dangerouslySetInnerHTML={{ __html: message }}
+                    dangerouslySetInnerHTML={{ __html: "message" }}
                 />
             )}
             {!status &&
@@ -73,17 +83,16 @@ const CustomForm = ({ status, message }: any) => {
                         />
                     </Grid>
                     <Grid xs={12} >
-                        {/* <Button size="large" onClick={handleSubmit}>
+                        <Button size="large" onClick={handleSubmit}>
                             Submit
-                        </Button> */}
+                        </Button>
                     </Grid>
                 </Grid>
             }
             {status === "success" && (
-                <div
-                    style={{ color: "green" }}
-                    dangerouslySetInnerHTML={{ __html: message }}
-                />
+                <Box>
+                    <Typography color="green" variant="h5" textAlign="center">Thankyou for signing up</Typography>
+                </Box>
             )}
         </>
     );
@@ -92,17 +101,11 @@ const CustomForm = ({ status, message }: any) => {
 const ContactUs = () => {
     return (
         <Container maxWidth="sm">
-            <Typography color="grayText" variant="subtitle1">Sign up to my newsletter for exclusive monthly updates from my life as a stylist.</Typography>
-            <MailchimpSubscribe url={url}
-                render={({ subscribe, status, message }) => (
-                    <CustomForm
-                        status={status}
-                        message={message}
-                        onValidated={(formData: any) => subscribe(formData)}
-                    />
-                )}
-            />
+            <Typography color="grayText" variant="subtitle1" sx={{ p: 4 }}>Sign up to my newsletter for exclusive monthly updates from my life as a stylist.</Typography>
+            <CustomForm />
         </Container>
     );
 }
 export default ContactUs;
+
+
