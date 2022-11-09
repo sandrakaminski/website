@@ -10,67 +10,70 @@ import Grid from "@mui/material/Unstable_Grid2";
 
 const url = `http://localhost:8080/person`
 
-// const url = `https://sandrakaminski.us20.list-manage.com/subscribe/post?u=${mailApi}&id=${audienceId}`;
-// const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
+const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
 
 const CustomForm = () => {
     const [submitting, setSubmitting] = useState<any>(false)
     const [status, setStatus] = useState<any>('')
     const [fields, setFields] = useState<any>({
-        firstName: "",
-        lastName: "",
+        first_name: "",
+        last_name: "",
         email: ""
     })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFields({ ...fields, [name]: value });
+        
     }
 
     const handleSubmit = async () => {
-        try {
-            setSubmitting(true);
-            const res = await fetch(
-                url,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                    },
-                    body: JSON.stringify(fields),
+        validEmail.test(fields.email) ? setSubmitting(true) : setStatus('error');
+        if (validEmail.test(fields.email)) {
+            try {
+                setSubmitting(true);
+                const res = await fetch(
+                    url,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Accept: 'application/json',
+                        },
+                        body: JSON.stringify(fields),
+                    }
+                );
+                const j = await res;
+                if (res.ok) {
+                    setSubmitting(false);
+                    setStatus("success")
+                    // return j;
+                } else {
+                    setStatus("error")
+                    setSubmitting(false);
+                    return j;
                 }
-            );
-            const j = await res;
-            if (res.ok) {
-                setSubmitting(false);
-                setStatus("success")
-                // return j;
-            } else {
-                setStatus("error")
-                setSubmitting(false);
-                return j;
-            }
 
-        } catch (e) {
-            return { error: e }
+            } catch (e) {
+                return { error: e }
+            }
         }
     }
 
     return (
         <>
             {status === "error" && (
-                <div
-                    style={{ color: "red" }}
-                    dangerouslySetInnerHTML={{ __html: "message" }}
-                />
+                 <Box >
+                    <Typography color="red" variant="h5" textAlign="center">Please use a valid email address</Typography>
+                    <Button onClick={() => setStatus("")}>Try Again</Button>
+                </Box>
             )}
             {!status &&
                 <Grid container spacing={2}>
-                    
                     <Grid xs={6} >
+
                         <TextField
-                            name={"firstName"}
+                            name={"first_name"}
                             onChange={handleChange}
                             type="text"
                             fullWidth
@@ -79,7 +82,7 @@ const CustomForm = () => {
                     </Grid>
                     <Grid xs={6} >
                         <TextField
-                            name={"lastName"}
+                            name={"last_name"}
                             onChange={handleChange}
                             type="text"
                             fullWidth
