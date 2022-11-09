@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import { CircularProgress } from "@mui/material";
-// import Alert from '@mui/material/Alert';
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Container from "@mui/material/Container";
@@ -79,8 +78,6 @@ const CustomForm = () => {
                     }
                 );
                 setEmail(true);
-
-                console.log("MRES", res)
                 const j = await res;
                 if (res.ok) {
                     setSubmitting(false);
@@ -91,7 +88,6 @@ const CustomForm = () => {
                     setSubmitting(false);
                 }
             } catch (e) {
-                // console.log("ERRRY",e)
                 return { error: e }
             }
         } else {
