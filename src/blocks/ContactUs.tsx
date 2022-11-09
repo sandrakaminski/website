@@ -99,7 +99,7 @@ const CustomForm = () => {
                     </Grid>
                     <Grid xs={12} >
                         {submitting ? (
-                            <Button disabled startIcon={<CircularProgress size={20} />} onClick={handleSubmit}>
+                            <Button disabled startIcon={<CircularProgress size={20} />}>
                                 Submit
                             </Button>
                         ) : (
