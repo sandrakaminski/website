@@ -54,7 +54,6 @@ const ReqPayment = () => {
         }
         setProcessing(true);
         const cardElement = elements.getElement(CardCvcElement);
-        const token = await stripe.createToken(cardElement);
 
         if (!cardElement) {
             console.log("No card")
@@ -87,10 +86,9 @@ const ReqPayment = () => {
                     "Authorization": `Bearer sk_test_cI1qmNHPKOVmrN7aEShwJZU500Oalhs92e`
                 },
                 body: JSON.stringify({
-                    paymentMethodId: paymentMethod.id,
-                    amount: total * 100,
-                    // cart: cart
-
+                    amount: total,
+                    currency: 'NZD',
+                    name: values.fullname,
                 })
             })
             const data = await res.json();
