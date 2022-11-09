@@ -46,14 +46,12 @@ const CustomForm = () => {
                 const j = await res;
                 if (res.ok) {
                     setSubmitting(false);
-                    setStatus("success")
-                    // return j;
+                    setStatus("success");
+                    return j;
                 } else {
                     setStatus("error")
                     setSubmitting(false);
-                    return j;
                 }
-
             } catch (e) {
                 return { error: e }
             }
