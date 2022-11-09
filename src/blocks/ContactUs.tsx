@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { CircularProgress } from "@mui/material";
+import Alert from '@mui/material/Alert';
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Container from "@mui/material/Container";
@@ -14,25 +15,58 @@ const url = `http://localhost:8080/person`
 const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
 
 const CustomForm = () => {
+    const [email, setEmail] = useState(false);
     const [submitting, setSubmitting] = useState<any>(false)
     const [status, setStatus] = useState<any>('')
     const [fields, setFields] = useState<any>({
-        first_name: "",
-        last_name: "",
-        email: ""
+        first_name: '',
+        last_name: '',
+        email: ''
     })
+    const [errors, setErrors] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+    });
+
+    const validate = (name: any, value: any) => {
+        if (name === 'first_name' && value.length === 0) { 
+            return '';
+        }
+        if (name === 'last_name' && value.length === 0) {
+            return '';
+        }
+        if (name === 'email' && value.length === 0) {
+            return '';
+        }
+        if ((name === 'first_name') && (value.trim().length < 2)) {
+            return 'First name must be at least 2 characters'
+        }
+        if ((name === 'last_name') && (value.trim().length < 2)) {
+            return 'Last name must be at least 2 characters'
+        }
+        if ((name === 'email') && (validEmail.test(value))) {
+            setEmail(true);
+        }
+        if ((name === 'email') && (!validEmail.test(value))) {
+            setEmail(false);
+            return 'Please enter a valid email address'
+        }
+        return '';
+    }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFields({ ...fields, [name]: value });
-        
+
+        const err = validate(name, value);
+        setErrors({ ...errors, [name]: err });
     }
 
     const handleSubmit = async () => {
-        validEmail.test(fields.email) ? setSubmitting(true) : setStatus('error');
         if (validEmail.test(fields.email)) {
+            setSubmitting(true);
             try {
-                setSubmitting(true);
                 const res = await fetch(
                     url,
                     {
@@ -44,6 +78,7 @@ const CustomForm = () => {
                         body: JSON.stringify(fields),
                     }
                 );
+                setEmail(true);
                 const j = await res;
                 if (res.ok) {
                     setSubmitting(false);
@@ -56,21 +91,28 @@ const CustomForm = () => {
             } catch (e) {
                 return { error: e }
             }
+        } else {
+            return 'Please enter a valid email address'
         }
     }
+
+    useEffect(() => {
+        if (errors) {
+            setSubmitting(false);
+        }
+    }, [errors, email]);
 
     return (
         <>
             {status === "error" && (
-                <Stack sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                    <Typography sx={{p:2}} color="red" variant="h5" textAlign="center">Please use a valid email address</Typography>
+                <Stack sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <Typography sx={{ p: 2 }} color="red" variant="h5" textAlign="center">Please use a valid email address</Typography>
                     <Button variant="outlined" onClick={() => setStatus("")}>Try Again</Button>
                 </Stack>
             )}
             {!status &&
                 <Grid container spacing={2}>
                     <Grid xs={6} >
-
                         <TextField
                             name={"first_name"}
                             onChange={handleChange}
@@ -78,6 +120,7 @@ const CustomForm = () => {
                             fullWidth
                             label="First Name"
                         />
+                        {errors.first_name && <Alert severity="error">{errors.first_name}</Alert>}
                     </Grid>
                     <Grid xs={6} >
                         <TextField
@@ -87,6 +130,7 @@ const CustomForm = () => {
                             fullWidth
                             label="Last Name"
                         />
+                        {errors.last_name && <Alert severity="error">{errors.last_name}</Alert>}
                     </Grid>
                     <Grid xs={12} >
                         <TextField
@@ -96,17 +140,26 @@ const CustomForm = () => {
                             fullWidth
                             label="Email Address"
                         />
+                        {errors.email && <Alert severity="error">{errors.email}</Alert>}
                     </Grid>
                     <Grid xs={12} >
-                        {submitting ? (
+                        {submitting ?
                             <Button disabled startIcon={<CircularProgress size={20} />}>
                                 Submit
                             </Button>
-                        ) : (
-                            <Button onClick={handleSubmit}>
-                                Submit
-                            </Button>
-                        )}
+                            :
+                            <>
+                                {email ?
+                                    <Button onClick={handleSubmit}>
+                                        Submit
+                                    </Button>
+                                    :
+                                    <Button disabled>
+                                        Submit
+                                    </Button>
+                                }
+                            </>
+                        }
                     </Grid>
                 </Grid>
             }
@@ -131,4 +184,20 @@ const ContactUs = () => {
 }
 export default ContactUs;
 
+export const UseValidate = (fields: any, validate: any) => {
+    const [isValid, setIsValid] = useState(true);
 
+    useEffect(() => {
+        for (let k = 0; k < Object.keys(fields).length; k++) {
+            const name = Object.keys(fields)[k];
+            const value = fields[name];
+            if (validate(name, value) !== '') {
+                setIsValid(false);
+                return;
+            }
+        }
+        setIsValid(true);
+    }, [fields, validate]);
+
+    return isValid;
+};
