@@ -1,21 +1,23 @@
-import { forwardRef, useState, useImperativeHandle } from 'react';
+import { forwardRef, useMemo, useState, useImperativeHandle } from 'react';
 
 import LoadingButton from '@mui/lab/LoadingButton';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import { CardElement, useStripe, useElements, Elements } from '@stripe/react-stripe-js';
-import { CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js";
+import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements, Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from '@stripe/stripe-js';
 
 import CountryDropdown from '@/components/CountryDropdown';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 const Payment = () => {
-    const key: string = import.meta.env.VITE_STRIPE_KEY
+    const key: string = import.meta.env.VITE_STRIPE_TEST_KEY;
     const stripePromise = loadStripe(key);
+    const options = useMemo(() => ({
+        loader: 'always',
+    }), []);
 
     return (
-        <Elements stripe={stripePromise}>
+        <Elements options={options} stripe={stripePromise}>
             <ReqPayment />
         </Elements>
     )
@@ -23,7 +25,11 @@ const Payment = () => {
 
 export default Payment;
 
-const init = {
+type Init = {
+    [key: string]: string
+}
+
+const init: Init = {
     fullname: '',
     email: '',
     billingAddress: '',
@@ -34,7 +40,8 @@ const init = {
 }
 
 const ReqPayment = () => {
-    const [values, setValues] = useState(init);
+    const [values, setValues] = useState<Init>(init);
+    const [processing, setProcessing] = useState<boolean>(false);
     const { cart, total }: any = useCartContext();
     const stripe = useStripe();
     const elements = useElements();
@@ -42,17 +49,78 @@ const ReqPayment = () => {
     const handleSubmit = async (event: any) => {
         event.preventDefault();
 
-        if (elements == null) {
+        if (!stripe || !elements) {
             return;
         }
+        setProcessing(true);
+        const cardElement = elements.getElement(CardCvcElement);
+        const token = await stripe.createToken(cardElement);
 
+        if (!cardElement) {
+            console.log("No card")
+        }
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
-            card: elements.getElement(CardElement),
+            card: cardElement,
+            billing_details: {
+                email: values.email,
+                name: values.fullname,
+                address: {
+                    city: values.city,
+                    country: values.country,
+                    line1: values.billingAddress,
+                    postal_code: values.zip,
+                    state: values.state
+                }
+            },
         });
-    };
+        if (error) {
+            console.log('error', error);
+            setProcessing(false);
+            return
+        }
+        try {
+            const res = await fetch('http://localhost:8080', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer sk_test_cI1qmNHPKOVmrN7aEShwJZU500Oalhs92e`
+                },
+                body: JSON.stringify({
+                    paymentMethodId: paymentMethod.id,
+                    amount: total * 100,
+                    // cart: cart
 
-    console.log(values)
+                })
+            })
+            const data = await res.json();
+            console.log("Test", data);
+
+            const response = await stripe.confirmCardPayment(data.client_secret, {
+                payment_method: {
+                    card: cardElement,
+                    billing_details: {
+                        email: values.email,
+                        name: values.fullname,
+                        address: {
+                            city: values.city,
+                            country: values.country,
+                            line1: values.billingAddress,
+                            postal_code: values.zip,
+                            state: values.state
+                        }
+                    },
+                }
+            })
+            console.log("RESPONSE", response)
+        }
+        catch (error) {
+            console.log(error);
+        }
+
+        console.log('PaymentMethod', paymentMethod);
+        setProcessing(false);
+    };
 
     return (
         <>
@@ -82,10 +150,12 @@ const ReqPayment = () => {
                         value={values.state}
                         onChange={e => setValues({ ...values, state: e.target.value })}
                     />
-                    <CountryDropdown value={values.country}
+                    <CountryDropdown
+                        value={values.country}
                         id={"country"}
                         label={"Country"}
-                        onChange={(e: any) => setValues({ ...values, country: e.target.value })} />
+                        onChange={(e: any) => setValues({ ...values, country: e.target.value })}
+                    />
                     <TextField label="Zip" name="zip" variant="outlined" required fullWidth
                         value={values.zip}
                         onChange={e => setValues({ ...values, zip: e.target.value })}
@@ -112,7 +182,7 @@ const ReqPayment = () => {
                         InputLabelProps={{ shrink: true }}
                     />
 
-                    <LoadingButton onClick={() => handleSubmit}>Pay</LoadingButton>
+                    <LoadingButton loading={processing} onClick={handleSubmit}>Pay </LoadingButton>
                 </Stack>
             }
         </>
@@ -122,6 +192,7 @@ const ReqPayment = () => {
 // wrap Stripe Element for Material UI look & feel while surfacing all interactions
 const StripeElement = forwardRef((props: any, ref: any) => {
     const { component: Component, ...rest } = props;
+
     useImperativeHandle(ref, () => ({
         focus: () => ref.current.focus
     }));

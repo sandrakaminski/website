@@ -5,21 +5,22 @@ import Select from '@mui/material/Select';
 
 type Init = {
     [key: string]: {
-        name: string
+        name: string;
+        code: number;
     }
 }
 
 const init: Init = {
-    AU: { name: "Australia" },
-    CA: { name: "Canada" },
-    CL: { name: "Chile" },
-    FR: { name: "France" },
-    IT: { name: "Italy" },
-    NZ: { name: "New Zealand" },
-    NO: { name: "Norway" },
-    TW: { name: "Taiwan" },
-    UK: { name: "United Kingdom" },
-    US: { name: "United States" }
+    AU: { name: "Australia", code: 0 },
+    CA: { name: "Canada", code: 1 },
+    CL: { name: "Chile", code: 2 },
+    FR: { name: "France", code: 3 },
+    IT: { name: "Italy", code: 4 },
+    NZ: { name: "New Zealand", code: 5 },
+    NO: { name: "Norway", code: 6 },
+    TW: { name: "Taiwan", code: 7 },
+    UK: { name: "United Kingdom", code: 8 },
+    US: { name: "United States", code: 9 },
 }
 
 type DropdownProps = {
@@ -42,10 +43,10 @@ const CountryDropdown = (props: DropdownProps) => {
                 id={id}
                 name={id}
                 label={label}
-                defaultValue={init.NZ.name}
+                defaultValue={init.NZ}
             >
                 {Object.entries(init).map(([k, v]: any) =>
-                    <MenuItem key={k} value={v.name}>{v.name}</MenuItem>
+                    <MenuItem key={v.code} value={k}>{v.name}</MenuItem>
                 )}
             </Select>
         </FormControl>
