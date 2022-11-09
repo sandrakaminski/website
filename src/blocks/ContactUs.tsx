@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { CircularProgress } from "@mui/material";
-import Alert from '@mui/material/Alert';
+// import Alert from '@mui/material/Alert';
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Container from "@mui/material/Container";
@@ -30,7 +30,7 @@ const CustomForm = () => {
     });
 
     const validate = (name: any, value: any) => {
-        if (name === 'first_name' && value.length === 0) { 
+        if (name === 'first_name' && value.length === 0) {
             return '';
         }
         if (name === 'last_name' && value.length === 0) {
@@ -79,6 +79,8 @@ const CustomForm = () => {
                     }
                 );
                 setEmail(true);
+
+                console.log("MRES", res)
                 const j = await res;
                 if (res.ok) {
                     setSubmitting(false);
@@ -89,6 +91,7 @@ const CustomForm = () => {
                     setSubmitting(false);
                 }
             } catch (e) {
+                // console.log("ERRRY",e)
                 return { error: e }
             }
         } else {
@@ -111,36 +114,39 @@ const CustomForm = () => {
                 </Stack>
             )}
             {!status &&
-                <Grid container spacing={2}>
+                <Grid container spacing={3}>
                     <Grid xs={6} >
                         <TextField
+                            error={errors.first_name.length > 0}
                             name={"first_name"}
                             onChange={handleChange}
                             type="text"
                             fullWidth
                             label="First Name"
+                            helperText={errors.first_name}
                         />
-                        {errors.first_name && <Alert severity="error">{errors.first_name}</Alert>}
                     </Grid>
                     <Grid xs={6} >
                         <TextField
+                            error={errors.last_name.length > 0}
                             name={"last_name"}
                             onChange={handleChange}
                             type="text"
                             fullWidth
                             label="Last Name"
+                            helperText={errors.last_name}
                         />
-                        {errors.last_name && <Alert severity="error">{errors.last_name}</Alert>}
                     </Grid>
                     <Grid xs={12} >
                         <TextField
+                            error={errors.email.length > 0}
                             name={"email"}
                             onChange={handleChange}
                             type="email"
                             fullWidth
                             label="Email Address"
+                            helperText={errors.email}
                         />
-                        {errors.email && <Alert severity="error">{errors.email}</Alert>}
                     </Grid>
                     <Grid xs={12} >
                         {submitting ?
