@@ -4,6 +4,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Container from "@mui/material/Container";
+import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -61,10 +62,10 @@ const CustomForm = () => {
     return (
         <>
             {status === "error" && (
-                 <Box >
-                    <Typography color="red" variant="h5" textAlign="center">Please use a valid email address</Typography>
-                    <Button onClick={() => setStatus("")}>Try Again</Button>
-                </Box>
+                <Stack sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <Typography sx={{p:2}} color="red" variant="h5" textAlign="center">Please use a valid email address</Typography>
+                    <Button variant="outlined" onClick={() => setStatus("")}>Try Again</Button>
+                </Stack>
             )}
             {!status &&
                 <Grid container spacing={2}>
