@@ -1,4 +1,4 @@
-import { forwardRef, useMemo, useState, useImperativeHandle } from 'react';
+import { forwardRef, useState, useImperativeHandle } from 'react';
 
 import LoadingButton from '@mui/lab/LoadingButton';
 import Stack from '@mui/material/Stack';
@@ -12,12 +12,9 @@ import { useCartContext } from "@/views/Cart/cartProvider";
 const Payment = () => {
     const key: string = import.meta.env.VITE_STRIPE_TEST_KEY;
     const stripePromise = loadStripe(key);
-    const options = useMemo(() => ({
-        loader: 'always',
-    }), []);
 
     return (
-        <Elements options={options} stripe={stripePromise}>
+        <Elements stripe={stripePromise}>
             <ReqPayment />
         </Elements>
     )
@@ -53,7 +50,7 @@ const ReqPayment = () => {
             return;
         }
         setProcessing(true);
-        const cardElement = elements.getElement(CardCvcElement);
+        const cardElement: any = elements.getElement(CardCvcElement);
 
         if (!cardElement) {
             console.log("No card")
