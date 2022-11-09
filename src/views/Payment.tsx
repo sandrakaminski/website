@@ -1,12 +1,12 @@
 import { forwardRef, useState, useImperativeHandle } from 'react';
 
 import LoadingButton from '@mui/lab/LoadingButton';
-import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Unstable_Grid2';
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements, Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from '@stripe/stripe-js';
 
-import CountryDropdown from '@/components/CountryDropdown';
+import CountryDropdown, { CurrencyExchange, CountryCurrency } from '@/components/CountryDropdown';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 const Payment = () => {
@@ -26,6 +26,11 @@ type Init = {
     [key: string]: string
 }
 
+type Error = {
+    state: boolean,
+    message: string | undefined
+}
+
 const init: Init = {
     fullname: '',
     email: '',
@@ -39,13 +44,18 @@ const init: Init = {
 const ReqPayment = () => {
     const [values, setValues] = useState<Init>(init);
     const [processing, setProcessing] = useState<boolean>(false);
-    const { cart, total }: any = useCartContext();
+    const [subErr, setSubErr] = useState<Error>({
+        state: false,
+        message: ''
+    });
+    const [exchangeRate, setExchangeRate] = useState<number>(0);
+    const [success, setSuccess] = useState<boolean>(false);
+
+    const { cart }: any = useCartContext();
     const stripe = useStripe();
     const elements = useElements();
 
-    const handleSubmit = async (event: any) => {
-        event.preventDefault();
-
+    const handleSubmit = async () => {
         if (!stripe || !elements) {
             return;
         }
@@ -53,9 +63,9 @@ const ReqPayment = () => {
         const cardElement: any = elements.getElement(CardCvcElement);
 
         if (!cardElement) {
-            console.log("No card")
+            setSubErr({ state: true, message: "No card" });
         }
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
+        const { error } = await stripe.createPaymentMethod({
             type: 'card',
             card: cardElement,
             billing_details: {
@@ -68,14 +78,16 @@ const ReqPayment = () => {
                     postal_code: values.zip,
                     state: values.state
                 }
-            },
+            }
         });
         if (error) {
-            console.log('error', error);
+            setSubErr({ state: true, message: error.message });
             setProcessing(false);
             return
         }
         try {
+            const cost = Math.round(exchangeRate * 100).toString().replace(".", "");
+            const symbol: any = CountryCurrency(values.country).toString();
             const res = await fetch('http://localhost:8080', {
                 method: 'POST',
                 headers: {
@@ -83,15 +95,14 @@ const ReqPayment = () => {
                     "Authorization": `Bearer sk_test_cI1qmNHPKOVmrN7aEShwJZU500Oalhs92e`
                 },
                 body: JSON.stringify({
-                    amount: total,
-                    currency: 'NZD',
-                    name: values.fullname,
+                    type: 'card',
+                    amount: cost,
+                    currency: symbol.toString(),
                 })
             })
             const data = await res.json();
-            console.log("Test", data);
 
-            const response = await stripe.confirmCardPayment(data.client_secret, {
+            await stripe.confirmCardPayment(data.client_secret, {
                 payment_method: {
                     card: cardElement,
                     billing_details: {
@@ -107,79 +118,101 @@ const ReqPayment = () => {
                     },
                 }
             })
-            console.log("RESPONSE", response)
         }
-        catch (error) {
-            console.log(error);
+        catch (error: any) {
+            setSubErr({ state: true, message: error.message });
+            setProcessing(false);
         }
-
-        console.log('PaymentMethod', paymentMethod);
         setProcessing(false);
+        setSuccess(true);
     };
 
     return (
         <>
             {cart &&
-                <Stack spacing={2}>
-                    {cart.map((item: any, index: number) =>
-                        <p key={index}>{item.name}</p>
-                    )}
-                    Amout to pay: ${total}
-                    <TextField label="Full name" name="fullname" variant="outlined" required fullWidth
-                        value={values.fullname}
-                        onChange={e => setValues({ ...values, fullname: e.target.value })}
-                    />
-                    <TextField label="Email" name="email" variant="outlined" required fullWidth
-                        value={values.email}
-                        onChange={e => setValues({ ...values, email: e.target.value })}
-                    />
-                    <TextField label="Billing Address" name="billingAddress" variant="outlined" required fullWidth
-                        value={values.billingAddress}
-                        onChange={e => setValues({ ...values, billingAddress: e.target.value })}
-                    />
-                    <TextField label="City" name="city" variant="outlined" required fullWidth
-                        value={values.city}
-                        onChange={e => setValues({ ...values, city: e.target.value })}
-                    />
-                    <TextField label="State/Region" name="state" variant="outlined" required fullWidth
-                        value={values.state}
-                        onChange={e => setValues({ ...values, state: e.target.value })}
-                    />
-                    <CountryDropdown
-                        value={values.country}
-                        id={"country"}
-                        label={"Country"}
-                        onChange={(e: any) => setValues({ ...values, country: e.target.value })}
-                    />
-                    <TextField label="Zip" name="zip" variant="outlined" required fullWidth
-                        value={values.zip}
-                        onChange={e => setValues({ ...values, zip: e.target.value })}
-                    />
-                    <TextField label="Card number" name="ccnumber" variant="outlined" required fullWidth
-                        InputProps={{
-                            inputComponent: StripeElement,
-                            inputProps: { component: CardNumberElement }
-                        }}
-                        InputLabelProps={{ shrink: true }}
-                    />
-                    <TextField label="Expiry date" name="ccexp" variant="outlined" required fullWidth
-                        InputProps={{
-                            inputComponent: StripeElement,
-                            inputProps: { component: CardExpiryElement }
-                        }}
-                        InputLabelProps={{ shrink: true }}
-                    />
-                    <TextField label="CVC" name="cvc" variant="outlined" required fullWidth
-                        InputProps={{
-                            inputComponent: StripeElement,
-                            inputProps: { component: CardCvcElement },
-                        }}
-                        InputLabelProps={{ shrink: true }}
-                    />
-
+                <Grid container spacing={2}>
+                    <Grid xs={12} >
+                        {cart.map((item: any, index: number) =>
+                            <p key={index}>{item.name}</p>
+                        )}
+                        <CurrencyExchange exchangeRate={exchangeRate} setExchangeRate={setExchangeRate} country={values.country} />
+                    </Grid>
+                    <Grid xs={12} sm={6}>
+                        <TextField label="Full name" name="fullname" variant="outlined" required fullWidth
+                            value={values.fullname}
+                            onChange={e => setValues({ ...values, fullname: e.target.value })}
+                        />
+                    </Grid>
+                    <Grid xs={12} sm={6}>
+                        <TextField label="Email" name="email" variant="outlined" required fullWidth
+                            value={values.email}
+                            onChange={e => setValues({ ...values, email: e.target.value })}
+                        />
+                    </Grid>
+                    <Grid xs={12}>
+                        <TextField label="Billing Address" name="billingAddress" variant="outlined" required fullWidth
+                            value={values.billingAddress}
+                            onChange={e => setValues({ ...values, billingAddress: e.target.value })}
+                        />
+                    </Grid>
+                    <Grid xs={12} sm={6}>
+                        <TextField label="City" name="city" variant="outlined" required fullWidth
+                            value={values.city}
+                            onChange={e => setValues({ ...values, city: e.target.value })}
+                        />
+                    </Grid>
+                    <Grid xs={12} sm={6}>
+                        <TextField label="State/Region" name="state" variant="outlined" required fullWidth
+                            value={values.state}
+                            onChange={e => setValues({ ...values, state: e.target.value })}
+                        />
+                    </Grid>
+                    <Grid xs={12} sm={6}>
+                        <CountryDropdown
+                            value={values.country}
+                            id={"country"}
+                            label={"Country"}
+                            onChange={(e: any) => setValues({ ...values, country: e.target.value })}
+                        />
+                    </Grid>
+                    <Grid xs={12} sm={6}>
+                        <TextField label="Zip" name="zip" variant="outlined" required fullWidth
+                            value={values.zip}
+                            onChange={e => setValues({ ...values, zip: e.target.value })}
+                        />
+                    </Grid>
+                    <Grid xs={12} sm={6}>
+                        <TextField label="Card number" name="ccnumber" variant="outlined" required fullWidth
+                            InputProps={{
+                                inputComponent: StripeElement,
+                                inputProps: { component: CardNumberElement }
+                            }}
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </Grid>
+                    <Grid xs={12} sm={3}>
+                        <TextField label="Expiry date" name="ccexp" variant="outlined" required fullWidth
+                            InputProps={{
+                                inputComponent: StripeElement,
+                                inputProps: { component: CardExpiryElement }
+                            }}
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </Grid>
+                    <Grid xs={12} sm={3}>
+                        <TextField label="CVC" name="cvc" variant="outlined" required fullWidth
+                            InputProps={{
+                                inputComponent: StripeElement,
+                                inputProps: { component: CardCvcElement },
+                            }}
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </Grid>
                     <LoadingButton loading={processing} onClick={handleSubmit}>Pay </LoadingButton>
-                </Stack>
+                </Grid>
             }
+            {success && <p>Payment successful</p>}
+            {subErr.state && <p>{subErr.message}</p>}
         </>
     )
 }
