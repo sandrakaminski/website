@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import LoadingButton from '@mui/lab/LoadingButton';
+import { CircularProgress } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Container from "@mui/material/Container";
@@ -99,15 +99,11 @@ const CustomForm = () => {
                     </Grid>
                     <Grid xs={12} >
                         {submitting ? (
-                            <LoadingButton
-                                loading
-                                size="large"
-                                sx={{ size: 'large', width: "100%" }}
-                            >
-                            </LoadingButton>
+                            <Button disabled startIcon={<CircularProgress size={20} />} onClick={handleSubmit}>
+                                Submit
+                            </Button>
                         ) : (
-                            <Button
-                                onClick={handleSubmit}>
+                            <Button onClick={handleSubmit}>
                                 Submit
                             </Button>
                         )}
