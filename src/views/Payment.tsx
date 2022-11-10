@@ -1,12 +1,13 @@
 import { forwardRef, useState, useImperativeHandle } from 'react';
 
 import LoadingButton from '@mui/lab/LoadingButton';
+import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Unstable_Grid2';
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements, Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from '@stripe/stripe-js';
 
-import CountryDropdown, { CurrencyExchange, CountryCurrency } from '@/components/CountryDropdown';
+import CountryDropdown, { CurrencyExchange } from '@/components/CountryDropdown';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 const Payment = () => {
@@ -44,41 +45,45 @@ const init: Init = {
 const ReqPayment = () => {
     const [values, setValues] = useState<Init>(init);
     const [processing, setProcessing] = useState<boolean>(false);
+    const [success, setSuccess] = useState<boolean>();
     const [subErr, setSubErr] = useState<Error>({
         state: false,
         message: ''
     });
-    const [exchangeRate, setExchangeRate] = useState<number>(0);
-    const [success, setSuccess] = useState<boolean>(false);
-
-    const { cart }: any = useCartContext();
+    const { cart, total, clear }: any = useCartContext();
     const stripe = useStripe();
     const elements = useElements();
+
+    const billingDetails = {
+        email: values.email,
+        name: values.fullname,
+        address: {
+            city: values.city,
+            country: values.country,
+            line1: values.billingAddress,
+            postal_code: values.zip,
+            state: values.state
+        }
+    }
+    const cost = total.toString().replace(".", "");
 
     const handleSubmit = async () => {
         if (!stripe || !elements) {
             return;
         }
         setProcessing(true);
+
         const cardElement: any = elements.getElement(CardCvcElement);
 
         if (!cardElement) {
             setSubErr({ state: true, message: "No card" });
         }
+
+
         const { error } = await stripe.createPaymentMethod({
             type: 'card',
             card: cardElement,
-            billing_details: {
-                email: values.email,
-                name: values.fullname,
-                address: {
-                    city: values.city,
-                    country: values.country,
-                    line1: values.billingAddress,
-                    postal_code: values.zip,
-                    state: values.state
-                }
-            }
+            billing_details: billingDetails,
         });
         if (error) {
             setSubErr({ state: true, message: error.message });
@@ -86,36 +91,30 @@ const ReqPayment = () => {
             return
         }
         try {
-            const cost = Math.round(exchangeRate * 100).toString().replace(".", "");
-            const symbol: any = CountryCurrency(values.country).toString();
             const res = await fetch('http://localhost:8080', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    "Authorization": `Bearer sk_test_cI1qmNHPKOVmrN7aEShwJZU500Oalhs92e`
+                    "Authorization": `Bearer ${import.meta.env.VITE_STRIPE_BEARER}`
                 },
                 body: JSON.stringify({
                     type: 'card',
                     amount: cost,
-                    currency: symbol.toString(),
+                    currency: "NZD",
+                    email: values.email,
+                    name: values.fullname,
+                    product: {
+                        item: cart.map((item: any) => item.id),
+                        quantity: cart.map((item: any) => item.amount.length.toString()),
+                    }
                 })
             })
             const data = await res.json();
-
+            console.log(data)
             await stripe.confirmCardPayment(data.client_secret, {
                 payment_method: {
                     card: cardElement,
-                    billing_details: {
-                        email: values.email,
-                        name: values.fullname,
-                        address: {
-                            city: values.city,
-                            country: values.country,
-                            line1: values.billingAddress,
-                            postal_code: values.zip,
-                            state: values.state
-                        }
-                    },
+                    billing_details: billingDetails
                 }
             })
         }
@@ -127,15 +126,27 @@ const ReqPayment = () => {
         setSuccess(true);
     };
 
+
     return (
         <>
-            {cart &&
+            {subErr.state &&
+                <Alert severity="error" open={subErr.state} onClose={() => setSubErr({ state: false, message: '' })} >
+                    {subErr.message}
+                </Alert>
+            }
+            {success &&
+                <Alert severity="success"   >
+                    Payment successful
+                </Alert>
+            }
+            {cart.length > 0 && !success &&
                 <Grid container spacing={2}>
                     <Grid xs={12} >
                         {cart.map((item: any, index: number) =>
                             <p key={index}>{item.name}</p>
                         )}
-                        <CurrencyExchange exchangeRate={exchangeRate} setExchangeRate={setExchangeRate} country={values.country} />
+                        <CurrencyExchange country={values.country} />
+
                     </Grid>
                     <Grid xs={12} sm={6}>
                         <TextField label="Full name" name="fullname" variant="outlined" required fullWidth
@@ -211,8 +222,6 @@ const ReqPayment = () => {
                     <LoadingButton loading={processing} onClick={handleSubmit}>Pay </LoadingButton>
                 </Grid>
             }
-            {success && <p>Payment successful</p>}
-            {subErr.state && <p>{subErr.message}</p>}
         </>
     )
 }

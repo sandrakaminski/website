@@ -59,7 +59,7 @@ const CountryDropdown = (props: DropdownProps) => {
 export default CountryDropdown;
 
 
-export const CountryCurrency = (country: string) => {
+const CountryCurrency = (country: string) => {
     if (country === "AU") return "AUD";
     if (country === "CA") return "CAD";
     if (country === "CL") return "CLP";
@@ -87,46 +87,56 @@ const CountryCurrencySymbol = (country: string) => {
     return "$";
 }
 
+export const Shipping = (country: string) => {
+    if (country === "AU") return (44.92);
+    if (country === "CA") return (46.92);
+    if (country === "CL") return (31);
+    if (country === "FR") return (36.92);
+    if (country === "IT") return (36.92);
+    if (country === "NZ") return (11);
+    if (country === "NO") return (42);
+    if (country === "TW") return (13);
+    if (country === "UK") return (10);
+    if (country === "US") return (37.92);
+    return 11;
+}
+
 const BASE_URL = 'https://api.exchangerate.host/latest'
 
 interface CurrencyExchProps {
     country: string;
-    exchangeRate: number;
-    setExchangeRate: any;
 }
 
-
 export const CurrencyExchange = (props: CurrencyExchProps) => {
-    const { country, exchangeRate, setExchangeRate } = props;
-    const { total } = useCartContext()
+    const { country } = props;
+    const { total } = useCartContext();
+    const symbol = CountryCurrencySymbol(country)
+    const type = CountryCurrency(country)
 
-    const cost = total.toString()
-    // const [exchangeRate, setExchangeRate] = useState();
-    const [prev, setPrev] = useState('');
+    const [exchangeRate, setExchangeRate] = useState<Number>(0);
+    const cost = total.toString();
+    const [prev, setPrev] = useState<string>('');
 
     const previous: string = prev;
     const lastCountry = useCallback(() => {
         setPrev(previous)
     }, [previous])
 
+
     const getExchangeRate = useCallback(async () => {
         const response = await fetch(`${BASE_URL}?base=${CountryCurrency(prev)}&symbols=${CountryCurrency(country)}&amount=${cost}`);
         const data = await response.json();
         setExchangeRate(data.rates[CountryCurrency(country)]);
-    }, [prev, country, cost, setExchangeRate])
+    }, [prev, country, cost])
 
     useEffect(() => {
         getExchangeRate();
         lastCountry();
     }, [country, cost, getExchangeRate, lastCountry])
 
-    const symbol = CountryCurrencySymbol(country)
-    const type = CountryCurrency(country)
-
-    return (
+    return (exchangeRate &&
         <>
-            Amout to pay: {symbol}{exchangeRate} {type}
+            {`Approximate cost in your country: ${symbol}${exchangeRate} ${type}`}
         </>
     )
-
 }
