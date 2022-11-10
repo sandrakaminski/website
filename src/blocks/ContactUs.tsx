@@ -111,6 +111,7 @@ const CustomForm = () => {
             )}
             {!status &&
                 <Grid container spacing={3}>
+
                     <Grid xs={6} >
                         <TextField
                             error={errors.first_name.length > 0}
@@ -170,7 +171,9 @@ const CustomForm = () => {
                     <Typography color="green" variant="h5" textAlign="center">Thankyou for signing up</Typography>
                 </Box>
             )}
+
         </>
+
     );
 };
 
