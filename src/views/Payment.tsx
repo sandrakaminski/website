@@ -7,7 +7,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements, Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from '@stripe/stripe-js';
 
-import CountryDropdown, { CurrencyExchange } from '@/components/CountryDropdown';
+import CountryDropdown, { CurrencyExchange } from '@/components/PaymentCalc';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 const Payment = () => {
@@ -79,7 +79,6 @@ const ReqPayment = () => {
             setSubErr({ state: true, message: "No card" });
         }
 
-
         const { error } = await stripe.createPaymentMethod({
             type: 'card',
             card: cardElement,
@@ -110,7 +109,6 @@ const ReqPayment = () => {
                 })
             })
             const data = await res.json();
-            console.log(data)
             await stripe.confirmCardPayment(data.client_secret, {
                 payment_method: {
                     card: cardElement,
@@ -125,7 +123,6 @@ const ReqPayment = () => {
         setProcessing(false);
         setSuccess(true);
     };
-
 
     return (
         <>

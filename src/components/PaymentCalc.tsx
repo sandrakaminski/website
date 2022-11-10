@@ -101,6 +101,20 @@ export const Shipping = (country: string) => {
     return 11;
 }
 
+const Vat = (country: string) => {
+    if (country === "AU") return (0);
+    if (country === "CA") return (0.05);
+    if (country === "CL") return (0.19);
+    if (country === "FR") return (0.22);
+    if (country === "IT") return (0.24);
+    if (country === "NZ") return (0.15);
+    if (country === "NO") return (0.25);
+    if (country === "TW") return (0.05);
+    if (country === "UK") return (0.2);
+    if (country === "US") return (0);
+    return 0.15;
+}
+
 const BASE_URL = 'https://api.exchangerate.host/latest'
 
 interface CurrencyExchProps {
@@ -133,6 +147,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
         getExchangeRate();
         lastCountry();
     }, [country, cost, getExchangeRate, lastCountry])
+
 
     return (exchangeRate &&
         <>
