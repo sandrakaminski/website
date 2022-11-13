@@ -49,9 +49,9 @@ export const Detail = (props: ArticleType) => {
                     <ReactMarkdown components={ArticleMarkdown}>{content.fields.body}</ReactMarkdown>
                 </Container>
                 {/* powr comments box */}
-                {/* <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
                     <embed src="https://www.powr.io/plugins/comments/view?unique_label=24081f1e_1668047235&external_type=react" title="Comments" width="800" height="800" ></embed>
-                </Box> */}
+                </Box>
             </Stack>
         </>
     )

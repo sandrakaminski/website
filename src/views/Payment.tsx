@@ -2,10 +2,12 @@ import { forwardRef, useState, useImperativeHandle } from 'react';
 
 import LoadingButton from '@mui/lab/LoadingButton';
 import Alert from '@mui/material/Alert';
+import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Unstable_Grid2';
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements, Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from '@stripe/stripe-js';
+import { useNavigate } from 'react-router-dom';
 
 import CountryDropdown, { CurrencyExchange } from '@/components/PaymentCalc';
 import { useCartContext } from "@/views/Cart/cartProvider";
@@ -45,7 +47,7 @@ const init: Init = {
 const ReqPayment = () => {
     const [values, setValues] = useState<Init>(init);
     const [processing, setProcessing] = useState<boolean>(false);
-    const [success, setSuccess] = useState<boolean>();
+    const [success, setSuccess] = useState<boolean>(false);
     const [subErr, setSubErr] = useState<Error>({
         state: false,
         message: ''
@@ -53,7 +55,13 @@ const ReqPayment = () => {
     const { cart, total, clear }: any = useCartContext();
     const stripe = useStripe();
     const elements = useElements();
+    const navigate = useNavigate();
 
+    if (cart.length === 0) {
+        navigate("/")
+    }
+
+    const cost = total.toString().replace(".", "");
     const billingDetails = {
         email: values.email,
         name: values.fullname,
@@ -65,50 +73,49 @@ const ReqPayment = () => {
             state: values.state
         }
     }
-    const cost = total.toString().replace(".", "");
 
     const handleSubmit = async () => {
         if (!stripe || !elements) {
             return;
         }
+        const cardElement: any = elements.getElement(CardCvcElement);
         setProcessing(true);
 
-        const cardElement: any = elements.getElement(CardCvcElement);
-
         if (!cardElement) {
-            setSubErr({ state: true, message: "No card" });
+            setSubErr({ state: true, message: 'Please fill in your card details' });
+            setProcessing(false);
         }
 
         const { error } = await stripe.createPaymentMethod({
             type: 'card',
             card: cardElement,
             billing_details: billingDetails,
+
         });
         if (error) {
-            setSubErr({ state: true, message: error.message });
+            setSubErr({ state: true, message: 'Please fill in your card details' });
             setProcessing(false);
-            return
         }
-        try {
-            const res = await fetch('http://localhost:8080', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization": `Bearer ${import.meta.env.VITE_STRIPE_BEARER}`
-                },
-                body: JSON.stringify({
-                    type: 'card',
-                    amount: cost,
-                    currency: "NZD",
-                    email: values.email,
-                    name: values.fullname,
-                    product: {
-                        item: cart.map((item: any) => item.id),
-                        quantity: cart.map((item: any) => item.amount.length.toString()),
-                    }
-                })
+        const res = await fetch('http://localhost:8080', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${import.meta.env.VITE_STRIPE_BEARER}`
+            },
+            body: JSON.stringify({
+                type: 'card',
+                amount: cost,
+                currency: "NZD",
+                billingDetails: billingDetails,
+                product: {
+                    item: cart.map((item: any) => item.id),
+                    quantity: cart.map((item: any) => item.amount.length),
+                }
             })
+        })
+        try {
             const data = await res.json();
+            console.log(data)
             await stripe.confirmCardPayment(data.client_secret, {
                 payment_method: {
                     card: cardElement,
@@ -117,26 +124,22 @@ const ReqPayment = () => {
             })
         }
         catch (error: any) {
-            setSubErr({ state: true, message: error.message });
+            setSubErr({ state: true, message: 'Please fill in your card details' });
             setProcessing(false);
         }
-        setProcessing(false);
         setSuccess(true);
+        setProcessing(false);
     };
 
     return (
-        <>
+        <Container maxWidth="sm">
+            {success && <Alert onClose={() => setSuccess(false)} severity="success">Payment successful</Alert>}
             {subErr.state &&
                 <Alert severity="error" open={subErr.state} onClose={() => setSubErr({ state: false, message: '' })} >
                     {subErr.message}
                 </Alert>
             }
-            {success &&
-                <Alert severity="success"   >
-                    Payment successful
-                </Alert>
-            }
-            {cart.length > 0 && !success &&
+            {cart.length > 0 &&
                 <Grid container spacing={2}>
                     <Grid xs={12} >
                         {cart.map((item: any, index: number) =>
@@ -219,7 +222,7 @@ const ReqPayment = () => {
                     <LoadingButton loading={processing} onClick={handleSubmit}>Pay </LoadingButton>
                 </Grid>
             }
-        </>
+        </Container>
     )
 }
 

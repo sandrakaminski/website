@@ -26,43 +26,49 @@ const Cart = () => {
 
     return (
         <Box sx={{ my: 4 }}>
-            {cart?.length === 0 ?
-                <Stack alignItems="center" direction="column" spacing={2} >
-                    <Stack sx={{ height: 400, mt: 4 }} spacing={2}>
-                        <Typography variant="h3" align="center" gutterBottom>Shopping cart</Typography>
-                        <Typography gutterBottom color="grayText" variant="h5" >You have nothing in your shopping cart.</Typography>
-                        <Button variant="outlined" onClick={() => navigate("/shop")} >
-                            Shop now
-                        </Button>
-                    </Stack>
-                </Stack >
+            {!cart ?
+                <p>...loading</p>
                 :
                 <>
-                    <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                        <Typography variant="h4" >Shopping cart</Typography>
-                        <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
-                    </Stack>
-                    <List sx={{ width: '100%' }} >
-                        {cart?.map((item: any, index: number) =>
-                            <ListItem secondaryAction={
-                                <AmountButtons increase={() => increase(item.id)} remove={() => remove(item.id)} amount={item} decrease={() => decrease(item.id)} />
-                            } key={index}>
-                                <ListItemButton sx={{ maxWidth: "90%" }} onClick={() => navigate(`/shop/${item.slug}`)}>
-                                    <ListItemAvatar>
-                                        <Avatar variant="square" alt={item.name} src={item.image.fields.file.url} />
-                                    </ListItemAvatar>
-                                    <ListItemText primary={item.name} secondary={`$${item.price}`} />
-                                </ListItemButton>
-                            </ListItem>
-                        )}
-                    </List>
-                    <Divider sx={{ my: 2 }} />
-                    <Stack alignItems="flex-end" direction="column" spacing={2} >
-                        <Typography variant="subtitle1">Total: ${total}</Typography>
-                        <Button variant="outlined" onClick={() => navigate("/payment")} >
-                            Buy now
-                        </Button>
-                    </Stack>
+                    {cart?.length === 0 ?
+                        <Stack alignItems="center" direction="column" spacing={2} >
+                            <Stack sx={{ height: 400, mt: 4 }} spacing={2}>
+                                <Typography variant="h3" align="center" gutterBottom>Shopping cart</Typography>
+                                <Typography gutterBottom color="grayText" variant="h5" >You have nothing in your shopping cart.</Typography>
+                                <Button variant="outlined" onClick={() => navigate("/shop")} >
+                                    Shop now
+                                </Button>
+                            </Stack>
+                        </Stack >
+                        :
+                        <>
+                            <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                                <Typography variant="h4" >Shopping cart</Typography>
+                                <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
+                            </Stack>
+                            <List sx={{ width: '100%' }} >
+                                {cart?.map((item: any, index: number) =>
+                                    <ListItem secondaryAction={
+                                        <AmountButtons increase={() => increase(item.id)} remove={() => remove(item.id)} amount={item} decrease={() => decrease(item.id)} />
+                                    } key={index}>
+                                        <ListItemButton sx={{ maxWidth: "90%" }} onClick={() => navigate(`/shop/${item.slug}`)}>
+                                            <ListItemAvatar>
+                                                <Avatar variant="square" alt={item.name} src={item.image.fields.file.url} />
+                                            </ListItemAvatar>
+                                            <ListItemText primary={item.name} secondary={`$${item.price}`} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                )}
+                            </List>
+                            <Divider sx={{ my: 2 }} />
+                            <Stack alignItems="flex-end" direction="column" spacing={2} >
+                                <Typography variant="subtitle1">Total: ${total}</Typography>
+                                <Button variant="outlined" onClick={() => navigate("/payment")} >
+                                    Buy now
+                                </Button>
+                            </Stack>
+                        </>
+                    }
                 </>
             }
         </Box>
