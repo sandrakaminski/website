@@ -2,10 +2,12 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import Article from './Article';
+import ContactUs from './ContactUs';
 import ImageContainer from './ImageContainer';
 import Products from './Products';
 import Profile from './Profile';
 import Section from './Section';
+
 
 type Blocks = {
     [key: string]: any;
@@ -71,6 +73,7 @@ const Renderer = (props: FactoryProps) => {
                 :
                 <Factory detail={true} content={content} />
             }
+            <ContactUs />
         </Box>
     )
 }

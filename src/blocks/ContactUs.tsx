@@ -8,12 +8,14 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
+import { useParams } from 'react-router-dom';
 
 const url = `http://localhost:8080/person`
 
 const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
 
 const CustomForm = () => {
+    const { slug } = useParams();
     const [email, setEmail] = useState(false);
     const [submitting, setSubmitting] = useState<any>(false)
     const [status, setStatus] = useState<any>('')
@@ -103,75 +105,78 @@ const CustomForm = () => {
 
     return (
         <>
-            {status === "error" && (
-                <Stack sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <Typography sx={{ p: 2 }} color="red" variant="h5" textAlign="center">Please use a valid email address</Typography>
-                    <Button variant="outlined" onClick={() => setStatus("")}>Try Again</Button>
-                </Stack>
-            )}
-            {!status &&
-                <Grid container spacing={3}>
+            {slug === 'contact' &&
+                <>
+                    {status === "error" && (
+                        <Stack sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            <Typography sx={{ p: 2 }} color="red" variant="h5" textAlign="center">Please use a valid email address</Typography>
+                            <Button variant="outlined" onClick={() => setStatus("")}>Try Again</Button>
+                        </Stack>
+                    )}
+                    {!status &&
+                        <Grid container spacing={3}>
 
-                    <Grid xs={6} >
-                        <TextField
-                            error={errors.first_name.length > 0}
-                            name={"first_name"}
-                            onChange={handleChange}
-                            type="text"
-                            fullWidth
-                            label="First Name"
-                            helperText={errors.first_name}
-                        />
-                    </Grid>
-                    <Grid xs={6} >
-                        <TextField
-                            error={errors.last_name.length > 0}
-                            name={"last_name"}
-                            onChange={handleChange}
-                            type="text"
-                            fullWidth
-                            label="Last Name"
-                            helperText={errors.last_name}
-                        />
-                    </Grid>
-                    <Grid xs={12} >
-                        <TextField
-                            error={errors.email.length > 0}
-                            name={"email"}
-                            onChange={handleChange}
-                            type="email"
-                            fullWidth
-                            label="Email Address"
-                            helperText={errors.email}
-                        />
-                    </Grid>
-                    <Grid xs={12} >
-                        {submitting ?
-                            <Button disabled startIcon={<CircularProgress size={20} />}>
-                                Submit
-                            </Button>
-                            :
-                            <>
-                                {email ?
-                                    <Button onClick={handleSubmit}>
+                            <Grid xs={6} >
+                                <TextField
+                                    error={errors.first_name.length > 0}
+                                    name={"first_name"}
+                                    onChange={handleChange}
+                                    type="text"
+                                    fullWidth
+                                    label="First Name"
+                                    helperText={errors.first_name}
+                                />
+                            </Grid>
+                            <Grid xs={6} >
+                                <TextField
+                                    error={errors.last_name.length > 0}
+                                    name={"last_name"}
+                                    onChange={handleChange}
+                                    type="text"
+                                    fullWidth
+                                    label="Last Name"
+                                    helperText={errors.last_name}
+                                />
+                            </Grid>
+                            <Grid xs={12} >
+                                <TextField
+                                    error={errors.email.length > 0}
+                                    name={"email"}
+                                    onChange={handleChange}
+                                    type="email"
+                                    fullWidth
+                                    label="Email Address"
+                                    helperText={errors.email}
+                                />
+                            </Grid>
+                            <Grid xs={12} >
+                                {submitting ?
+                                    <Button disabled startIcon={<CircularProgress size={20} />}>
                                         Submit
                                     </Button>
                                     :
-                                    <Button disabled>
-                                        Submit
-                                    </Button>
+                                    <>
+                                        {email ?
+                                            <Button onClick={handleSubmit}>
+                                                Submit
+                                            </Button>
+                                            :
+                                            <Button disabled>
+                                                Submit
+                                            </Button>
+                                        }
+                                    </>
                                 }
-                            </>
-                        }
-                    </Grid>
-                </Grid>
+                            </Grid>
+                        </Grid>
+                    }
+                    {status === "success" && (
+                        <Box>
+                            <Typography color="green" variant="h5" textAlign="center">Thankyou for signing up</Typography>
+                        </Box>
+                    )}
+                </>
             }
-            {status === "success" && (
-                <Box>
-                    <Typography color="green" variant="h5" textAlign="center">Thankyou for signing up</Typography>
-                </Box>
-            )}
-
         </>
 
     );

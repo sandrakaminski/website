@@ -26,9 +26,7 @@ const Cart = () => {
 
     return (
         <Box sx={{ my: 4 }}>
-            {!cart ?
-                <p>...loading</p>
-                :
+            {cart &&
                 <>
                     {cart?.length === 0 ?
                         <Stack alignItems="center" direction="column" spacing={2} >
@@ -63,7 +61,7 @@ const Cart = () => {
                             <Divider sx={{ my: 2 }} />
                             <Stack alignItems="flex-end" direction="column" spacing={2} >
                                 <Typography variant="subtitle1">Total: ${total}</Typography>
-                                <Button variant="outlined" onClick={() => navigate("/payment")} >
+                                <Button variant="outlined" onClick={() => navigate("/shipping")} >
                                     Buy now
                                 </Button>
                             </Stack>

@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
 import { useCartContext } from "@/views/Cart/cartProvider";
+import { Divider } from '@mui/material';
 
 type Init = {
     [key: string]: {
@@ -87,7 +88,7 @@ const CountryCurrencySymbol = (country: string) => {
     return "$";
 }
 
-export const Shipping = (country: string) => {
+export const ShippingCost = (country: string) => {
     if (country === "AU") return (44.92);
     if (country === "CA") return (46.92);
     if (country === "CL") return (31);
@@ -96,7 +97,7 @@ export const Shipping = (country: string) => {
     if (country === "NZ") return (11);
     if (country === "NO") return (42);
     if (country === "TW") return (13);
-    if (country === "UK") return (10);
+    if (country === "UK") return (32.92);
     if (country === "US") return (37.92);
     return 11;
 }
@@ -126,32 +127,52 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { total } = useCartContext();
     const symbol = CountryCurrencySymbol(country)
     const type = CountryCurrency(country)
-
-    const [exchangeRate, setExchangeRate] = useState<Number>(0);
-    const cost = total.toString();
+    const shippingCosts = ShippingCost(country);
+    const [exchangeRate, setExchangeRate] = useState<any>({
+        shipping: 0,
+        total: 0
+    });
+    const totalCost = total + shippingCosts
+    const cost = totalCost.toString();
     const [prev, setPrev] = useState<string>('');
+    const [prevShip, setPrevShip] = useState<string>('');
 
     const previous: string = prev;
+    const previousShip: string = prevShip;
     const lastCountry = useCallback(() => {
         setPrev(previous)
-    }, [previous])
+        setPrevShip(previousShip)
+    }, [previous, previousShip])
 
+    const getShippingCalc = useCallback(async () => {
+        const response = await fetch(`${BASE_URL}?base=${CountryCurrency(prevShip)}&symbols=${CountryCurrency(country)}&amount=${shippingCosts}`);
+        const data = await response.json();
+        setExchangeRate({ shipping: data.rates[CountryCurrency(country)] });
+    }, [country, prevShip, shippingCosts])
 
     const getExchangeRate = useCallback(async () => {
         const response = await fetch(`${BASE_URL}?base=${CountryCurrency(prev)}&symbols=${CountryCurrency(country)}&amount=${cost}`);
         const data = await response.json();
-        setExchangeRate(data.rates[CountryCurrency(country)]);
+        setExchangeRate({ total: data.rates[CountryCurrency(country)] });
     }, [prev, country, cost])
 
     useEffect(() => {
         getExchangeRate();
         lastCountry();
-    }, [country, cost, getExchangeRate, lastCountry])
+        getShippingCalc();
+    }, [country, cost, getExchangeRate, lastCountry, getShippingCalc])
 
+
+    console.log(total, shippingCosts)
 
     return (exchangeRate &&
         <>
-            {`Approximate cost in your country: ${symbol}${exchangeRate} ${type}`}
+            {/* {`Subtotal: ${symbol}${(total).toFixed(2)}  ${type}`}
+            <Divider sx={{ my: 2 }} /> */}
+            {`Shipping: ${symbol}${exchangeRate?.shipping} ${type}`
+            } < br />
+            <Divider sx={{ my: 2 }} />
+            {`Total: ${symbol}${totalCost} ${type}`}
         </>
     )
 }
