@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';
 
 import Resource from './Resource';
 import type { Content, ResourceType } from './SectionTypes';
@@ -9,14 +9,16 @@ import type { Content, ResourceType } from './SectionTypes';
 export const Column = (props: Content) => {
     const { content } = props;
 
+    console.log(content.fields.resources)
+
     return (
         <Box sx={{ p: 5 }}>
-            <Typography align="left" variant="h2" component="h1" >
+            <Typography align="center" gutterBottom variant="h2" component="h1" >
                 {content.fields.headline}
             </Typography>
             <Grid container>
                 {content.fields.resources.map((item: ResourceType, index: number) => (
-                    <Grid item key={index} xs={12} md={6} >
+                    <Grid key={index} xs={12} md={6} >
                         <Typography align="center" variant="h2" component="h1" sx={{ p: 4 }}>
                             {item.fields.headline}
                         </Typography>
