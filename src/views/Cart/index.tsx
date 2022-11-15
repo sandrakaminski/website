@@ -21,12 +21,32 @@ import { useNavigate } from 'react-router-dom';
 import CountryDropdown, { CurrencyExchange, shippingID } from '@/components/PaymentCalc';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
+type Items = {
+    slug: string;
+    id: string;
+    name: string;
+    price: number;
+    amount: number[];
+    image: {
+        fields: {
+            file: {
+                url: string;
+            }
+        }
+    }
+}
+
+type OrderItems = {
+    id: string;
+    amount: number[];
+}
+
 const Cart = () => {
     const navigate = useNavigate();
     const [processing, setProcessing] = useState<boolean>(false);
     const [country, setCountry] = useState<string>("");
     const { cart, clear, decrease, increase, remove }: any = useCartContext();
-    const Shipping = shippingID(country);
+    const Shipping: string = shippingID(country);
 
     const handlePurchase = async () => {
         setProcessing(true)
@@ -39,7 +59,7 @@ const Cart = () => {
             body: JSON.stringify({
                 country: country,
                 shippingId: Shipping,
-                orderItems: cart?.map((item: any) => {
+                orderItems: cart?.map((item: OrderItems) => {
                     return {
                         productId: item.id,
                         quantity: item.amount.length
@@ -77,7 +97,7 @@ const Cart = () => {
                                 <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
                             </Stack>
                             <Stack sx={{ mt: 4 }} >
-                                {cart.map((item: any, index: number) =>
+                                {cart.map((item: Items, index: number) =>
                                     <CartItem key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
                                 )}
                             </Stack>
@@ -103,7 +123,15 @@ const Cart = () => {
 
 export default Cart;
 
-const CartItem = ({ item, decrease, increase, remove }: any) => {
+type CartItemProps = {
+    item: Items
+    increase: Function;
+    decrease: Function
+    remove: Function
+}
+
+const CartItem = (props: CartItemProps) => {
+    const { item, decrease, increase, remove } = props;
     const navigate = useNavigate();
 
     return (
@@ -127,7 +155,16 @@ const CartItem = ({ item, decrease, increase, remove }: any) => {
     )
 }
 
-const AmountButtons = (props: any) => {
+type AmountButtonsProps = {
+    increase: () => void;
+    decrease: () => void;
+    remove: Function;
+    amount: {
+        amount: number[]
+    }
+}
+
+const AmountButtons = (props: AmountButtonsProps) => {
     const { decrease, increase, amount, remove } = props;
 
     useEffect(() => {
