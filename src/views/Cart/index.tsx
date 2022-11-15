@@ -10,13 +10,10 @@ import Button from "@mui/material/Button";
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate } from 'react-router-dom';
 
 import CountryDropdown, { CurrencyExchange, shippingID } from '@/components/PaymentCalc';
@@ -60,53 +57,54 @@ const Cart = () => {
 
     return (
         <Box sx={{ my: 4 }}>
-            {cart &&
+            {cart && cart.length === 0 ?
+                <Stack alignItems="center" direction="column" spacing={2} >
+                    <Stack sx={{ height: 400, mt: 4 }} spacing={2}>
+                        <Typography variant="h3" align="center" gutterBottom>Shopping cart</Typography>
+                        <Typography gutterBottom color="grayText" variant="h5" >You have nothing in your shopping cart.</Typography>
+                        <Button variant="outlined" onClick={() => navigate("/shop")} >
+                            Shop now
+                        </Button>
+                    </Stack>
+                </Stack >
+                :
                 <>
-                    {cart?.length === 0 ?
-                        <Stack alignItems="center" direction="column" spacing={2} >
-                            <Stack sx={{ height: 400, mt: 4 }} spacing={2}>
-                                <Typography variant="h3" align="center" gutterBottom>Shopping cart</Typography>
-                                <Typography gutterBottom color="grayText" variant="h5" >You have nothing in your shopping cart.</Typography>
-                                <Button variant="outlined" onClick={() => navigate("/shop")} >
-                                    Shop now
-                                </Button>
-                            </Stack>
-                        </Stack >
-                        :
-                        <>
-                            <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                                <Typography variant="h4" >Shopping cart</Typography>
-                                <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
-                            </Stack>
-                            <List sx={{ width: '100%' }} >
-                                {cart?.map((item: any, index: number) =>
-                                    <ListItem secondaryAction={
-                                        <AmountButtons increase={() => increase(item.id)} remove={() => remove(item.id)} amount={item} decrease={() => decrease(item.id)} />
-                                    } key={index}>
-                                        <ListItemButton sx={{ maxWidth: "90%" }} onClick={() => navigate(`/shop/${item.slug}`)}>
-                                            <ListItemAvatar>
-                                                <Avatar variant="square" alt={item.name} src={item.image.fields.file.url} />
-                                            </ListItemAvatar>
-                                            <ListItemText primary={item.name} secondary={`$${item.price}`} />
-                                        </ListItemButton>
-                                    </ListItem>
-                                )}
-                            </List>
-                            <Divider sx={{ my: 2 }} />
-                            <Stack alignItems="flex-end" spacing={2} >
-                                <Typography variant="body1">
-                                    <CurrencyExchange country={country} />
-                                </Typography>
+                    <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                        <Typography variant="h4" >Shopping cart</Typography>
+                        <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
+                    </Stack>
 
-                                <CountryDropdown label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
-                                <LoadingButton size="large" disabled={!country} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now </LoadingButton>
-                            </Stack>
-                        </>
-                    }
+                    <Stack sx={{ mt: 4 }} spacing={2}>
+                        {cart && cart.map((item: any, index: number) =>
+                            <Grid spacing={2} container direction="row" justifyContent="space-between" alignItems="center" key={index}>
+                                <Grid component={ListItemButton} xs={12} sm={8}  >
+                                    <Avatar sx={{ height: 55, width: 55 }} variant="square" alt={item.name} src={item.image.fields.file.url} />
+                                    <Box sx={{ ml: 2 }}>
+                                        <Typography variant="subtitle1" >{item.name}</Typography>
+                                        <Typography variant="body2" >${item.price}</Typography>
+                                    </Box>
+                                </Grid>
+                                <Grid xs={12} sm={4} >
+                                    <Stack direction="row" justifyContent={{ xs: 'space-between', sm: "flex-end" }} alignItems="center" spacing={4}>
+                                        <AmountButtons increase={() => increase(item.id)} remove={() => remove(item.id)} amount={item} decrease={() => decrease(item.id)} />
+                                        <Button startIcon={<CloseIcon fontSize="inherit" />} color="error" onClick={() => remove(item.id)} >
+                                            Remove
+                                        </Button>
+                                    </Stack>
+                                </Grid>
+                            </Grid>
+                        )}
+                    </Stack>
+
+                    <Divider sx={{ my: 2 }} />
+                    <Stack alignItems="flex-end" spacing={2} >
+                        <CurrencyExchange country={country} />
+                        <CountryDropdown label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
+                        <LoadingButton size="large" disabled={!country} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now </LoadingButton>
+                    </Stack>
                 </>
             }
         </Box>
-
     )
 }
 
@@ -132,9 +130,6 @@ const AmountButtons = (props: any) => {
             <Chip variant="outlined" label={amount.amount.length} />
             <IconButton onClick={increase} size="small">
                 <AddIcon fontSize="inherit" />
-            </IconButton>
-            <IconButton onClick={remove} size="small">
-                <CloseIcon color="error" fontSize="inherit" />
             </IconButton>
         </Stack>
     );

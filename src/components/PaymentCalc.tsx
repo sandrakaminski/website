@@ -1,8 +1,8 @@
-import Divider from '@mui/material/Divider';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 
 import { useCartContext } from "@/views/Cart/cartProvider";
 
@@ -115,12 +115,9 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
 
     return (
         <>
-            {`VAT: ${vatCosts * 100}%`}< br />
-            <Divider sx={{ my: 2 }} />
-            {`Shipping: $${shippingCosts} NZD`
-            } < br />
-            <Divider sx={{ my: 2 }} />
-            {`Total: $${totalCosts.toFixed(2)} NZD`}
+            <Typography> {`VAT: ${vatCosts * 100}%`}</Typography>
+            <Typography>{`Shipping: $${shippingCosts} NZD`} </Typography>
+            <Typography> {`Total: $${totalCosts.toFixed(2)} NZD`}</Typography>
         </>
     )
 }

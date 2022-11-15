@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import Article from './Article';
-import ContactUs from './ContactUs';
+import ContactUs from '../components/ContactUs';
 import ImageContainer from './ImageContainer';
 import Products from './Products';
 import Profile from './Profile';

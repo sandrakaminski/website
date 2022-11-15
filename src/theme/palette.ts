@@ -13,6 +13,7 @@ export const palette: object = {
     },
     info: {
         main: '#cf77c1',
+        contrastText: '#fff',
     },
     success: {
         main: '#52B788',
