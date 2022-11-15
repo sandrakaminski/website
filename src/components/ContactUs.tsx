@@ -175,34 +175,20 @@ const CustomForm = () => {
     );
 };
 
-const ContactUs = () => {
+const ContactUs: React.FC = () => {
     const { slug } = useParams();
 
-    return (slug === 'contact' &&
-        <Container maxWidth="sm">
-            <Typography align="center" color="grayText" variant="h5" sx={{ p: 4 }}>
-                Sign up to my newsletter for exclusive monthly updates from my life as a stylist.
-            </Typography>
-            <CustomForm />
-        </Container>
+    return (
+        <>
+            {slug === 'contact' &&
+                <Container maxWidth="sm">
+                    <Typography align="center" color="grayText" variant="h5" sx={{ p: 4 }}>
+                        Sign up to my newsletter for exclusive monthly updates from my life as a stylist.
+                    </Typography>
+                    <CustomForm />
+                </Container>
+            }
+        </>
     );
 }
 export default ContactUs;
-
-export const UseValidate = (fields: any, validate: any) => {
-    const [isValid, setIsValid] = useState(true);
-
-    useEffect(() => {
-        for (let k = 0; k < Object.keys(fields).length; k++) {
-            const name = Object.keys(fields)[k];
-            const value = fields[name];
-            if (validate(name, value) !== '') {
-                setIsValid(false);
-                return;
-            }
-        }
-        setIsValid(true);
-    }, [fields, validate]);
-
-    return isValid;
-};
