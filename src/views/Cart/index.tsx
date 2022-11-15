@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveIcon from '@mui/icons-material/Remove';
+import LoadingButton from "@mui/lab/LoadingButton";
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from "@mui/material/Button";
@@ -18,11 +19,44 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
+import CountryDropdown, { CurrencyExchange, shippingID } from '@/components/PaymentCalc';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 const Cart = () => {
     const navigate = useNavigate();
-    const { cart, clear, total, decrease, increase, remove }: any = useCartContext();
+    const [processing, setProcessing] = useState<boolean>(false);
+    const [country, setCountry] = useState<string>("");
+    const { cart, clear, decrease, increase, remove }: any = useCartContext();
+    const Shipping = shippingID(country);
+
+    const handlePurchase = async () => {
+        setProcessing(true)
+        const res = await fetch('http://localhost:8080', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${import.meta.env.VITE_STRIPE_TEST_KEY}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                country: country,
+                shippingId: Shipping,
+                orderItems: cart?.map((item: any) => {
+                    return {
+                        productId: item.id,
+                        quantity: item.amount.length
+                    }
+                })
+            })
+        });
+        try {
+            const data = await res.json();
+            window.location.replace(data.url);
+        }
+        catch (error: any) {
+            setProcessing(false);
+            console.log(error);
+        }
+    }
 
     return (
         <Box sx={{ my: 4 }}>
@@ -59,11 +93,13 @@ const Cart = () => {
                                 )}
                             </List>
                             <Divider sx={{ my: 2 }} />
-                            <Stack alignItems="flex-end" direction="column" spacing={2} >
-                                <Typography variant="subtitle1">Total: ${total}</Typography>
-                                <Button variant="outlined" onClick={() => navigate("/shipping")} >
-                                    Buy now
-                                </Button>
+                            <Stack alignItems="flex-end" direction="row" spacing={2} >
+                                <Typography variant="subtitle1">
+                                    <CurrencyExchange country={country} />
+                                </Typography>
+
+                                <CountryDropdown label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
+                                <LoadingButton disabled={!country} size="large" variant={"outlined"} loading={processing} onClick={handlePurchase}>Buy now </LoadingButton>
                             </Stack>
                         </>
                     }

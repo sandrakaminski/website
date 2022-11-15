@@ -1,12 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
-
+import Divider from '@mui/material/Divider';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
 import { useCartContext } from "@/views/Cart/cartProvider";
-import { Divider } from '@mui/material';
 
 type Init = {
     [key: string]: {
@@ -39,7 +37,7 @@ const CountryDropdown = (props: DropdownProps) => {
     const { onChange, value, label, id } = props;
 
     return (
-        <FormControl variant="outlined" fullWidth>
+        <FormControl size="small" sx={{ maxWidth: 200 }} variant="outlined" fullWidth>
             <InputLabel id={id}>Country</InputLabel>
             <Select
                 onChange={onChange}
@@ -59,35 +57,6 @@ const CountryDropdown = (props: DropdownProps) => {
 }
 export default CountryDropdown;
 
-
-const CountryCurrency = (country: string) => {
-    if (country === "AU") return "AUD";
-    if (country === "CA") return "CAD";
-    if (country === "CL") return "CLP";
-    if (country === "FR") return "EUR";
-    if (country === "IT") return "EUR";
-    if (country === "NZ") return "NZD";
-    if (country === "NO") return "NOK";
-    if (country === "TW") return "TWD";
-    if (country === "UK") return "GBP";
-    if (country === "US") return "USD";
-    return "NZD";
-}
-
-const CountryCurrencySymbol = (country: string) => {
-    if (country === "AU") return "$";
-    if (country === "CA") return "$";
-    if (country === "CL") return "$";
-    if (country === "FR") return "€";
-    if (country === "IT") return "€";
-    if (country === "NZ") return "$";
-    if (country === "NO") return "kr";
-    if (country === "TW") return "NT$";
-    if (country === "UK") return "£";
-    if (country === "US") return "$";
-    return "$";
-}
-
 export const ShippingCost = (country: string) => {
     if (country === "AU") return (44.92);
     if (country === "CA") return (46.92);
@@ -102,7 +71,7 @@ export const ShippingCost = (country: string) => {
     return 11;
 }
 
-const Vat = (country: string) => {
+export const vat = (country: string) => {
     if (country === "AU") return (0);
     if (country === "CA") return (0.05);
     if (country === "CL") return (0.19);
@@ -116,7 +85,19 @@ const Vat = (country: string) => {
     return 0.15;
 }
 
-const BASE_URL = 'https://api.exchangerate.host/latest'
+export const shippingID = (country: string) => {
+    if (country === "AU") return ('shr_1M4BkqDGuX6bhMKwcWA0yMaU');
+    if (country === "CA") return ('shr_1M4BlKDGuX6bhMKwDn4GXKNn');
+    if (country === "CL") return ('shr_1M4BlhDGuX6bhMKw20OPqjBv');
+    if (country === "FR") return ('shr_1M4BmEDGuX6bhMKwncJvI9VH');
+    if (country === "IT") return ('shr_1M4BmWDGuX6bhMKwtbNrjVGq');
+    if (country === "NZ") return ('shr_1M4EZiDGuX6bhMKwvSJ4wYJB');
+    if (country === "NO") return ('shr_1M4BmpDGuX6bhMKwtFumnpAg');
+    if (country === "TW") return ('shr_1M4Bn9DGuX6bhMKwPFLp9Pj8');
+    if (country === "UK") return ('shr_1M4DN5DGuX6bhMKwFNrZfJux');
+    if (country === "US") return ('shr_1M4BnvDGuX6bhMKw9z8KmU0e');
+    return 'shr_1M4EZiDGuX6bhMKwvSJ4wYJB'
+}
 
 interface CurrencyExchProps {
     country: string;
@@ -125,54 +106,21 @@ interface CurrencyExchProps {
 export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { country } = props;
     const { total } = useCartContext();
-    const symbol = CountryCurrencySymbol(country)
-    const type = CountryCurrency(country)
     const shippingCosts = ShippingCost(country);
-    const [exchangeRate, setExchangeRate] = useState<any>({
-        shipping: 0,
-        total: 0
-    });
+    const vatCosts = vat(country);
+
     const totalCost = total + shippingCosts
-    const cost = totalCost.toString();
-    const [prev, setPrev] = useState<string>('');
-    const [prevShip, setPrevShip] = useState<string>('');
+    const vatTotal = totalCost * vatCosts
+    const totalCosts = totalCost + vatTotal
 
-    const previous: string = prev;
-    const previousShip: string = prevShip;
-    const lastCountry = useCallback(() => {
-        setPrev(previous)
-        setPrevShip(previousShip)
-    }, [previous, previousShip])
-
-    const getShippingCalc = useCallback(async () => {
-        const response = await fetch(`${BASE_URL}?base=${CountryCurrency(prevShip)}&symbols=${CountryCurrency(country)}&amount=${shippingCosts}`);
-        const data = await response.json();
-        setExchangeRate({ shipping: data.rates[CountryCurrency(country)] });
-    }, [country, prevShip, shippingCosts])
-
-    const getExchangeRate = useCallback(async () => {
-        const response = await fetch(`${BASE_URL}?base=${CountryCurrency(prev)}&symbols=${CountryCurrency(country)}&amount=${cost}`);
-        const data = await response.json();
-        setExchangeRate({ total: data.rates[CountryCurrency(country)] });
-    }, [prev, country, cost])
-
-    useEffect(() => {
-        getExchangeRate();
-        lastCountry();
-        getShippingCalc();
-    }, [country, cost, getExchangeRate, lastCountry, getShippingCalc])
-
-
-    console.log(total, shippingCosts)
-
-    return (exchangeRate &&
+    return (
         <>
-            {/* {`Subtotal: ${symbol}${(total).toFixed(2)}  ${type}`}
-            <Divider sx={{ my: 2 }} /> */}
-            {`Shipping: ${symbol}${exchangeRate?.shipping} ${type}`
+            {`VAT: ${vatCosts * 100}%`}< br />
+            <Divider sx={{ my: 2 }} />
+            {`Shipping: $${shippingCosts} NZD`
             } < br />
             <Divider sx={{ my: 2 }} />
-            {`Total: ${symbol}${totalCost} ${type}`}
+            {`Total: $${totalCosts.toFixed(2)} NZD`}
         </>
     )
 }
