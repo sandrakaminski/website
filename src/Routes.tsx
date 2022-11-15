@@ -2,13 +2,13 @@ import React, { lazy } from 'react';
 
 import { useRoutes, useParams } from 'react-router-dom';
 
-import { useView } from "./client";
+import { useView } from "@/client";
 import Outline from '@/components/Outline';
 
-const Renderer = lazy(() => import('./blocks/Renderer'));
-const NotFound = lazy(() => import('./views/NotFound'));
-const Cart = lazy(() => import('./views/Cart'));
-const PaymentSuccess = lazy(() => import('./views/PaymentSuccess'));
+const Renderer = lazy(() => import('@/blocks/Renderer'));
+const NotFound = lazy(() => import('@/views/NotFound'));
+const Cart = lazy(() => import('@/views/Cart'));
+const PaymentSuccess = lazy(() => import('@/views/PaymentSuccess'));
 
 type Router = {
     path: string;

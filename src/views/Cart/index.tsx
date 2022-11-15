@@ -74,14 +74,14 @@ const Cart = () => {
                         <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
                     </Stack>
 
-                    <Stack sx={{ mt: 4 }} spacing={2}>
+                    <Stack sx={{ mt: 4 }} >
                         {cart && cart.map((item: any, index: number) =>
-                            <Grid spacing={2} container direction="row" justifyContent="space-between" alignItems="center" key={index}>
-                                <Grid component={ListItemButton} xs={12} sm={8}  >
+                            <Grid sx={{ my: 1 }} spacing={2} container direction="row" justifyContent="space-between" alignItems="center" key={index}>
+                                <Grid onClick={() => navigate(`/shop/${item.slug}`)} component={ListItemButton} xs={12} sm={8}  >
                                     <Avatar sx={{ height: 55, width: 55 }} variant="square" alt={item.name} src={item.image.fields.file.url} />
                                     <Box sx={{ ml: 2 }}>
-                                        <Typography variant="subtitle1" >{item.name}</Typography>
-                                        <Typography variant="body2" >${item.price}</Typography>
+                                        <Typography variant="subtitle1">{item.name}</Typography>
+                                        <Typography variant="body1">${item.price}</Typography>
                                     </Box>
                                 </Grid>
                                 <Grid xs={12} sm={4} >
