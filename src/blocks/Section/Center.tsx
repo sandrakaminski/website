@@ -27,7 +27,7 @@ export const Center = (props: Content) => {
             </Typography>
             {content.fields.resources?.map((item: ResourceType, index: number) => (
                 <Stack key={index} justifyContent="center" alignContent="center">
-                    <Typography align="center" variant="h1" component="h1" sx={{ p: 4 }}>
+                    <Typography align="center" variant="h4" sx={{ p: 4 }}>
                         {item.fields.headline}
                     </Typography>
                     <Resource resource={item} />
