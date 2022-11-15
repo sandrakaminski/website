@@ -69,20 +69,22 @@ const Cart = () => {
                     </Button>
                 </Stack >
                 :
-                <Grid spacing={2} container >
-                    <Grid component={Card} xs={12} md={8} >
-                        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                            <Typography variant="h4" >Shopping cart</Typography>
-                            <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
-                        </Stack>
-                        <Stack sx={{ mt: 4 }} >
-                            {cart.map((item: any, index: number) =>
-                                <CartItem key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
-                            )}
-                        </Stack>
+                <Grid alignItems="stretch" spacing={1} container >
+                    <Grid xs={12} md={8} >
+                        <Card sx={{ p: 2 }}>
+                            <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                                <Typography variant="h4" >Shopping cart</Typography>
+                                <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
+                            </Stack>
+                            <Stack sx={{ mt: 4 }} >
+                                {cart.map((item: any, index: number) =>
+                                    <CartItem key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
+                                )}
+                            </Stack>
+                        </Card>
                     </Grid>
-                    <Grid component={Card} xs={12} md={4} >
-                        <Stack sx={{ height: '100%' }} direction="column" justifyContent="space-between" spacing={2} >
+                    <Grid xs={12} md={4} >
+                        <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
                             <Stack spacing={1}>
                                 <Typography variant="h4" >Order summary</Typography>
                                 <CurrencyExchange country={country} />
