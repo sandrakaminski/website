@@ -33,18 +33,19 @@ export const Center = (props: Content) => {
                     <Resource resource={item} />
                 </Stack>
             ))}
-            <Stack component={Container} direction="column" justifyContent="center" alignItems="center" spacing={2} >
-                <ReactMarkdown components={SectionMarkDown} >
-                    {content.fields.body}
-                </ReactMarkdown>
-                {content.fields.ctaLabel &&
-                    <Button href={content.fields.ctaSlug} variant="contained" sx={{ mt: 4, mb: 4 }}>
-                        {content.fields.ctaLabel}
-                    </Button>
-                }
-            </Stack>
-
-        </ >
+            <Container maxWidth="sm">
+                <Stack direction="column" justifyContent="center" alignItems="center" spacing={2} >
+                    <ReactMarkdown components={SectionMarkDown} >
+                        {content.fields.body}
+                    </ReactMarkdown>
+                    {content.fields.ctaLabel &&
+                        <Button href={content.fields.ctaSlug} variant="contained" sx={{ mt: 4, mb: 4 }}>
+                            {content.fields.ctaLabel}
+                        </Button>
+                    }
+                </Stack>
+            </Container>
+        </>
     )
 }
 
