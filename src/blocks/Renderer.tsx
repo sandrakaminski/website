@@ -8,7 +8,6 @@ import Profile from './Profile';
 import Section from './Section';
 import ContactUs from '@/components/ContactUs';
 
-
 type Blocks = {
     [key: string]: any;
 }
@@ -55,9 +54,9 @@ const Renderer = (props: FactoryProps) => {
                 <>
                     {content.fields.layout === 'Grid'
                         ?
-                        <Grid container spacing={2}>
+                        <Grid justifyContent={{ xs: "center", sm: 'flex-start' }} container spacing={2}>
                             {content.fields.references.map((block, index) =>
-                                <Grid xs={12} sm={6} md={4} key={index}>
+                                <Grid sx={{ maxWidth: { xs: 400 } }} xs={12} sm={6} md={4} key={index}>
                                     <Factory content={block} />
                                 </Grid>
                             )}

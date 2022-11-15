@@ -11,6 +11,5 @@ const Outline: React.FC = () => {
             <Skeleton variant="rounded" height="5rem" />
         </Stack>
     )
-
 }
 export default Outline;

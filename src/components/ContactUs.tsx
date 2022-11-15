@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { CircularProgress } from "@mui/material";
-import Box from "@mui/material/Box";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Button from '@mui/material/Button';
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -79,11 +78,10 @@ const CustomForm = () => {
                     }
                 );
                 setEmail(true);
-                const j = await res;
                 if (res.ok) {
                     setSubmitting(false);
                     setStatus("success");
-                    return j;
+                    return res;
                 } else {
                     setStatus("error")
                     setSubmitting(false);
@@ -146,30 +144,14 @@ const CustomForm = () => {
                         />
                     </Grid>
                     <Grid xs={12} >
-                        {submitting ?
-                            <Button disabled startIcon={<CircularProgress size={20} />}>
-                                Submit
-                            </Button>
-                            :
-                            <>
-                                {email ?
-                                    <Button onClick={handleSubmit}>
-                                        Submit
-                                    </Button>
-                                    :
-                                    <Button disabled>
-                                        Submit
-                                    </Button>
-                                }
-                            </>
-                        }
+                        <LoadingButton disabled={!email} loading={submitting} onClick={handleSubmit}>
+                            Submit
+                        </LoadingButton>
                     </Grid>
                 </Grid>
             }
             {status === "success" && (
-                <Box>
-                    <Typography color="green" variant="h5" textAlign="center">Thankyou for signing up</Typography>
-                </Box>
+                <Typography sx={{ color: 'success.main' }} variant="h5" textAlign="center">Thank you for signing up</Typography>
             )}
         </>
     );

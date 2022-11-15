@@ -37,7 +37,7 @@ const CountryDropdown = (props: DropdownProps) => {
     const { onChange, value, label, id } = props;
 
     return (
-        <FormControl size="small" sx={{ maxWidth: 200 }} variant="outlined" fullWidth>
+        <FormControl sx={{ mindWidth: 300 }} size="small" variant="outlined" fullWidth>
             <InputLabel id={id}>Country</InputLabel>
             <Select
                 onChange={onChange}

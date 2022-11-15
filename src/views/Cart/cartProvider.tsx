@@ -141,7 +141,7 @@ type CartProviderProps = {
 }
 
 const CartProvider = ({ children }: CartProviderProps) => {
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initialState && initialState);
 
     // add to cart
     const addToCart: Function = (id: number, amount: number, product: any) => {
