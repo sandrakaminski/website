@@ -17,7 +17,7 @@ export const Summary = ({ content }: ProductTypes) => {
         <Card>
             <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })}>
                 <SoldOutBanner soldOut={!content.fields.inStock} />
-                <CardMedia component="img" sx={{ height: { xs: 350, lg: 450 } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
+                <CardMedia loading="lazy" component="img" sx={{ height: { xs: 350, lg: 450 } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
                 <CardHeader sx={{ maxHeight: 20, py: 6 }} title={content.fields.name} subheader={`$${content.fields.price}`} />
             </CardActionArea>
         </Card>

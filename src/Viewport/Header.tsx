@@ -47,7 +47,7 @@ const Header: React.FC = () => {
                 <Toolbar >
                     <Box sx={{ flexGrow: 1 }}>
                         <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer' }} underline="none" color="inherit">
-                            <img style={{ width: 200, height: 'auto' }} src={logo} alt="Sandra Kaminski" />
+                            <img loading="lazy" style={{ width: 200, height: 'auto' }} src={logo} alt="Sandra Kaminski" />
                         </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

@@ -17,6 +17,7 @@ export const Right = (props: Content) => {
             <Grid item xs={12} sm={6} md={6}>
                 {content.fields.image?.fields.file.url &&
                     <CardMedia
+                        loading="lazy"
                         sx={{ width: "100%", height: 'auto' }}
                         component="img"
                         src={content.fields.image.fields.file.url}

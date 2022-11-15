@@ -38,6 +38,7 @@ export const Detail = (props: ArticleType) => {
                 <Box sx={{ mt: 4 }}>
                     {content.fields.coverImage &&
                         <CardMedia
+                            loading="lazy"
                             component="img"
                             sx={{ width: '100%', height: 'auto' }}
                             src={content?.fields.coverImage.fields.file.url}

@@ -20,6 +20,7 @@ const Detail = (props: ProfileType) => {
                 <Box sx={{ mt: 4 }}>
                     {content.fields.image &&
                         <CardMedia
+                            loading="lazy"
                             component="img"
                             sx={{ width: '100%', height: 'auto' }}
                             src={content?.fields.image.fields.file.url}
@@ -39,6 +40,7 @@ const Detail = (props: ProfileType) => {
                         {content.fields.otherImages.map((image: any, index: number) =>
                             <Box key={index} >
                                 <CardMedia
+                                    loading="lazy"
                                     component="img"
                                     sx={{ height: { sm: 300 } }}
                                     src={image.fields.file.url}

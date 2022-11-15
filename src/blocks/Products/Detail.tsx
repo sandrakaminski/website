@@ -43,6 +43,7 @@ export const Detail = (props: ProductTypes) => {
                 <Grid xs={12} md={6}>
                     {content.fields.featureImage &&
                         <CardMedia
+                            loading="lazy"
                             component="img"
                             src={content?.fields.featureImage.fields.file.url}
                             alt={content.fields.featureImage.fields.title}

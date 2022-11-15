@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 
 export const Markdown: Record<string, unknown> = {
     a: ({ ...props }) => <Link target="_blank" rel="noopener noreferrer" {...props} />,
-    img: ({ ...props }) => <img style={{ width: '100%', marginTop: 2, marginBottom: 2 }} {...props} />,
+    img: ({ ...props }) => <img loading="lazy" style={{ width: '100%', marginTop: 2, marginBottom: 2 }} {...props} />,
     p: ({ ...props }) => <Typography color="grayText" variant="body1" {...props} />,
     hr: ({ ...props }) => <Divider sx={{ my: 2 }} {...props} />,
     div: ({ ...props }) => <Stack justifyContent="center" alignItems="center" direction="row" {...props} />,
@@ -16,7 +16,7 @@ export const Markdown: Record<string, unknown> = {
 
 export const ArticleMarkdown: Record<string, unknown> = {
     a: ({ ...props }) => <Link target="_blank" rel="noopener noreferrer" {...props} />,
-    img: ({ ...props }) => <img style={{ width: '100%', marginTop: 20, marginBottom: 20 }} {...props} />,
+    img: ({ ...props }) => <img loading="lazy" style={{ width: '100%', marginTop: 20, marginBottom: 20 }} {...props} />,
     p: ({ ...props }) => <Typography color="grayText" variant="body1" {...props} />,
     hr: ({ ...props }) => <Divider sx={{ my: 2 }} {...props} />,
     div: ({ ...props }) => <Stack justifyContent="center" alignItems="center" direction="row" {...props} />,
