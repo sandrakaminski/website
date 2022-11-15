@@ -93,13 +93,13 @@ const Cart = () => {
                                 )}
                             </List>
                             <Divider sx={{ my: 2 }} />
-                            <Stack alignItems="flex-end" direction="row" spacing={2} >
-                                <Typography variant="subtitle1">
+                            <Stack alignItems="flex-end" spacing={2} >
+                                <Typography variant="body1">
                                     <CurrencyExchange country={country} />
                                 </Typography>
 
                                 <CountryDropdown label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
-                                <LoadingButton disabled={!country} size="large" variant={"outlined"} loading={processing} onClick={handlePurchase}>Buy now </LoadingButton>
+                                <LoadingButton size="large" disabled={!country} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now </LoadingButton>
                             </Stack>
                         </>
                     }
