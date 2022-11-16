@@ -10,7 +10,10 @@ export type ProductTypes = {
             slug: string;
             productId: string;
             inStock: boolean;
+            productFiles: Image[]
         }
     }
 }
+
+
 export default ProductTypes;

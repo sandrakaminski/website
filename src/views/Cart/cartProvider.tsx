@@ -117,7 +117,7 @@ const reducer = (state: State, action: Action) => {
 
         return { ...state, total, amount };
     }
-    return state;
+    return state || init;
 };
 
 //Store cart data in local storage

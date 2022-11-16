@@ -115,7 +115,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
 
     return (
         <>
-            <Typography> {`VAT: ${vatCosts * 100}%`}</Typography>
+            <Typography> {`VAT/GST: ${vatCosts * 100}%`}</Typography>
             <Typography>{`Shipping: $${shippingCosts} NZD`} </Typography>
             <Typography> {`Total: $${totalCosts.toFixed(2)} NZD`}</Typography>
         </>

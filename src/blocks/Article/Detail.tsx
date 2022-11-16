@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
+import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
@@ -10,7 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import type { ArticleType } from './ArticleType'
 import DateFormatter from "@/components/DateFormatter";
 import Trail from '@/components/Trail';
-import { ArticleMarkdown } from '@/shared';
+import { Markdown } from '@/shared';
+
 
 export const Detail = (props: ArticleType) => {
     const { content } = props;
@@ -20,10 +22,12 @@ export const Detail = (props: ArticleType) => {
         <>
             <Trail current={content.fields.title} />
             <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
-                <Typography variant="h2" align="center" >
+                <Typography sx={{ my: 2 }} variant="h2" align="center" >
                     {content.fields.headline}
                 </Typography>
-                <Stack direction="row"
+                <Stack
+                    sx={{ my: 2 }}
+                    direction="row"
                     justifyContent="space-between"
                     alignItems="center"
                     spacing={2} >
@@ -35,8 +39,8 @@ export const Detail = (props: ArticleType) => {
                         {content.fields.author.fields.name}
                     </Link>
                 </Stack>
-                <Box sx={{ mt: 4 }}>
-                    {content.fields.coverImage &&
+                <Box sx={{ py: 4 }}>
+                    {content.fields.coverImage ?
                         <CardMedia
                             loading="lazy"
                             component="img"
@@ -44,10 +48,11 @@ export const Detail = (props: ArticleType) => {
                             src={content?.fields.coverImage.fields.file.url}
                             alt={content.fields.coverImage.fields.title}
                         />
+                        : <Skeleton sx={{ width: '100%', height: 450 }} />
                     }
                 </Box>
-                <Container maxWidth="sm">
-                    <ReactMarkdown components={ArticleMarkdown}>{content.fields.body}</ReactMarkdown>
+                <Container maxWidth="md">
+                    <ReactMarkdown components={Markdown}>{content.fields.body}</ReactMarkdown>
                 </Container>
                 {/* powr comments box */}
                 {/* <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>

@@ -1,5 +1,9 @@
+import { useState } from 'react';
+
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -15,15 +19,21 @@ export const Detail = (props: ProductTypes) => {
     const { content } = props;
     const { addToCart }: any = useCartContext();
 
+    const [image, setImage] = useState<string>(content.fields.featureImage.fields.file.url);
+
     const handleCart = () => {
         addToCart(content.fields.productId, '1', content.fields)
+    }
+
+    const handleSetImage = (img: any) => {
+        setImage(img.fields.file.url)
     }
 
     return (
         <>
             <Trail current={content.fields.name} />
             <Grid container spacing={2} justifyContent="center" sx={{ mt: 10 }}  >
-                <Grid xs={12} md={6}>
+                <Grid xs={12} md={5}>
                     <Stack spacing={4} justifyContent="center" alignItems="center">
                         <Typography align="center" gutterBottom variant="h2">
                             {content.fields.name}
@@ -37,14 +47,24 @@ export const Detail = (props: ProductTypes) => {
                         </Button>
                     </Stack>
                 </Grid>
-                <Grid xs={12} md={6}>
+                <Grid xs={12} md={7}>
                     {content.fields.featureImage &&
                         <CardMedia
+                            sx={{ height: 800 }}
                             loading="lazy"
                             component="img"
-                            src={content?.fields.featureImage.fields.file.url}
-                            alt={content.fields.featureImage.fields.title}
+                            src={image}
+                            alt={"Feature image"}
                         />
+                    }
+                    {content.fields.productFiles &&
+                        <Grid justifyContent="center" container >
+                            {content.fields.productFiles.map((image: any, index: number) =>
+                                <Grid key={index}  >
+                                    <Avatar onClick={() => handleSetImage(image)} component={CardActionArea} sx={{ width: 50, height: 80 }} variant="square" src={image.fields.file.url} alt={image.fields.title} />
+                                </Grid>
+                            )}
+                        </Grid>
                     }
                 </Grid>
             </Grid >
