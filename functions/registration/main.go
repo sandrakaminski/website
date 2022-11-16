@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"io"
 	"log"
 
 	"os"
@@ -47,13 +46,11 @@ func addContact(per Person) {
 }
 
 func Create(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	reqByt, err := io.ReadAll(request.Body)
-	if err != nil {
-		return nil, err
-	}
 
 	var per Person
-	json.Unmarshal(reqByt, &per)
+	if err := json.Unmarshal([]byte(request.Body), &per); err != nil {
+		return nil, err
+	}
 
 	addContact(per)
 
