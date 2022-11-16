@@ -7,6 +7,7 @@ import Products from './Products';
 import Profile from './Profile';
 import Section from './Section';
 import ContactUs from '@/components/ContactUs';
+import Outline from '@/components/Outline';
 
 type Blocks = {
     [key: string]: any;
@@ -41,6 +42,10 @@ type FactoryProps = {
 const Factory = (props: FactoryProps) => {
     const { content, detail } = props;
     const name: string = content.sys.contentType.sys.id;
+
+    if (!content || !name) {
+        return <Outline />
+    }
     return blocks[name]({ content, detail })
 }
 

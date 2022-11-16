@@ -39,7 +39,7 @@ export const ImageContainer = (props: ImageContainerProps) => {
                             loading="lazy"
                         />
                         :
-                        <Skeleton variant="rectangular" width={210} height={118} />
+                        <Skeleton variant="rectangular" width={'100%'} height={'100%'} />
                     }
                 </ImageListItem>
             )}
