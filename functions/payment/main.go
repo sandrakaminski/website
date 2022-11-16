@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -88,8 +87,6 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Println(event.body)
 
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 200,
