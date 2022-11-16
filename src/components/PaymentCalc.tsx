@@ -108,15 +108,16 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { total } = useCartContext();
     const shippingCosts = ShippingCost(country);
     const vatCosts = vat(country);
+    console.log(vatCosts * 0.1)
 
     const totalCost = total + shippingCosts
-    const vatTotal = totalCost * vatCosts
+    const vatTotal = vatCosts * total
     const totalCosts = totalCost + vatTotal
 
     return (
         <>
-            <Typography> {`VAT/GST: ${vatCosts * 100}%`}</Typography>
-            <Typography>{`Shipping: $${shippingCosts} NZD`} </Typography>
+            <Typography> {`VAT/GST: $${vatTotal.toFixed(2)} NZD`}</Typography>
+            <Typography>{`Shipping: $${shippingCosts.toFixed(2)} NZD`} </Typography>
             <Typography> {`Total: $${totalCosts.toFixed(2)} NZD`}</Typography>
         </>
     )

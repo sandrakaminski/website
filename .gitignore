@@ -22,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Netlify artefacts
+.netlify
+
+# React artefacts
+node_modules
+dist
+*.lock
+*.log
+
+# env vars
+.env

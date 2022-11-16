@@ -53,7 +53,7 @@ const Cart = () => {
         const res = await fetch('http://localhost:8080', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${import.meta.env.VITE_STRIPE_TEST_KEY}`,
+
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
@@ -135,15 +135,15 @@ const CartItem = (props: CartItemProps) => {
     const navigate = useNavigate();
 
     return (
-        <Grid sx={{ my: 0.5 }} spacing={2} container direction="row" justifyContent="space-between" alignItems="center" >
-            <Grid onClick={() => navigate(`/shop/${item.slug}`)} component={ListItemButton} xs={12} sm={8}  >
+        <Grid sx={{ my: 0.5, px: 1 }} spacing={2} container direction="row" justifyContent="space-between" alignItems="center" >
+            <Grid onClick={() => navigate(`/shop/${item.slug}`)} component={ListItemButton}  >
                 <Avatar sx={{ height: 55, width: 55 }} variant="square" alt={item.name} src={item.image.fields.file.url} />
                 <Box sx={{ ml: 2 }}>
                     <Typography variant="subtitle1">{item.name}</Typography>
                     <Typography variant="body1">${item.price}</Typography>
                 </Box>
             </Grid>
-            <Grid xs={12} sm={4} >
+            <Grid >
                 <Stack direction="row" justifyContent={{ xs: 'space-between', sm: "flex-end" }} alignItems="center" spacing={4}>
                     <AmountButtons increase={() => increase(item.id)} remove={() => remove(item.id)} amount={item} decrease={() => decrease(item.id)} />
                     <Button startIcon={<CloseIcon fontSize="inherit" />} color="error" onClick={() => remove(item.id)} >
