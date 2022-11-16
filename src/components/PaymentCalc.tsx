@@ -61,7 +61,7 @@ export const ShippingCost = (country: string) => {
     if (country === "AU") return (44.92);
     if (country === "CA") return (46.92);
     if (country === "CL") return (31);
-    if (country === "FR") return (36.92);
+    if (country === "FR") return (34.92);
     if (country === "IT") return (36.92);
     if (country === "NZ") return (11);
     if (country === "NO") return (42);

@@ -22,6 +22,7 @@ import CountryDropdown, { CurrencyExchange, shippingID } from '@/components/Paym
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 type Items = {
+    inStock: boolean;
     slug: string;
     id: string;
     name: string;
@@ -76,6 +77,7 @@ const Cart = () => {
             setProcessing(false);
         }
     }
+    console.log(cart)
 
     return (
         <Box sx={{ my: 4 }}>
@@ -133,6 +135,11 @@ type CartItemProps = {
 const CartItem = (props: CartItemProps) => {
     const { item, decrease, increase, remove } = props;
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (item.inStock !== true)
+            remove(item.id)
+    }, [item.inStock, remove, item.id])
 
     return (
         <Grid sx={{ my: 0.5, px: 1 }} spacing={2} container direction="row" justifyContent="space-between" alignItems="center" >

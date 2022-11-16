@@ -60,6 +60,7 @@ const reducer = (state: State, action: Action) => {
         }
         const newItem = {
             id: id,
+            inStock: product.inStock,
             slug: product.slug,
             name: product.name,
             amount,
