@@ -8,7 +8,6 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/joho/godotenv"
 	"github.com/sendgrid/sendgrid-go"
 )
 
@@ -23,20 +22,19 @@ type Contact struct {
 }
 
 func addContact(per Person) {
-	godotenv.Load(".env")
 	host := os.Getenv("SEND_GRID_HOST")
 	ep := os.Getenv("SEND_GRID_ENDPOINT")
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 
 	request := sendgrid.GetRequest(apiKey, ep, host)
-	request.Method = "PUT"
+	request.Method = "POST"
 
 	request.Body, _ = json.Marshal(Contact{Contacts: []Person{per}})
 
 	response, err := sendgrid.API(request)
 
 	if err != nil {
-		log.Println(err)
+		log.Println("Not posted %f", err)
 	} else {
 		log.Println(response.Body)
 	}
@@ -50,20 +48,12 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	}
 
 	addContact(per)
-	rsp := map[string]interface{}{
-		"status":     200,
-		"statusText": "All good",
-	}
-	byt, err := json.Marshal(rsp)
-	if err != nil {
-		return nil, err
-	}
 
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Headers:    map[string]string{"Content-Type": "application/json"},
-		Body:       string(byt),
+		Body:       "Contact added",
 	}, nil
+
 }
 
 func main() {

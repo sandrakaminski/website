@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -62,12 +63,10 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 				stripe.String(ord.Country),
 			},
 		},
-
 		Currency: stripe.String(string("NZD")),
 		ShippingOptions: []*stripe.PaymentLinkShippingOptionParams{
 			{ShippingRate: stripe.String(ord.ShippingID)},
 		},
-
 		LineItems: lineItems,
 		AfterCompletion: &stripe.PaymentLinkAfterCompletionParams{
 			Type: stripe.String(string(stripe.PaymentLinkAfterCompletionTypeRedirect)),
@@ -77,21 +76,19 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		},
 	}
 
-	paymentlink.New(params)
-	rsp := map[string]interface{}{
-		"status":     200,
-		"statusText": "All good",
-	}
-
-	byt, err := json.Marshal(rsp)
+	link, err := paymentlink.New(params)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error generating payment link: %w", err)
+	}
+	rspByt, err := json.Marshal(link)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling payment link: %w", err)
 	}
 
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 200,
 		Headers:    map[string]string{"Content-Type": "application/json"},
-		Body:       string(byt),
+		Body:       string(rspByt),
 	}, nil
 }
 

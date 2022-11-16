@@ -75,11 +75,9 @@ const CustomForm = () => {
                 }
             );
             setEmail(true);
-            console.log(res)
             if (res.ok) {
                 setSubmitting(false);
                 setStatus("success");
-                return res;
             } else {
                 setStatus("error")
                 setSubmitting(false);
