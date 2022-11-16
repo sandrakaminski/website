@@ -50,10 +50,9 @@ const Cart = () => {
 
     const handlePurchase = async () => {
         setProcessing(true)
-        const res = await fetch('http://localhost:8080', {
+        const res = await fetch('/functions/payment​', {
             method: 'POST',
             headers: {
-
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({

@@ -8,7 +8,7 @@ type Port = {
 
 const port: Port = {
   host: true,
-  port: 3000
+  port: 5173
 }
 // https://vitejs.dev/config/
 export default defineConfig({
