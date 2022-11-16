@@ -47,11 +47,14 @@ const Cart = () => {
     const [processing, setProcessing] = useState<boolean>(false);
     const [country, setCountry] = useState<string>("");
     const { cart, clear, decrease, increase, remove }: any = useCartContext();
-    const Shipping: string = shippingID(country);
+    const shipping: string = shippingID(country);
+
+
+    console.log(cart.length)
 
     const data = {
         country: country,
-        shippingId: Shipping,
+        shippingId: shipping,
         orderItems: cart?.map((item: OrderItems) => {
             return {
                 productId: item.id,
@@ -77,7 +80,6 @@ const Cart = () => {
             setProcessing(false);
         }
     }
-    console.log(cart)
 
     return (
         <Box sx={{ my: 4 }}>

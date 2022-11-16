@@ -49,9 +49,19 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 
 	addContact(per)
 
+	rsp := map[string]interface{}{
+		"status":     200,
+		"statusText": "All good",
+	}
+	byt, err := json.Marshal(rsp)
+	if err != nil {
+		return nil, err
+	}
+
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Body:       "Contact added",
+		Headers:    map[string]string{"Content-Type": "application/json"},
+		Body:       string(byt),
 	}, nil
 
 }

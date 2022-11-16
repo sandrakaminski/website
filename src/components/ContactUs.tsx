@@ -9,25 +9,30 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useParams } from 'react-router-dom';
 
+const validEmail: RegExp = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
 
-const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
+type Fields = {
+    first_name: string;
+    last_name: string;
+    email: string;
+}
 
 const CustomForm = () => {
     const [email, setEmail] = useState(false);
-    const [submitting, setSubmitting] = useState<any>(false)
-    const [status, setStatus] = useState<any>('')
-    const [fields, setFields] = useState<any>({
+    const [submitting, setSubmitting] = useState<boolean>(false)
+    const [status, setStatus] = useState<string>('')
+    const [fields, setFields] = useState<Fields>({
         first_name: '',
         last_name: '',
         email: ''
     })
-    const [errors, setErrors] = useState({
+    const [errors, setErrors] = useState<Fields>({
         first_name: '',
         last_name: '',
         email: '',
     });
 
-    const validate = (name: any, value: any) => {
+    const validate = (name: string, value: any) => {
         if (name === 'first_name' && value.length === 0) {
             return '';
         }
@@ -54,7 +59,7 @@ const CustomForm = () => {
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+        const { name, value }: HTMLInputElement = e.target;
         setFields({ ...fields, [name]: value });
 
         const err = validate(name, value);
@@ -97,14 +102,15 @@ const CustomForm = () => {
         <>
             {status === "error" && (
                 <Stack sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <Typography sx={{ p: 2 }} color="red" variant="h5" textAlign="center">Please use a valid email address</Typography>
+                    <Typography color="red" variant="h5" textAlign="center">Please use a valid email address</Typography>
                     <Button variant="outlined" onClick={() => setStatus("")}>Try Again</Button>
                 </Stack>
             )}
             {!status &&
-                <Grid container spacing={3}>
-                    <Grid xs={6} >
+                <Grid container spacing={2}>
+                    <Grid xs={12} sm={6} >
                         <TextField
+                            size="small"
                             error={errors.first_name.length > 0}
                             name={"first_name"}
                             onChange={handleChange}
@@ -114,8 +120,9 @@ const CustomForm = () => {
                             helperText={errors.first_name}
                         />
                     </Grid>
-                    <Grid xs={6} >
+                    <Grid xs={12} sm={6} >
                         <TextField
+                            size="small"
                             error={errors.last_name.length > 0}
                             name={"last_name"}
                             onChange={handleChange}
@@ -127,6 +134,7 @@ const CustomForm = () => {
                     </Grid>
                     <Grid xs={12} >
                         <TextField
+                            size="small"
                             error={errors.email.length > 0}
                             name={"email"}
                             onChange={handleChange}
@@ -156,8 +164,8 @@ const ContactUs: React.FC = () => {
     return (
         <>
             {slug === 'contact' &&
-                <Container maxWidth="sm">
-                    <Typography align="center" color="grayText" variant="h5" sx={{ p: 4 }}>
+                <Container sx={{ mt: 4 }} maxWidth="sm">
+                    <Typography gutterBottom align="center" color="grayText" variant="h6" sx={{ mt: 2 }}>
                         Sign up to my newsletter for exclusive monthly updates from my life as a stylist.
                     </Typography>
                     <CustomForm />
