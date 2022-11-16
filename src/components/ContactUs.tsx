@@ -9,7 +9,6 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useParams } from 'react-router-dom';
 
-const url = `http://localhost:8080/person`
 
 const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
 
@@ -65,29 +64,25 @@ const CustomForm = () => {
     const handleSubmit = async () => {
         if (validEmail.test(fields.email)) {
             setSubmitting(true);
-            try {
-                const res = await fetch(
-                    url,
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Accept: 'application/json',
-                        },
-                        body: JSON.stringify(fields),
-                    }
-                );
-                setEmail(true);
-                if (res.ok) {
-                    setSubmitting(false);
-                    setStatus("success");
-                    return res;
-                } else {
-                    setStatus("error")
-                    setSubmitting(false);
+            const res = await fetch(`/.netlify/functions/registration`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                    },
+                    body: JSON.stringify(fields),
                 }
-            } catch (e) {
-                return { error: e }
+            );
+            setEmail(true);
+            console.log(res)
+            if (res.ok) {
+                setSubmitting(false);
+                setStatus("success");
+                return res;
+            } else {
+                setStatus("error")
+                setSubmitting(false);
             }
         } else {
             return 'Please enter a valid email address'

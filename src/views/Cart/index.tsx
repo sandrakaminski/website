@@ -48,31 +48,33 @@ const Cart = () => {
     const { cart, clear, decrease, increase, remove }: any = useCartContext();
     const Shipping: string = shippingID(country);
 
+    const data = {
+        country: country,
+        shippingId: Shipping,
+        orderItems: cart?.map((item: OrderItems) => {
+            return {
+                productId: item.id,
+                quantity: item.amount.length
+            }
+        })
+    }
+
     const handlePurchase = async () => {
         setProcessing(true)
-        const res = await fetch('/functions/payment​', {
+        const resp = await fetch(`/.netlify/functions/payment`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                country: country,
-                shippingId: Shipping,
-                orderItems: cart?.map((item: OrderItems) => {
-                    return {
-                        productId: item.id,
-                        quantity: item.amount.length
-                    }
-                })
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
         });
-        try {
-            const data = await res.json();
-            window.location.replace(data.url);
+
+        if (resp.ok) {
+            console.log(resp)
+            const { url } = await resp.json();
+            window.location.replace(url);
         }
-        catch (error: any) {
+        else {
             setProcessing(false);
-            console.log(error);
+            console.log(resp);
         }
     }
 

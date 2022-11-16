@@ -9,7 +9,6 @@ import type { Content, ResourceType } from './SectionTypes';
 export const Column = (props: Content) => {
     const { content } = props;
 
-    console.log(content.fields.resources)
 
     return (
         <Box sx={{ p: 5 }}>

@@ -108,7 +108,6 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { total } = useCartContext();
     const shippingCosts = ShippingCost(country);
     const vatCosts = vat(country);
-    console.log(vatCosts * 0.1)
 
     const totalCost = total + shippingCosts
     const vatTotal = vatCosts * total

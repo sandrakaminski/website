@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 
@@ -97,6 +98,8 @@ func PlaceOrder(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyR
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Println(event.body)
 
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 200,

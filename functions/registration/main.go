@@ -27,9 +27,9 @@ type Contact struct {
 }
 
 func addContact(per Person) {
-	host := loadEnv("SEND_GRID_HOST")
-	ep := loadEnv("SEND_GRID_ENDPOINT")
-	apiKey := loadEnv("SENDGRID_API_KEY")
+	host := os.Getenv("SEND_GRID_HOST")
+	ep := os.Getenv("SEND_GRID_ENDPOINT")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 
 	request := sendgrid.GetRequest(apiKey, ep, host)
 	request.Method = "PUT"
@@ -59,13 +59,4 @@ func Create(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyRespo
 		Headers:    map[string]string{"Content-Type": "application/json"},
 		Body:       "Contact added",
 	}, nil
-}
-
-func loadEnv(env string) (uri string) {
-	err := godotenv.Load()
-	if err != nil {
-		log.Println("Error loading .env file ")
-	}
-	uri = os.Getenv(env)
-	return uri
 }
