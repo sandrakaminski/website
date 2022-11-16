@@ -111,7 +111,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
 
     const totalCost = total + shippingCosts
     const vatTotal = vatCosts * total
-    const totalCosts = totalCost + vatTotal
+    const totalCosts = totalCost
 
     return (
         <>

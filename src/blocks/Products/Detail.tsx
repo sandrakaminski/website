@@ -5,6 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
+import Dialog from '@mui/material/Dialog';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -12,13 +13,13 @@ import ReactMarkdown from 'react-markdown';
 
 import type { ProductTypes } from './ProductTypes';
 import Trail from '@/components/Trail';
-import { Markdown } from '@/shared';
+import { Markdown, Image } from '@/shared';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 export const Detail = (props: ProductTypes) => {
     const { content } = props;
     const { addToCart }: any = useCartContext();
-
+    const [open, setOpen] = useState<boolean>(false);
     const [image, setImage] = useState<string>(content.fields.featureImage.fields.file.url);
 
     const handleCart = () => {
@@ -29,11 +30,15 @@ export const Detail = (props: ProductTypes) => {
         setImage(img.fields.file.url)
     }
 
+    const handleOpen = () => {
+        setOpen(true)
+    }
+
     return (
         <>
             <Trail current={content.fields.name} />
-            <Grid container spacing={2} justifyContent="center" sx={{ mt: 10 }}  >
-                <Grid xs={12} md={5}>
+            <Grid container spacing={2} sx={{ mt: 10 }}  >
+                <Grid xs={12} md={6}>
                     <Stack spacing={4} justifyContent="center" alignItems="center">
                         <Typography align="center" gutterBottom variant="h2">
                             {content.fields.name}
@@ -47,19 +52,20 @@ export const Detail = (props: ProductTypes) => {
                         </Button>
                     </Stack>
                 </Grid>
-                <Grid xs={12} md={7}>
+                <Grid xs={12} md={6}>
                     {content.fields.featureImage &&
-                        <CardMedia
-                            sx={{ height: 800 }}
-                            loading="lazy"
-                            component="img"
-                            src={image}
-                            alt={"Feature image"}
-                        />
+                        <CardActionArea onClick={() => handleOpen()}>
+                            <CardMedia
+                                loading="lazy"
+                                component="img"
+                                src={image}
+                                alt={"Feature image"}
+                            />
+                        </CardActionArea>
                     }
                     {content.fields.productFiles &&
                         <Grid justifyContent="center" container >
-                            {content.fields.productFiles.map((image: any, index: number) =>
+                            {content.fields.productFiles.map((image: Image, index: number) =>
                                 <Grid key={index}  >
                                     <Avatar onClick={() => handleSetImage(image)} component={CardActionArea} sx={{ width: 50, height: 80 }} variant="square" src={image.fields.file.url} alt={image.fields.title} />
                                 </Grid>
@@ -67,6 +73,15 @@ export const Detail = (props: ProductTypes) => {
                         </Grid>
                     }
                 </Grid>
+                <Dialog open={open} onClose={() => setOpen(false)}>
+                    <CardMedia
+                        sx={{ height: 600 }}
+                        loading="lazy"
+                        component="img"
+                        src={image}
+                        alt={"Feature image"}
+                    />
+                </Dialog>
             </Grid >
         </>
     );

@@ -74,7 +74,6 @@ const Cart = () => {
         }
         else {
             setProcessing(false);
-            console.log(resp);
         }
     }
 
@@ -92,7 +91,7 @@ const Cart = () => {
                 :
                 <Grid alignItems="stretch" spacing={1} container >
                     <Grid xs={12} md={8} >
-                        <Card sx={{ p: 2 }}>
+                        <Card sx={{ p: 2, minHeight: 250 }}>
                             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
                                 <Typography variant="h4" >Shopping cart</Typography>
                                 <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
@@ -112,7 +111,7 @@ const Cart = () => {
                             </Stack>
                             <ButtonGroup size="small">
                                 <CountryDropdown label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
-                                <LoadingButton size="small" sx={{ width: 200 }} disabled={!country} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
+                                <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={!country} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
                             </ButtonGroup>
                         </Stack>
                     </Grid>
