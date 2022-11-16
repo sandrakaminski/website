@@ -101,12 +101,13 @@ export const shippingID = (country: string) => {
 
 interface CurrencyExchProps {
     country: string;
+    shippingCosts: any;
 }
 
 export const CurrencyExchange = (props: CurrencyExchProps) => {
-    const { country } = props;
+    const { country, shippingCosts } = props;
     const { total } = useCartContext();
-    const shippingCosts = ShippingCost(country);
+    // const shippingCosts = ShippingCost(country);
     const vatCosts = vat(country);
 
     const totalCost = total + shippingCosts

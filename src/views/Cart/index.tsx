@@ -18,7 +18,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate } from 'react-router-dom';
 
-import CountryDropdown, { CurrencyExchange, shippingID } from '@/components/PaymentCalc';
+import CountryDropdown, { CurrencyExchange, shippingID, ShippingCost } from '@/components/PaymentCalc';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 type Items = {
@@ -48,9 +48,9 @@ const Cart = () => {
     const [country, setCountry] = useState<string>("");
     const { cart, clear, decrease, increase, remove }: any = useCartContext();
     const shipping: string = shippingID(country);
+    const shippingCosts = ShippingCost(country);
 
-
-    console.log(cart.length)
+    const number = cart.map((item: Items) => item.amount.length)
 
     const data = {
         country: country,
@@ -111,7 +111,7 @@ const Cart = () => {
                         <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
                             <Stack spacing={1}>
                                 <Typography variant="h4" >Order summary</Typography>
-                                <CurrencyExchange country={country} />
+                                <CurrencyExchange shippingCosts={shippingCosts * number} country={country} />
                             </Stack>
                             <ButtonGroup size="small">
                                 <CountryDropdown label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
