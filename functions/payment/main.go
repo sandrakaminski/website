@@ -3,29 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/joho/godotenv"
 	"github.com/stripe/stripe-go/v73"
 	"github.com/stripe/stripe-go/v73/paymentlink"
 	"github.com/stripe/stripe-go/v73/product"
 )
-
-func main() {
-	lambda.Start(PlaceOrder)
-}
-
-func loadEnv(env string) (uri string) {
-	err := godotenv.Load()
-	if err != nil {
-		log.Println("Error loading .env file ")
-	}
-	uri = os.Getenv(env)
-	return uri
-}
 
 type Order struct {
 	Country    string      `json:"country"`
@@ -38,8 +23,8 @@ type OrderItem struct {
 	Quantity  int64  `json:"quantity"`
 }
 
-func PlaceOrder(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	stripe.Key = loadEnv("STRIPE_SECRET")
+func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	stripe.Key = os.Getenv("STRIPE_SECRET")
 
 	var ord Order
 	if err := json.Unmarshal([]byte(request.Body), &ord); err != nil {
@@ -88,13 +73,18 @@ func PlaceOrder(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyR
 		AfterCompletion: &stripe.PaymentLinkAfterCompletionParams{
 			Type: stripe.String(string(stripe.PaymentLinkAfterCompletionTypeRedirect)),
 			Redirect: &stripe.PaymentLinkAfterCompletionRedirectParams{
-				URL: stripe.String(loadEnv("DOMAIN")),
+				URL: stripe.String(os.Getenv("DOMAIN")),
 			},
 		},
 	}
-	link, err := paymentlink.New(params)
 
-	rspByt, err := json.Marshal(link)
+	paymentlink.New(params)
+	rsp := map[string]interface{}{
+		"status":     200,
+		"statusText": "All good",
+	}
+
+	byt, err := json.Marshal(rsp)
 	if err != nil {
 		return nil, err
 	}
@@ -104,6 +94,10 @@ func PlaceOrder(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyR
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 200,
 		Headers:    map[string]string{"Content-Type": "application/json"},
-		Body:       string(rspByt),
+		Body:       string(byt),
 	}, nil
+}
+
+func main() {
+	lambda.Start(handler)
 }
