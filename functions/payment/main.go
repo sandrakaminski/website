@@ -41,7 +41,7 @@ func PlaceOrder(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyR
 	stripe.Key = loadEnv("STRIPE_SECRET")
 
 	var ord Order
-	if err := json.Unmarshal(request.Body, &ord); err != nil {
+	if err := json.Unmarshal([]byte(request.Body), &ord); err != nil {
 		return nil, err
 	}
 
