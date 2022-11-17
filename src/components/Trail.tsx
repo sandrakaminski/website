@@ -13,7 +13,7 @@ export const Trail = (props: TrailProps) => {
     const { type } = useParams();
 
     return (
-        <Breadcrumbs separator="›" aria-label="breadcrumb">
+        <Breadcrumbs separator="›" >
             <Link
                 sx={{ cursor: 'pointer', textTransform: 'capitalize' }}
                 underline="hover"

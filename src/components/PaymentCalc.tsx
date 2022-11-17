@@ -57,6 +57,7 @@ const CountryDropdown = (props: DropdownProps) => {
 }
 export default CountryDropdown;
 
+// exact shipping costs
 export const ShippingCost = (country: string) => {
     if (country === "AU") return (44.92);
     if (country === "CA") return (46.92);
@@ -71,6 +72,8 @@ export const ShippingCost = (country: string) => {
     return 11;
 }
 
+
+// exact tax rate for each country
 export const vat = (country: string) => {
     if (country === "AU") return (0);
     if (country === "CA") return (0.05);
@@ -90,10 +93,11 @@ interface CurrencyExchProps {
     shippingCosts: any;
 }
 
+
+// displays the approximate costs 
 export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { country, shippingCosts } = props;
     const { total } = useCartContext();
-    // const shippingCosts = ShippingCost(country);
     const vatCosts = vat(country);
 
     const totalCost = total + shippingCosts
