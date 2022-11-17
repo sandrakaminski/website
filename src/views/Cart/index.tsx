@@ -50,7 +50,7 @@ const Cart = () => {
     const shipping: string = shippingID(country);
     const shippingCosts = ShippingCost(country);
 
-    const number = cart.map((item: Items) => item.amount.length)
+    const number = cart.map((item: Items) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
 
     const data = {
         country: country,
