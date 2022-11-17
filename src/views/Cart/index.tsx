@@ -43,7 +43,7 @@ const Cart = () => {
     const [processing, setProcessing] = useState<boolean>(false);
     const [country, setCountry] = useState<string>("");
     const [nzOnly, setNzOnly] = useState<boolean>(false);
-    const { cart, clear, decrease, increase, remove }: any = useCartContext();
+    const { cart, clear, decrease, increase, remove } = useCartContext();
     const shippingCosts = ShippingCost(country);
     const cartQuantity = cart.map((item: Items) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
     const shippingTotal = shippingCosts * cartQuantity;

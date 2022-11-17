@@ -10,7 +10,7 @@ import { useCartContext } from "@/views/Cart/cartProvider";
 
 const PaymentSuccess: React.FC = () => {
     const navigate = useNavigate();
-    const { clear, cart }: any = useCartContext();
+    const { clear, cart } = useCartContext();
     useEffect(() => {
         if (cart?.length > 0) {
             clear()
