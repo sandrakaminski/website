@@ -23,6 +23,8 @@ type OrderItem struct {
 	Quantity  int64  `json:"quantity"`
 }
 
+const url = "https://sandrakaminski.netlify.app"
+
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	stripe.Key = os.Getenv("STRIPE_SECRET")
 
@@ -62,8 +64,8 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		}),
 		SubmitType: stripe.String("pay"),
 		Mode:       stripe.String(string(stripe.CheckoutSessionModePayment)),
-		SuccessURL: stripe.String("https://sandrakaminski.netlify.app/success"),
-		CancelURL:  stripe.String("https://sandrakaminski.netlify.app/cart"),
+		SuccessURL: stripe.String(url + "/success"),
+		CancelURL:  stripe.String(url + "/cart"),
 		ShippingAddressCollection: &stripe.CheckoutSessionShippingAddressCollectionParams{
 			AllowedCountries: stripe.StringSlice([]string{ord.Country}),
 		},

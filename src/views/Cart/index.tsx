@@ -117,7 +117,7 @@ const Cart = () => {
                     </Grid>
                 </Grid>
             }
-        </Box >
+        </Box>
     )
 }
 
@@ -179,10 +179,7 @@ const AmountButtons = (props: AmountButtonsProps) => {
     }, [amount?.amount.length, remove])
 
     return (
-        <Stack direction="row"
-            justifyContent="center"
-            alignItems="center"
-        >
+        <Stack direction="row" justifyContent="center" alignItems="center"    >
             <IconButton onClick={decrease} size="small">
                 <RemoveIcon fontSize="inherit" />
             </IconButton>
