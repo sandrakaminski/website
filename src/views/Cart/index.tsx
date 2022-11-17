@@ -48,9 +48,9 @@ const Cart = () => {
     const [country, setCountry] = useState<string>("");
     const { cart, clear, decrease, increase, remove }: any = useCartContext();
     const shippingCosts = ShippingCost(country);
-
     const cartQuantity = cart.map((item: Items) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
-    const shippingTotal = shippingCosts * cartQuantity
+    const shippingTotal = shippingCosts * cartQuantity;
+
     const data = {
         country: country,
         shipping: shippingTotal * 100,
@@ -69,7 +69,6 @@ const Cart = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
-        console.log(resp)
         if (resp.ok) {
             console.log(resp)
             const { url } = await resp.json();
@@ -112,10 +111,13 @@ const Cart = () => {
                                 <Typography variant="h4" >Order summary</Typography>
                                 <CurrencyExchange shippingCosts={shippingTotal} country={country} />
                             </Stack>
-                            <ButtonGroup size="small">
-                                <CountryDropdown label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
-                                <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={!country} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
-                            </ButtonGroup>
+                            <Stack>
+                                <Typography color="grayText" variant="caption">This is to your country of destination</Typography>
+                                <ButtonGroup size="small">
+                                    <CountryDropdown label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
+                                    <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={!country} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
+                                </ButtonGroup>
+                            </Stack>
                         </Stack>
                     </Grid>
                 </Grid>
