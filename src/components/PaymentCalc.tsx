@@ -85,20 +85,6 @@ export const vat = (country: string) => {
     return 0.15;
 }
 
-export const shippingID = (country: string) => {
-    if (country === "AU") return ('shr_1M4BkqDGuX6bhMKwcWA0yMaU');
-    if (country === "CA") return ('shr_1M4BlKDGuX6bhMKwDn4GXKNn');
-    if (country === "CL") return ('shr_1M4BlhDGuX6bhMKw20OPqjBv');
-    if (country === "FR") return ('shr_1M4BmEDGuX6bhMKwncJvI9VH');
-    if (country === "IT") return ('shr_1M4BmWDGuX6bhMKwtbNrjVGq');
-    if (country === "NZ") return ('shr_1M4EZiDGuX6bhMKwvSJ4wYJB');
-    if (country === "NO") return ('shr_1M4BmpDGuX6bhMKwtFumnpAg');
-    if (country === "TW") return ('shr_1M4Bn9DGuX6bhMKwPFLp9Pj8');
-    if (country === "UK") return ('shr_1M4DN5DGuX6bhMKwFNrZfJux');
-    if (country === "US") return ('shr_1M4BnvDGuX6bhMKw9z8KmU0e');
-    return 'shr_1M4EZiDGuX6bhMKwvSJ4wYJB'
-}
-
 interface CurrencyExchProps {
     country: string;
     shippingCosts: any;

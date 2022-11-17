@@ -18,7 +18,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate } from 'react-router-dom';
 
-import CountryDropdown, { CurrencyExchange, shippingID, ShippingCost } from '@/components/PaymentCalc';
+import CountryDropdown, { CurrencyExchange, ShippingCost } from '@/components/PaymentCalc';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 type Items = {
@@ -53,7 +53,7 @@ const Cart = () => {
     const shippingTotal = shippingCosts * cartQuantity
     const data = {
         country: country,
-        shippingId: shippingTotal,
+        shipping: shippingTotal * 100,
         orderItems: cart?.map((item: OrderItems) => {
             return {
                 productId: item.id,

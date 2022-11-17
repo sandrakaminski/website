@@ -14,7 +14,7 @@ import (
 
 type Order struct {
 	Country    string      `json:"country"`
-	ShippingID int64       `json:"shippingId"`
+	Shipping   int64       `json:"shipping"`
 	OrderItems []OrderItem `json:"orderItems"`
 }
 
@@ -74,7 +74,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 				DisplayName: stripe.String("Shipping and handling to " + ord.Country),
 				FixedAmount: &stripe.CheckoutSessionShippingOptionShippingRateDataFixedAmountParams{
 					Currency: stripe.String("nzd"),
-					Amount:   stripe.Int64(ord.ShippingID * 100),
+					Amount:   stripe.Int64(ord.Shipping),
 				},
 			}},
 		},
