@@ -85,7 +85,9 @@ export default Renderer;
 
 const GridLayout = (props: any) => {
     const { content } = props;
+    const initoalCount = 20
     const [activeStep, setActiveStep] = useState<number>(0);
+    const [limit, setLimit] = useState<number>(initoalCount);
     const maxSteps = content.fields.references.length;
 
     const handleNext = () => {
@@ -96,15 +98,25 @@ const GridLayout = (props: any) => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    const limitPage = () => {
+        setLimit(limit + initoalCount)
+    }
+
     return (
         <>
+
             <Grid sx={{ display: { xs: 'none', sm: 'flex' } }} justifyContent={{ xs: "center", sm: 'flex-start' }} container spacing={2}>
-                {content.fields.references.map((block: any, index: number) =>
+                {content.fields.references.slice(0, limit).map((block: any, index: number) =>
                     <Grid sx={{ maxWidth: { xs: 400 } }} xs={12} sm={6} md={4} key={index}>
                         <Factory content={block} />
                     </Grid>
                 )}
             </Grid>
+            <Stack alignItems="center" sx={{ mt: 2 }}>
+                <Button disabled={limit > content.fields.references.length} onClick={limitPage}>
+                    Show more
+                </Button>
+            </Stack>
             <Stack spacing={2} sx={{ display: { xs: 'block', sm: 'none' } }} >
                 <Factory content={content.fields.references[activeStep]} />
                 <MobileStepper
