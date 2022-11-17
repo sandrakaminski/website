@@ -54,7 +54,7 @@ const Renderer = (props: FactoryProps) => {
 
     return (
         <Box sx={{ my: 4 }}>
-            {content.sys.contentType.sys.id === 'assembly'
+            {content && content.sys.contentType.sys.id === 'assembly'
                 ?
                 <>
                     {content.fields.layout === 'Grid'
