@@ -18,7 +18,7 @@ import { useCartContext } from "@/views/Cart/cartProvider";
 
 export const Detail = (props: ProductTypes) => {
     const { content } = props;
-    const { addToCart }: any = useCartContext();
+    const { addToCart } = useCartContext();
     const [open, setOpen] = useState<boolean>(false);
     const [image, setImage] = useState<string>(content.fields.featureImage.fields.file.url);
 

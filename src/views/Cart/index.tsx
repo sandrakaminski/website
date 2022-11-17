@@ -19,6 +19,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate } from 'react-router-dom';
 
 import CountryDropdown, { CurrencyExchange, ShippingCost } from '@/components/PaymentCalc';
+import type { Image } from '@/shared';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 type Items = {
@@ -28,13 +29,7 @@ type Items = {
     name: string;
     price: number;
     amount: number[];
-    image: {
-        fields: {
-            file: {
-                url: string;
-            }
-        }
-    }
+    image: Image;
 }
 
 type OrderItems = {

@@ -8,10 +8,12 @@ type State = {
 
 type CartItem = {
     id: string;
+    inStock: boolean;
     slug: string;
     name: string;
     amount: number[] | any;
     image: string;
+    price: string;
     max: number;
 }
 
@@ -145,7 +147,7 @@ const CartProvider = ({ children }: CartProviderProps) => {
     const [state, dispatch] = useReducer(reducer, initialState && initialState);
 
     // add to cart
-    const addToCart: Function = (id: number, amount: number, product: any) => {
+    const addToCart: Function = (id: number, amount: number, product: CartItem) => {
         dispatch({ type: "CART", payload: { id, amount, product } });
     };
 
