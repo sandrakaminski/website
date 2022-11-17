@@ -42,8 +42,8 @@ export const Detail = (props: ProductTypes) => {
         <>
 
             <Trail current={content.fields.name} />
-            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'right', }} open={content.fields.nzShippingOnly} >
-                <Alert variant="filled" severity="info" >
+            <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }} open={content.fields.nzShippingOnly} >
+                <Alert sx={{ color: "info.contrastText" }} variant="filled" severity="info" >
                     This product is only available for shipping within New Zealand.
                 </Alert>
             </Snackbar>
