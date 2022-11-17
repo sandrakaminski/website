@@ -58,6 +58,7 @@ export const Detail = (props: ProductTypes) => {
                     {content.fields.featureImage &&
                         <CardActionArea onClick={() => handleOpen()}>
                             <CardMedia
+                                sx={{ maxHeight: 700 }}
                                 loading="lazy"
                                 component="img"
                                 src={image}
@@ -67,24 +68,24 @@ export const Detail = (props: ProductTypes) => {
                     }
                     {content.fields.productFiles &&
                         <Grid justifyContent="center" container >
-                            {content.fields.productFiles.map((image: Image, index: number) =>
+                            {content.fields.productFiles.map((img: Image, index: number) =>
                                 <Grid key={index}  >
-                                    <Avatar onClick={() => handleSetImage(image)} component={CardActionArea} sx={{ width: 50, height: 80 }} variant="square" src={image.fields.file.url} alt={image.fields.title} />
+                                    <Avatar onClick={() => handleSetImage(img)} component={CardActionArea} sx={image === img.fields.file.url ? { border: 1, width: 50, height: 80 } : { width: 50, height: 80 }} variant="square" src={img.fields.file.url} alt={img.fields.title} />
                                 </Grid>
                             )}
                         </Grid>
                     }
                 </Grid>
-                <Dialog open={open} onClose={() => setOpen(false)}>
-                    <CardMedia
-                        sx={{ height: 600 }}
-                        loading="lazy"
-                        component="img"
-                        src={image}
-                        alt={"Feature image"}
-                    />
-                </Dialog>
             </Grid >
+            <Dialog maxWidth="xl" open={open} onClose={() => setOpen(false)}>
+                <CardMedia
+                    sx={{ height: 600 }}
+                    loading="lazy"
+                    component="img"
+                    src={image}
+                    alt={"Feature image"}
+                />
+            </Dialog>
         </>
     );
 }

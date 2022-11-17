@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
-import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
@@ -13,16 +12,16 @@ import DateFormatter from "@/components/DateFormatter";
 import Trail from '@/components/Trail';
 import { Markdown } from '@/shared';
 
-
 export const Detail = (props: ArticleType) => {
     const { content } = props;
     const navigate = useNavigate();
+
 
     return (
         <>
             <Trail current={content.fields.title} />
             <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
-                <Typography sx={{ my: 2 }} variant="h2" align="center" >
+                <Typography sx={{ my: 2, maxWidth: "md" }} variant="h2" align="center" >
                     {content.fields.headline}
                 </Typography>
                 <Stack
@@ -34,7 +33,6 @@ export const Detail = (props: ArticleType) => {
                     <Typography variant="body1"  >
                         <DateFormatter dateString={content.fields.date} />
                     </Typography>
-
                     <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => navigate(`/about/${content.fields.author.fields.slug}`, { state: { data: 'about' } })} variant="body1">
                         {content.fields.author.fields.name}
                     </Link>
@@ -51,9 +49,9 @@ export const Detail = (props: ArticleType) => {
                         : <Skeleton sx={{ width: '100%', height: 450 }} />
                     }
                 </Box>
-                <Container maxWidth="md">
+                <Box sx={{ maxWidth: 600 }}>
                     <ReactMarkdown components={Markdown}>{content.fields.body}</ReactMarkdown>
-                </Container>
+                </Box>
                 {/* powr comments box */}
                 {/* <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
                     <embed src="https://www.powr.io/plugins/comments/view?unique_label=24081f1e_1668047235&external_type=react" title="Comments" width="800" height="800" ></embed>

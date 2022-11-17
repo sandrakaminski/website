@@ -10,10 +10,11 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import type { ArticleType } from "./ArticleType";
 import DateFormatter from "@/components/DateFormatter";
 
-const Summary = ({ content }: ArticleType) => {
-    const navigate = useNavigate();
+const Summary = (props: ArticleType) => {
+    const { content } = props;
     const { pathname } = useLocation();
     const { slug } = useParams();
+    const navigate = useNavigate();
 
     return (
         <Card >

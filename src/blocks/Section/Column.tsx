@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 
@@ -8,7 +7,6 @@ import type { Content, ResourceType } from './SectionTypes';
 
 export const Column = (props: Content) => {
     const { content } = props;
-
 
     return (
         <Box sx={{ p: 5 }}>
@@ -30,8 +28,3 @@ export const Column = (props: Content) => {
 }
 
 export default Column;
-
-export const CenterMD = {
-    a: ({ ...props }: any) => <Button size="large" sx={{ my: 2 }} variant="outlined" {...props} />,
-    p: ({ ...props }: any) => <Typography variant="body1" textAlign="center" {...props} />,
-};

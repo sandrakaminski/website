@@ -21,7 +21,7 @@ export const Center = (props: Content) => {
                     alt={content.fields.image.fields.title}
                 />
             }
-            <Typography align="center" variant="h1" sx={{ p: 6 }}>
+            <Typography align="center" variant="h1" sx={{ p: { xs: 2, md: 4 } }}>
                 {content.fields.headline}
             </Typography>
             {content.fields.resources?.map((item: ResourceType, index: number) => (
