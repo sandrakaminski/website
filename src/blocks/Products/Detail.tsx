@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import Alert from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
 import Dialog from '@mui/material/Dialog';
+import Snackbar from '@mui/material/Snackbar';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -34,9 +36,17 @@ export const Detail = (props: ProductTypes) => {
         setOpen(true)
     }
 
+
+
     return (
         <>
+
             <Trail current={content.fields.name} />
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'right', }} open={content.fields.nzShippingOnly} >
+                <Alert variant="filled" severity="info" >
+                    This product is only available for shipping within New Zealand.
+                </Alert>
+            </Snackbar>
             <Grid container spacing={2} sx={{ mt: 10 }}  >
                 <Grid xs={12} md={6}>
                     <Stack sx={{ mb: 4 }} spacing={4} alignItems="center"  >

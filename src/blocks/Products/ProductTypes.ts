@@ -11,6 +11,7 @@ export type ProductTypes = {
             productId: string;
             inStock: boolean;
             productFiles: Image[]
+            nzShippingOnly: boolean;
         }
     }
 }

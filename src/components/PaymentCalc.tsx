@@ -31,13 +31,14 @@ type DropdownProps = {
     value: string | object;
     label: string;
     id: string;
+    disabled?: boolean;
 }
 
 const CountryDropdown = (props: DropdownProps) => {
-    const { onChange, value, label, id } = props;
+    const { onChange, value, label, id, disabled } = props;
 
     return (
-        <FormControl sx={{ mindWidth: 300 }} size="small" variant="outlined" fullWidth>
+        <FormControl disabled={disabled} sx={{ mindWidth: 300 }} size="small" variant="outlined" fullWidth>
             <InputLabel id={id}>Country</InputLabel>
             <Select
                 onChange={onChange}

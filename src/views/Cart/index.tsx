@@ -30,6 +30,7 @@ type Items = {
     price: number;
     amount: number[];
     image: Image;
+    nzShippingOnly: boolean;
 }
 
 type OrderItems = {
@@ -41,6 +42,7 @@ const Cart = () => {
     const navigate = useNavigate();
     const [processing, setProcessing] = useState<boolean>(false);
     const [country, setCountry] = useState<string>("");
+    const [nzOnly, setNzOnly] = useState<boolean>(false);
     const { cart, clear, decrease, increase, remove }: any = useCartContext();
     const shippingCosts = ShippingCost(country);
     const cartQuantity = cart.map((item: Items) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
@@ -73,6 +75,14 @@ const Cart = () => {
             setProcessing(false);
         }
     }
+
+    useEffect(() => {
+        if (cart.map((item: Items) => item.nzShippingOnly).includes(true)) {
+            setCountry("NZ");
+            setNzOnly(true)
+        }
+
+    }, [cart])
 
     return (
         <Box sx={{ my: 4 }}>
@@ -109,7 +119,7 @@ const Cart = () => {
                             <Stack>
                                 <Typography color="grayText" variant="caption">This is to your country of destination</Typography>
                                 <ButtonGroup size="small">
-                                    <CountryDropdown label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
+                                    <CountryDropdown disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
                                     <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={!country} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
                                 </ButtonGroup>
                             </Stack>

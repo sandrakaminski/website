@@ -15,6 +15,7 @@ type CartItem = {
     image: string;
     price: string;
     max: number;
+    nzShippingOnly: boolean;
 }
 
 type Action = {
@@ -69,6 +70,7 @@ const reducer = (state: State, action: Action) => {
             image: product.featureImage,
             price: product.price,
             max: product.stock,
+            nzShippingOnly: product.nzShippingOnly
         };
         return { ...state, cart: [...state.cart, newItem] };
     }

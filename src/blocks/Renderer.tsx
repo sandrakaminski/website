@@ -104,7 +104,6 @@ const GridLayout = (props: any) => {
 
     return (
         <>
-
             <Grid sx={{ display: { xs: 'none', sm: 'flex' } }} justifyContent={{ xs: "center", sm: 'flex-start' }} container spacing={2}>
                 {content.fields.references.slice(0, limit).map((block: any, index: number) =>
                     <Grid sx={{ maxWidth: { xs: 400 } }} xs={12} sm={6} md={4} key={index}>
@@ -112,7 +111,7 @@ const GridLayout = (props: any) => {
                     </Grid>
                 )}
             </Grid>
-            <Stack alignItems="center" sx={{ mt: 2 }}>
+            <Stack alignItems="center" sx={{ mt: 2, display: { xs: 'none', sm: 'flex' } }}>
                 <Button disabled={limit > content.fields.references.length} onClick={limitPage}>
                     Show more
                 </Button>
