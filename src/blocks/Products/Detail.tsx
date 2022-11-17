@@ -39,14 +39,16 @@ export const Detail = (props: ProductTypes) => {
             <Trail current={content.fields.name} />
             <Grid container spacing={2} sx={{ mt: 10 }}  >
                 <Grid xs={12} md={6}>
-                    <Stack spacing={4} justifyContent="center" alignItems="center">
+                    <Stack sx={{ mb: 4 }} spacing={4} alignItems="center"  >
                         <Typography align="center" gutterBottom variant="h2">
                             {content.fields.name}
                         </Typography>
                         <Typography gutterBottom variant="h4" >
                             ${content.fields.price}
                         </Typography>
-                        <ReactMarkdown components={Markdown} >{content.fields.description}</ReactMarkdown>
+                    </Stack>
+                    <ReactMarkdown components={Markdown} >{content.fields.description}</ReactMarkdown>
+                    <Stack sx={{ mt: 4 }} spacing={4} alignItems="center"  >
                         <Button size="large" disabled={!content.fields.inStock} onClick={handleCart} startIcon={<ShoppingCartOutlinedIcon />} variant={"outlined"}>
                             {!content.fields.inStock ? "Sold out" : "Add to Cart"}
                         </Button>

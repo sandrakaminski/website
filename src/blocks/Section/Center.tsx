@@ -5,8 +5,8 @@ import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
 
 import Resource from './Resource';
-import { SectionMarkDown } from './SectionProps';
 import type { Content, ResourceType } from './SectionTypes';
+import { SectionMarkDown } from '@/shared';
 
 export const Center = (props: Content) => {
     const { content } = props;
