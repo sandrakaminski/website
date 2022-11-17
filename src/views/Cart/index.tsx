@@ -118,8 +118,8 @@ const Cart = () => {
                                 <Typography variant="h4" >Order summary</Typography>
                                 <CurrencyExchange shippingCosts={shippingTotal} country={country} />
                             </Stack>
-                            <Stack>
-                                <Typography color="grayText" variant="caption">This is to your country of destination</Typography>
+                            <Stack spacing={0.5}>
+                                <Typography gutterBottom color="grayText" variant="caption">This is to your country of destination</Typography>
                                 <ButtonGroup size="small">
                                     <CountryDropdown disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
                                     <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={!country} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
