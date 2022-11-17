@@ -67,7 +67,6 @@ const Cart = () => {
             body: JSON.stringify(data)
         });
         if (resp.ok) {
-            console.log(resp)
             const { url } = await resp.json();
             window.location.replace(url);
         }

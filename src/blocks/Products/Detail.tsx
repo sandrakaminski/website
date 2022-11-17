@@ -36,11 +36,8 @@ export const Detail = (props: ProductTypes) => {
         setOpen(true)
     }
 
-
-
     return (
         <>
-
             <Trail current={content.fields.name} />
             <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }} open={content.fields.nzShippingOnly} >
                 <Alert sx={{ color: "info.contrastText" }} variant="filled" severity="info" >
