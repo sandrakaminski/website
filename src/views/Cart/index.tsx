@@ -77,11 +77,14 @@ const Cart = () => {
     }
 
     useEffect(() => {
-        if (cart.map((item: Items) => item.nzShippingOnly).includes(true)) {
+        if (cart && cart.map((item: Items) => item.nzShippingOnly).includes(true)) {
             setCountry("NZ");
-            setNzOnly(true)
+            setNzOnly(true);
         }
-
+        else {
+            setCountry("");
+            setNzOnly(false);
+        }
     }, [cart])
 
     return (
