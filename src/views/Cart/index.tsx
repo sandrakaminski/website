@@ -47,14 +47,13 @@ const Cart = () => {
     const [processing, setProcessing] = useState<boolean>(false);
     const [country, setCountry] = useState<string>("");
     const { cart, clear, decrease, increase, remove }: any = useCartContext();
-    const shipping: string = shippingID(country);
     const shippingCosts = ShippingCost(country);
 
-    const number = cart.map((item: Items) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
-
+    const cartQuantity = cart.map((item: Items) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
+    const shippingTotal = shippingCosts * cartQuantity
     const data = {
         country: country,
-        shippingId: shipping,
+        shippingId: shippingTotal,
         orderItems: cart?.map((item: OrderItems) => {
             return {
                 productId: item.id,
@@ -70,7 +69,7 @@ const Cart = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
-
+        console.log(resp)
         if (resp.ok) {
             console.log(resp)
             const { url } = await resp.json();
@@ -111,7 +110,7 @@ const Cart = () => {
                         <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
                             <Stack spacing={1}>
                                 <Typography variant="h4" >Order summary</Typography>
-                                <CurrencyExchange shippingCosts={shippingCosts * number} country={country} />
+                                <CurrencyExchange shippingCosts={shippingTotal} country={country} />
                             </Stack>
                             <ButtonGroup size="small">
                                 <CountryDropdown label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />

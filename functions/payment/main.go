@@ -8,13 +8,13 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/stripe/stripe-go/v73"
-	"github.com/stripe/stripe-go/v73/paymentlink"
+	"github.com/stripe/stripe-go/v73/checkout/session"
 	"github.com/stripe/stripe-go/v73/product"
 )
 
 type Order struct {
 	Country    string      `json:"country"`
-	ShippingID string      `json:"shippingId"`
+	ShippingID int64       `json:"shippingId"`
 	OrderItems []OrderItem `json:"orderItems"`
 }
 
@@ -45,38 +45,44 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 
 	// get payment line item(s)
 	prdIter := product.List(prodParams)
-	var lineItems []*stripe.PaymentLinkLineItemParams
+	var lineItems []*stripe.CheckoutSessionLineItemParams
 
 	for prdIter.Next() {
 		prod := prdIter.Product()
-		lineItems = append(lineItems, &stripe.PaymentLinkLineItemParams{
+		lineItems = append(lineItems, &stripe.CheckoutSessionLineItemParams{
 			Price:    stripe.String(prod.DefaultPrice.ID),
 			Quantity: stripe.Int64(ordItems[prod.ID].Quantity),
 		})
 	}
 
-	// create payment link
-	params := &stripe.PaymentLinkParams{
-		BillingAddressCollection: stripe.String(string(stripe.PaymentLinkBillingAddressCollectionAuto)),
-		ShippingAddressCollection: &stripe.PaymentLinkShippingAddressCollectionParams{
-			AllowedCountries: []*string{
-				stripe.String(ord.Country),
-			},
+	// create a checkout session
+	params := &stripe.CheckoutSessionParams{
+		PaymentMethodTypes: stripe.StringSlice([]string{
+			"card",
+		}),
+		SubmitType: stripe.String("pay"),
+		Mode:       stripe.String(string(stripe.CheckoutSessionModePayment)),
+		SuccessURL: stripe.String("https://sandrakaminski.netlify.app/success"),
+		CancelURL:  stripe.String("https://sandrakaminski.netlify.app/cart"),
+		ShippingAddressCollection: &stripe.CheckoutSessionShippingAddressCollectionParams{
+			AllowedCountries: stripe.StringSlice([]string{ord.Country}),
 		},
-		Currency: stripe.String(string("NZD")),
-		ShippingOptions: []*stripe.PaymentLinkShippingOptionParams{
-			{ShippingRate: stripe.String(ord.ShippingID)},
+		ShippingOptions: []*stripe.CheckoutSessionShippingOptionParams{
+			{ShippingRateData: &stripe.CheckoutSessionShippingOptionShippingRateDataParams{
+				TaxBehavior: stripe.String("inclusive"),
+				Type:        stripe.String("fixed_amount"),
+				DisplayName: stripe.String("Shipping and handling to " + ord.Country),
+				FixedAmount: &stripe.CheckoutSessionShippingOptionShippingRateDataFixedAmountParams{
+					Currency: stripe.String("nzd"),
+					Amount:   stripe.Int64(ord.ShippingID * 100),
+				},
+			}},
 		},
-		LineItems: lineItems,
-		AfterCompletion: &stripe.PaymentLinkAfterCompletionParams{
-			Type: stripe.String(string(stripe.PaymentLinkAfterCompletionTypeRedirect)),
-			Redirect: &stripe.PaymentLinkAfterCompletionRedirectParams{
-				URL: stripe.String(os.Getenv("DOMAIN")),
-			},
-		},
+		AutomaticTax: &stripe.CheckoutSessionAutomaticTaxParams{Enabled: stripe.Bool(true)},
+		LineItems:    lineItems,
 	}
 
-	link, err := paymentlink.New(params)
+	link, err := session.New(params)
 	if err != nil {
 		return nil, fmt.Errorf("error generating payment link: %w", err)
 	}
