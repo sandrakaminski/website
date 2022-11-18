@@ -85,7 +85,7 @@ export default Renderer;
 
 const GridLayout = (props: any) => {
     const { content } = props;
-    const initoalCount = 20
+    const initoalCount = 9
     const [activeStep, setActiveStep] = useState<number>(0);
     const [limit, setLimit] = useState<number>(initoalCount);
     const maxSteps = content.fields.references.length;

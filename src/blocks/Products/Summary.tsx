@@ -30,7 +30,7 @@ export const Summary = ({ content }: ProductTypes) => {
             <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ p: 1 }}>
                 <Box>
                     <Typography variant="subtitle1"  >{`${content.fields.name}`}</Typography>
-                    <Typography >{`$${content.fields.price}`}</Typography>
+                    <Typography >{`$${content.fields.price.toFixed(2)}`}</Typography>
                 </Box>
                 <IconButton disabled={!content.fields.inStock} color="inherit" onClick={handleCart}>
                     <AddShoppingCartIcon />
