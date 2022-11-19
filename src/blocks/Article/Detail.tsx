@@ -1,11 +1,11 @@
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
-// import Container from '@mui/material/Container';
+import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-// import { DiscussionEmbed } from 'disqus-react';
+import { Embed } from 'hyvor-talk-react'
 import ReactMarkdown from 'react-markdown';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,13 +17,6 @@ import { Markdown } from '@/shared';
 export const Detail = (props: ArticleType) => {
     const { content } = props;
     const navigate = useNavigate();
-
-    // const disqusConfig = {
-    //     shortname: import.meta.env.VITE_APP_NAME,
-    //     url: `${import.meta.env.VITE_HOST}/blog/${content.fields.slug}`,
-    //     identifier: `${import.meta.env.VITE_HOST}/blog/${content.fields.slug}`,
-    //     title: content.fields.headline,
-    // }
 
     return (
         <>
@@ -60,12 +53,12 @@ export const Detail = (props: ArticleType) => {
                 <Box sx={{ maxWidth: 600 }}>
                     <ReactMarkdown components={Markdown}>{content.fields.body}</ReactMarkdown>
                 </Box>
-                {/* <Container maxWidth="sm">
-                    <DiscussionEmbed
-                        shortname='Sandrakaminski'
-                        config={disqusConfig}
+                <Container maxWidth="sm">
+                    <Embed
+                        websiteId={import.meta.env.VITE_HYVOR_WEBSITE}
+                        id={content.fields.slug}
                     />
-                </Container> */}
+                </Container>
             </Stack>
         </>
     )
