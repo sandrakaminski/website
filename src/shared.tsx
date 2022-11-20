@@ -7,14 +7,14 @@ import Typography from '@mui/material/Typography';
 export const Markdown: Record<string, unknown> = {
     a: ({ ...props }) => <Link target="_blank"  {...props} />,
     img: ({ ...props }) => <CardMedia component="img" loading="lazy" sx={{ width: '100%', my: 6 }} {...props} />,
-    p: ({ ...props }) => <Typography sx={{ lineHeight: 1.75 }} paragraph color="grayText" variant="body1" {...props} />,
+    p: ({ ...props }) => <Typography sx={{ lineHeight: 1.75 }} paragraph  variant="body1" {...props} />,
     hr: ({ ...props }) => <Divider sx={{ my: 2 }} {...props} />,
     div: ({ ...props }) => <Stack justifyContent="center" alignItems="center" direction="row" {...props} />,
 }
 
 export const SectionMarkDown: Object = {
     a: ({ ...props }: any) => <Link target="_blank" size="large" sx={{ my: 2 }} variant="outlined" {...props} />,
-    p: ({ ...props }: any) => <Typography color="GrayText" sx={{ mx: { md: 4 }, lineHeight: 1.75, maxWidth: { md: 600 } }} variant="body1" textAlign="center" {...props} />
+    p: ({ ...props }: any) => <Typography  sx={{ mx: { md: 4 }, lineHeight: 1.75, maxWidth: { md: 600 } }} variant="body1" textAlign="center" {...props} />
 };
 
 // consistent image type
