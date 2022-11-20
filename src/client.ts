@@ -97,9 +97,7 @@ export const useView = (props: UseView) => {
                         return resp.items[0];
                     }
                 }
-
                 const resp = await getContent();
-                console.log(resp)
                 if (resp) {
                     setView({ content: resp, error: null });
                 } else {

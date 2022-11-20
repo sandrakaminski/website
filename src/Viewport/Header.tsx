@@ -70,7 +70,6 @@ const Header: React.FC = () => {
                             <ShoppingCartOutlinedIcon />
                         </Badge>
                     </IconButton>
-
                 </Toolbar>
             }
         </AppBar>
@@ -92,7 +91,7 @@ const SmallMenuButton = (props: MenuButtonProps) => {
             {item.fields.slug === 'home' ?
                 null
                 :
-                <MenuItem {...props}>
+                <MenuItem  {...props}>
                     {item.fields.name}
                 </MenuItem>
             }
