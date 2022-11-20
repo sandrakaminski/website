@@ -17,6 +17,7 @@ import logo from '@/assets/logo.png';
 import { useMenu } from "@/client";
 import type { MenuItemType } from '@/client';
 import { useCartContext } from "@/views/Cart/cartProvider";
+import { CardMedia } from "@mui/material";
 
 type Header = {
     name: string;
@@ -56,7 +57,6 @@ const Header: React.FC = () => {
     }
 
     if (import.meta.env.MODE === "development") {
-
         return (
             <AppBar color="transparent" position="static" elevation={0}>
                 {menuItems &&
@@ -94,27 +94,31 @@ const Header: React.FC = () => {
     }
     else {
         return (
-            <AppBar color="transparent" position="static" elevation={0}>
-                <Toolbar >
+            <AppBar sx={{ py: 4 }} color="transparent" position="static" elevation={0}>
+                <Toolbar  >
                     <Box sx={{ flexGrow: 1 }}>
-                        <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer' }} underline="none" color="inherit">
-                            <img loading="lazy" style={{ width: 200, height: 'auto' }} src={logo} alt="Sandra Kaminski" />
+                        <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer', }} underline="none" color="inherit">
+                            <CardMedia component="img" sx={{ maxWidth: 250 }} loading="lazy" src={logo} alt="Sandra Kaminski" />
                         </Link>
                     </Box>
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' }, mt: 1.5 }}>
                         {headers.map((item: any, index: number) =>
-                            <Button href={item.path} key={index} sx={{ mx: 1.5 }} >
+                            <Button href={item.path} key={index} sx={{ mx: 1.5, fontSize: '10px' }} >
                                 {item.name}
                             </Button>
                         )}
                     </Box>
-                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                    <Box sx={{ display: { xs: 'flex', md: 'none' }, mt: 1.5 }}>
                         <IconButton onClick={handleClick} color="inherit">
                             <MenuIcon />
                         </IconButton>
                         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
                             {headers.map((item: any, index: number) =>
-                                <SmallMenuButton item={item} key={index} onClick={() => { handleNavigate(item.fields.slug), handleClose() }} />
+                                <MenuItem
+                                    key={index}
+                                    href={item.path}  >
+                                    {item.name}
+                                </MenuItem>
                             )}
                         </Menu>
                     </Box>
@@ -124,7 +128,7 @@ const Header: React.FC = () => {
                         </Badge>
                     </IconButton>
                 </Toolbar>
-            </AppBar>
+            </AppBar >
         )
     }
 }
