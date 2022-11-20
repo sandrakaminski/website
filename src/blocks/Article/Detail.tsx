@@ -52,13 +52,11 @@ export const Detail = (props: ArticleType) => {
                 </Box>
                 <Box sx={{ maxWidth: 600 }}>
                     <ReactMarkdown components={Markdown}>{content.fields.body}</ReactMarkdown>
-                </Box>
-                <Container maxWidth="sm">
                     <Embed
                         websiteId={import.meta.env.VITE_HYVOR_WEBSITE}
                         id={content.fields.slug}
                     />
-                </Container>
+                </Box>
             </Stack>
         </>
     )
