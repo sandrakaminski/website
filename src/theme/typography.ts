@@ -57,11 +57,6 @@ export const typography: object = {
         color: '#00000080',
         letterSpacing: '.05em'
     },
-    paragraph: {
-        fontSize: '15px',
-        fontWeight: 300,
-        fontFamily: 'proxima-nova',
-    },
     button: {
         fontSize: '12px',
         fontWeight: 500,
