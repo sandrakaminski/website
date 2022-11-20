@@ -1,3 +1,4 @@
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from '@mui/material/CardContent';
@@ -23,10 +24,12 @@ const Summary = (props: ArticleType) => {
                 <CardHeader sx={{ maxHeight: 20, py: 6 }} title={content.fields.title} />
             </CardActionArea>
             <CardContent component={Stack} direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                <DateFormatter dateString={content.fields.date} />
+                <FiberManualRecordIcon sx={{ width: 5, height: 5 }} />
                 <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => navigate(`/about/${content.fields.author.fields.slug}`)} variant="body2">
                     {content.fields.author.fields.name}
                 </Link>
-                <DateFormatter dateString={content.fields.date} />
+
             </CardContent>
         </Card >
 
