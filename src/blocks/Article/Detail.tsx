@@ -1,3 +1,4 @@
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
 import Link from '@mui/material/Link';
@@ -33,23 +34,22 @@ export const Detail = (props: ArticleType) => {
                     <Typography variant="body1"  >
                         <DateFormatter dateString={content.fields.date} />
                     </Typography>
+                    <FiberManualRecordIcon sx={{ height: 5, width: 5 }} />
                     <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => navigate(`/about/${content.fields.author.fields.slug}`, { state: { data: 'about' } })} variant="body1">
                         {content.fields.author.fields.name}
                     </Link>
                 </Stack>
-                <Box sx={{ py: 4 }}>
+                <Box sx={{ maxWidth: 600 }}>
                     {content.fields.coverImage ?
                         <CardMedia
                             loading="lazy"
                             component="img"
-                            sx={{ width: '100%', height: 'auto' }}
+                            sx={{ width: '100%', height: 'auto', py: 4 }}
                             src={content?.fields.coverImage.fields.file.url}
                             alt={content.fields.coverImage.fields.title}
                         />
                         : <Skeleton sx={{ width: '100%', height: 450 }} />
                     }
-                </Box>
-                <Box sx={{ maxWidth: 600 }}>
                     <ReactMarkdown components={Markdown}>{content.fields.body}</ReactMarkdown>
                     {/* <Embed
                         websiteId={import.meta.env.VITE_HYVOR_WEBSITE}
