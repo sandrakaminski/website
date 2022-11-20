@@ -1,9 +1,11 @@
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
+import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { Embed } from 'hyvor-talk-react'
 import ReactMarkdown from 'react-markdown';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,7 +17,6 @@ import { Markdown } from '@/shared';
 export const Detail = (props: ArticleType) => {
     const { content } = props;
     const navigate = useNavigate();
-
 
     return (
         <>
@@ -52,10 +53,12 @@ export const Detail = (props: ArticleType) => {
                 <Box sx={{ maxWidth: 600 }}>
                     <ReactMarkdown components={Markdown}>{content.fields.body}</ReactMarkdown>
                 </Box>
-                {/* powr comments box */}
-                {/* <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
-                    <embed src="https://www.powr.io/plugins/comments/view?unique_label=24081f1e_1668047235&external_type=react" title="Comments" width="800" height="800" ></embed>
-                </Box> */}
+                <Container maxWidth="sm">
+                    <Embed
+                        websiteId={import.meta.env.VITE_HYVOR_WEBSITE}
+                        id={content.fields.slug}
+                    />
+                </Container>
             </Stack>
         </>
     )
