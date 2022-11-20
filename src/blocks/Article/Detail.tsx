@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
-import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
