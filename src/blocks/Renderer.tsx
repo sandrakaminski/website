@@ -104,9 +104,9 @@ const GridLayout = (props: any) => {
 
     return (
         <>
-            <Grid sx={{ display: { xs: 'none', sm: 'flex' } }} justifyContent={{ xs: "center", sm: 'flex-start' }} container spacing={2}>
+            <Grid sx={{ display: { xs: 'none', sm: 'flex' } }}  container spacing={2}>
                 {content.fields.references.slice(0, limit).map((block: any, index: number) =>
-                    <Grid sx={{ maxWidth: { xs: 400 } }} xs={12} sm={6} md={4} key={index}>
+                    <Grid xs={12} sm={6} key={index}>
                         <Factory content={block} />
                     </Grid>
                 )}

@@ -25,12 +25,12 @@ export const Summary = ({ content }: ProductTypes) => {
         <Card >
             <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })} >
                 <SoldOutBanner soldOut={!content.fields.inStock} />
-                <CardMedia loading="lazy" component="img" sx={{ height: 500 }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
+                <CardMedia loading="lazy" component="img" sx={{ height: { xs: 'auto', sm: '60vw', lg: '100vh' } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
             </CardActionArea>
             <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ p: 1 }}>
                 <Box>
-                    <Typography variant="subtitle1"  >{`${content.fields.name}`}</Typography>
-                    <Typography >{`$${content.fields.price.toFixed(2)}`}</Typography>
+                    <Typography variant="button" sx={{ fontSize: 10 }}>{`${content.fields.name}`}</Typography>
+                    {/* <Typography >{`$${content.fields.price.toFixed(2)}`}</Typography> */}
                 </Box>
                 <IconButton disabled={!content.fields.inStock} color="inherit" onClick={handleCart}>
                     <AddShoppingCartIcon />
@@ -51,8 +51,8 @@ const SoldOutBanner = (props: SoldOutType) => {
     return (
         <>
             {soldOut &&
-                <Box sx={{ p: 2, background: 'rgba(255,255,255,.65)', position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <Typography variant="subtitle1">Sold out</Typography>
+                <Box sx={{ p: 2, background: 'rgba(255,255,255,.75)', position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Typography sx={{ fontSize: 12 }} variant="subtitle1">SOLD OUT</Typography>
                 </Box>
             }
         </>

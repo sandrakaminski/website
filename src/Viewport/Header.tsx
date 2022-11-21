@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { CardMedia } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Badge from '@mui/material/Badge';
 import Box from "@mui/material/Box";
@@ -17,7 +18,6 @@ import logo from '@/assets/logo.png';
 import { useMenu } from "@/client";
 import type { MenuItemType } from '@/client';
 import { useCartContext } from "@/views/Cart/cartProvider";
-import { CardMedia } from "@mui/material";
 
 type Header = {
     name: string;
@@ -56,7 +56,7 @@ const Header: React.FC = () => {
         }
     }
 
-    if (import.meta.env.MODE === "development") {
+    if (import.meta.env.MODE !== "development") {
         return (
             <AppBar color="transparent" position="static" elevation={0}>
                 {menuItems &&
@@ -94,21 +94,21 @@ const Header: React.FC = () => {
     }
     else {
         return (
-            <AppBar sx={{ py: 4 }} color="transparent" position="static" elevation={0}>
+            <AppBar sx={{ py: { md: 4 } }} color="transparent" position="static" elevation={0}>
                 <Toolbar  >
                     <Box sx={{ flexGrow: 1 }}>
                         <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer', }} underline="none" color="inherit">
-                            <CardMedia component="img" sx={{ maxWidth: 250 }} loading="lazy" src={logo} alt="Sandra Kaminski" />
+                            <CardMedia component="img" sx={{ width: { xs: '40vw', sm: 200, md: 250 } }} loading="lazy" src={logo} alt="Sandra Kaminski" />
                         </Link>
                     </Box>
-                    <Box sx={{ display: { xs: 'none', md: 'flex' }, mt: 1.5 }}>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         {headers.map((item: any, index: number) =>
                             <Button href={item.path} key={index} sx={{ mx: 1.5, fontSize: '10px' }} >
                                 {item.name}
                             </Button>
                         )}
                     </Box>
-                    <Box sx={{ display: { xs: 'flex', md: 'none' }, mt: 1.5 }}>
+                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton onClick={handleClick} color="inherit">
                             <MenuIcon />
                         </IconButton>
