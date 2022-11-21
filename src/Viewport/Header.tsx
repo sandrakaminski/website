@@ -98,7 +98,10 @@ const Header: React.FC = () => {
             <AppBar color="transparent" position="static" elevation={0}>
                 <Toolbar component={Stack} direction="row" justifyContent="space-between" sx={{ p: 4 }}  >
                     <Box >
-                        <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer', }} underline="none" color="inherit">
+                        <Link
+                            href="https://sandrakaminski.com/"
+                            // onClick={() => handleNavigate('home')}
+                            component="button" sx={{ cursor: 'pointer', }} underline="none" color="inherit">
                             <CardMedia component="img" sx={{ width: { xs: '40vw', sm: 200, md: 250 } }} loading="lazy" src={logo} alt="Sandra Kaminski" />
                         </Link>
                     </Box>
