@@ -11,20 +11,20 @@ import type { Image } from '@/shared'
 interface ImageContainerProps {
     content: {
         fields: {
-            blocks: Block[]
-        }
-    }
+            blocks: Block[]; 
+        }; 
+    }; 
 }
 
 type Block = {
     fields: {
-        imageRows: number
-        image: Image
-        title: string
-        subheader: string
-        slug: string
-    }
-}
+        imageRows: number; 
+        image: Image; 
+        title: string; 
+        subheader: string; 
+        slug: string; 
+    }; 
+}; 
 
 export const ImageContainer = (props: ImageContainerProps) => {
     const { content } = props;
@@ -51,6 +51,15 @@ export const ImageContainer = (props: ImageContainerProps) => {
 }
 export default ImageContainer;
 
+type FloatingTextProps = {
+    content: {
+        fields: {
+            title: string; 
+            subheader: string; 
+        }; 
+    }; 
+}; 
+
 const FloatingText = (props: FloatingTextProps) => {
     const { content } = props;
 
@@ -60,13 +69,4 @@ const FloatingText = (props: FloatingTextProps) => {
             <Typography variant="h5" sx={{ display: { xs: 'none', md: 'flex' }, color: 'background.paper' }}>{content.fields.subheader}</Typography>
         </Box>
     )
-}
-
-type FloatingTextProps = {
-    content: {
-        fields: {
-            title: string
-            subheader: string
-        }
-    }
 }
