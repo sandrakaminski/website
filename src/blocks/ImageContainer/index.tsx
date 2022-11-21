@@ -20,6 +20,9 @@ type Block = {
     fields: {
         imageRows: number
         image: Image
+        title: string
+        subheader: string
+        slug: string
     }
 }
 
@@ -29,13 +32,13 @@ export const ImageContainer = (props: ImageContainerProps) => {
 
     return (
         <ImageList gap={8} >
-            {content.fields.blocks.map((image: any, index: number) =>
-                <ImageListItem rows={image.fields.imageRows} component={CardActionArea} onClick={() => navigate(image.fields.slug)} key={index}>
-                    <FloatingText content={image} />
-                    {image.fields.image.fields.file.url ?
+            {content.fields.blocks.map((img: Block, index: number) =>
+                <ImageListItem rows={img.fields.imageRows} component={CardActionArea} onClick={() => navigate(img.fields.slug)} key={index}>
+                    <FloatingText content={img} />
+                    {img.fields.image.fields.file.url ?
                         <img
-                            src={image.fields.image.fields.file.url}
-                            alt={image.fields.image.fields.file.title}
+                            src={img.fields.image.fields.file.url}
+                            alt={img.fields.image.fields.file.title}
                             loading="lazy"
                         />
                         :
