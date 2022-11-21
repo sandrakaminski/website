@@ -85,9 +85,9 @@ export default Renderer;
 
 const GridLayout = (props: any) => {
     const { content } = props;
-    const initoalCount = 9
+    const initialCount = 9
     const [activeStep, setActiveStep] = useState<number>(0);
-    const [limit, setLimit] = useState<number>(initoalCount);
+    const [limit, setLimit] = useState<number>(initialCount);
     const maxSteps = content.fields.references.length;
 
     const handleNext = () => {
@@ -99,12 +99,12 @@ const GridLayout = (props: any) => {
     };
 
     const limitPage = () => {
-        setLimit(limit + initoalCount)
+        setLimit(limit + initialCount)
     }
 
     return (
         <>
-            <Grid sx={{ display: { xs: 'none', sm: 'flex' } }} container spacing={2}>
+            <Grid sx={{ display: { xs: 'none', sm: 'listitem' } }} container spacing={2}>
                 {content.fields.references.slice(0, limit).map((block: any, index: number) =>
                     <Factory key={index} content={block} />
                 )}

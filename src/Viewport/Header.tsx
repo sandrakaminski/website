@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
 
@@ -94,9 +95,9 @@ const Header: React.FC = () => {
     }
     else {
         return (
-            <AppBar sx={{ py: { md: 4 } }} color="transparent" position="static" elevation={0}>
-                <Toolbar  >
-                    <Box sx={{ flexGrow: 1 }}>
+            <AppBar color="transparent" position="static" elevation={0}>
+                <Toolbar component={Stack} direction="row" justifyContent="space-between" sx={{ p: 4 }}  >
+                    <Box >
                         <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer', }} underline="none" color="inherit">
                             <CardMedia component="img" sx={{ width: { xs: '40vw', sm: 200, md: 250 } }} loading="lazy" src={logo} alt="Sandra Kaminski" />
                         </Link>
@@ -107,6 +108,11 @@ const Header: React.FC = () => {
                                 {item.name}
                             </Button>
                         )}
+                        <IconButton color="inherit" onClick={() => handleNavigate('cart')}>
+                            <Badge badgeContent={amount && amount - 1 > 0 ? amount - 1 : 0} color="info">
+                                <ShoppingCartOutlinedIcon />
+                            </Badge>
+                        </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton onClick={handleClick} color="inherit">
@@ -121,12 +127,13 @@ const Header: React.FC = () => {
                                 </MenuItem>
                             )}
                         </Menu>
+                        <IconButton color="inherit" onClick={() => handleNavigate('cart')}>
+                            <Badge badgeContent={amount && amount - 1 > 0 ? amount - 1 : 0} color="info">
+                                <ShoppingCartOutlinedIcon />
+                            </Badge>
+                        </IconButton>
                     </Box>
-                    <IconButton color="inherit" onClick={() => handleNavigate('cart')}>
-                        <Badge badgeContent={amount && amount - 1 > 0 ? amount - 1 : 0} color="info">
-                            <ShoppingCartOutlinedIcon />
-                        </Badge>
-                    </IconButton>
+
                 </Toolbar>
             </AppBar >
         )
