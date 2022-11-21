@@ -104,11 +104,9 @@ const GridLayout = (props: any) => {
 
     return (
         <>
-            <Grid sx={{ display: { xs: 'none', sm: 'flex' } }}  container spacing={2}>
+            <Grid sx={{ display: { xs: 'none', sm: 'flex' } }} container spacing={2}>
                 {content.fields.references.slice(0, limit).map((block: any, index: number) =>
-                    <Grid xs={12} sm={6} key={index}>
-                        <Factory content={block} />
-                    </Grid>
+                    <Factory key={index} content={block} />
                 )}
             </Grid>
             <Stack alignItems="center" sx={{ mt: 2, display: { xs: 'none', sm: 'flex' } }}>

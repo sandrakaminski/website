@@ -6,6 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography";
+import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 import type { ProductTypes } from './ProductTypes';
@@ -22,21 +23,23 @@ export const Summary = ({ content }: ProductTypes) => {
     }
 
     return (
-        <Card >
-            <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })} >
-                <SoldOutBanner soldOut={!content.fields.inStock} />
-                <CardMedia loading="lazy" component="img" sx={{ height: { xs: 'auto', sm: '60vw', lg: '100vh' } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
-            </CardActionArea>
-            <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ p: 1 }}>
-                <Box>
-                    <Typography variant="button" sx={{ fontSize: 10 }}>{`${content.fields.name}`}</Typography>
-                    {/* <Typography >{`$${content.fields.price.toFixed(2)}`}</Typography> */}
-                </Box>
-                <IconButton disabled={!content.fields.inStock} color="inherit" onClick={handleCart}>
-                    <AddShoppingCartIcon />
-                </IconButton>
-            </Stack>
-        </Card>
+        <Grid xs={12} sm={6} >
+            <Card>
+                <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })} >
+                    <SoldOutBanner soldOut={!content.fields.inStock} />
+                    <CardMedia loading="lazy" component="img" sx={{ height: { xs: 'auto', sm: '60vw', lg: '100vh' } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
+                </CardActionArea>
+                <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ p: 1 }}>
+                    <Box>
+                        <Typography variant="button" sx={{ fontSize: 10 }}>{`${content.fields.name}`}</Typography>
+                        {/* <Typography >{`$${content.fields.price.toFixed(2)}`}</Typography> */}
+                    </Box>
+                    <IconButton disabled={!content.fields.inStock} color="inherit" onClick={handleCart}>
+                        <AddShoppingCartIcon />
+                    </IconButton>
+                </Stack>
+            </Card>
+        </Grid>
     );
 }
 export default Summary;
