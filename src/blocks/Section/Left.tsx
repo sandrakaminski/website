@@ -11,7 +11,7 @@ import { SectionMarkDown } from '@/shared';
 
 export const Left = (props: Content) => {
     const { content } = props;
-
+    console.log(content)
     return (
         <Grid container direction="row" spacing={2} sx={{ my: 5 }}>
             <Grid item xs={12} sm={6}>
@@ -26,13 +26,12 @@ export const Left = (props: Content) => {
                 }
             </Grid>
             <Grid item xs={12} sm={6} >
-                <Typography align="center" variant="h1" sx={{ p: 4 }}>
+                <Typography align="center" variant="h3" >
                     {content.fields.headline}
                 </Typography>
                 {content.fields.resources?.map((item: ResourceType, index: number) => (
                     <Box key={index} justifyContent="center" alignContent="center">
-
-                        <Typography align="center" variant="h4" sx={{ p: 4 }}>
+                        <Typography align="center" variant="h2" sx={{ p: 4 }}>
                             {item.fields.headline}
                         </Typography>
                         <Resource resource={item} />

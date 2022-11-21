@@ -2,21 +2,29 @@ import FuturaCyrillicBook from './FuturaCyrillicBook.ttf';
 
 export const typography: object = {
     h1: {
-        fontSize: '2.5rem',
+        fontSize: '45px',
         fontWeight: 400,
         fontFamily: 'Playfair Display SC',
-        // 'playfair-display-sc'  'arno-pro'
         letterSpacing: '.02em',
     },
     h2: {
-        fontSize: '2.25rem',
-        fontWeight: 500,
-        fontFamily: 'proxima-nova',
+        color: '#000',
+        fontSize: '34px',
+        fontWeight: 400,
+        fontFamily: 'arno-pro',
+        fontStyle: 'normal',
+        letterSpacing: '.02em',
+        textTransform: 'none',
     },
     h3: {
-        fontSize: '2rem',
-        fontWeight: 700,
-        fontFamily: 'proxima-nova',
+        fontSize: '45px',
+        fontWeight: 400,
+        fontFamily: 'Playfair Display SC',
+        fontStle: 'normal',
+        textTransform: 'uppercase',
+        letterSpacing: '0em',
+        color: '#000000',
+        margin: '0px, 0px, 45px',
     },
     h4: {
         fontSize: '1.75rem',
