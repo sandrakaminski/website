@@ -8,7 +8,7 @@ import ReactMarkdown from 'react-markdown';
 
 import type { ProfileType } from './ProfileType';
 import Trail from '@/components/Trail';
-import { Markdown } from '@/shared';
+import { Markdown, Image } from '@/shared';
 
 const Detail = (props: ProfileType) => {
     const { content } = props;
@@ -37,7 +37,7 @@ const Detail = (props: ProfileType) => {
                 <Container maxWidth="sm">
                     <ReactMarkdown components={Markdown} >{content.fields.body}</ReactMarkdown>
                     <Stack sx={{ my: 4 }} direction={{ xs: "column", sm: "row" }} spacing={1} alignItems="flex-start">
-                        {content.fields.otherImages.map((image: any, index: number) =>
+                        {content.fields.otherImages.map((image: Image, index: number) =>
                             <Box key={index} >
                                 <CardMedia
                                     loading="eager"

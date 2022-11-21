@@ -7,6 +7,7 @@ import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import Article from './Article';
+import ImageBanner from './ImageBanner';
 import ImageContainer from './ImageContainer';
 import Products from './Products';
 import Profile from './Profile';
@@ -23,7 +24,8 @@ const blocks: Blocks = {
     section: Section,
     article: Article,
     imageContainer: ImageContainer,
-    product: Products
+    product: Products,
+    imageBanner: ImageBanner
 }
 
 type FactoryProps = {
