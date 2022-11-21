@@ -26,8 +26,12 @@ export const Left = (props: Content) => {
                 }
             </Grid>
             <Grid item xs={12} sm={6} >
+                <Typography align="center" variant="h1" sx={{ p: 4 }}>
+                    {content.fields.headline}
+                </Typography>
                 {content.fields.resources?.map((item: ResourceType, index: number) => (
                     <Box key={index} justifyContent="center" alignContent="center">
+
                         <Typography align="center" variant="h4" sx={{ p: 4 }}>
                             {item.fields.headline}
                         </Typography>
