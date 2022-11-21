@@ -20,12 +20,12 @@ import { useMenu } from "@/client";
 import type { MenuItemType } from '@/client';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
-type Header = {
+type Headers = {
     name: string;
     path: string;
-}[]
+}
 
-const headers: Header = [
+const headers: Headers[] = [
     { name: 'Shop', path: '/shop' },
     { name: 'Inspiration', path: 'https://sandrakaminski.com/diy' },
     { name: 'Resources', path: 'https://sandrakaminski.com/resources' },
@@ -57,6 +57,7 @@ const Header: React.FC = () => {
         }
     }
 
+    // this statement is only used for rendering the shop on SQSP, we will remove this in favour of the old menu upon launch
     if (import.meta.env.MODE === "development") {
         return (
             <AppBar color="transparent" position="static" elevation={0}>
@@ -100,13 +101,12 @@ const Header: React.FC = () => {
                     <Box >
                         <Link
                             href="https://sandrakaminski.com/"
-                            // onClick={() => handleNavigate('home')}
-                            component="button" sx={{ cursor: 'pointer', }} underline="none" color="inherit">
+                            sx={{ cursor: 'pointer', }} underline="none" color="inherit">
                             <CardMedia component="img" sx={{ width: { xs: '40vw', sm: 200, md: 250 } }} loading="lazy" src={logo} alt="Sandra Kaminski" />
                         </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        {headers.map((item: any, index: number) =>
+                        {headers.map((item: Headers, index: number) =>
                             <Button href={item.path} key={index} sx={{ mx: 1.5, fontSize: '10px' }} >
                                 {item.name}
                             </Button>
