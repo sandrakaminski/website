@@ -56,7 +56,7 @@ const Header: React.FC = () => {
         }
     }
 
-    if (import.meta.env.MODE !== "development") {
+    if (import.meta.env.MODE === "development") {
         return (
             <AppBar color="transparent" position="static" elevation={0}>
                 {menuItems &&
