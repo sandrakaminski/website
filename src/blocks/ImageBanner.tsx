@@ -17,7 +17,7 @@ const ImageBanner = (props: ImageContainerProps) => {
 
     return (
         <ImageList gap={content.fields.spacing} cols={3}>
-            {content.fields.images.map((img: any, index: number) =>
+            {content.fields.images.map((img: Image, index: number) =>
                 <ImageListItem key={index}>
                     <img src={img.fields.file.url} alt={img.fields.file.title} />
                 </ImageListItem>
