@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -159,7 +160,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
         const handleSetCurrency = async () => {
             const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
             const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
-            
+
             const total = await respTotal.json();
             const shipping = await respShipping.json();
             setAmount({ total: total && total.rates[newCurrency], shipping: shipping && shipping.rates[newCurrency], currency: newCurrency });
@@ -168,10 +169,10 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     }, [init, country, totalCosts, currency, newCurrency, setAmount, totalCost, shippingCosts, amount.shipping]);
 
     return (
-        <>
+        <Box>
             <Typography> {!amount.shipping ? <Skeleton /> : `VAT/GST: ${symbol}${vatTotal.toFixed(2)} ${newCurrency}`}</Typography>
             <Typography>{!amount.shipping ? <Skeleton /> : `Shipping: ${symbol}${amount.shipping.toFixed(2)} ${newCurrency}`} </Typography>
             <Typography> {!amount.total ? <Skeleton /> : `Total: ${symbol}${amount.total.toFixed(2)} ${newCurrency}`}</Typography>
-        </>
+        </Box>
     )
 }

@@ -80,9 +80,10 @@ const Cart = () => {
         })
     }
 
+    const url = `/.netlify/functions/payment`;
     const handlePurchase = async () => {
         setProcessing(true)
-        const resp = await fetch(`/.netlify/functions/payment`, {
+        const resp = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -102,7 +103,6 @@ const Cart = () => {
             setNzOnly(true);
         }
         else {
-            setCountry("");
             setNzOnly(false);
         }
     }, [cart])
