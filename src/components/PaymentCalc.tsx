@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 
 import { useCartContext } from "@/views/Cart/cartProvider";
-import { Skeleton } from '@mui/material';
 
 type Init = {
     [key: string]: {
@@ -159,6 +159,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
         const handleSetCurrency = async () => {
             const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
             const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
+            
             const total = await respTotal.json();
             const shipping = await respShipping.json();
             setAmount({ total: total && total.rates[newCurrency], shipping: shipping && shipping.rates[newCurrency], currency: newCurrency });
