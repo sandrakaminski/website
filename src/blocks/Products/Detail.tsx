@@ -65,7 +65,7 @@ export const Detail = (props: ProductTypes) => {
                     {content.fields.featureImage &&
                         <CardActionArea onClick={() => handleOpen()}>
                             <CardMedia
-                                sx={{ maxHeight: 700 }}
+                                sx={{ height: '100%' }}
                                 loading="lazy"
                                 component="img"
                                 src={image}
