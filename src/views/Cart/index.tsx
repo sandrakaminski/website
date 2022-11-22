@@ -59,12 +59,13 @@ const Cart = () => {
         total: 0
     });
 
+    // this is to keep shipping prices consistent between Chile and everywhere else
     let shipping;
     if (country === "CL") {
         shipping = amount.shipping.toFixed(0)
     }
     else {
-        shipping = amount.shipping.toFixed(0) * 100
+        shipping = amount.shipping.toFixed(2) * 100
     }
 
     const data = {
