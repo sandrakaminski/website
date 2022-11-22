@@ -57,11 +57,7 @@ export const typography: object = {
         fontFamily: 'proxima-nova',
         fontStyle: 'normal',
         letterSpacing: '.05em',
-
         paddingBottom: '0.05em',
-        borderBottomWidth: '1px',
-        borderBottomStyle: 'solid',
-        borderBottomColor: 'rgba(0,0,0,.3)',
     },
     body2: {
         fontSize: '14px',
