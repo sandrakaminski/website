@@ -1,4 +1,6 @@
+import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 
@@ -15,24 +17,22 @@ export const Resource = (props: ResourceProps) => {
     return (
         <>
             {resource.fields.flexDirection === "Flex" ?
-                <Stack
-                    spacing={0.6}
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center">
+                <Grid container direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
                     {resource.fields.files?.map((file: Image, index: number) => (
-                        <Box key={index}>
-                            <Link sx={{ justifyContent: "center", alignItems: "center" }} href={`${file.fields.file.url}`} align="center" target="_blank" >
-                                {file.fields.title}
-                            </Link>
-                            {resource.fields.files?.length - 1 !== index &&
-                                <>
-                                    {","}
-                                </>
-                            }
-                        </Box>
+                        <Grid item key={index}>
+                            <Typography >
+                                <Link sx={{ justifyContent: "center", alignItems: "center" }} href={`${file.fields.file.url}`} align="center" target="_blank" underline='none'>
+                                    {file.fields.title}
+                                </Link>
+                                {resource.fields.files?.length - 1 !== index &&
+                                    <>
+                                        {","}
+                                    </>
+                                }
+                            </Typography>
+                        </Grid>
                     ))}
-                </Stack>
+                </Grid>
                 :
                 <Stack
                     spacing={1}
@@ -40,9 +40,11 @@ export const Resource = (props: ResourceProps) => {
                     alignItems="center">
                     {resource.fields.files?.map((file: Image, index: number) =>
                         <Box key={index}>
-                            <Link href={`${file.fields.file.url}`} target="_blank">
-                                {file.fields.title}
-                            </Link>
+                            <Typography >
+                                <Link href={`${file.fields.file.url}`} target="_blank" align="center" underline="none">
+                                    {file.fields.title}
+                                </Link>
+                            </Typography>
                         </Box>
                     )}
                 </Stack>

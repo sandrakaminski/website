@@ -45,7 +45,6 @@ export const typography: object = {
         fontSize: '1rem',
         fontWeight: 800,
         letterSpacing: '.025em',
-        // fontFamily: 'proxima-nova',
     },
     subtitle2: {
         fontSize: '0.875rem',
@@ -54,13 +53,16 @@ export const typography: object = {
     },
     body1: {
         color: '#000000',
-        fontSize: '15px',
+        fontSize: '14px',
         fontWeight: 300,
         fontFamily: 'proxima-nova',
         fontStyle: 'normal',
         letterSpacing: '.05em',
         textTransform: 'none',
-        lineHeight: '2em',
+        paddingBottom: '0.05em',
+        borderBottomWidth: '1px',
+        borderBottomStyle: 'solid',
+        borderBottomColor: 'rgba(0,0,0,.3)',
     },
     body2: {
         fontSize: '15px',
