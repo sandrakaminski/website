@@ -27,7 +27,7 @@ export const Detail = (props: ProductTypes) => {
         addToCart(content.fields.productId, '1', content.fields)
     }
 
-    const handleSetImage = (img: any) => {
+    const handleSetImage = (img: Image) => {
         setImage(img.fields.file.url)
     }
 
