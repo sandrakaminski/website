@@ -18,7 +18,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate } from 'react-router-dom';
 
-import CountryDropdown, { CurrencyExchange, ShippingCost } from '@/components/PaymentCalc';
+import CountryDropdown, { CurrencyExchange, shippingCosts, currencyTypes } from '@/components/PaymentCalc';
 import type { Image } from '@/shared';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
@@ -38,19 +38,39 @@ type OrderItems = {
     amount: number[];
 }
 
+type Prices = {
+    shipping: any;
+    total: any;
+}
+
 const Cart = () => {
     const navigate = useNavigate();
     const [processing, setProcessing] = useState<boolean>(false);
     const [country, setCountry] = useState<string>("");
     const [nzOnly, setNzOnly] = useState<boolean>(false);
     const { cart, clear, decrease, increase, remove } = useCartContext();
-    const shippingCosts = ShippingCost(country);
+    const shippingCost = shippingCosts(country);
     const cartQuantity = cart.map((item: Items) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
-    const shippingTotal = shippingCosts * cartQuantity;
+    const shippingTotal = shippingCost * cartQuantity;
+    const currency = currencyTypes(country).toLowerCase();
+
+    const [amount, setAmount] = useState<Prices>({
+        shipping: 0,
+        total: 0
+    });
+
+    let shipping;
+    if (country === "CL") {
+        shipping = amount.shipping.toFixed(0)
+    }
+    else {
+        shipping = amount.shipping.toFixed(2) * 100
+    }
 
     const data = {
         country: country,
-        shipping: shippingTotal * 100,
+        currency: currency,
+        shipping: parseInt(shipping),
         orderItems: cart?.map((item: OrderItems) => {
             return {
                 productId: item.id,
@@ -116,7 +136,7 @@ const Cart = () => {
                         <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
                             <Stack spacing={1}>
                                 <Typography variant="h4" >Order summary</Typography>
-                                <CurrencyExchange shippingCosts={shippingTotal} country={country} />
+                                <CurrencyExchange setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
                             </Stack>
                             <Stack spacing={0.5}>
                                 <Typography gutterBottom color="grayText" variant="caption">This is to your country of destination</Typography>

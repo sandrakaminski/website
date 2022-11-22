@@ -13,6 +13,7 @@ import (
 )
 
 type Order struct {
+	Currency   string      `json:"currency"`
 	Country    string      `json:"country"`
 	Shipping   int64       `json:"shipping"`
 	OrderItems []OrderItem `json:"orderItems"`
@@ -62,6 +63,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		PaymentMethodTypes: stripe.StringSlice([]string{
 			"card",
 		}),
+		Currency:   stripe.String(string(ord.Currency)),
 		SubmitType: stripe.String("pay"),
 		Mode:       stripe.String(string(stripe.CheckoutSessionModePayment)),
 		SuccessURL: stripe.String(url + "/success"),
@@ -75,7 +77,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 				Type:        stripe.String("fixed_amount"),
 				DisplayName: stripe.String("Shipping and handling to " + ord.Country),
 				FixedAmount: &stripe.CheckoutSessionShippingOptionShippingRateDataFixedAmountParams{
-					Currency: stripe.String("nzd"),
+					Currency: stripe.String(ord.Currency),
 					Amount:   stripe.Int64(ord.Shipping),
 				},
 			}},

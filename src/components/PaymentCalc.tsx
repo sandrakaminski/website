@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -22,7 +24,7 @@ const init: Init = {
     NZ: { name: "New Zealand", code: 5 },
     NO: { name: "Norway", code: 6 },
     TW: { name: "Taiwan", code: 7 },
-    UK: { name: "United Kingdom", code: 8 },
+    GB: { name: "United Kingdom", code: 8 },
     US: { name: "United States", code: 9 },
 }
 
@@ -59,7 +61,7 @@ const CountryDropdown = (props: DropdownProps) => {
 export default CountryDropdown;
 
 // exact shipping costs
-export const ShippingCost = (country: string) => {
+export const shippingCosts = (country: string) => {
     if (country === "AU") return (44.92);
     if (country === "CA") return (46.92);
     if (country === "CL") return (31);
@@ -68,11 +70,40 @@ export const ShippingCost = (country: string) => {
     if (country === "NZ") return (11);
     if (country === "NO") return (42);
     if (country === "TW") return (13);
-    if (country === "UK") return (32.92);
+    if (country === "GB") return (32.92);
     if (country === "US") return (37.92);
     return 11;
 }
 
+// currency symbols
+export const symbols = (country: string) => {
+    if (country === "AU") return ("$");
+    if (country === "CA") return ("$");
+    if (country === "CL") return ("$");
+    if (country === "FR") return ("€");
+    if (country === "IT") return ("€");
+    if (country === "NZ") return ("$");
+    if (country === "NO") return ("kr");
+    if (country === "TW") return ("NT$");
+    if (country === "GB") return ("£");
+    if (country === "US") return ("$");
+    return "$";
+}
+
+// set currency of country
+export const currencyTypes = (country: string) => {
+    if (country === "AU") return ("AUD");
+    if (country === "CA") return ("CAD");
+    if (country === "CL") return ("CLP");
+    if (country === "FR") return ("EUR");
+    if (country === "IT") return ("EUR");
+    if (country === "NZ") return ("NZD");
+    if (country === "NO") return ("NOK");
+    if (country === "TW") return ("TWD");
+    if (country === "GB") return ("GBP");
+    if (country === "US") return ("USD");
+    return "NZD";
+}
 
 // exact tax rate for each country
 export const vat = (country: string) => {
@@ -84,7 +115,7 @@ export const vat = (country: string) => {
     if (country === "NZ") return (0.15);
     if (country === "NO") return (0.25);
     if (country === "TW") return (0.05);
-    if (country === "UK") return (0.2);
+    if (country === "GB") return (0.2);
     if (country === "US") return (0);
     return 0.15;
 }
@@ -92,24 +123,53 @@ export const vat = (country: string) => {
 interface CurrencyExchProps {
     country: string;
     shippingCosts: any;
+    setAmount: any;
+    amount: {
+        currency: string;
+        shipping: number;
+        total: number;
+    };
 }
 
+const BASE_URL = 'https://api.exchangerate.host/latest'
 
 // displays the approximate costs 
 export const CurrencyExchange = (props: CurrencyExchProps) => {
-    const { country, shippingCosts } = props;
+    const { country, shippingCosts, setAmount, amount } = props;
     const { total } = useCartContext();
-    const vatCosts = vat(country);
 
-    const totalCost = total + shippingCosts
-    const vatTotal = vatCosts * total
-    const totalCosts = totalCost
+    // inital state
+    const init = "";
+    const currency = currencyTypes(init);
+
+    // custom hooks
+    const vatCosts = vat(country);
+    const newCurrency = currencyTypes(country);
+    const symbol = symbols(country);
+
+    // calculations 
+    const totalCost = total + shippingCosts;
+    const vatTotal = vatCosts * total;
+    const totalCosts = totalCost.toFixed(2).toString();
+
+    // fetches the exchange rate
+    useEffect(() => {
+        const handleSetCurrency = async () => {
+            const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
+            const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
+            const total = await respTotal.json();
+            const shipping = await respShipping.json();
+            setAmount({ total: total.rates[newCurrency], shipping: shipping.rates[newCurrency], currency: newCurrency });
+        }
+        handleSetCurrency();
+    }, [init, country, totalCosts, currency, newCurrency, setAmount, totalCost, shippingCosts]);
+
 
     return (
         <>
-            <Typography> {`VAT/GST: $${vatTotal.toFixed(2)} NZD`}</Typography>
-            <Typography>{`Shipping: $${shippingCosts.toFixed(2)} NZD`} </Typography>
-            <Typography> {`Total: $${totalCosts.toFixed(2)} NZD`}</Typography>
+            <Typography> {`VAT/GST: ${symbol}${vatTotal.toFixed(2)} ${newCurrency}`}</Typography>
+            <Typography>{`Shipping: ${symbol}${amount.shipping.toFixed(2)} ${newCurrency}`} </Typography>
+            <Typography> {`Total: ${symbol}${amount.total.toFixed(2)} ${newCurrency}`}</Typography>
         </>
     )
 }
