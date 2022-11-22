@@ -15,6 +15,7 @@ export const typography: object = {
         fontStyle: 'normal',
         letterSpacing: '.02em',
         textTransform: 'none',
+        padding: '16px',
     },
     h3: {
         fontSize: '45px',
@@ -22,7 +23,6 @@ export const typography: object = {
         fontFamily: 'Playfair Display SC',
         fontStle: 'normal',
         textTransform: 'uppercase',
-        letterSpacing: '0em',
         color: '#000000',
         margin: '0px, 0px, 45px',
     },
@@ -53,17 +53,22 @@ export const typography: object = {
         fontFamily: 'proxima-nova',
     },
     body1: {
+        color: '#000000',
         fontSize: '15px',
         fontWeight: 300,
         fontFamily: 'proxima-nova',
+        fontStyle: 'normal',
         letterSpacing: '.05em',
+        textTransform: 'none',
+        lineHeight: '2em',
     },
     body2: {
         fontSize: '15px',
         fontWeight: 300,
         fontFamily: 'proxima-nova',
         color: '#00000080',
-        letterSpacing: '.05em'
+        letterSpacing: '.05em',
+        lineHeight: '2em',
     },
     button: {
         fontSize: '12px',

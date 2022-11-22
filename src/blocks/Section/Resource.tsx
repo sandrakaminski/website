@@ -16,7 +16,7 @@ export const Resource = (props: ResourceProps) => {
         <>
             {resource.fields.flexDirection === "Flex" ?
                 <Stack
-                    spacing={1}
+                    spacing={0.6}
                     direction="row"
                     justifyContent="center"
                     alignItems="center">
