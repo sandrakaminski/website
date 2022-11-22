@@ -13,7 +13,7 @@ export const Right = (props: Content) => {
     const { content } = props;
 
     return (
-        <Grid container direction="row-reverse" spacing={2} sx={{ my: 4 }}>
+        <Grid container direction="row-reverse" spacing={2} sx={{ my: 5 }}>
             <Grid item xs={12} sm={6} md={6}>
                 {content.fields.image?.fields.file.url &&
                     <CardMedia
@@ -25,12 +25,17 @@ export const Right = (props: Content) => {
                     />
                 }
             </Grid>
-            <Grid item xs={12} sm={6} md={6}>
+            <Grid item xs={12} sm={6} >
+                <Typography align="center" variant="h3" >
+                    {content.fields.headline}
+                </Typography>
                 {content.fields.resources?.map((item: ResourceType, index: number) => (
-                    <Box key={index} justifyContent="center" alignContent="center">
-                        <Typography align="center" variant="h4" sx={{ p: 4 }}>
-                            {item.fields.headline}
-                        </Typography>
+                    <Box key={index} justifyContent="center" alignContent="center" sx={{ p: 2 }}>
+                        {item.fields.headline &&
+                            <Typography align="center" variant="h2" sx={{ p: 2 }}>
+                                {item.fields.headline}
+                            </Typography>
+                        }
                         <Resource resource={item} />
                     </Box>
                 ))}

@@ -10,7 +10,7 @@ import { SectionMarkDown } from '@/shared';
 
 export const Center = (props: Content) => {
     const { content } = props;
-
+    
     return (
         <>
             {content.fields.image?.fields.file.url &&
@@ -33,9 +33,9 @@ export const Center = (props: Content) => {
                 </Stack>
             ))}
             <Stack justifyContent="center" direction="column" alignItems="center" spacing={2} >
-                <ReactMarkdown components={SectionMarkDown} >
-                    {content.fields.body}
-                </ReactMarkdown>
+                    <ReactMarkdown components={SectionMarkDown} >
+                        {content.fields.body}
+                    </ReactMarkdown>
                 {content.fields.ctaLabel &&
                     <Button href={content.fields.ctaSlug} variant="contained" sx={{ mt: 4, mb: 4 }}>
                         {content.fields.ctaLabel}

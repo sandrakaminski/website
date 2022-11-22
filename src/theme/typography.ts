@@ -10,12 +10,12 @@ export const typography: object = {
     h2: {
         color: '#000',
         fontSize: '34px',
-        fontWeight: 400,
+        fontWeight: 500,
         fontFamily: 'arno-pro',
         fontStyle: 'normal',
         letterSpacing: '.02em',
         textTransform: 'none',
-        padding: '16px',
+        margin: '28.22px, 0px',
     },
     h3: {
         fontSize: '45px',
@@ -52,25 +52,23 @@ export const typography: object = {
         fontFamily: 'proxima-nova',
     },
     body1: {
-        color: '#000000',
-        fontSize: '14px',
+        fontSize: '15px',
         fontWeight: 300,
         fontFamily: 'proxima-nova',
         fontStyle: 'normal',
         letterSpacing: '.05em',
-        textTransform: 'none',
+
         paddingBottom: '0.05em',
         borderBottomWidth: '1px',
         borderBottomStyle: 'solid',
         borderBottomColor: 'rgba(0,0,0,.3)',
     },
     body2: {
-        fontSize: '15px',
+        fontSize: '14px',
         fontWeight: 300,
         fontFamily: 'proxima-nova',
         color: '#00000080',
         letterSpacing: '.05em',
-        lineHeight: '2em',
     },
     button: {
         fontSize: '12px',
