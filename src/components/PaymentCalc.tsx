@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -7,6 +7,7 @@ import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 
 import { useCartContext } from "@/views/Cart/cartProvider";
+import { Skeleton } from '@mui/material';
 
 type Init = {
     [key: string]: {
@@ -137,6 +138,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { country, shippingCosts, setAmount, amount } = props;
     const { total } = useCartContext();
 
+
     // inital state
     const init = "";
     const currency = currencyTypes(init);
@@ -153,21 +155,22 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
 
     // fetches the exchange rate
     useEffect(() => {
+
         const handleSetCurrency = async () => {
             const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
             const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
             const total = await respTotal.json();
             const shipping = await respShipping.json();
-            setAmount({ total: total.rates[newCurrency], shipping: shipping.rates[newCurrency], currency: newCurrency });
+            setAmount({ total: total && total.rates[newCurrency], shipping: shipping && shipping.rates[newCurrency], currency: newCurrency });
         }
         handleSetCurrency();
-    }, [init, country, totalCosts, currency, newCurrency, setAmount, totalCost, shippingCosts]);
+    }, [init, country, totalCosts, currency, newCurrency, setAmount, totalCost, shippingCosts, amount.shipping]);
 
     return (
         <>
-            <Typography> {`VAT/GST: ${symbol}${vatTotal.toFixed(2)} ${newCurrency}`}</Typography>
-            <Typography>{`Shipping: ${symbol}${amount.shipping.toFixed(2)} ${newCurrency}`} </Typography>
-            <Typography> {`Total: ${symbol}${amount.total.toFixed(2)} ${newCurrency}`}</Typography>
+            <Typography> {!amount.shipping ? <Skeleton /> : `VAT/GST: ${symbol}${vatTotal.toFixed(2)} ${newCurrency}`}</Typography>
+            <Typography>{!amount.shipping ? <Skeleton /> : `Shipping: ${symbol}${amount.shipping.toFixed(2)} ${newCurrency}`} </Typography>
+            <Typography> {!amount.total ? <Skeleton /> : `Total: ${symbol}${amount.total.toFixed(2)} ${newCurrency}`}</Typography>
         </>
     )
 }
