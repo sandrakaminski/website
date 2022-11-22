@@ -5,7 +5,6 @@ import Alert from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
-import CardMedia from '@mui/material/CardMedia';
 import Dialog from '@mui/material/Dialog';
 import Snackbar from '@mui/material/Snackbar';
 import Stack from '@mui/material/Stack';
@@ -44,7 +43,7 @@ export const Detail = (props: ProductTypes) => {
                     This product is only available for shipping within New Zealand.
                 </Alert>
             </Snackbar>
-            <Grid container spacing={2} sx={{ mt: 10 }}  >
+            <Grid container spacing={2}   >
                 <Grid xs={12} md={6}>
                     <Stack sx={{ mb: 4 }} spacing={4} alignItems="center"  >
                         <Typography align="center" gutterBottom variant="h2">
@@ -63,11 +62,10 @@ export const Detail = (props: ProductTypes) => {
                 </Grid>
                 <Grid xs={12} md={6}>
                     {content.fields.featureImage &&
-                        <CardActionArea onClick={() => handleOpen()}>
-                            <CardMedia
-                                sx={{ height: '100%' }}
+                        <CardActionArea sx={{ backgroundColor: 'gray.100' }} onClick={() => handleOpen()}>
+                            <img
+                                style={{ height: 650, width: '100%', objectFit: 'contain' }}
                                 loading="lazy"
-                                component="img"
                                 src={image}
                                 alt={"Feature image"}
                             />
@@ -85,10 +83,9 @@ export const Detail = (props: ProductTypes) => {
                 </Grid>
             </Grid >
             <Dialog maxWidth="xl" open={open} onClose={() => setOpen(false)}>
-                <CardMedia
-                    sx={{ height: 600 }}
-                    loading="lazy"
-                    component="img"
+                <img
+                    style={{ maxHeight: 700 }}
+                    loading="eager"
                     src={image}
                     alt={"Feature image"}
                 />

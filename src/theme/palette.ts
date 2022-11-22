@@ -18,4 +18,7 @@ export const palette: object = {
     success: {
         main: '#52B788',
     },
+    gray: {
+        100: '#F5F5F5',
+    }
 };
