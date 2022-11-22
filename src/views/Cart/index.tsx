@@ -64,7 +64,7 @@ const Cart = () => {
         shipping = amount.shipping.toFixed(0)
     }
     else {
-        shipping = amount.shipping.toFixed(2) * 100
+        shipping = amount.shipping.toFixed(0) * 100
     }
 
     const data = {

@@ -125,7 +125,6 @@ interface CurrencyExchProps {
     shippingCosts: any;
     setAmount: any;
     amount: {
-        currency: string;
         shipping: number;
         total: number;
     };
@@ -163,7 +162,6 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
         }
         handleSetCurrency();
     }, [init, country, totalCosts, currency, newCurrency, setAmount, totalCost, shippingCosts]);
-
 
     return (
         <>
