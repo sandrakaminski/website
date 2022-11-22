@@ -11,7 +11,7 @@ import { SectionMarkDown } from '@/shared';
 
 export const Left = (props: Content) => {
     const { content } = props;
-    console.log(content)
+
     return (
         <Grid container direction="row" spacing={2} sx={{ my: 5 }}>
             <Grid item xs={12} sm={6}>

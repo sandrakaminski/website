@@ -26,6 +26,7 @@ const init: Init = {
     TW: { name: "Taiwan", code: 7 },
     GB: { name: "United Kingdom", code: 8 },
     US: { name: "United States", code: 9 },
+
 }
 
 type DropdownProps = {
@@ -49,7 +50,6 @@ const CountryDropdown = (props: DropdownProps) => {
                 id={id}
                 name={id}
                 label={label}
-                defaultValue={init.NZ}
             >
                 {Object.entries(init).map(([k, v]: any) =>
                     <MenuItem key={v.code} value={k}>{v.name}</MenuItem>
