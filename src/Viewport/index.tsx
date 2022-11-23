@@ -14,8 +14,8 @@ const Viewport = ({ children }: ViewportProps) => {
     return (
         <>
             <Header />
-            <Stack sx={{ minHeight: '100vh', px: { xs: '15px', sm: '25px', lg: '48px', xl: '65px' } }}  >
-                <Box sx={{ mx: { xs: '15px', sm: '25px' } }}>
+            <Stack sx={{ minHeight: '100vh', px: { xs: '0.25rem', sm: '25px', lg: '48px', xl: '65px' } }}  >
+                <Box sx={{ mx: { xs: '0.25rem', sm: '25px' } }}>
                     {children}
                 </Box>
             </Stack>

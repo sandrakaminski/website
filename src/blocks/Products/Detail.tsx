@@ -1,11 +1,16 @@
 import { useState } from 'react';
 
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Alert from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
 import Dialog from '@mui/material/Dialog';
+import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
 import Snackbar from '@mui/material/Snackbar';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -20,7 +25,12 @@ import { useCartContext } from "@/views/Cart/cartProvider";
 export const Detail = (props: ProductTypes) => {
     const { content } = props;
     const { addToCart } = useCartContext();
+
+    const sentences = content.fields.description.split('.');
+    const preview = sentences.slice(0, 4).join('.');
+
     const [open, setOpen] = useState<boolean>(false);
+    const [showMore, setShowMore] = useState<string>(preview);
     const [image, setImage] = useState<string>(content.fields.featureImage.fields.file.url);
 
     const handleCart = () => {
@@ -35,6 +45,15 @@ export const Detail = (props: ProductTypes) => {
         setOpen(true)
     }
 
+    const handleShowMore = () => {
+        setShowMore(content.fields.description)
+    }
+
+    const handleShowLess = () => {
+        setShowMore(preview)
+    }
+
+
     return (
         <>
             <Trail current={content.fields.name} />
@@ -43,43 +62,39 @@ export const Detail = (props: ProductTypes) => {
                     This product is only available for shipping within New Zealand.
                 </Alert>
             </Snackbar>
-            <Grid container spacing={2}   >
-                <Grid xs={12} md={6}>
-                    <Stack sx={{ mb: 4 }} spacing={4} alignItems="center"  >
-                        <Typography align="center" gutterBottom variant="h2">
-                            {content.fields.name}
-                        </Typography>
-                        <Typography gutterBottom variant="h4" >
-                            ${content.fields.price}
-                        </Typography>
-                    </Stack>
-                    <ReactMarkdown components={Markdown} >{content.fields.description}</ReactMarkdown>
-                    <Stack sx={{ mt: 4 }} spacing={4} alignItems="center"  >
-                        <Button size="large" disabled={!content.fields.inStock} onClick={handleCart} startIcon={<ShoppingCartOutlinedIcon />} variant={"outlined"}>
-                            {!content.fields.inStock ? "Sold out" : "Add to Cart"}
-                        </Button>
+
+            <Grid sx={{ mt: 1 }} container spacing={2} >
+                <Grid xs={12} md={6}  >
+                    <Stack spacing={2} alignItems="flex-start" direction="row">
+                        <ThumbnailCarousel content={content} image={image} handleSetImage={handleSetImage} />
+                        {content.fields.featureImage &&
+                            <CardActionArea sx={{ backgroundColor: 'gray.100' }} onClick={() => handleOpen()}>
+                                <img
+                                    style={{ height: 650, width: '100%', objectFit: 'contain' }}
+                                    loading="eager"
+                                    src={image}
+                                    alt={"Feature image"}
+                                />
+                            </CardActionArea>
+                        }
                     </Stack>
                 </Grid>
-                <Grid xs={12} md={6}>
-                    {content.fields.featureImage &&
-                        <CardActionArea sx={{ backgroundColor: 'gray.100' }} onClick={() => handleOpen()}>
-                            <img
-                                style={{ height: 650, width: '100%', objectFit: 'contain' }}
-                                loading="lazy"
-                                src={image}
-                                alt={"Feature image"}
-                            />
-                        </CardActionArea>
-                    }
-                    {content.fields.productFiles &&
-                        <Grid justifyContent="center" container >
-                            {content.fields.productFiles.map((img: Image, index: number) =>
-                                <Grid key={index}  >
-                                    <Avatar onClick={() => handleSetImage(img)} component={CardActionArea} sx={image === img.fields.file.url ? { border: 1, width: 50, height: 80 } : { width: 50, height: 80 }} variant="square" src={img.fields.file.url} alt={img.fields.title} />
-                                </Grid>
-                            )}
-                        </Grid>
-                    }
+                <Grid xs={12} md={6} >
+                    <Heading content={content} onClick={handleCart} />
+                    <Box sx={{ p: 2 }}>
+                        <ReactMarkdown components={Markdown} >
+                            {showMore === preview ? `${showMore}...` : showMore}
+                        </ReactMarkdown>
+                        {showMore === preview ?
+                            <Link sx={{ cursor: 'pointer' }} onClick={handleShowMore} >
+                                Read more
+                            </Link>
+                            :
+                            <Link sx={{ cursor: 'pointer' }} onClick={handleShowLess} >
+                                Read less
+                            </Link>
+                        }
+                    </Box>
                 </Grid>
             </Grid >
             <Dialog maxWidth="xl" open={open} onClose={() => setOpen(false)}>
@@ -94,3 +109,86 @@ export const Detail = (props: ProductTypes) => {
     );
 }
 export default Detail;
+
+const Heading = (props: any) => {
+    const { content } = props;
+
+    return (
+        <Stack alignItems="center" spacing={2}>
+            <Typography variant="h2">
+                {content.fields.name}
+            </Typography>
+            <Typography variant="h4" >
+                ${content.fields.price}
+            </Typography>
+            <Button size="large" disabled={!content.fields.inStock} {...props} startIcon={<ShoppingCartOutlinedIcon />} variant="contained">
+                {!content.fields.inStock ? "Sold out" : "Add to Cart"}
+            </Button>
+        </Stack>
+    )
+}
+
+type ThumbnailCarouselProps = {
+    content: {
+        fields: {
+            productFiles: Image[];
+        }
+    };
+    image: string;
+    handleSetImage: (img: Image) => typeof img | void;
+}
+
+const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
+    const { content, handleSetImage, image } = props;
+    const initialCount = 6;
+    const [offset, setOffset] = useState<number>(0);
+    const [count, setCount] = useState<number>(initialCount);
+
+    const handleThumbnailMore = () => {
+        setOffset(offset + 1)
+        setCount(count + 1)
+    }
+
+    const handleThumbnailLess = () => {
+        setOffset(offset - 1)
+        setCount(count - 1)
+    }
+
+    const size = { width: 50, height: 80 };
+    const buttonSize = { height: 40, width: 40 }
+
+    return (
+        <>
+            {content.fields.productFiles &&
+                <Stack sx={{ height: '100vh' }} spacing={2} direction="column" alignItems="center" >
+                    {content.fields.productFiles.length > initialCount &&
+                        <IconButton
+                            disabled={offset === 0}
+                            sx={buttonSize}
+                            onClick={handleThumbnailLess}>
+                            <KeyboardArrowUpIcon />
+                        </IconButton>
+                    }
+                    {content.fields.productFiles.slice(offset, count).map((img: Image, index: number) =>
+                        <Avatar
+                            key={index}
+                            onClick={() => handleSetImage(img)}
+                            component={CardActionArea}
+                            sx={image === img.fields.file.url ? { border: 1, ...size } : size}
+                            variant="square"
+                            src={img.fields.file.url}
+                            alt={img.fields.title} />
+                    )}
+                    {content.fields.productFiles.length > initialCount &&
+                        <IconButton
+                            disabled={count > content.fields.productFiles.length - 1}
+                            sx={buttonSize}
+                            onClick={handleThumbnailMore}>
+                            <KeyboardArrowDownIcon />
+                        </IconButton>
+                    }
+                </Stack>
+            }
+        </>
+    )
+}

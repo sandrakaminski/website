@@ -39,7 +39,7 @@ const Component: React.FC = () => {
 
     return (
         <>
-            {content ?
+            {content && content ?
                 <Renderer content={content} />
                 :
                 <Outline />
