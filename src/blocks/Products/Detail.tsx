@@ -51,7 +51,7 @@ export const Detail = (props: ProductTypes) => {
             </Snackbar>
             <Heading content={content} sx={{ display: { xs: 'flex', md: 'none' }, mt: 4 }} />
             <Grid sx={{ mt: 1 }} container spacing={2} >
-                <Grid xs={12} md={8}  >
+                <Grid xs={12} md={7}  >
                     <Stack sx={{ objectFit: 'contain' }} justifyContent="center" spacing={2} direction="row" >
                         <ThumbnailCarousel content={content} image={image} handleSetImage={handleSetImage} />
                         {content.fields.featureImage &&
@@ -66,7 +66,7 @@ export const Detail = (props: ProductTypes) => {
                         }
                     </Stack>
                 </Grid>
-                <Grid xs={12} md={4} >
+                <Grid xs={12} md={5} >
                     <Heading content={content} sx={{ display: { xs: 'none', md: 'flex' } }} />
                     <Stack sx={{ my: 2 }} alignItems="center">
                         <Button size="large" disabled={!content.fields.inStock} onClick={handleCart} startIcon={<ShoppingCartOutlinedIcon />} variant="contained">
