@@ -16,7 +16,6 @@ export const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-
       <BrowserRouter>
         <Tracker>
           <CartProvider>
@@ -28,7 +27,6 @@ export const App: React.FC = () => {
           </CartProvider>
         </Tracker>
       </BrowserRouter>
-
     </ThemeProvider >
   )
 }

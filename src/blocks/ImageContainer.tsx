@@ -11,20 +11,20 @@ import type { Image } from '@/shared'
 interface ImageContainerProps {
     content: {
         fields: {
-            blocks: Block[]; 
-        }; 
-    }; 
+            blocks: Block[];
+        };
+    };
 }
 
 type Block = {
     fields: {
-        imageRows: number; 
-        image: Image; 
-        title: string; 
-        subheader: string; 
-        slug: string; 
-    }; 
-}; 
+        imageRows: number;
+        image: Image;
+        title: string;
+        subheader: string;
+        slug: string;
+    };
+};
 
 export const ImageContainer = (props: ImageContainerProps) => {
     const { content } = props;
@@ -54,19 +54,19 @@ export default ImageContainer;
 type FloatingTextProps = {
     content: {
         fields: {
-            title: string; 
-            subheader: string; 
-        }; 
-    }; 
-}; 
+            title: string;
+            subheader: string;
+        };
+    };
+};
 
 const FloatingText = (props: FloatingTextProps) => {
     const { content } = props;
 
     return (
         <Box sx={{ height: '100%', width: '100%', background: 'rgba(0,0,0,0.10)', position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <Typography variant="h1" gutterBottom sx={{ color: 'background.paper' }}>{content.fields.title}</Typography>
-            <Typography variant="h5" sx={{ display: { xs: 'none', md: 'flex' }, color: 'background.paper' }}>{content.fields.subheader}</Typography>
+            <Typography variant="h2" gutterBottom sx={{ color: 'background.paper' }}>{content.fields.title}</Typography>
+            <Typography variant="body1" sx={{ display: { xs: 'none', md: 'flex' }, color: 'background.paper' }}>{content.fields.subheader}</Typography>
         </Box>
     )
 }
