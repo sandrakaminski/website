@@ -3519,11 +3519,6 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-disqus-react@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/disqus-react/-/disqus-react-1.1.5.tgz#e844d040eed8f55467106e49d00e29d629e07043"
-  integrity sha512-9fdG5m6c3wJzlCDLaMheuUagMVj3s5qgUSXdekpCsvzYOKG21AiuOoqyDzA0oXrpPnYzgpnsvPYqZ+i0hJPGZw==
-
 doctrine@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.1.0.tgz#5cd01fc101621b42c4cd7f5d1a66243716d3f39d"
@@ -8216,6 +8211,11 @@ react-dom@^18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
+
+react-ga@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-3.3.1.tgz#d8e1f4e05ec55ed6ff944dcb14b99011dfaf9504"
+  integrity sha512-4Vc0W5EvXAXUN/wWyxvsAKDLLgtJ3oLmhYYssx+YzphJpejtOst6cbIHCIyF50Fdxuf5DDKqRYny24yJ2y7GFQ==
 
 react-is@^16.12.0, react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -31,7 +31,7 @@ const init: Init = {
 }
 
 type DropdownProps = {
-    onChange: any;
+    onChange: React.EventHandler<any>;
     value: string | object;
     label: string;
     id: string;
