@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import { useLocation } from 'react-router-dom';
 
 interface TrackerProps {
@@ -15,7 +15,8 @@ const Tracker = (props: TrackerProps) => {
     useEffect(() => {
         window.scrollTo(0, 0);
         ReactGA.initialize(import.meta.env.VITE_GA_ID);
-        ReactGA.pageview(pathname);
+        ReactGA.send({ hitType: "pageview", page: pathname });
+
     }, [pathname, search]);
 
     return <>{children}</>;
