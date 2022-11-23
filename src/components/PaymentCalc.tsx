@@ -28,7 +28,6 @@ const init: Init = {
     TW: { name: "Taiwan", code: 7 },
     GB: { name: "United Kingdom", code: 8 },
     US: { name: "United States", code: 9 },
-
 }
 
 type DropdownProps = {
@@ -43,7 +42,7 @@ const CountryDropdown = (props: DropdownProps) => {
     const { onChange, value, label, id, disabled } = props;
 
     return (
-        <FormControl disabled={disabled} sx={{ mindWidth: 300 }} size="small" variant="outlined" fullWidth>
+        <FormControl disabled={disabled} size="small" variant="outlined" fullWidth>
             <InputLabel id={id}>Country</InputLabel>
             <Select
                 onChange={onChange}
@@ -139,7 +138,6 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { country, shippingCosts, setAmount, amount } = props;
     const { total } = useCartContext();
 
-
     // inital state
     const init = "";
     const currency = currencyTypes(init);
@@ -156,7 +154,6 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
 
     // fetches the exchange rate
     useEffect(() => {
-
         const handleSetCurrency = async () => {
             const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
             const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);

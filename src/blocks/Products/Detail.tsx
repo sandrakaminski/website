@@ -163,14 +163,14 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
     const [offset, setOffset] = useState<number>(0);
     const [count, setCount] = useState<number>(initialCount);
 
-    const handleThumbnailMore = () => {
-        setOffset(offset + 1)
-        setCount(count + 1)
-    }
-
     const handleThumbnailLess = () => {
         setOffset(offset - 1)
         setCount(count - 1)
+    }
+
+    const handleThumbnailMore = () => {
+        setOffset(offset + 1)
+        setCount(count + 1)
     }
 
     const size = { width: 50, height: 80 };
