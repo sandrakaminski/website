@@ -41,7 +41,6 @@ export const Detail = (props: ProductTypes) => {
         setOpen(true)
     }
 
-
     return (
         <>
             <Trail current={content.fields.name} />
@@ -151,7 +150,7 @@ type ThumbnailCarouselProps = {
     content: {
         fields: {
             productFiles: Image[];
-        }
+        }; 
     };
     image: string;
     handleSetImage: (img: Image) => typeof img | void;
@@ -159,6 +158,7 @@ type ThumbnailCarouselProps = {
 
 const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
     const { content, handleSetImage, image } = props;
+
     const initialCount = 6;
     const [offset, setOffset] = useState<number>(0);
     const [count, setCount] = useState<number>(initialCount);
@@ -166,15 +166,15 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
     const handleThumbnailLess = () => {
         setOffset(offset - 1)
         setCount(count - 1)
-    }
+    }; 
 
     const handleThumbnailMore = () => {
         setOffset(offset + 1)
         setCount(count + 1)
-    }
+    };
 
-    const size = { width: 50, height: 80 };
-    const buttonSize = { height: 40, width: 40 }
+    const avatarSize = { width: 50, height: 80 };
+    const buttonSize = { height: 40, width: 40 }; 
 
     return (
         <>
@@ -193,7 +193,7 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
                             key={index}
                             onClick={() => handleSetImage(img)}
                             component={CardActionArea}
-                            sx={image === img.fields.file.url ? { border: 1, ...size } : size}
+                            sx={image === img.fields.file.url ? { border: 1, ...avatarSize } : avatarSize}
                             variant="square"
                             src={img.fields.file.url}
                             alt={img.fields.title} />
