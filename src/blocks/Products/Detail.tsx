@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -26,11 +26,7 @@ export const Detail = (props: ProductTypes) => {
     const { content } = props;
     const { addToCart } = useCartContext();
 
-    const sentences = content.fields.description.split('.');
-    const preview = sentences.slice(0, 4).join('.');
-
     const [open, setOpen] = useState<boolean>(false);
-    const [showMore, setShowMore] = useState<string>(preview);
     const [image, setImage] = useState<string>(content.fields.featureImage.fields.file.url);
 
     const handleCart = () => {
@@ -45,14 +41,6 @@ export const Detail = (props: ProductTypes) => {
         setOpen(true)
     }
 
-    const handleShowMore = () => {
-        setShowMore(content.fields.description)
-    }
-
-    const handleShowLess = () => {
-        setShowMore(preview)
-    }
-
 
     return (
         <>
@@ -62,15 +50,15 @@ export const Detail = (props: ProductTypes) => {
                     This product is only available for shipping within New Zealand.
                 </Alert>
             </Snackbar>
-
+            <Heading content={content} sx={{ display: { xs: 'flex', md: 'none' }, mt: 4 }} />
             <Grid sx={{ mt: 1 }} container spacing={2} >
                 <Grid xs={12} md={6}  >
-                    <Stack spacing={2} alignItems="flex-start" direction="row">
+                    <Stack sx={{ objectFit: 'contain' }} justifyContent="center" spacing={2} direction="row" >
                         <ThumbnailCarousel content={content} image={image} handleSetImage={handleSetImage} />
                         {content.fields.featureImage &&
                             <CardActionArea sx={{ backgroundColor: 'gray.100' }} onClick={() => handleOpen()}>
                                 <img
-                                    style={{ height: 650, width: '100%', objectFit: 'contain' }}
+                                    style={{ maxHeight: 650, width: '100%', objectFit: 'contain' }}
                                     loading="eager"
                                     src={image}
                                     alt={"Feature image"}
@@ -80,21 +68,13 @@ export const Detail = (props: ProductTypes) => {
                     </Stack>
                 </Grid>
                 <Grid xs={12} md={6} >
-                    <Heading content={content} onClick={handleCart} />
-                    <Box sx={{ p: 2 }}>
-                        <ReactMarkdown components={Markdown} >
-                            {showMore === preview ? `${showMore}...` : showMore}
-                        </ReactMarkdown>
-                        {showMore === preview ?
-                            <Link sx={{ cursor: 'pointer' }} onClick={handleShowMore} >
-                                Read more
-                            </Link>
-                            :
-                            <Link sx={{ cursor: 'pointer' }} onClick={handleShowLess} >
-                                Read less
-                            </Link>
-                        }
-                    </Box>
+                    <Heading content={content} sx={{ display: { xs: 'none', md: 'flex' } }} />
+                    <Stack sx={{ my: 2 }} alignItems="center">
+                        <Button size="large" disabled={!content.fields.inStock} onClick={handleCart} startIcon={<ShoppingCartOutlinedIcon />} variant="contained">
+                            {!content.fields.inStock ? "Sold out" : "Add to Cart"}
+                        </Button>
+                    </Stack>
+                    <Body content={content} />
                 </Grid>
             </Grid >
             <Dialog maxWidth="xl" open={open} onClose={() => setOpen(false)}>
@@ -111,20 +91,59 @@ export const Detail = (props: ProductTypes) => {
 export default Detail;
 
 const Heading = (props: any) => {
-    const { content } = props;
+    const { content, sx } = props;
 
     return (
-        <Stack alignItems="center" spacing={2}>
+        <Stack sx={{ mb: 4, ...sx }} alignItems="center" spacing={2}>
             <Typography variant="h2">
                 {content.fields.name}
             </Typography>
             <Typography variant="h4" >
                 ${content.fields.price}
             </Typography>
-            <Button size="large" disabled={!content.fields.inStock} {...props} startIcon={<ShoppingCartOutlinedIcon />} variant="contained">
-                {!content.fields.inStock ? "Sold out" : "Add to Cart"}
-            </Button>
         </Stack>
+    )
+}
+
+const Body = (props: ProductTypes) => {
+    const { content } = props;
+
+    const sentences = content.fields.description.split('.');
+    const preview = sentences.slice(0, 2).join('.');
+    const detect = sentences.join('.');
+
+    const [hidden, setHidden] = useState<boolean>(false);
+    const [showMore, setShowMore] = useState<string>(preview);
+
+    const handleShowMore = () => {
+        setShowMore(content.fields.description)
+    }
+
+    const handleShowLess = () => {
+        setShowMore(preview)
+    }
+
+    useEffect(() => {
+        if (detect.length === preview.length) {
+            setHidden(true)
+        }
+    }, [content.fields.description, detect, preview])
+
+    return (
+        <Box sx={{ p: 2 }}>
+            <ReactMarkdown components={Markdown} >
+                {showMore === preview && !hidden ? `${showMore}...` : showMore}
+            </ReactMarkdown>
+            {!hidden && showMore === preview ?
+                <Link sx={{ cursor: 'pointer' }} onClick={handleShowMore} >
+                    Read more
+                </Link>
+                :
+                <Link sx={{ cursor: 'pointer' }} onClick={handleShowLess} >
+                    Read less
+                </Link>
+            }
+        </Box>
     )
 }
 
@@ -160,7 +179,7 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
     return (
         <>
             {content.fields.productFiles &&
-                <Stack sx={{ height: '100vh' }} spacing={2} direction="column" alignItems="center" >
+                <Stack spacing={1} direction="column" alignItems="center" >
                     {content.fields.productFiles.length > initialCount &&
                         <IconButton
                             disabled={offset === 0}

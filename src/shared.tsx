@@ -17,8 +17,6 @@ export const SectionMarkDown: Object = {
     p: ({ ...props }: any) => <Typography sx={{ mx: { md: 4 }, lineHeight: 1.75, maxWidth: { md: 600 } }} align="justify" variant=" body1" textAlign="center" {...props} />
 };
 
-
-
 // consistent image type
 export type Image = {
     fields: {
