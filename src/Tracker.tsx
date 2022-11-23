@@ -11,13 +11,12 @@ const Tracker = (props: TrackerProps) => {
     const { children } = props;
 
     const { pathname, search } = useLocation();
-    const initGA = ReactGA.initialize(import.meta.env.VITE_GA_ID);
-    const track = ReactGA.pageview(pathname + search);
 
     useEffect(() => {
-        initGA
-        track
-    }, [initGA, track]);
+        window.scrollTo(0, 0);
+        ReactGA.initialize(import.meta.env.VITE_GA_ID);
+        ReactGA.pageview(pathname);
+    }, [pathname, search]);
 
     return <>{children}</>;
 }
