@@ -2,10 +2,12 @@ import FuturaCyrillicBook from './FuturaCyrillicBook.ttf';
 
 export const typography: object = {
     h1: {
-        fontSize: '45px',
-        fontWeight: 400,
-        fontFamily: 'Playfair Display SC, serif',
-        letterSpacing: '.02em',
+        fontSize: '40px',
+        fontWeight: 500,
+        fontFamily: 'ltc-bodoni-175',
+        letterSpacing: '0em',
+        textTransform: 'uppercase',
+        color: '#000',
     },
     h2: {
         fontSize: '34px',
