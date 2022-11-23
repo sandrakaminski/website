@@ -124,11 +124,13 @@ export const vat = (country: string) => {
 interface CurrencyExchProps {
     country: string;
     shippingCosts: any;
-    setAmount: any;
-    amount: {
-        shipping: number;
-        total: number;
-    };
+    setAmount: (amount: Amount) => typeof amount | void;
+    amount: Amount;
+}
+type Amount = {
+    shipping: number;
+    total: number;
+    currency?: string;
 }
 
 const BASE_URL = 'https://api.exchangerate.host/latest'
@@ -138,8 +140,8 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { country, shippingCosts, setAmount, amount } = props;
     const { total } = useCartContext();
 
-    // inital state
-    const init = "";
+    // inital state (NZD)
+    const init = "NZD";
     const currency = currencyTypes(init);
 
     // custom hooks
@@ -149,7 +151,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
 
     // calculations 
     const totalCost = total + shippingCosts;
-    const vatTotal = vatCosts * total;
+    const vatTotal = vatCosts * amount.total;
     const totalCosts = totalCost.toFixed(2).toString();
 
     // fetches the exchange rate
@@ -167,6 +169,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
 
     return (
         <Box>
+            {/* <Typography variant="caption">*GST is included in the price</Typography> */}
             <Typography> {!amount.shipping ? <Skeleton /> : `VAT/GST: ${symbol}${vatTotal.toFixed(2)} ${newCurrency}`}</Typography>
             <Typography>{!amount.shipping ? <Skeleton /> : `Shipping: ${symbol}${amount.shipping.toFixed(2)} ${newCurrency}`} </Typography>
             <Typography> {!amount.total ? <Skeleton /> : `Total: ${symbol}${amount.total.toFixed(2)} ${newCurrency}`}</Typography>
