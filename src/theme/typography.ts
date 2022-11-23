@@ -15,7 +15,6 @@ export const typography: object = {
         fontStyle: 'normal',
         letterSpacing: '.02em',
         textTransform: 'none',
-        margin: '28.22px, 0px',
     },
     h3: {
         fontSize: '45px',
