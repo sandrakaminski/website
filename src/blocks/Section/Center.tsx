@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CardMedia from '@mui/material/CardMedia';
 import Stack from '@mui/material/Stack';
@@ -27,14 +28,16 @@ export const Center = (props: Content) => {
                 </Typography>
             }
             {content.fields.resources?.map((item: ResourceType, index: number) => (
-                <Stack key={index} justifyContent="center" alignContent="center"  sx={{ p: 2 }}>
+                <Stack key={index} justifyContent="center" alignContent="center" sx={{ p: 4 }}>
                     <Typography align="center" variant="h2">
                         {item.fields.headline}
                     </Typography>
-                    <Resource resource={item} />
+                    <Box sx={{ pt: 4 }}>
+                        <Resource resource={item} />
+                    </Box>
                 </Stack>
             ))}
-            <Stack justifyContent="center" direction="column" alignItems="center" spacing={2} >
+            <Stack justifyContent="center" direction="column" alignItems="center" spacing={2} sx={{color: 'GrayText'}}>
                 <ReactMarkdown components={SectionMarkDown} >
                     {content.fields.body}
                 </ReactMarkdown>
