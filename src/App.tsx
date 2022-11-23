@@ -16,8 +16,9 @@ export const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Tracker>
-        <BrowserRouter>
+
+      <BrowserRouter>
+        <Tracker>
           <CartProvider>
             <Viewport>
               <Suspense fallback={<Outline />}>
@@ -25,8 +26,9 @@ export const App: React.FC = () => {
               </Suspense>
             </Viewport>
           </CartProvider>
-        </BrowserRouter>
-      </Tracker>
+        </Tracker>
+      </BrowserRouter>
+
     </ThemeProvider >
   )
 }
