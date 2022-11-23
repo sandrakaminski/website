@@ -17,8 +17,6 @@ export const theme: Theme = responsiveFontSizes(createTheme({
                     font-weight: 400;
                     font-style: normal;
                 }
-                @font-face {}
-                
             `,
         }
     }
