@@ -32,7 +32,7 @@ export const Right = (props: Content) => {
                 {content.fields.resources?.map((item: ResourceType, index: number) => (
                     <Box key={index} justifyContent="center" alignContent="center" sx={{ p: 2 }}>
                         {item.fields.headline &&
-                            <Typography align="center" variant="h2" sx={{ p: 2 }}>
+                            <Typography align="center" variant="h2" >
                                 {item.fields.headline}
                             </Typography>
                         }

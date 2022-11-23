@@ -10,7 +10,7 @@ import { SectionMarkDown } from '@/shared';
 
 export const Center = (props: Content) => {
     const { content } = props;
-    
+
     return (
         <>
             {content.fields.image?.fields.file.url &&
@@ -21,21 +21,23 @@ export const Center = (props: Content) => {
                     alt={content.fields.image.fields.title}
                 />
             }
-            <Typography align="center" variant="h3" sx={{ p: { xs: 2, md: 4 } }}>
-                {content.fields.headline}
-            </Typography>
+            {content.fields.headline &&
+                <Typography align="center" variant="h3" sx={{ p: { xs: 2, md: 4 } }}>
+                    {content.fields.headline}
+                </Typography>
+            }
             {content.fields.resources?.map((item: ResourceType, index: number) => (
-                <Stack key={index} justifyContent="center" alignContent="center">
-                    <Typography align="center" variant="h4" sx={{ p: 4 }}>
+                <Stack key={index} justifyContent="center" alignContent="center"  sx={{ p: 2 }}>
+                    <Typography align="center" variant="h2">
                         {item.fields.headline}
                     </Typography>
                     <Resource resource={item} />
                 </Stack>
             ))}
             <Stack justifyContent="center" direction="column" alignItems="center" spacing={2} >
-                    <ReactMarkdown components={SectionMarkDown} >
-                        {content.fields.body}
-                    </ReactMarkdown>
+                <ReactMarkdown components={SectionMarkDown} >
+                    {content.fields.body}
+                </ReactMarkdown>
                 {content.fields.ctaLabel &&
                     <Button href={content.fields.ctaSlug} variant="contained" sx={{ mt: 4, mb: 4 }}>
                         {content.fields.ctaLabel}

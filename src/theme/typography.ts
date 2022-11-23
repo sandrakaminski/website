@@ -11,7 +11,7 @@ export const typography: object = {
         color: '#000',
         fontSize: '34px',
         fontWeight: 500,
-        fontFamily: 'arno-pro',
+        fontFamily: 'ArnoProCaption',
         fontStyle: 'normal',
         letterSpacing: '.02em',
         textTransform: 'none',
@@ -20,7 +20,7 @@ export const typography: object = {
     h3: {
         fontSize: '45px',
         fontWeight: 400,
-        fontFamily: 'Playfair Display SC',
+        fontFamily: 'Playfair Display SC, serif',
         fontStle: 'normal',
         textTransform: 'uppercase',
         color: '#000000',

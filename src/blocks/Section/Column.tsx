@@ -10,7 +10,7 @@ export const Column = (props: Content) => {
 
     return (
         <Box sx={{ p: 5 }}>
-            <Typography align="center" gutterBottom variant="h2">
+            <Typography align="center" gutterBottom variant="h3">
                     {content.fields.headline}
                 </Typography>
             <Grid container>
