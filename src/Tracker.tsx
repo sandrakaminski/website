@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-
 import ReactGA from 'react-ga4';
 import { useLocation } from 'react-router-dom';
 
@@ -46,7 +45,7 @@ const Tracker = (props: TrackerProps) => {
         ReactGA.send({ hitType: "pageview", page: pathname });
     }, [pathname]);
 
-
+    // gets country info
     const getGeo = useCallback(async () => {
         if (!navigator.geolocation) {
             return;
@@ -78,12 +77,11 @@ const Tracker = (props: TrackerProps) => {
         else if (countriesList[country.countryCode] === undefined) {
             setOpen(true);
         }
-        setOpen(false);
+        else {
+            setOpen(false);
+        }
         googleAnalytics();
-
     }, [googleAnalytics, country, getGeo]);
-
-    console.log(country)
 
     return (
         <>
