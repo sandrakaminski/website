@@ -171,7 +171,7 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
     const increaseOffSet = (index: number) => {
         if (index === 0 && offset === 0) {
             return
-        } else if (count > content.fields.productFiles.length - 1 && index === 5) {
+        } else if (index === 5 && count > content.fields.productFiles.length - 1) {
             return
         } else if (index === 5) {
             setOffset(offset + 1)
