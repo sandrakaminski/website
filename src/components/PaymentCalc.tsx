@@ -17,7 +17,7 @@ type Init = {
     }
 }
 
-const init: Init = {
+export const countriesList: Init = {
     AU: { name: "Australia", code: 0 },
     CA: { name: "Canada", code: 1 },
     CL: { name: "Chile", code: 2 },
@@ -52,7 +52,7 @@ const CountryDropdown = (props: DropdownProps) => {
                 name={id}
                 label={label}
             >
-                {Object.entries(init).map(([k, v]: any) =>
+                {Object.entries(countriesList).map(([k, v]: any) =>
                     <MenuItem key={v.code} value={k}>{v.name}</MenuItem>
                 )}
             </Select>
