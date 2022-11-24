@@ -173,50 +173,51 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
             return
         } else if (index === 5 && count > content.fields.productFiles.length - 1) {
             return
-        } else if (index === 5) {
-            setOffset(offset + 1)
-            setCount(count + 1)
         } else if (index === 0) {
             setOffset(offset - 1)
             setCount(count - 1)
+        } else if (index === 5) {
+            setOffset(offset + 1)
+            setCount(count + 1)
         }
     }
 
-    const avatarSize = { width: 50, height: 80 };
-    const buttonSize = { height: 40, width: 40 };
 
-    return (
-        <>
-            {content.fields.productFiles &&
-                <Stack spacing={1} direction="column" alignItems="center" >
-                    {content.fields.productFiles.length > initialCount &&
-                        <IconButton
-                            disabled={offset === 0}
-                            sx={buttonSize}
-                            onClick={handleThumbnailLess}>
-                            <KeyboardArrowUpIcon />
-                        </IconButton>
-                    }
-                    {content.fields.productFiles.slice(offset, count).map((img: Image, index: number) =>
-                        <Avatar
-                            key={index}
-                            onClick={() => { handleSetImage(img), increaseOffSet(index) }}
-                            component={CardActionArea}
-                            sx={image === img.fields.file.url ? { border: 1, ...avatarSize } : avatarSize}
-                            variant="square"
-                            src={img.fields.file.url}
-                            alt={img.fields.title} />
-                    )}
-                    {content.fields.productFiles.length > initialCount &&
-                        <IconButton
-                            disabled={count > content.fields.productFiles.length - 1}
-                            sx={buttonSize}
-                            onClick={handleThumbnailMore}>
-                            <KeyboardArrowDownIcon />
-                        </IconButton>
-                    }
-                </Stack>
-            }
-        </>
-    )
+const avatarSize = { width: 50, height: 80 };
+const buttonSize = { height: 40, width: 40 };
+
+return (
+    <>
+        {content.fields.productFiles &&
+            <Stack spacing={1} direction="column" alignItems="center" >
+                {content.fields.productFiles.length > initialCount &&
+                    <IconButton
+                        disabled={offset === 0}
+                        sx={buttonSize}
+                        onClick={handleThumbnailLess}>
+                        <KeyboardArrowUpIcon />
+                    </IconButton>
+                }
+                {content.fields.productFiles.slice(offset, count).map((img: Image, index: number) =>
+                    <Avatar
+                        key={index}
+                        onClick={() => { handleSetImage(img), increaseOffSet(index) }}
+                        component={CardActionArea}
+                        sx={image === img.fields.file.url ? { border: 1, ...avatarSize } : avatarSize}
+                        variant="square"
+                        src={img.fields.file.url}
+                        alt={img.fields.title} />
+                )}
+                {content.fields.productFiles.length > initialCount &&
+                    <IconButton
+                        disabled={count > content.fields.productFiles.length - 1}
+                        sx={buttonSize}
+                        onClick={handleThumbnailMore}>
+                        <KeyboardArrowDownIcon />
+                    </IconButton>
+                }
+            </Stack>
+        }
+    </>
+)
 }
