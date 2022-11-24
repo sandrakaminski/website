@@ -164,14 +164,25 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
     const [count, setCount] = useState<number>(initialCount);
 
     const handleThumbnailLess = () => {
+        handleCarouselLess()
         setOffset(offset - 1)
         setCount(count - 1)
     };
 
     const handleThumbnailMore = () => {
+        handleCarouselMore()
         setOffset(offset + 1)
-        setCount(count + 1)
     };
+
+    const handleCarouselMore = () => {
+        handleSetImage(content.fields.productFiles[offset + 1])
+        setCount(count + 1)
+    }
+
+    const handleCarouselLess = () => {
+        handleSetImage(content.fields.productFiles[offset - 1])
+        setCount(count - 1)
+    }
 
     const avatarSize = { width: 50, height: 80 };
     const buttonSize = { height: 40, width: 40 };
