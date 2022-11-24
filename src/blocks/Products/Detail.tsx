@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import Alert from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -11,13 +10,13 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
-import Snackbar from '@mui/material/Snackbar';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import ReactMarkdown from 'react-markdown';
 
 import type { ProductTypes } from './ProductTypes';
+import Notifier from '@/components/Notifier';
 import Trail from '@/components/Trail';
 import { Markdown, Image } from '@/shared';
 import { useCartContext } from "@/views/Cart/cartProvider";
@@ -44,11 +43,7 @@ export const Detail = (props: ProductTypes) => {
     return (
         <>
             <Trail current={content.fields.name} />
-            <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }} open={content.fields.nzShippingOnly} >
-                <Alert sx={{ color: "info.contrastText" }} variant="filled" severity="info" >
-                    This product is only available for shipping within New Zealand.
-                </Alert>
-            </Snackbar>
+            <Notifier open={content.fields.nzShippingOnly} message="This product is only available for shipping within New Zealand." />
             <Heading content={content} sx={{ display: { xs: 'flex', md: 'none' }, mt: 4 }} />
             <Grid sx={{ mt: 1 }} container spacing={2} >
                 <Grid xs={12} md={7}  >
