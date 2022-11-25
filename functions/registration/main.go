@@ -3,12 +3,11 @@ package main
 import (
 	"encoding/json"
 	"log"
-
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/sendgrid/sendgrid-go"
+	send "github.com/sendgrid/sendgrid-go"
 )
 
 type Person struct {
@@ -22,16 +21,11 @@ type Contact struct {
 }
 
 func addContact(per Person) {
-	host := os.Getenv("SEND_GRID_HOST")
-	ep := os.Getenv("SEND_GRID_ENDPOINT")
-	apiKey := os.Getenv("SENDGRID_API_KEY")
-
-	request := sendgrid.GetRequest(apiKey, ep, host)
-	request.Method = "POST"
+	request := send.GetRequest(os.Getenv("SENDGRID_API_KEY"), os.Getenv("SEND_GRID_ENDPOINT"), os.Getenv("SEND_GRID_HOST"))
+	request.Method = "PUT"
 
 	request.Body, _ = json.Marshal(Contact{Contacts: []Person{per}})
-
-	response, err := sendgrid.API(request)
+	response, err := send.API(request)
 
 	if err != nil {
 		log.Println("Not posted %f", err)
@@ -41,17 +35,15 @@ func addContact(per Person) {
 }
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-
 	var per Person
 	if err := json.Unmarshal([]byte(request.Body), &per); err != nil {
 		return nil, err
 	}
-
 	addContact(per)
 
 	rsp := map[string]interface{}{
 		"status":     200,
-		"statusText": "All good",
+		"statusText": "success",
 	}
 	byt, err := json.Marshal(rsp)
 	if err != nil {
