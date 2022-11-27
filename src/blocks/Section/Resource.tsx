@@ -22,11 +22,7 @@ export const Resource = (props: ResourceProps) => {
                             <Link sx={{ justifyContent: "center", alignItems: "center", textUnderlineOffset: '6px' }} href={`${file.fields.file.url}`} align="center" target="_blank">
                                 {file.fields.title}
                             </Link>
-                            {resource.fields.files?.length - 1 !== index &&
-                                <>
-                                    {","}
-                                </>
-                            }
+                            {resource.fields.files?.length - 1 !== index && ","}
                         </Grid>
                     ))}
                 </Grid>
@@ -37,7 +33,7 @@ export const Resource = (props: ResourceProps) => {
                     alignItems="center">
                     {resource.fields.files?.map((file: Image, index: number) =>
                         <Box key={index}>
-                            <Link href={`${file.fields.file.url}`} target="_blank" align="center" sx={{ textUnderlineOffset: '6px'}}>
+                            <Link href={`${file.fields.file.url}`} target="_blank" align="center" sx={{ textUnderlineOffset: '6px' }}>
                                 {file.fields.title}
                             </Link>
                         </Box>
