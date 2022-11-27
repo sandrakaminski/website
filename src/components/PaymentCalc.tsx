@@ -23,11 +23,12 @@ export const countriesList: Init = {
     CL: { name: "Chile", code: 2 },
     FR: { name: "France", code: 3 },
     IT: { name: "Italy", code: 4 },
-    NZ: { name: "New Zealand", code: 5 },
-    NO: { name: "Norway", code: 6 },
-    TW: { name: "Taiwan", code: 7 },
-    GB: { name: "United Kingdom", code: 8 },
-    US: { name: "United States", code: 9 },
+    JP: { name: "Japan", code: 5 },
+    NZ: { name: "New Zealand", code: 6 },
+    NO: { name: "Norway", code: 7 },
+    TW: { name: "Taiwan", code: 8 },
+    GB: { name: "United Kingdom", code: 9 },
+    US: { name: "United States", code: 10 },
 }
 
 type DropdownProps = {
@@ -68,6 +69,7 @@ export const shippingCosts = (country: string) => {
     if (country === "CL") return (31);
     if (country === "FR") return (34.92);
     if (country === "IT") return (36.92);
+    if (country === "JP") return (21);
     if (country === "NZ") return (11);
     if (country === "NO") return (42);
     if (country === "TW") return (13);
@@ -83,6 +85,7 @@ export const symbols = (country: string) => {
     if (country === "CL") return ("$");
     if (country === "FR") return ("€");
     if (country === "IT") return ("€");
+    if (country === "JP") return ("¥");
     if (country === "NZ") return ("$");
     if (country === "NO") return ("kr");
     if (country === "TW") return ("NT$");
@@ -98,6 +101,7 @@ export const currencyTypes = (country: string) => {
     if (country === "CL") return ("CLP");
     if (country === "FR") return ("EUR");
     if (country === "IT") return ("EUR");
+    if (country === "JP") return ("JPY");
     if (country === "NZ") return ("NZD");
     if (country === "NO") return ("NOK");
     if (country === "TW") return ("TWD");
@@ -113,6 +117,7 @@ export const vat = (country: string) => {
     if (country === "CL") return (0.19);
     if (country === "FR") return (0.22);
     if (country === "IT") return (0.24);
+    if (country === "JP") return (0.1);
     if (country === "NZ") return (0.15);
     if (country === "NO") return (0.25);
     if (country === "TW") return (0.05);
