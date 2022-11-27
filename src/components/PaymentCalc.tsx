@@ -37,27 +37,33 @@ type DropdownProps = {
     label: string;
     id: string;
     disabled?: boolean;
+    loading?: boolean;
 }
 
 const CountryDropdown = (props: DropdownProps) => {
-    const { onChange, value, label, id, disabled } = props;
+    const { onChange, value, label, id, disabled, loading } = props;
 
     return (
-        <FormControl disabled={disabled} size="small" variant="outlined" fullWidth>
-            <InputLabel id={id}>Country</InputLabel>
-            <Select
-                onChange={onChange}
-                value={value}
-                labelId="country"
-                id={id}
-                name={id}
-                label={label}
-            >
-                {Object.entries(countriesList).map(([k, v]: any) =>
-                    <MenuItem key={v.code} value={k}>{v.name}</MenuItem>
-                )}
-            </Select>
-        </FormControl>
+        <>
+            {!loading ?
+                <FormControl disabled={disabled} size="small" variant="outlined" fullWidth>
+                    <InputLabel id={id}>Country</InputLabel>
+                    <Select
+                        onChange={onChange}
+                        value={value}
+                        labelId="country"
+                        id={id}
+                        name={id}
+                        label={label}
+                    >
+                        {Object.entries(countriesList).map(([k, v]: any) =>
+                            <MenuItem key={v.code} value={k}>{v.name}</MenuItem>
+                        )}
+                    </Select>
+                </FormControl>
+                : <Skeleton variant="text" width={'100%'} />}
+        </>
+
     )
 }
 export default CountryDropdown;

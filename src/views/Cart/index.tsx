@@ -16,9 +16,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import CountryDropdown, { CurrencyExchange, shippingCosts, currencyTypes } from '@/components/PaymentCalc';
+import Notifier from "@/components/Notifier";
+import CountryDropdown, { CurrencyExchange, shippingCosts, currencyTypes, countriesList } from '@/components/PaymentCalc';
 import type { Image } from '@/shared';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
@@ -43,16 +45,52 @@ type Prices = {
     total: any;
 }
 
+type IPItems = {
+    countryName: string;
+    countryCode: string;
+}
+
+const init = {
+    countryName: "",
+    countryCode: "",
+}
+
 const Cart = () => {
     const navigate = useNavigate();
     const [processing, setProcessing] = useState<boolean>(false);
-    const [country, setCountry] = useState<string>("");
     const [nzOnly, setNzOnly] = useState<boolean>(false);
+    const [error, setError] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [country, setCountry] = useState<string>("");
+    const [loadVals, setLoadVals] = useState<IPItems>(init);
+
     const { cart, clear, decrease, increase, remove } = useCartContext();
     const shippingCost = shippingCosts(country);
     const cartQuantity = cart.map((item: Items) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
     const shippingTotal = shippingCost * cartQuantity;
     const currency = currencyTypes(country).toLowerCase();
+
+    const getData = async () => {
+        try {
+            const res = await axios.get('http://geolocation-db.com/json/');
+            if (res.status === 200) {
+                const { country_name, country_code } = res.data;
+                setLoadVals({
+                    countryName: country_name,
+                    countryCode: country_code,
+                });
+                if (countriesList[country_code] === undefined) {
+                    setError(true);
+                }
+                setLoading(false)
+                setCountry(country_code);
+            }
+        }
+        catch {
+            setLoading(false)
+            setCountry("NZ");
+        }
+    }
 
     const [amount, setAmount] = useState<Prices>({
         shipping: 0,
@@ -105,6 +143,7 @@ const Cart = () => {
         else {
             setNzOnly(false);
         }
+        getData();
     }, [cart])
 
     return (
@@ -119,36 +158,39 @@ const Cart = () => {
                     </Button>
                 </Stack >
                 :
-                <Grid alignItems="stretch" spacing={1} container >
-                    <Grid xs={12} md={8} >
-                        <Card sx={{ p: 2, minHeight: 250 }}>
-                            <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                                <Typography variant="h4" >Shopping cart</Typography>
-                                <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
+                <>
+                    <Grid alignItems="stretch" spacing={1} container >
+                        <Grid xs={12} md={8} >
+                            <Card sx={{ p: 2, minHeight: 250 }}>
+                                <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                                    <Typography variant="h4" >Shopping cart</Typography>
+                                    <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
+                                </Stack>
+                                <Stack sx={{ mt: 4 }} >
+                                    {cart.map((item: Items, index: number) =>
+                                        <CartItem key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
+                                    )}
+                                </Stack>
+                            </Card>
+                        </Grid>
+                        <Grid xs={12} md={4} >
+                            <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
+                                <Stack spacing={1}>
+                                    <Typography variant="h4" >Order summary</Typography>
+                                    <CurrencyExchange setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
+                                </Stack>
+                                <Stack spacing={0.5}>
+                                    <Typography gutterBottom color="grayText" variant="caption">This is to your country of destination</Typography>
+                                    <ButtonGroup size="small">
+                                        <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
+                                        <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={!country} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
+                                    </ButtonGroup>
+                                </Stack>
                             </Stack>
-                            <Stack sx={{ mt: 4 }} >
-                                {cart.map((item: Items, index: number) =>
-                                    <CartItem key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
-                                )}
-                            </Stack>
-                        </Card>
+                        </Grid>
                     </Grid>
-                    <Grid xs={12} md={4} >
-                        <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
-                            <Stack spacing={1}>
-                                <Typography variant="h4" >Order summary</Typography>
-                                <CurrencyExchange setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
-                            </Stack>
-                            <Stack spacing={0.5}>
-                                <Typography gutterBottom color="grayText" variant="caption">This is to your country of destination</Typography>
-                                <ButtonGroup size="small">
-                                    <CountryDropdown disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
-                                    <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={!country} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
-                                </ButtonGroup>
-                            </Stack>
-                        </Stack>
-                    </Grid>
-                </Grid>
+                    <Notifier open={error} message={`We don't currently offer shipping to ${loadVals.countryName}`} />
+                </>
             }
         </Box>
     )
