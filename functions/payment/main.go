@@ -63,6 +63,9 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		PaymentMethodTypes: stripe.StringSlice([]string{
 			"card",
 		}),
+		PhoneNumberCollection: &stripe.CheckoutSessionPhoneNumberCollectionParams{
+			Enabled: stripe.Bool(true),
+		},
 		Currency:   stripe.String(string(ord.Currency)),
 		SubmitType: stripe.String("pay"),
 		Mode:       stripe.String(string(stripe.CheckoutSessionModePayment)),
