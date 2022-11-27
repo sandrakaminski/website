@@ -61,7 +61,7 @@ const Cart = () => {
 
     // this is to keep shipping prices consistent between Chile and everywhere else
     let shipping;
-    if (country === "CL") {
+    if (country === "CL" || country === "JP") {
         shipping = amount.shipping.toFixed(0)
     }
     else {
