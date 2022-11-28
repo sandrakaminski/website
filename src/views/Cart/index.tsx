@@ -16,7 +16,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import Notifier from "@/components/Notifier";
@@ -45,7 +44,7 @@ type Prices = {
     total: any;
 }
 
-type IPItems = {
+type IpItems = {
     countryName: string;
     countryCode: string;
 }
@@ -62,7 +61,7 @@ const Cart = () => {
     const [error, setError] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
     const [country, setCountry] = useState<string>("");
-    const [loadVals, setLoadVals] = useState<IPItems>(init);
+    const [loadVals, setLoadVals] = useState<IpItems>(init);
 
     const { cart, clear, decrease, increase, remove } = useCartContext();
     const shippingCost = shippingCosts(country);
@@ -72,19 +71,19 @@ const Cart = () => {
 
     const getData = async () => {
         try {
-            const res = await axios.get('http://geolocation-db.com/json/');
-            if (res.status === 200) {
-                const { country_name, country_code } = res.data;
-                setLoadVals({
-                    countryName: country_name,
-                    countryCode: country_code,
-                });
-                if (countriesList[country_code] === undefined) {
-                    setError(true);
-                }
-                setLoading(false)
-                setCountry(country_code);
+            const res = await fetch('http://geolocation-db.com/json/');
+            const data = await res.json();
+            const { country_name, country_code } = data;
+            setLoadVals({
+                countryName: country_name,
+                countryCode: country_code,
+            });
+            if (countriesList[country_code] === undefined) {
+                setError(true);
+                setLoading(false);
             }
+            setLoading(false)
+            setCountry(country_code);
         }
         catch {
             setLoading(false)

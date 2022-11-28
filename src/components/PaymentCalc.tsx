@@ -61,7 +61,8 @@ const CountryDropdown = (props: DropdownProps) => {
                         )}
                     </Select>
                 </FormControl>
-                : <Skeleton variant="text" width={'100%'} />}
+                : <Skeleton sx={{ py: 2.3 }} variant="rounded" width={'100%'} height={'100%'} />
+            }
         </>
 
     )
