@@ -82,13 +82,15 @@ const Cart = () => {
             if (countriesList[country_code] === undefined) {
                 setError(true);
                 setLoading(false);
+                setCountry("NZ");
+            } else {
+                setLoading(false)
+                setCountry(country_code);
             }
-            setLoading(false)
-            setCountry(country_code);
         }
         catch {
-            setLoading(false)
             setCountry("NZ");
+            setLoading(false)
         }
     }
 
@@ -142,11 +144,10 @@ const Cart = () => {
         }
         else {
             setNzOnly(false);
+            getData();
         }
-        getData();
-    }, [cart])
 
-    console.log(disable)
+    }, [cart])
 
     return (
         <Box sx={{ my: 4 }}>
