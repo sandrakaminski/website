@@ -60,6 +60,7 @@ const Cart = () => {
     const [nzOnly, setNzOnly] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
+    const [disable, setDisable] = useState<boolean>(true);
     const [country, setCountry] = useState<string>("");
     const [loadVals, setLoadVals] = useState<IpItems>(init);
 
@@ -145,6 +146,8 @@ const Cart = () => {
         getData();
     }, [cart])
 
+    console.log(disable)
+
     return (
         <Box sx={{ my: 4 }}>
             {cart && cart.length === 0 ?
@@ -176,13 +179,13 @@ const Cart = () => {
                             <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
                                 <Stack spacing={1}>
                                     <Typography variant="h4" >Order summary</Typography>
-                                    <CurrencyExchange setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
+                                    <CurrencyExchange setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
                                 </Stack>
                                 <Stack spacing={0.5}>
                                     <Typography gutterBottom color="grayText" variant="caption">This is to your country of destination</Typography>
                                     <ButtonGroup size="small">
                                         <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
-                                        <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={!country} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
+                                        <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={!country || disable} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
                                     </ButtonGroup>
                                 </Stack>
                             </Stack>

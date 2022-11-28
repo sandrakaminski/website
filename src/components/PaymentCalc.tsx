@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -138,6 +138,7 @@ interface CurrencyExchProps {
     shippingCosts: any;
     setAmount: (amount: Amount) => typeof amount | void;
     amount: Amount;
+    setDisable: Function;
 }
 type Amount = {
     shipping: number;
@@ -149,8 +150,10 @@ const BASE_URL = 'https://api.exchangerate.host/latest'
 
 // displays the approximate costs 
 export const CurrencyExchange = (props: CurrencyExchProps) => {
-    const { country, shippingCosts, setAmount, amount } = props;
+    const { country, shippingCosts, setAmount, amount, setDisable } = props;
     const { total } = useCartContext();
+
+    const [loading, setLoading] = useState<boolean>(true);
 
     // inital state (NZD)
     const init = "NZD";
@@ -166,25 +169,42 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     const vatTotal = vatCosts * amount.total;
     const totalCosts = totalCost.toFixed(2).toString();
 
-    // fetches the exchange rate
     useEffect(() => {
-        const handleSetCurrency = async () => {
+        if (!loading) {
+            setDisable(false)
+        }
+        else {
+            setDisable(true)
+        }
+    }, [loading, setDisable])
+
+    const handleSetCurrency = useCallback(async () => {
+        setLoading(true)
+        try {
             const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
             const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
-
             const total = await respTotal.json();
             const shipping = await respShipping.json();
             setAmount({ total: total && total.rates[newCurrency], shipping: shipping && shipping.rates[newCurrency], currency: newCurrency });
+            setLoading(false)
         }
+        catch {
+            setLoading(false)
+        }
+    }, [currency, newCurrency, totalCosts, shippingCosts, setAmount])
+
+
+    // fetches the exchange rate
+    useEffect(() => {
         handleSetCurrency();
-    }, [init, country, totalCosts, currency, newCurrency, setAmount, totalCost, shippingCosts, amount.shipping]);
+    }, [handleSetCurrency]);
+
 
     return (
         <Box>
-            {/* <Typography variant="caption">*GST is included in the price</Typography> */}
-            <Typography> {!amount.shipping ? <Skeleton /> : `VAT/GST: ${symbol}${vatTotal.toFixed(2)} ${newCurrency}`}</Typography>
-            <Typography>{!amount.shipping ? <Skeleton /> : `Shipping: ${symbol}${amount.shipping.toFixed(2)} ${newCurrency}`} </Typography>
-            <Typography> {!amount.total ? <Skeleton /> : `Total: ${symbol}${amount.total.toFixed(2)} ${newCurrency}`}</Typography>
+            <Typography> {loading ? <Skeleton /> : `VAT/GST: ${symbol}${vatTotal.toFixed(2)} ${newCurrency}`}</Typography>
+            <Typography>{loading ? <Skeleton /> : `Shipping: ${symbol}${amount.shipping.toFixed(2)} ${newCurrency}`} </Typography>
+            <Typography> {loading ? <Skeleton /> : `Total: ${symbol}${amount.total.toFixed(2)} ${newCurrency}`}</Typography>
         </Box>
     )
 }
