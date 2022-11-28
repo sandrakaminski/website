@@ -185,14 +185,18 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
             const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
             const total = await respTotal.json();
             const shipping = await respShipping.json();
+
+            // ensures the hook is called properly
+            if (newCurrency !== amount.currency) {
+                setAmount({ total: total && total.rates[newCurrency], shipping: shipping && shipping.rates[newCurrency], currency: newCurrency });
+            }
             setAmount({ total: total && total.rates[newCurrency], shipping: shipping && shipping.rates[newCurrency], currency: newCurrency });
             setLoading(false)
         }
         catch {
             setLoading(false)
         }
-    }, [currency, newCurrency, totalCosts, shippingCosts, setAmount])
-
+    }, [currency, newCurrency, totalCosts, shippingCosts, amount.currency, setAmount])
 
     // fetches the exchange rate
     useEffect(() => {

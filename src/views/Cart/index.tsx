@@ -70,6 +70,11 @@ const Cart = () => {
     const shippingTotal = shippingCost * cartQuantity;
     const currency = currencyTypes(country).toLowerCase();
 
+    const [amount, setAmount] = useState<Prices>({
+        shipping: 0,
+        total: 0
+    });
+
     const getData = async () => {
         try {
             const res = await fetch('http://geolocation-db.com/json/');
@@ -83,10 +88,10 @@ const Cart = () => {
                 setError(true);
                 setLoading(false);
                 setCountry("NZ");
-            } else {
-                setLoading(false)
-                setCountry(country_code);
             }
+            setLoading(false)
+            setCountry(country_code);
+
         }
         catch {
             setCountry("NZ");
@@ -94,10 +99,7 @@ const Cart = () => {
         }
     }
 
-    const [amount, setAmount] = useState<Prices>({
-        shipping: 0,
-        total: 0
-    });
+
 
     // this is to keep shipping prices consistent between Chile/Japan and everywhere else
     let shipping;
@@ -223,7 +225,7 @@ const CartItem = (props: CartItemProps) => {
                 <Avatar sx={{ height: 55, width: 55 }} variant="square" alt={item.name} src={item.image.fields.file.url} />
                 <Box sx={{ ml: 2 }}>
                     <Typography variant="subtitle1">{item.name}</Typography>
-                    <Typography variant="body1">${item.price}</Typography>
+                    <Typography variant="body1">${item.price} NZD</Typography>
                 </Box>
             </Grid>
             <Grid >
