@@ -20,7 +20,7 @@ const ContactUs: React.FC = () => {
     const { slug } = useParams();
     const [email, setEmail] = useState(false);
     const [submitting, setSubmitting] = useState<boolean>(false)
-    const [status, setStatus] = useState<string>()
+    const [status, setStatus] = useState<string>();
     const [fields, setFields] = useState<Fields>({
         first_name: '',
         last_name: '',
@@ -102,9 +102,11 @@ const ContactUs: React.FC = () => {
         <>
             {slug === 'contact' &&
                 <>
-                    <Typography gutterBottom align="center" color="grayText" variant="h6" sx={{ mt: 6, mb: 2 }}>
-                        Sign up to my newsletter for exclusive monthly updates from my life as a stylist.
-                    </Typography>
+                    {status !== "success" &&
+                        <Typography gutterBottom align="center" color="grayText" variant="h6" sx={{ mt: 6, mb: 2 }}>
+                            Sign up to my newsletter for exclusive monthly updates from my life as a stylist.
+                        </Typography>
+                    }
                     <Container maxWidth="sm">
                         {status !== "success" &&
                             <Grid container spacing={1}>
@@ -161,7 +163,7 @@ const ContactUs: React.FC = () => {
                             </Grid>
                         }
                         {status === "success" && (
-                            <Typography sx={{ color: 'success.main', p: 5 }} variant="h5" textAlign="center">Thank you for subscribing</Typography>
+                            <Typography sx={{ color: 'success.main', pt: 15, pb: 10 }} variant="h2" textAlign="center">Thank you for subscribing</Typography>
                         )}
                     </Container>
                 </>

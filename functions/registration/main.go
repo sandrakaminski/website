@@ -28,7 +28,7 @@ func addContact(per Person) (rsp int, err error) {
 	response, err := send.API(request)
 
 	if response.StatusCode != 202 {
-		log.Println("Not posted")
+		log.Println("unsuccessful")
 		return response.StatusCode, err
 	} else {
 		log.Println(response.Body)
