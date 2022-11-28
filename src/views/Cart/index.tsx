@@ -16,6 +16,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
+import axios from "axios"
 import { useNavigate } from 'react-router-dom';
 
 import Notifier from "@/components/Notifier";
@@ -79,9 +80,8 @@ const Cart = () => {
 
     const getData = useCallback(async () => {
         try {
-            const res = await fetch('http://geolocation-db.com/json/');
-            const data = await res.json();
-            const { country_name, country_code } = data;
+            const res = await axios.get('http://geolocation-db.com/json/');
+            const { country_name, country_code } = res.data;
             setLoadVals({
                 countryName: country_name,
                 countryCode: country_code,
