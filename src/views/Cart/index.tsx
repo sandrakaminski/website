@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
@@ -49,11 +49,6 @@ type IpItems = {
     countryCode: string;
 }
 
-const init = {
-    countryName: "",
-    countryCode: "",
-}
-
 const Cart = () => {
     const navigate = useNavigate();
     const [processing, setProcessing] = useState<boolean>(false);
@@ -62,7 +57,14 @@ const Cart = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [disable, setDisable] = useState<boolean>(true);
     const [country, setCountry] = useState<string>("");
-    const [loadVals, setLoadVals] = useState<IpItems>(init);
+    const [loadVals, setLoadVals] = useState<IpItems>({
+        countryName: "",
+        countryCode: "",
+    });
+    const [amount, setAmount] = useState<Prices>({
+        shipping: 0,
+        total: 0
+    });
 
     const { cart, clear, decrease, increase, remove } = useCartContext();
     const shippingCost = shippingCosts(country);
@@ -70,12 +72,12 @@ const Cart = () => {
     const shippingTotal = shippingCost * cartQuantity;
     const currency = currencyTypes(country).toLowerCase();
 
-    const [amount, setAmount] = useState<Prices>({
-        shipping: 0,
-        total: 0
-    });
+    const countryMemo = (val: string) => {
+        localStorage.setItem("country", val);
+        setCountry(val);
+    }
 
-    const getData = async () => {
+    const getData = useCallback(async () => {
         try {
             const res = await fetch('http://geolocation-db.com/json/');
             const data = await res.json();
@@ -86,20 +88,38 @@ const Cart = () => {
             });
             if (countriesList[country_code] === undefined) {
                 setError(true);
+                countryMemo("NZ");
                 setLoading(false);
-                setCountry("NZ");
             }
-            setLoading(false)
-            setCountry(country_code);
-
+            countryMemo(country_code);
+            setLoading(false);
         }
         catch {
-            setCountry("NZ");
-            setLoading(false)
+            countryMemo("NZ");
+            setLoading(false);
         }
-    }
+    }, []);
 
-
+    useEffect(() => {
+        const memorisedCountry: string = localStorage.getItem("country") || "";
+        if (cart.length === 0) {
+            localStorage.removeItem("country");
+        }
+        if (cart && cart.map((item: Items) => item.nzShippingOnly).includes(true)) {
+            countryMemo("NZ");
+            setNzOnly(true);
+        }
+        else {
+            setNzOnly(false);
+            if (memorisedCountry === "") {
+                getData();
+            }
+            else {
+                setCountry(memorisedCountry);
+                setLoading(false);
+            }
+        }
+    }, [cart, country, getData]);
 
     // this is to keep shipping prices consistent between Chile/Japan and everywhere else
     let shipping;
@@ -122,10 +142,9 @@ const Cart = () => {
         })
     }
 
-    const url = `/.netlify/functions/payment`;
     const handlePurchase = async () => {
         setProcessing(true)
-        const resp = await fetch(url, {
+        const resp = await fetch(`/.netlify/functions/payment`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -138,18 +157,6 @@ const Cart = () => {
             setProcessing(false);
         }
     }
-
-    useEffect(() => {
-        if (cart && cart.map((item: Items) => item.nzShippingOnly).includes(true)) {
-            setCountry("NZ");
-            setNzOnly(true);
-        }
-        else {
-            setNzOnly(false);
-            getData();
-        }
-
-    }, [cart])
 
     return (
         <Box sx={{ my: 4 }}>
@@ -187,7 +194,7 @@ const Cart = () => {
                                 <Stack spacing={0.5}>
                                     <Typography gutterBottom color="grayText" variant="caption">This is to your country of destination</Typography>
                                     <ButtonGroup size="small">
-                                        <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => setCountry(e.target.value)} />
+                                        <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => countryMemo(e.target.value)} />
                                         <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={!country || disable} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
                                     </ButtonGroup>
                                 </Stack>
