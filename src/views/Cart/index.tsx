@@ -224,7 +224,7 @@ type CartItemProps = {
 }
 
 const CartItem = (props: CartItemProps) => {
-    const { item, decrease, increase, remove } = props;
+    const { item, remove } = props;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -243,7 +243,7 @@ const CartItem = (props: CartItemProps) => {
             </Grid>
             <Grid >
                 <Stack direction="row" justifyContent={{ xs: 'space-between', sm: "flex-end" }} alignItems="center" spacing={4}>
-                    <AmountButtons increase={() => increase(item.id)} remove={() => remove(item.id)} amount={item} decrease={() => decrease(item.id)} />
+                    <AmountButtons amount={item} {...props} />
                     <Button startIcon={<CloseIcon fontSize="inherit" />} color="error" onClick={() => remove(item.id)} >
                         Remove
                     </Button>
@@ -254,11 +254,12 @@ const CartItem = (props: CartItemProps) => {
 }
 
 type AmountButtonsProps = {
-    increase: () => void;
-    decrease: () => void;
+    increase: Function;
+    decrease: Function;
     remove: Function;
     amount: {
         amount: number[]
+        id: string
     }
 }
 
@@ -267,17 +268,17 @@ const AmountButtons = (props: AmountButtonsProps) => {
 
     useEffect(() => {
         if (amount?.amount.length === undefined || amount?.amount.length === 0) {
-            remove();
+            remove(amount.id);
         }
-    }, [amount?.amount.length, remove])
+    }, [amount?.amount.length, amount.id, remove])
 
     return (
         <Stack direction="row" justifyContent="center" alignItems="center"    >
-            <IconButton onClick={decrease} size="small">
+            <IconButton onClick={() => decrease(amount?.id)} size="small">
                 <RemoveIcon fontSize="inherit" />
             </IconButton>
             <Chip variant="outlined" label={amount?.amount.length} />
-            <IconButton onClick={increase} size="small">
+            <IconButton onClick={() => increase(amount?.id)} size="small">
                 <AddIcon fontSize="inherit" />
             </IconButton>
         </Stack>
