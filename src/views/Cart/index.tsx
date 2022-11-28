@@ -72,7 +72,7 @@ const Cart = () => {
     const shippingTotal = shippingCost * cartQuantity;
     const currency = currencyTypes(country).toLowerCase();
 
-    const countryMemo = (val: string) => {
+    const handleSetCountry = (val: string) => {
         localStorage.setItem("country", val);
         setCountry(val);
     }
@@ -88,29 +88,29 @@ const Cart = () => {
             });
             if (countriesList[country_code] === undefined) {
                 setError(true);
-                countryMemo("NZ");
+                handleSetCountry("NZ");
                 setLoading(false);
             }
-            countryMemo(country_code);
+            handleSetCountry(country_code);
             setLoading(false);
         }
         catch {
-            countryMemo("NZ");
+            handleSetCountry("NZ");
             setLoading(false);
         }
     }, []);
 
     useEffect(() => {
-        const memorisedCountry: string = localStorage.getItem("country") || "";
         if (cart.length === 0) {
             localStorage.removeItem("country");
         }
-        if (cart && cart.map((item: Items) => item.nzShippingOnly).includes(true)) {
-            countryMemo("NZ");
+        else if (cart && cart.map((item: Items) => item.nzShippingOnly).includes(true)) {
+            handleSetCountry("NZ");
             setLoading(false);
             setNzOnly(true);
         }
         else {
+            const memorisedCountry: string = localStorage.getItem("country") || "";
             setNzOnly(false);
             if (memorisedCountry === "") {
                 getData();
@@ -200,7 +200,7 @@ const Cart = () => {
                                 <Stack spacing={0.5}>
                                     <Typography gutterBottom color="grayText" variant="caption">Country of delivery</Typography>
                                     <ButtonGroup size="small">
-                                        <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => countryMemo(e.target.value)} />
+                                        <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => handleSetCountry(e.target.value)} />
                                         <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={disable} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
                                     </ButtonGroup>
                                 </Stack>
