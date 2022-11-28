@@ -107,6 +107,7 @@ const Cart = () => {
         }
         if (cart && cart.map((item: Items) => item.nzShippingOnly).includes(true)) {
             countryMemo("NZ");
+            setLoading(false);
             setNzOnly(true);
         }
         else {
@@ -200,7 +201,7 @@ const Cart = () => {
                                     <Typography gutterBottom color="grayText" variant="caption">Country of delivery</Typography>
                                     <ButtonGroup size="small">
                                         <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => countryMemo(e.target.value)} />
-                                        <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={!country || disable} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
+                                        <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={disable} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
                                     </ButtonGroup>
                                 </Stack>
                             </Stack>
