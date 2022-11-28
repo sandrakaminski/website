@@ -13,6 +13,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
+import ReactGA from 'react-ga4';
 import ReactMarkdown from 'react-markdown';
 
 import type { ProductTypes } from './ProductTypes';
@@ -30,6 +31,11 @@ const Detail = (props: ProductTypes) => {
 
     const handleCart = () => {
         addToCart(content.fields.productId, '1', content.fields)
+        ReactGA.event({
+            category: 'Product Detail',
+            action: 'Add to cart',
+            label: content.fields.name,
+        });
     }
 
     const handleSetImage = (img: Image) => {
