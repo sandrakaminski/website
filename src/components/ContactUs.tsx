@@ -109,7 +109,7 @@ const ContactUs: React.FC = () => {
                 <>
                     {status !== "success" &&
                         <Typography gutterBottom align="center" variant="h4" sx={{ mt: 6, mb: 2 }}>
-                            Sign up to my newsletter for exclusive monthly updates from my life as a stylist.
+                            Sign up to my newsletter for exclusive monthly updates.
                         </Typography>
                     }
                     <Container maxWidth="sm">
@@ -117,7 +117,7 @@ const ContactUs: React.FC = () => {
                             <Grid container spacing={2}>
                                 <Grid xs={12} sm={6} >
                                     <TextField
-                                        size="small"
+                                        size="medium"
                                         error={errors.first_name.length > 0}
                                         name={"first_name"}
                                         onChange={handleChange}
@@ -129,7 +129,7 @@ const ContactUs: React.FC = () => {
                                 </Grid>
                                 <Grid xs={12} sm={6} >
                                     <TextField
-                                        size="small"
+                                        size="medium"
                                         error={errors.last_name.length > 0}
                                         name={"last_name"}
                                         onChange={handleChange}
@@ -141,7 +141,7 @@ const ContactUs: React.FC = () => {
                                 </Grid>
                                 <Grid xs={12} >
                                     <TextField
-                                        size="small"
+                                        size="medium"
                                         error={errors.email.length > 0}
                                         name={"email"}
                                         onChange={handleChange}
@@ -163,15 +163,15 @@ const ContactUs: React.FC = () => {
                                 </Grid>
                             </Grid>
                         }
-                    {status === "success" && (
-                        <Stack
-                            sx={{ mt: 10 }}
-                            justifyContent="center"
-                            alignItems="center"
-                            spacing={2}>
-                            <DoneIcon sx={{ fontSize: 100, color: 'success.main' }} />
-                            <Typography  variant="h2" textAlign="center">Thank you for subscribing</Typography>
-                        </Stack>
+                        {status === "success" && (
+                            <Stack
+                                sx={{ mt: 10 }}
+                                justifyContent="center"
+                                alignItems="center"
+                                spacing={2}>
+                                <DoneIcon sx={{ fontSize: 100, color: 'success.main' }} />
+                                <Typography variant="h2" textAlign="center">Thank you for subscribing</Typography>
+                            </Stack>
                         )}
                     </Container>
                 </>
