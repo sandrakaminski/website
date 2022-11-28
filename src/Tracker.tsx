@@ -9,17 +9,17 @@ interface TrackerProps {
 
 const Tracker = (props: TrackerProps) => {
     const { children } = props;
-    const { pathname } = useLocation();
+    const { pathname, state } = useLocation();
 
     // makes sure the function is only called once
     useEffect(() => {
         const googleAnalytics = () => {
             window.scrollTo(0, 0);
             ReactGA.initialize(import.meta.env.VITE_GA_ID);
-            ReactGA.send({ hitType: "pageview", page: pathname });
+            ReactGA.send({ hitType: "pageview", page: pathname, title: state.data });
         }
         googleAnalytics();
-    }, [pathname]);
+    }, [pathname, state]);
 
     return (
         <>
