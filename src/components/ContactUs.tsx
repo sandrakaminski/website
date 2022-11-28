@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
+import DoneIcon from '@mui/icons-material/Done';
 import LoadingButton from "@mui/lab/LoadingButton";
-import Button from '@mui/material/Button';
 import Container from "@mui/material/Container";
+import Stack from '@mui/material/Stack';
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -96,20 +97,24 @@ const ContactUs: React.FC = () => {
         if (errors) {
             setSubmitting(false);
         }
-    }, [errors, email]);
+        if (fields) {
+            setStatus("")
+            setSubmitting(false);
+        }
+    }, [errors, email, fields]);
 
     return (
         <>
             {slug === 'contact' &&
                 <>
                     {status !== "success" &&
-                        <Typography gutterBottom align="center" color="grayText" variant="h6" sx={{ mt: 6, mb: 2 }}>
+                        <Typography gutterBottom align="center" variant="h4" sx={{ mt: 6, mb: 2 }}>
                             Sign up to my newsletter for exclusive monthly updates from my life as a stylist.
                         </Typography>
                     }
                     <Container maxWidth="sm">
                         {status !== "success" &&
-                            <Grid container spacing={1}>
+                            <Grid container spacing={2}>
                                 <Grid xs={12} sm={6} >
                                     <TextField
                                         size="small"
@@ -152,18 +157,21 @@ const ContactUs: React.FC = () => {
                                     )}
                                 </Grid>
                                 <Grid xs={12} >
-                                    {status === "error" ?
-                                        <Button variant="outlined" onClick={() => setStatus("")}>Try Again</Button>
-                                        :
-                                        <LoadingButton disabled={!email} loading={submitting} onClick={handleSubmit}>
-                                            Subscribe
-                                        </LoadingButton>
-                                    }
+                                    <LoadingButton disabled={!email} loading={submitting} onClick={handleSubmit}>
+                                        Subscribe
+                                    </LoadingButton>
                                 </Grid>
                             </Grid>
                         }
-                        {status === "success" && (
-                            <Typography sx={{ color: 'success.main', pt: 15, pb: 10 }} variant="h2" textAlign="center">Thank you for subscribing</Typography>
+                    {status === "success" && (
+                        <Stack
+                            sx={{ mt: 10 }}
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={2}>
+                            <DoneIcon sx={{ fontSize: 100, color: 'success.main' }} />
+                            <Typography  variant="h2" textAlign="center">Thank you for subscribing</Typography>
+                        </Stack>
                         )}
                     </Container>
                 </>
