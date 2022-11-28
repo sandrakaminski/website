@@ -22,7 +22,7 @@ const Summary = (props: ArticleType) => {
         <Grid xs={12} sm={6} md={4} >
             <Card >
                 <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })}>
-                    <CardMedia loading="lazy" component="img" sx={{ height: { xs: 350, lg: 450 } }} src={content?.fields.coverImage.fields.file.url} alt={content.fields.coverImage.fields.title} />
+                    <CardMedia loading="lazy" component="img" sx={{ height: { xs: 'auto', sm: '60vw', md: '38vw', xl: 600 }, width: '100%' }} src={content?.fields.coverImage.fields.file.url} alt={content.fields.coverImage.fields.title} />
                     <CardHeader sx={{ maxHeight: 20, py: 6 }} title={content.fields.title} />
                 </CardActionArea>
                 <CardContent component={Stack} direction="row" justifyContent="space-between" alignItems="center" spacing={2}>

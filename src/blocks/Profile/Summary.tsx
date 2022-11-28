@@ -22,7 +22,7 @@ const Summary = ({ content }: ProfileType) => {
             <Card>
                 {content &&
                     <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`)}>
-                        <CardMedia sx={{ height: 400 }} component="img" src={content?.fields.image.fields.file.url} alt={content.fields.image.fields.title} />
+                        <CardMedia sx={{ height: { xs: 'auto', sm: '60vw', md: '38vw', xl: 600 }, width: '100%' }} component="img" src={content?.fields.image.fields.file.url} alt={content.fields.image.fields.title} />
                         <CardHeader title={content.fields.name} subheader={txt} />
                     </CardActionArea>
                 }
