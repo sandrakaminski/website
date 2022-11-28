@@ -20,17 +20,19 @@ type Contact struct {
 	Contacts []Person `json:"contacts"`
 }
 
-func addContact(per Person) {
-	request := send.GetRequest(os.Getenv("SENDGRID_API_KEY"), os.Getenv("SEND_GRID_ENDPOINT"), os.Getenv("SEND_GRID_HOST"))
+func addContact(per Person) (rsp int, err error) {
+	request := send.GetRequest(os.Getenv("SENDGRID_API_KEY"), os.Getenv("SENDGRID_ENDPOINT"), os.Getenv("SENDGRID_HOST"))
 	request.Method = "PUT"
 
 	request.Body, _ = json.Marshal(Contact{Contacts: []Person{per}})
 	response, err := send.API(request)
 
-	if err != nil {
-		log.Println("Not posted %f", err)
+	if response.StatusCode != 202 {
+		log.Println("Not posted")
+		return response.StatusCode, err
 	} else {
 		log.Println(response.Body)
+		return response.StatusCode, err
 	}
 }
 
@@ -39,23 +41,15 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	if err := json.Unmarshal([]byte(request.Body), &per); err != nil {
 		return nil, err
 	}
-	addContact(per)
 
-	rsp := map[string]interface{}{
-		"status":     200,
-		"statusText": "success",
-	}
-	byt, err := json.Marshal(rsp)
+	rsp, err := addContact(per)
 	if err != nil {
 		return nil, err
 	}
 
 	return &events.APIGatewayProxyResponse{
-		StatusCode: 200,
-		Headers:    map[string]string{"Content-Type": "application/json"},
-		Body:       string(byt),
+		StatusCode: rsp,
 	}, nil
-
 }
 
 func main() {

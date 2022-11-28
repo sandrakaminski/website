@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Button from '@mui/material/Button';
 import Container from "@mui/material/Container";
-import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -17,10 +16,11 @@ type Fields = {
     email: string;
 }
 
-const CustomForm = () => {
+const ContactUs: React.FC = () => {
+    const { slug } = useParams();
     const [email, setEmail] = useState(false);
     const [submitting, setSubmitting] = useState<boolean>(false)
-    const [status, setStatus] = useState<string>('')
+    const [status, setStatus] = useState<string>()
     const [fields, setFields] = useState<Fields>({
         first_name: '',
         last_name: '',
@@ -100,78 +100,74 @@ const CustomForm = () => {
 
     return (
         <>
-            {status === "error" && (
-                <Stack sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <Typography color="red" variant="h5" textAlign="center">Please use a valid email address</Typography>
-                    <Button variant="outlined" onClick={() => setStatus("")}>Try Again</Button>
-                </Stack>
-            )}
-            {!status &&
-                <Grid container spacing={2}>
-                    <Grid xs={12} sm={6} >
-                        <TextField
-                            size="small"
-                            error={errors.first_name.length > 0}
-                            name={"first_name"}
-                            onChange={handleChange}
-                            type="text"
-                            fullWidth
-                            label="First Name"
-                            helperText={errors.first_name}
-                        />
-                    </Grid>
-                    <Grid xs={12} sm={6} >
-                        <TextField
-                            size="small"
-                            error={errors.last_name.length > 0}
-                            name={"last_name"}
-                            onChange={handleChange}
-                            type="text"
-                            fullWidth
-                            label="Last Name"
-                            helperText={errors.last_name}
-                        />
-                    </Grid>
-                    <Grid xs={12} >
-                        <TextField
-                            size="small"
-                            error={errors.email.length > 0}
-                            name={"email"}
-                            onChange={handleChange}
-                            type="email"
-                            fullWidth
-                            label="Email Address"
-                            helperText={errors.email}
-                        />
-                    </Grid>
-                    <Grid xs={12} >
-                        <LoadingButton disabled={!email} loading={submitting} onClick={handleSubmit}>
-                            Submit
-                        </LoadingButton>
-                    </Grid>
-                </Grid>
+            {slug === 'contact' &&
+                <>
+                    <Typography gutterBottom align="center" color="grayText" variant="h6" sx={{ mt: 6, mb: 2 }}>
+                        Sign up to my newsletter for exclusive monthly updates from my life as a stylist.
+                    </Typography>
+                    <Container maxWidth="sm">
+                        {status !== "success" &&
+                            <Grid container spacing={1}>
+                                <Grid xs={12} sm={6} >
+                                    <TextField
+                                        size="small"
+                                        error={errors.first_name.length > 0}
+                                        name={"first_name"}
+                                        onChange={handleChange}
+                                        type="text"
+                                        fullWidth
+                                        label="First Name"
+                                        helperText={errors.first_name}
+                                    />
+                                </Grid>
+                                <Grid xs={12} sm={6} >
+                                    <TextField
+                                        size="small"
+                                        error={errors.last_name.length > 0}
+                                        name={"last_name"}
+                                        onChange={handleChange}
+                                        type="text"
+                                        fullWidth
+                                        label="Last Name"
+                                        helperText={errors.last_name}
+                                    />
+                                </Grid>
+                                <Grid xs={12} >
+                                    <TextField
+                                        size="small"
+                                        error={errors.email.length > 0}
+                                        name={"email"}
+                                        onChange={handleChange}
+                                        type="email"
+                                        fullWidth
+                                        label="Email Address"
+                                        helperText={errors.email}
+                                    />
+                                </Grid>
+                                <Grid xs={12} >
+                                    {status === "error" && (
+                                        <Typography textAlign="center" color="red" variant="body1" >Error occured. Please try again.</Typography>
+                                    )}
+                                </Grid>
+                                <Grid xs={12} >
+                                    {status === "error" ?
+                                        <Button variant="outlined" onClick={() => setStatus("")}>Try Again</Button>
+                                        :
+                                        <LoadingButton disabled={!email} loading={submitting} onClick={handleSubmit}>
+                                            Subscribe
+                                        </LoadingButton>
+                                    }
+                                </Grid>
+                            </Grid>
+                        }
+                        {status === "success" && (
+                            <Typography sx={{ color: 'success.main', p: 5 }} variant="h5" textAlign="center">Thank you for subscribing</Typography>
+                        )}
+                    </Container>
+                </>
             }
-            {status === "success" && (
-                <Typography sx={{ color: 'success.main' }} variant="h5" textAlign="center">Thank you for signing up</Typography>
-            )}
         </>
     );
 };
 
-const ContactUs: React.FC = () => {
-    const { slug } = useParams();
-
-    return (
-        <>
-            {slug === 'contact' &&
-                <Container sx={{ mt: 4 }} maxWidth="sm">
-                    <Typography gutterBottom align="center" color="grayText" variant="h6" sx={{ mt: 2 }}>
-                        Sign up to my newsletter for exclusive monthly updates from my life as a stylist.
-                    </Typography>
-                    <CustomForm />
-                </Container>
-            }
-        </>
-    );
-}
 export default ContactUs;
