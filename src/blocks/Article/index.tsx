@@ -2,7 +2,7 @@ import Detail from './Detail';
 import Summary from './Summary';
 import type { BlockProps } from '@/shared';
 
-export const Article = (props: BlockProps) => {
+const Article = (props: BlockProps) => {
     const { content, detail } = props;
 
     return (

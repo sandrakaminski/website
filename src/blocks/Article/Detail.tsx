@@ -14,7 +14,7 @@ import DateFormatter from "@/components/DateFormatter";
 import Trail from '@/components/Trail';
 import { Markdown } from '@/shared';
 
-export const Detail = (props: ArticleType) => {
+const Detail = (props: ArticleType) => {
     const { content } = props;
     const navigate = useNavigate();
 

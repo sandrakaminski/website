@@ -26,7 +26,7 @@ type Block = {
     };
 };
 
-export const ImageContainer = (props: ImageContainerProps) => {
+const ImageContainer = (props: ImageContainerProps) => {
     const { content } = props;
     const navigate = useNavigate();
 

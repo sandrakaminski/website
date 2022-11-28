@@ -12,7 +12,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import type { ProductTypes } from './ProductTypes';
 // import { useCartContext } from '@/views/Cart/cartProvider';
 
-export const Summary = ({ content }: ProductTypes) => {
+const Summary = ({ content }: ProductTypes) => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const { slug } = useParams();
