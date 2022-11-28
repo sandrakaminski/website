@@ -123,11 +123,16 @@ const Cart = () => {
 
     // this is to keep shipping prices consistent between Chile/Japan and everywhere else
     let shipping;
-    if (country === "CL" || country === "JP") {
-        shipping = amount.shipping.toFixed(0)
+    if (!amount.shipping) {
+        shipping = '';
     }
     else {
-        shipping = amount.shipping.toFixed(2) * 100
+        if (country === "CL" || country === "JP") {
+            shipping = amount.shipping.toFixed(0)
+        }
+        else {
+            shipping = amount.shipping.toFixed(2) * 100
+        }
     }
 
     const data = {
@@ -192,7 +197,7 @@ const Cart = () => {
                                     <CurrencyExchange setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
                                 </Stack>
                                 <Stack spacing={0.5}>
-                                    <Typography gutterBottom color="grayText" variant="caption">This is to your country of destination</Typography>
+                                    <Typography gutterBottom color="grayText" variant="caption">Country of delivery</Typography>
                                     <ButtonGroup size="small">
                                         <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => countryMemo(e.target.value)} />
                                         <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={!country || disable} variant="outlined" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>

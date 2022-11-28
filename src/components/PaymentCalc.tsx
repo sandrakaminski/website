@@ -146,7 +146,7 @@ type Amount = {
     currency?: string;
 }
 
-const BASE_URL = 'https://api.exchangerate.host/latest'
+const BASE_URL = 'https://api.exchangerate.host/latest';
 
 // displays the approximate costs 
 export const CurrencyExchange = (props: CurrencyExchProps) => {
