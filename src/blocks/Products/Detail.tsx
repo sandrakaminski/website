@@ -93,14 +93,23 @@ export default Detail;
 const Heading = (props: any) => {
     const { content, sx } = props;
 
+    console.log(content)
+
     return (
         <Stack sx={{ mb: 4, ...sx }} alignItems="center" spacing={2}>
             <Typography variant="h2">
                 {content.fields.name}
             </Typography>
-            <Typography variant="h4" >
-                ${content.fields.price.toFixed(2)}
-            </Typography>
+            <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
+                {content.fields.oldPrice &&
+                    <Typography color="grayText" sx={{ textDecoration: 'line-through' }} variant="body1" >
+                        ${content.fields.oldPrice.toFixed(2)}
+                    </Typography>
+                }
+                <Typography variant="h4" >
+                    ${content.fields.price.toFixed(2)}
+                </Typography>
+            </Stack>
         </Stack>
     )
 }

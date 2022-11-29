@@ -39,7 +39,16 @@ const Summary = ({ content }: ProductTypes) => {
             </CardActionArea>
             <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1} >
                 <Typography variant="subtitle1" >{`${content.fields.name}`}</Typography>
-                <Typography variant="body1">{`$${content.fields.price.toFixed(2)}`} NZD</Typography>
+                <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
+                    {content.fields.oldPrice &&
+                        <Typography color="grayText" sx={{ textDecoration: 'line-through' }} variant="body1" >
+                            ${content.fields.oldPrice.toFixed(2)}
+                        </Typography>
+                    }
+                    <Typography variant="body1" >
+                        ${content.fields.price.toFixed(2)}
+                    </Typography>
+                </Stack>
                 {/* <Box sx={{ justifyContent: 'flex-end' }}>
                         <IconButton sx={{ position: 'relative' }} disabled={!content.fields.inStock} color="inherit" onClick={handleCart}>
                             <AddShoppingCartIcon />
