@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"os"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -20,8 +21,7 @@ type Contact struct {
 }
 
 func addContact(per Person) (rsp int, err error) {
-	request := send.GetRequest("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", "/v3/marketing/contacts", "https://api.sendgrid.com")
-	// request := send.GetRequest(os.Getenv("SENDGRID_API_KEY"), os.Getenv("SENDGRID_ENDPOINT"), os.Getenv("SENDGRID_HOST"))
+	request := send.GetRequest(os.Getenv("SENDGRID_API_KEY"), os.Getenv("SENDGRID_ENDPOINT"), os.Getenv("SENDGRID_HOST"))
 	request.Method = "PUT"
 
 	request.Body, _ = json.Marshal(Contact{Contacts: []Person{per}})
