@@ -20,12 +20,12 @@ type Contact struct {
 	Contacts []Person `json:"contacts"`
 }
 
-func addContact(per Person) (rsp int, err error) {
-	request := send.GetRequest(os.Getenv("SENDGRID_API_KEY"), os.Getenv("SENDGRID_ENDPOINT"), os.Getenv("SENDGRID_HOST"))
-	request.Method = "PUT"
+func addContact(p Person) (rsp int, err error) {
+	req := send.GetRequest(os.Getenv("SENDGRID_API_KEY"), os.Getenv("SENDGRID_ENDPOINT"), os.Getenv("SENDGRID_HOST"))
+	req.Method = "PUT"
 
-	request.Body, _ = json.Marshal(Contact{Contacts: []Person{per}})
-	response, err := send.API(request)
+	req.Body, _ = json.Marshal(Contact{Contacts: []Person{p}})
+	response, err := send.API(req)
 
 	if response.StatusCode != 202 {
 		log.Println("unsuccessful")
@@ -36,13 +36,13 @@ func addContact(per Person) (rsp int, err error) {
 	}
 }
 
-func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	var per Person
-	if err := json.Unmarshal([]byte(request.Body), &per); err != nil {
+func handler(e events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	var p Person
+	if err := json.Unmarshal([]byte(e.Body), &p); err != nil {
 		return nil, err
 	}
 
-	rsp, err := addContact(per)
+	rsp, err := addContact(p)
 	if err != nil {
 		return nil, err
 	}
