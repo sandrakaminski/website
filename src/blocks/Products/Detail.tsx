@@ -52,13 +52,13 @@ const Detail = (props: ProductTypes) => {
             <Notifier open={content.fields.nzShippingOnly} message="This product is only available for shipping within New Zealand." />
             <Heading content={content} sx={{ display: { xs: 'flex', md: 'none' }, mt: 4 }} />
             <Grid sx={{ mt: 1 }} container spacing={2} >
-                <Grid xs={12} md={7}  >
-                    <Stack sx={{ objectFit: 'contain' }} justifyContent="center" spacing={2} direction="row" >
+                <Grid xs={12} md={6}  >
+                    <Stack justifyContent="center" spacing={2} direction="row" >
                         <ThumbnailCarousel content={content} image={image} handleSetImage={handleSetImage} />
                         {content.fields.featureImage &&
                             <CardActionArea sx={{ backgroundColor: 'gray.100' }} onClick={() => handleOpen()}>
                                 <img
-                                    style={{ maxHeight: 650, width: '100%', objectFit: 'contain' }}
+                                    style={{ maxHeight: '90vh', width: '100%', objectFit: 'scale-down' }}
                                     loading="eager"
                                     src={image}
                                     alt={"Feature image"}
@@ -67,7 +67,7 @@ const Detail = (props: ProductTypes) => {
                         }
                     </Stack>
                 </Grid>
-                <Grid xs={12} md={5} >
+                <Grid xs={12} md={6} >
                     <Heading content={content} sx={{ display: { xs: 'none', md: 'flex' } }} />
                     <Stack sx={{ my: 2 }} alignItems="center">
                         <Button size="large" disabled={!content.fields.inStock} onClick={handleCart} startIcon={<ShoppingCartOutlinedIcon />} variant="contained">
@@ -99,7 +99,7 @@ const Heading = (props: any) => {
                 {content.fields.name}
             </Typography>
             <Typography variant="h4" >
-                ${content.fields.price}
+                ${content.fields.price.toFixed(2)}
             </Typography>
         </Stack>
     )

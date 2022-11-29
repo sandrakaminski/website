@@ -6,7 +6,6 @@ import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
-import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 
 import type { ArticleType } from "./ArticleType";
@@ -19,7 +18,6 @@ const Summary = (props: ArticleType) => {
     const navigate = useNavigate();
 
     return (
-        <Grid xs={12} sm={6} md={4} >
             <Card >
                 <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })}>
                     <CardMedia loading="lazy" component="img" sx={{ height: { xs: 'auto', sm: '60vw', md: '38vw', xl: 600 }, width: '100%' }} src={content?.fields.coverImage.fields.file.url} alt={content.fields.coverImage.fields.title} />
@@ -34,7 +32,6 @@ const Summary = (props: ArticleType) => {
 
                 </CardContent>
             </Card >
-        </Grid>
     )
 }
 export default Summary;

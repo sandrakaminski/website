@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MobileStepper from '@mui/material/MobileStepper';
 import Stack from '@mui/material/Stack';
+import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import Article from './Article';
@@ -106,9 +107,11 @@ const GridLayout = (props: any) => {
 
     return (
         <>
-            <Grid sx={{ display: { xs: 'none', sm: 'flex' } }} container spacing={2}>
+            <Grid sx={{ display: { xs: 'none', sm: 'flex' }, px: { md: 4 } }} container spacing={2}>
                 {content.fields.references.slice(0, limit).map((block: any, index: number) =>
-                    <Factory key={index} content={block} />
+                    <Grid key={index} xs={12} sm={6} md={4} >
+                        <Factory content={block} />
+                    </Grid>
                 )}
             </Grid>
             <Stack alignItems="center" sx={{ mt: 2, display: { xs: 'none', sm: 'flex' } }}>

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Box from '@mui/material/Box'
-import Stack from '@mui/material/Stack';
+import Container from '@mui/material/Container';
 
 import Footer from './Footer';
 import Header from './Header';
@@ -14,11 +14,11 @@ const Viewport = ({ children }: ViewportProps) => {
     return (
         <>
             <Header />
-            <Stack sx={{ minHeight: '100vh', px: { xs: '0.25rem', sm: '25px', lg: '48px', xl: '65px' } }}  >
-                <Box sx={{ mx: { xs: '0.25rem', sm: '25px' } }}>
+            <Container sx={{ minHeight: '70vh' }} maxWidth="xl">
+                <Box sx={{ mx: { xs: '0.25rem', sm: '2.5rem' } }}>
                     {children}
                 </Box>
-            </Stack>
+            </Container>
             <Footer />
         </>
     )

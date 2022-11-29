@@ -6,7 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 // import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography";
-import Grid from '@mui/material/Unstable_Grid2';
+import ReactGA from 'react-ga4';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 import type { ProductTypes } from './ProductTypes';
@@ -22,24 +22,31 @@ const Summary = ({ content }: ProductTypes) => {
     //     addToCart(content.fields.productId, '1', content.fields)
     // }
 
+    const handleClick = () => {
+        navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })
+        ReactGA.event({
+            category: 'Product',
+            action: 'View Product',
+            label: content.fields.name,
+        });
+    }
+
     return (
-        <Grid xs={12} sm={6} >
-            <Card>
-                <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })} >
-                    <SoldOutBanner soldOut={!content.fields.inStock} />
-                    <CardMedia loading="lazy" component="img" sx={{ height: { xs: 'auto', sm: '60vw' } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
-                </CardActionArea>
-                <Stack sx={{ p: 2 }} alignItems="center" direction="row" justifyContent="center" >
-                    <Typography variant="button" sx={{ fontSize: 10 }}>{`${content.fields.name}`}</Typography>
-                    {/* <Typography >{`$${content.fields.price.toFixed(2)}`}</Typography> */}
-                    {/* <Box sx={{ justifyContent: 'flex-end' }}>
+        <Card>
+            <CardActionArea onClick={() => handleClick()} >
+                <SoldOutBanner soldOut={!content.fields.inStock} />
+                <CardMedia loading="lazy" component="img" sx={{ height: { xs: 'auto', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: 'auto', sm: '100%' } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
+            </CardActionArea>
+            <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1} >
+                <Typography variant="subtitle1" >{`${content.fields.name}`}</Typography>
+                <Typography variant="body1">{`$${content.fields.price.toFixed(2)}`} NZD</Typography>
+                {/* <Box sx={{ justifyContent: 'flex-end' }}>
                         <IconButton sx={{ position: 'relative' }} disabled={!content.fields.inStock} color="inherit" onClick={handleCart}>
                             <AddShoppingCartIcon />
                         </IconButton>
                     </Box> */}
-                </Stack>
-            </Card>
-        </Grid>
+            </Stack>
+        </Card>
     );
 }
 export default Summary;

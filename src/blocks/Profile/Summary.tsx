@@ -3,7 +3,6 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
-import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate, useLocation } from "react-router-dom";
 
 import type { ProfileType } from './ProfileType';
@@ -18,7 +17,6 @@ const Summary = ({ content }: ProfileType) => {
     }
 
     return (
-        <Grid xs={12} sm={6} md={4} >
             <Card>
                 {content &&
                     <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`)}>
@@ -27,7 +25,6 @@ const Summary = ({ content }: ProfileType) => {
                     </CardActionArea>
                 }
             </Card>
-        </Grid>
     )
 }
 export default Summary; 
