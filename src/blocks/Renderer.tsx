@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MobileStepper from '@mui/material/MobileStepper';
 import Stack from '@mui/material/Stack';
-import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import Article from './Article';
