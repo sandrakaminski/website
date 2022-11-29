@@ -155,8 +155,6 @@ const ContactUs: React.FC = () => {
                                     {status === "error" && (
                                         <Typography textAlign="center" color="red" variant="body1" >Error occured. Please try again.</Typography>
                                     )}
-                                </Grid>
-                                <Grid xs={12} >
                                     <LoadingButton disabled={!email} loading={submitting} onClick={handleSubmit}>
                                         Subscribe
                                     </LoadingButton>

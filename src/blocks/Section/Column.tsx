@@ -19,7 +19,9 @@ export const Column = (props: Content) => {
                         <Typography align="center" variant="h3" sx={{ p: 4 }}>
                             {item.fields.headline}
                         </Typography>
-                        <Resource resource={item} />
+                        <Box sx={{ pt: 4 }}>
+                            <Resource resource={item} />
+                        </Box>
                     </Grid>
                 ))}
             </Grid>
