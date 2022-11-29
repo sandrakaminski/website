@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { CardMedia } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Badge from '@mui/material/Badge';
 import Box from "@mui/material/Box";
@@ -10,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
 
@@ -17,6 +19,20 @@ import logo from '@/assets/logo.png';
 import { useMenu } from "@/client";
 import type { MenuItemType } from '@/client';
 import { useCartContext } from "@/views/Cart/cartProvider";
+
+type Headers = {
+    name: string;
+    path: string;
+}
+
+const headers: Headers[] = [
+    { name: 'Shop', path: '/shop' },
+    { name: 'Inspiration', path: 'https://sandrakaminski.com/diy' },
+    { name: 'Resources', path: 'https://sandrakaminski.com/resources' },
+    { name: 'About', path: 'https://sandrakaminski.com/about' },
+    { name: 'Blog', path: 'https://sandrakaminski.com/blog' },
+    { name: 'Contact', path: 'https://sandrakaminski.com/contact' },
+]
 
 const Header: React.FC = () => {
     const { menuItems } = useMenu();
@@ -41,41 +57,90 @@ const Header: React.FC = () => {
         }
     }
 
-    return (
-        <AppBar color="transparent" position="static" elevation={0}>
-            {menuItems &&
+    // this statement is only used for rendering the shop on SQSP, we will remove this in favour of the old menu upon launch
+    if (import.meta.env.MODE === "development") {
+        return (
+            <AppBar color="transparent" position="static" elevation={0}>
+                {menuItems &&
+                    <Toolbar >
+                        <Box sx={{ flexGrow: 1 }}>
+                            <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer' }} underline="none" color="inherit">
+                                <CardMedia component="img" sx={{ width: { xs: '40vw', sm: 200 } }} loading="lazy" src={logo} alt="Sandra Kaminski" />
+                            </Link>
+                        </Box>
+                        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            {menuItems.map((item: MenuItemType, index: number) =>
+                                <MenuButton item={item} onClick={() => handleNavigate(item.fields.slug)} key={index} />
+                            )}
+                        </Box>
+                        <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton onClick={handleClick} color="inherit">
+                                <MenuIcon />
+                            </IconButton>
+                            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
+                                {menuItems.map((item: MenuItemType, index: number) =>
+                                    <SmallMenuButton item={item} key={index} onClick={() => { handleNavigate(item.fields.slug), handleClose() }} />
+                                )}
+                            </Menu>
+                        </Box>
+                        <IconButton color="inherit" onClick={() => handleNavigate('cart')}>
+                            <Badge badgeContent={amount && amount - 1 > 0 ? amount - 1 : 0} color="info">
+                                <ShoppingCartOutlinedIcon />
+                            </Badge>
+                        </IconButton>
+                    </Toolbar>
+                }
+            </AppBar>
+
+        )
+    }
+    else {
+        return (
+            <AppBar color="transparent" position="static" elevation={0}>
                 <Toolbar >
                     <Box sx={{ flexGrow: 1 }}>
-                        <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer' }} underline="none" color="inherit">
-                            <img loading="lazy" style={{ width: 200, height: 'auto' }} src={logo} alt="Sandra Kaminski" />
+                        <Link
+                            href="https://sandrakaminski.com/"
+                            sx={{ cursor: 'pointer', }} underline="none" color="inherit">
+                            <CardMedia component="img" sx={{ width: { xs: '40vw', sm: 200 } }} loading="lazy" src={logo} alt="Sandra Kaminski" />
                         </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        {menuItems.map((item: MenuItemType, index: number) =>
-                            <MenuButton item={item} onClick={() => handleNavigate(item.fields.slug)} key={index} />
+                        {headers.map((item: Headers, index: number) =>
+                            <Button href={item.path} key={index} sx={{ mx: 1 }} >
+                                {item.name}
+                            </Button>
                         )}
+                        <IconButton color="inherit" onClick={() => handleNavigate('cart')}>
+                            <Badge badgeContent={amount && amount - 1 > 0 ? amount - 1 : 0} color="info">
+                                <ShoppingCartOutlinedIcon />
+                            </Badge>
+                        </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton onClick={handleClick} color="inherit">
                             <MenuIcon />
                         </IconButton>
                         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
-                            {menuItems.map((item: MenuItemType, index: number) =>
-                                <SmallMenuButton item={item} key={index} onClick={() => { handleNavigate(item.fields.slug), handleClose() }} />
+                            {headers.map((item: any, index: number) =>
+                                <MenuItem
+                                    key={index}
+                                    href={item.path}  >
+                                    {item.name}
+                                </MenuItem>
                             )}
                         </Menu>
+                        <IconButton color="inherit" onClick={() => handleNavigate('cart')}>
+                            <Badge badgeContent={amount && amount - 1 > 0 ? amount - 1 : 0} color="info">
+                                <ShoppingCartOutlinedIcon />
+                            </Badge>
+                        </IconButton>
                     </Box>
-                    <IconButton color="inherit" onClick={() => handleNavigate('cart')}>
-                        <Badge badgeContent={amount && amount - 1 > 0 ? amount - 1 : 0} color="info">
-                            <ShoppingCartOutlinedIcon />
-                        </Badge>
-                    </IconButton>
+
                 </Toolbar>
-            }
-        </AppBar>
-
-    )
-
+            </AppBar >
+        )
+    }
 }
 export default Header;
 
