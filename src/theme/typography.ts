@@ -10,20 +10,20 @@ export const typography: object = {
         color: '#000',
     },
     h2: {
-        fontSize: '34px',
-        fontWeight: 500,
-        fontFamily: 'ArnoPro',
-        fontStyle: 'normal',
-        letterSpacing: '.02em',
-        textTransform: 'none',
-    },
-    h3: {
         fontSize: '45px',
         fontWeight: 400,
         fontFamily: 'Playfair Display SC, serif',
         fontStle: 'normal',
         textTransform: 'uppercase',
         margin: '0px, 0px, 45px',
+    },
+    h3: {
+        fontSize: '34px',
+        fontWeight: 500,
+        fontFamily: 'ArnoPro',
+        fontStyle: 'normal',
+        letterSpacing: '.02em',
+        textTransform: 'none',
     },
     h4: {
         fontSize: '1.75rem',
