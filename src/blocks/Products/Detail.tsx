@@ -93,8 +93,6 @@ export default Detail;
 const Heading = (props: any) => {
     const { content, sx } = props;
 
-    console.log(content)
-
     return (
         <Stack sx={{ mb: 4, ...sx }} alignItems="center" spacing={2}>
             <Typography variant="h2">
