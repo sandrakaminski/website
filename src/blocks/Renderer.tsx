@@ -113,11 +113,13 @@ const GridLayout = (props: any) => {
                     </Grid>
                 )}
             </Grid>
-            <Stack alignItems="center" sx={{ mt: 2, display: { xs: 'none', sm: 'flex' } }}>
-                <Button disabled={limit > content.fields.references.length} onClick={limitPage}>
-                    Show more
-                </Button>
-            </Stack>
+            {content.fields.references.length > 12 &&
+                <Stack alignItems="center" sx={{ mt: 2, display: { xs: 'none', sm: 'flex' } }}>
+                    <Button disabled={limit > content.fields.references.length} onClick={limitPage}>
+                        Show more
+                    </Button>
+                </Stack>
+            }
             <Stack spacing={2} sx={{ display: { xs: 'block', sm: 'none' } }} >
                 <Factory content={content.fields.references[activeStep]} />
                 <MobileStepper

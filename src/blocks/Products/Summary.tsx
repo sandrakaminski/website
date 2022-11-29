@@ -35,7 +35,7 @@ const Summary = ({ content }: ProductTypes) => {
         <Card>
             <CardActionArea onClick={() => handleClick()} >
                 <SoldOutBanner soldOut={!content.fields.inStock} />
-                <CardMedia loading="lazy" component="img" sx={{ height: { xs: 'auto', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: 'auto', sm: '100%' } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
+                <CardMedia loading="lazy" component="img" sx={{ height: { xs: '90vh', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: 'auto', sm: '100%' } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
             </CardActionArea>
             <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1} >
                 <Typography variant="subtitle1" >{`${content.fields.name}`}</Typography>

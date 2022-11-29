@@ -171,7 +171,7 @@ const Cart = () => {
                     <ProductionQuantityLimitsIcon sx={{ fontSize: 100 }} />
                     <Typography variant="h3" align="center" gutterBottom>Shopping cart</Typography>
                     <Typography gutterBottom color="grayText" variant="h5" >You have nothing in your shopping cart.</Typography>
-                    <Button variant="outlined" onClick={() => navigate("/shop")} >
+                    <Button size="large" variant="contained" onClick={() => navigate("/shop")} >
                         Shop now
                     </Button>
                 </Stack >
@@ -210,7 +210,7 @@ const Cart = () => {
                     <Notifier open={error} message={`We don't currently offer shipping to ${loadVals.countryName}`} />
                 </>
             }
-        </Box>
+        </Box >
     )
 }
 

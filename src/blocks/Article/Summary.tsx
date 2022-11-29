@@ -18,20 +18,19 @@ const Summary = (props: ArticleType) => {
     const navigate = useNavigate();
 
     return (
-            <Card >
-                <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })}>
-                    <CardMedia loading="lazy" component="img" sx={{ height: { xs: 'auto', sm: '60vw', md: '38vw', xl: 600 }, width: '100%' }} src={content?.fields.coverImage.fields.file.url} alt={content.fields.coverImage.fields.title} />
-                    <CardHeader sx={{ maxHeight: 20, py: 6 }} title={content.fields.title} />
-                </CardActionArea>
-                <CardContent component={Stack} direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                    <DateFormatter dateString={content.fields.date} />
-                    <FiberManualRecordIcon sx={{ width: 5, height: 5 }} />
-                    <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => navigate(`/about/${content.fields.author.fields.slug}`)} variant="body2">
-                        {content.fields.author.fields.name}
-                    </Link>
-
-                </CardContent>
-            </Card >
+        <Card >
+            <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })}>
+                <CardMedia loading="lazy" component="img" sx={{ height: { xs: '90vh', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: 'auto', sm: '100%' } }} src={content?.fields.coverImage.fields.file.url} alt={content.fields.coverImage.fields.title} />
+                <CardHeader sx={{ maxHeight: 20, py: 6 }} title={content.fields.title} />
+            </CardActionArea>
+            <CardContent component={Stack} direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                <DateFormatter dateString={content.fields.date} />
+                <FiberManualRecordIcon sx={{ width: 5, height: 5 }} />
+                <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => navigate(`/about/${content.fields.author.fields.slug}`)} variant="body2">
+                    {content.fields.author.fields.name}
+                </Link>
+            </CardContent>
+        </Card >
     )
 }
 export default Summary;

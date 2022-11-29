@@ -17,14 +17,14 @@ const Summary = ({ content }: ProfileType) => {
     }
 
     return (
-            <Card>
-                {content &&
-                    <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`)}>
-                        <CardMedia sx={{ height: { xs: 'auto', sm: '60vw', md: '38vw', xl: 600 }, width: '100%' }} component="img" src={content?.fields.image.fields.file.url} alt={content.fields.image.fields.title} />
-                        <CardHeader title={content.fields.name} subheader={txt} />
-                    </CardActionArea>
-                }
-            </Card>
+        <Card>
+            {content &&
+                <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`)}>
+                    <CardMedia loading="lazy" component="img" sx={{ height: { xs: '90vh', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: 'auto', sm: '100%' } }} src={content?.fields.image.fields.file.url} alt={content.fields.image.fields.title} />
+                    <CardHeader title={content.fields.name} subheader={txt} />
+                </CardActionArea>
+            }
+        </Card>
     )
 }
 export default Summary; 
