@@ -20,9 +20,10 @@ const PaymentSuccess: React.FC = () => {
     return (
         <Stack spacing={2} sx={{ mt: 10 }} alignItems="center" justifyContent="center">
             <CheckCircleIcon sx={{ fontSize: 100, color: "success.main" }} />
-            <Typography variant="h3" align="center" gutterBottom>Payment success</Typography>
-            <Typography gutterBottom color="grayText" variant="h5" >Thank you for your purchase.</Typography>
-            <Button variant="outlined" onClick={() => navigate("/shop")} >Return Home</Button>
+            <Typography variant="h3" align="center" gutterBottom>Payment successful</Typography>
+            {/* <Typography variant="subtitle1" gutterBottom>   Thank you for your purchase.</Typography> */}
+            <Typography color="grayText" align="center" variant="subtitle1" >  Thank you for your purchase. <br /> Please check your inbox and spam folder for your confirmation email. </Typography>
+            <Button size="large" variant="contained" onClick={() => navigate("/shop")} >Return Home</Button>
         </Stack>
     )
 }
