@@ -20,9 +20,6 @@ const Tracker = (props: TrackerProps) => {
         googleAnalytics();
     }, [pathname]);
 
-    return (
-        <>
-            {children}
-        </>);
+    return <>{children}</>
 }
 export default Tracker;
