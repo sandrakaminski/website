@@ -23,13 +23,13 @@ export const Center = (props: Content) => {
                 />
             }
             {content.fields.headline &&
-                <Typography align="center" variant="h3" sx={{ pt: { xs: 2, md: 4 } }}>
+                <Typography align="center" variant="h2" sx={{ pt: { xs: 2, md: 4 } }}>
                     {content.fields.headline}
                 </Typography>
             }
             {content.fields.resources?.map((item: ResourceType, index: number) => (
-                <Stack key={index} justifyContent="center" alignContent="center" sx={{ p: 4 }}>
-                    <Typography align="center" variant="h2">
+                <Stack key={index} justifyContent="center" alignContent="center" sx={{ p: 2 }}>
+                    <Typography align="center" variant="h3">
                         {item.fields.headline}
                     </Typography>
                     <Box sx={{ pt: 4 }}>
