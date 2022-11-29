@@ -16,9 +16,9 @@ export const Resource = (props: ResourceProps) => {
     return (
         <>
             {resource.fields.flexDirection === "Flex" ?
-                <Grid container direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+                <Grid container direction="row" justifyContent="center" alignItems="center" spacing={0.5} sx={{ px: {xs: 4, md: 6} }}>
                     {resource.fields.files?.map((file: Image, index: number) => (
-                        <Grid item key={index}>
+                        <Grid item key={index} >
                             <Link sx={{ justifyContent: "center", alignItems: "center", textUnderlineOffset: '6px' }} href={`${file.fields.file.url}`} align="center" target="_blank">
                                 {file.fields.title}
                             </Link>

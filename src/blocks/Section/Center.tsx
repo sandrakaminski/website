@@ -37,7 +37,7 @@ export const Center = (props: Content) => {
                     </Box>
                 </Stack>
             ))}
-            <Stack justifyContent="center" direction="column" alignItems="center" spacing={2} sx={{color: 'GrayText'}}>
+            <Stack justifyContent="center" direction="column" alignItems="center" spacing={2} sx={{ p: { xs: 2, md: 4 }, color: 'GrayText'}}>
                 <ReactMarkdown components={SectionMarkDown} >
                     {content.fields.body}
                 </ReactMarkdown>
