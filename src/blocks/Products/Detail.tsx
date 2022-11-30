@@ -33,7 +33,7 @@ const Detail = (props: ProductTypes) => {
         addToCart(content.fields.productId, '1', content.fields)
         ReactGA.event({
             category: 'Product Detail',
-            action: 'Add to cart',
+            action: `Add ${content.fields.name} to cart`,
             label: content.fields.name,
         });
     }

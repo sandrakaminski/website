@@ -1,41 +1,39 @@
-// import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Box from '@mui/material/Box';
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
-// import IconButton from '@mui/material/IconButton';
+import Fab from '@mui/material/Fab';
 import Stack from '@mui/material/Stack';
+import ToolTip from '@mui/material/Tooltip';
 import Typography from "@mui/material/Typography";
 import ReactGA from 'react-ga4';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 import type { ProductTypes } from './ProductTypes';
-// import { useCartContext } from '@/views/Cart/cartProvider';
+import { FeatureFlagger } from '@/Tracker';
+import { useCartContext } from '@/views/Cart/cartProvider';
 
-const Summary = ({ content }: ProductTypes) => {
+const Summary = (props: ProductTypes) => {
+    const { content } = props;
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const { slug } = useParams();
-    // const { addToCart } = useCartContext();
-
-    // const handleCart = () => {
-    //     addToCart(content.fields.productId, '1', content.fields)
-    // }
 
     const handleClick = () => {
         navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })
         ReactGA.event({
             category: 'Product',
-            action: 'View Product',
+            action: `View detail for the ${content.fields.name} product`,
             label: content.fields.name,
         });
     }
 
     return (
-        <Card>
+        <Card sx={{ width: '100%' }} >
             <CardActionArea onClick={() => handleClick()} >
                 <SoldOutBanner soldOut={!content.fields.inStock} />
-                <CardMedia loading="lazy" component="img" sx={{ height: { xs: '90vh', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: 'auto', sm: '100%' } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
+                <CardMedia loading="lazy" component="img" sx={{ height: { xs: '100%', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: '100%', sm: '100%' } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
             </CardActionArea>
             <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1} >
                 <Typography variant="subtitle1" >{`${content.fields.name}`}</Typography>
@@ -49,13 +47,9 @@ const Summary = ({ content }: ProductTypes) => {
                         ${content.fields.price.toFixed(2)}
                     </Typography>
                 </Stack>
-                {/* <Box sx={{ justifyContent: 'flex-end' }}>
-                        <IconButton sx={{ position: 'relative' }} disabled={!content.fields.inStock} color="inherit" onClick={handleCart}>
-                            <AddShoppingCartIcon />
-                        </IconButton>
-                    </Box> */}
             </Stack>
-        </Card>
+            <QuickAdd content={content} />
+        </Card >
     );
 }
 export default Summary;
@@ -75,5 +69,31 @@ const SoldOutBanner = (props: SoldOutType) => {
                 </Box>
             }
         </>
+    )
+}
+
+const QuickAdd = (props: ProductTypes) => {
+    const { content } = props;
+    const { addToCart } = useCartContext();
+
+    const handleCart = () => {
+        addToCart(content.fields.productId, '1', content.fields);
+        ReactGA.event({
+            category: 'Product',
+            action: `Quick add ${content.fields.name} to cart`,
+            label: content.fields.name,
+        });
+    }
+
+    return (
+        <FeatureFlagger>
+            <Stack alignItems="flex-end" justifyContent="flex-end">
+                <ToolTip arrow title="Add to cart" placement="top"  >
+                    <Fab size="small" sx={{ position: 'absolute', zIndex: 1, m: 1 }} color="primary" disabled={!content.fields.inStock} onClick={handleCart} >
+                        <AddShoppingCartIcon />
+                    </Fab >
+                </ToolTip>
+            </Stack >
+        </FeatureFlagger>
     )
 }

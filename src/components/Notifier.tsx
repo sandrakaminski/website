@@ -13,6 +13,7 @@ interface AlertProps {
 
 const Notifier = (props: AlertProps) => {
     const { message } = props;
+    
     return (
         <Snackbar  {...props}>
             <Alert sx={{ color: "info.contrastText" }} variant="filled" severity="info" >

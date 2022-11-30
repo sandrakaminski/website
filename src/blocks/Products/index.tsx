@@ -1,8 +1,8 @@
 import Detail from './Detail';
 import Summary from './Summary';
 
-const Products = ({ content, detail }: any) => {
-
+const Products = (props: any) => {
+    const { content, detail } = props;
     return (
         <>
             {detail
