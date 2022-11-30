@@ -13,6 +13,7 @@ export type ProductTypes = {
             inStock: boolean;
             productFiles: Image[]
             nzShippingOnly: boolean;
+            publishDate: string;
         }
     }
 }

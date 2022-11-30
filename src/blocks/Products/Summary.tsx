@@ -64,8 +64,8 @@ const SoldOutBanner = (props: SoldOutType) => {
     return (
         <>
             {soldOut &&
-                <Box sx={{ p: 4, background: 'rgba(255,255,255,.90)', position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <Typography sx={{ fontSize: 12 }} variant="subtitle1">SOLD OUT</Typography>
+                <Box sx={{ p: 4, background: 'rgba(255,255,255,.80)', position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Typography variant="subtitle1">SOLD OUT</Typography>
                 </Box>
             }
         </>
