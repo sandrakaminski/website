@@ -153,7 +153,7 @@ const Cart = () => {
         setProcessing(true);
         ReactGA.event({
             category: 'Purchase',
-            action: `New purchase made in ${country}`,
+            action: `New checkout session for person from ${country}`,
             label: 'Purchase',
         });
         const resp = await fetch(`/.netlify/functions/payment`, {
