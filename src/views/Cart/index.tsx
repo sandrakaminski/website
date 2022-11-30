@@ -17,6 +17,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import axios from "axios"
+import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 
 import CountryDropdown, { CurrencyExchange, shippingCosts, currencyTypes, countriesList } from './PaymentCalc';
@@ -149,7 +150,12 @@ const Cart = () => {
     }
 
     const handlePurchase = async () => {
-        setProcessing(true)
+        setProcessing(true);
+        ReactGA.event({
+            category: 'Purchase',
+            action: `New purchase made in ${country}`,
+            label: 'Purchase',
+        });
         const resp = await fetch(`/.netlify/functions/payment`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
