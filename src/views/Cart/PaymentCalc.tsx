@@ -148,34 +148,6 @@ type Amount = {
 
 const BASE_URL = 'https://api.exchangerate.host/latest';
 
-export const CurrencyExchItem = (props) => {
-    const { country, amount } = prop;
-
-    const [loading, setLoading] = useState<boolean>(true);
-
-    const init = "NZD";
-    const newCurrency = currencyTypes(country);
-    const handleSetCurrency = useCallback(async (currency: string) => {
-        try {
-            const resp = await fetch(`${BASE_URL}?base=${init}&symbols=${currency}&symbols=${newCurrency}&amount=${amount}`);
-            const data = await resp.json();
-            return data;
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }, [amount, newCurrency]);
-
-    useEffect(() => {
-        setLoading(true);
-        handleSetCurrency(newCurrency).then((data) => {
-            const { rates } = data;
-            const newAmount = amount * rates[newCurrency];
-            setLoading(false);
-        });
-    }, [amount]);
-}
-
 // displays the approximate costs 
 export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { country, shippingCosts, setAmount, amount, setDisable } = props;

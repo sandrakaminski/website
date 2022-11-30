@@ -19,8 +19,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
 
+import CountryDropdown, { CurrencyExchange, shippingCosts, currencyTypes, countriesList } from './PaymentCalc';
 import Notifier from "@/components/Notifier";
-import CountryDropdown, { CurrencyExchange, shippingCosts, currencyTypes, countriesList } from '@/components/PaymentCalc';
 import type { Image } from '@/shared';
 import { useCartContext } from "@/views/Cart/cartProvider";
 

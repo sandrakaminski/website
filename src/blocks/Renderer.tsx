@@ -7,12 +7,12 @@ import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import Article from './Article';
+import ContactUs from './ContactUs';
 import ImageBanner from './ImageBanner';
 import ImageContainer from './ImageContainer';
 import Products from './Products';
 import Profile from './Profile';
 import Section from './Section';
-import ContactUs from '@/components/ContactUs';
 import Outline from '@/components/Outline';
 
 type Blocks = {
