@@ -6,6 +6,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 // import { Embed } from 'hyvor-talk-react';
+import ReactGA from 'react-ga4';
 import ReactMarkdown from 'react-markdown';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,6 +18,15 @@ import { Markdown } from '@/shared';
 const Detail = (props: ArticleType) => {
     const { content } = props;
     const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/about/${content.fields.author.fields.slug}`, { state: { data: 'about' } })
+        ReactGA.event({
+            category: 'About',
+            action: `Read more about ${content.fields.name}`,
+            label: content.fields.name
+        });
+    }
 
     return (
         <>
@@ -35,7 +45,7 @@ const Detail = (props: ArticleType) => {
                         <DateFormatter dateString={content.fields.date} />
                     </Typography>
                     <FiberManualRecordIcon sx={{ height: 5, width: 5 }} />
-                    <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => navigate(`/about/${content.fields.author.fields.slug}`, { state: { data: 'about' } })} variant="body1">
+                    <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => handleClick()} variant="body1">
                         {content.fields.author.fields.name}
                     </Link>
                 </Stack>
