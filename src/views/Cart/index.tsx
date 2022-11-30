@@ -244,7 +244,7 @@ const CartItem = (props: CartItemProps) => {
                 <Avatar sx={{ height: 55, width: 55 }} variant="square" alt={item.name} src={item.image.fields.file.url} />
                 <Box sx={{ ml: 2 }}>
                     <Typography variant="subtitle1">{item.name}</Typography>
-                    <Typography variant="body1">${item.price} NZD</Typography>
+                    <Typography variant="body1">${item.price.toFixed(2)} NZD</Typography>
                 </Box>
             </Grid>
             <Grid >

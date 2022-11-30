@@ -79,7 +79,7 @@ const Detail = (props: ProductTypes) => {
             </Grid >
             <Dialog maxWidth="xl" open={open} onClose={() => setOpen(false)}>
                 <img
-                    style={{ maxHeight: 700 }}
+                    style={{ height: '90vh', width: '100%' }}
                     loading="eager"
                     src={image}
                     alt={"Feature image"}
