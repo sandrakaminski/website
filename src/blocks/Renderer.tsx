@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import MobileStepper from '@mui/material/MobileStepper';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 
@@ -87,18 +86,8 @@ export default Renderer;
 
 const GridLayout = (props: any) => {
     const { content } = props;
-    const initialCount = 12
-    const [activeStep, setActiveStep] = useState<number>(0);
+    const initialCount = 12;
     const [limit, setLimit] = useState<number>(initialCount);
-    const maxSteps = content.fields.references.length;
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
 
     const limitPage = () => {
         setLimit(limit + initialCount)
@@ -106,7 +95,7 @@ const GridLayout = (props: any) => {
 
     return (
         <>
-            <Grid sx={{ display: { xs: 'none', sm: 'flex' }, px: { lg: 4 } }} container spacing={2}>
+            <Grid sx={{ px: { lg: 4 } }} container spacing={2}>
                 {content.fields.references.slice(0, limit).map((block: any, index: number) =>
                     <Grid key={index} xs={12} sm={6} md={4} >
                         <Factory content={block} />
@@ -114,31 +103,12 @@ const GridLayout = (props: any) => {
                 )}
             </Grid>
             {content.fields.references.length > 12 &&
-                <Stack alignItems="center" sx={{ mt: 2, display: { xs: 'none', sm: 'flex' } }}>
+                <Stack alignItems="center" sx={{ mt: 2 }}>
                     <Button disabled={limit > content.fields.references.length} onClick={limitPage}>
                         Show more
                     </Button>
                 </Stack>
             }
-            <Stack spacing={2} sx={{ display: { xs: 'block', sm: 'none' } }} >
-                <Factory content={content.fields.references[activeStep]} />
-                <MobileStepper
-                    variant="text"
-                    steps={maxSteps}
-                    position="static"
-                    activeStep={activeStep}
-                    nextButton={
-                        <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1} >
-                            Next
-                        </Button>
-                    }
-                    backButton={
-                        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                            Back
-                        </Button>
-                    }
-                />
-            </Stack>
         </>
     )
 }
