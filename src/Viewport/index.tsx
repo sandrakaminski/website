@@ -17,7 +17,7 @@ const Viewport = ({ children }: ViewportProps) => {
             <Header />
             <Container sx={{ minHeight: '70vh' }} maxWidth="xl">
                 {/* <Announcement /> */}
-                <Box sx={{ mx: { xs: '0.25rem', sm: '2.5rem' } }}>
+                <Box sx={{ mx: { xs: '0.25rem', md: '2.5rem' } }}>
                     {children}
                 </Box>
             </Container>

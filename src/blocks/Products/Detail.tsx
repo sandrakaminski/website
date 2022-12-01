@@ -16,6 +16,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import ReactGA from 'react-ga4';
 import ReactMarkdown from 'react-markdown';
 
+import CartPopper from './CartPopper';
 import type { ProductTypes } from './ProductTypes';
 import Notifier from '@/components/Notifier';
 import Trail from '@/components/Trail';
@@ -27,9 +28,11 @@ const Detail = (props: ProductTypes) => {
     const { addToCart } = useCartContext();
 
     const [open, setOpen] = useState<boolean>(false);
+    const [clickEvent, setClickEvent] = useState<boolean>(false);
     const [image, setImage] = useState<string>(content.fields.featureImage.fields.file.url);
 
     const handleCart = () => {
+        setClickEvent(true);
         addToCart(content.fields.productId, '1', content.fields)
         ReactGA.event({
             category: 'Product Detail',
@@ -77,6 +80,7 @@ const Detail = (props: ProductTypes) => {
                     <Body content={content} />
                 </Grid>
             </Grid >
+            <CartPopper clickEvent={clickEvent} />
             <Dialog maxWidth="xl" open={open} onClose={() => setOpen(false)}>
                 <img
                     style={{ height: '90vh', width: '100%' }}

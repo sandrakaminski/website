@@ -86,6 +86,7 @@ export default Renderer;
 
 const GridLayout = (props: any) => {
     const { content } = props;
+
     const initialCount = 12;
     const [limit, setLimit] = useState<number>(initialCount);
 
@@ -93,21 +94,26 @@ const GridLayout = (props: any) => {
         setLimit(limit + initialCount)
     }
 
+
     return (
         <>
-            <Grid sx={{ px: { lg: 4 } }} container spacing={2}>
-                {content.fields.references.slice(0, limit).map((block: any, index: number) =>
-                    <Grid key={index} xs={12} sm={6} md={4} >
-                        <Factory content={block} />
+            {content &&
+                <>
+                    <Grid sx={{ px: { lg: 4 } }} container spacing={2}>
+                        {content.fields.references.slice(0, limit).map((block: any, index: number) =>
+                            <Grid key={index} xs={12} sm={6} md={4} >
+                                <Factory content={block} />
+                            </Grid>
+                        )}
                     </Grid>
-                )}
-            </Grid>
-            {content.fields.references.length > 12 &&
-                <Stack alignItems="center" sx={{ mt: 2 }}>
-                    <Button disabled={limit > content.fields.references.length} onClick={limitPage}>
-                        Show more
-                    </Button>
-                </Stack>
+                    {content.fields.references.length > 12 &&
+                        <Stack alignItems="center" sx={{ mt: 2 }}>
+                            <Button disabled={limit > content.fields.references.length} onClick={limitPage}>
+                                Show more
+                            </Button>
+                        </Stack>
+                    }
+                </>
             }
         </>
     )

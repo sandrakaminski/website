@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Box from '@mui/material/Box';
 import Card from "@mui/material/Card";
@@ -5,11 +7,11 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
 import Fab from '@mui/material/Fab';
 import Stack from '@mui/material/Stack';
-import ToolTip from '@mui/material/Tooltip';
 import Typography from "@mui/material/Typography";
 import ReactGA from 'react-ga4';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
+import CartPopper from './CartPopper';
 import type { ProductTypes } from './ProductTypes';
 import { FeatureFlagger } from '@/Tracker';
 import { useCartContext } from '@/views/Cart/cartProvider';
@@ -24,7 +26,7 @@ const Summary = (props: ProductTypes) => {
         navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })
         ReactGA.event({
             category: 'Product',
-            action: `View detail for the ${content.fields.name} product`,
+            action: `View detail for the ${content.fields.name}`,
             label: content.fields.name,
         });
     }
@@ -49,7 +51,7 @@ const Summary = (props: ProductTypes) => {
                 </Stack>
             </Stack>
             <QuickAdd content={content} />
-        </Card >
+        </Card>
     );
 }
 export default Summary;
@@ -76,7 +78,10 @@ const QuickAdd = (props: ProductTypes) => {
     const { content } = props;
     const { addToCart } = useCartContext();
 
+    const [clickEvent, setClickEvent] = useState<boolean>(false);
+
     const handleCart = () => {
+        setClickEvent(true);
         addToCart(content.fields.productId, '1', content.fields);
         ReactGA.event({
             category: 'Product',
@@ -88,12 +93,11 @@ const QuickAdd = (props: ProductTypes) => {
     return (
         <FeatureFlagger>
             <Stack alignItems="flex-end" justifyContent="flex-end">
-                <ToolTip arrow title="Add to cart" placement="top"  >
-                    <Fab size="small" sx={{ position: 'absolute', zIndex: 1, m: 1 }} color="primary" disabled={!content.fields.inStock} onClick={handleCart} >
-                        <AddShoppingCartIcon />
-                    </Fab >
-                </ToolTip>
+                <Fab size={'medium'} sx={{ position: 'absolute', zIndex: 1, m: 1 }} color="primary" disabled={!content.fields.inStock} onClick={handleCart} >
+                    <AddShoppingCartIcon />
+                </Fab >
             </Stack >
+            <CartPopper clickEvent={clickEvent} />
         </FeatureFlagger>
     )
 }

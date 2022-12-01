@@ -148,6 +148,7 @@ type Amount = {
 
 const BASE_URL = 'https://api.exchangerate.host/latest';
 
+
 // displays the approximate costs 
 export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { country, shippingCosts, setAmount, amount, setDisable } = props;
