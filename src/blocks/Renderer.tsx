@@ -61,13 +61,8 @@ const Renderer = (props: FactoryProps) => {
     return (
         <Box sx={{ my: 4 }}>
             <GridLayout content={content} />
-            <Default content={content} />
-            {content ? content?.sys.contentType.sys.id !== 'assembly' &&
-                <LoadingState type={"Default"} content={content} >
-                    <Factory detail={true} content={content} />
-                </LoadingState>
-                : null
-            }
+            <DefaultLayout content={content} />
+            <DetailedLayout content={content} />
             <ContactUs />
         </Box>
     )
@@ -75,7 +70,21 @@ const Renderer = (props: FactoryProps) => {
 
 export default Renderer;
 
-const Default = (props: FactoryProps) => {
+const DetailedLayout = (props: FactoryProps) => {
+    const { content } = props;
+
+    return (
+        <>
+            {content && content.sys.contentType.sys.id !== 'assembly' &&
+                <LoadingState type={"Default"} content={content} >
+                    <Factory detail={true} content={content} />
+                </LoadingState>
+            }
+        </>
+    )
+}
+
+const DefaultLayout = (props: FactoryProps) => {
     const { content } = props;
 
     return (
