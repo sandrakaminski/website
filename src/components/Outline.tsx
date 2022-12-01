@@ -32,19 +32,11 @@ const LoadingState = (props: LoadingStateProps) => {
 
     }, [content, setLoading])
 
-    if (type === "Header") {
-        return loading ? <Skeleton sx={{ mx: 2 }} height={100} /> : content && <>{children}</>
-    }
-    else {
-        return (
-            <>
-                {type === "Grid" ?
-                    loading ? <GridOutline /> : content && <>{children}</>
-                    :
-                    loading ? <Outline /> : content && <>{children}</>
-                }
-            </>
-        )
+    switch (type) {
+        case "Header": return loading ? <Skeleton sx={{ mx: 2 }} height={100} /> : content && <>{children}</>
+        case "Grid": return loading ? <GridOutline /> : content && <>{children}</>
+        case "Default": return loading ? <Outline /> : content && <>{children}</>
+        default: return loading ? <Outline /> : content && <>{children}</>
     }
 }
 export default LoadingState;
