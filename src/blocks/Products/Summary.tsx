@@ -26,7 +26,7 @@ const Summary = (props: ProductTypes) => {
         navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })
         ReactGA.event({
             category: 'Product',
-            action: `View detail for the ${content.fields.name}`,
+            action: `View detail for ${content.fields.name}`,
             label: content.fields.name,
         });
     }
