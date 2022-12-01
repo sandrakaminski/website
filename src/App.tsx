@@ -17,7 +17,7 @@ export const App: React.FC = () => {
       <BrowserRouter>
         <Tracker>
           <CartProvider>
-            <Suspense>
+            <Suspense fallback={<></>}>
               <Viewport>
                 <Routes />
               </Viewport>
