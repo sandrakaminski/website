@@ -27,10 +27,11 @@ export const typography: object = {
         fontFamily: 'proxima-nova',
     },
     h5: {
-        fontSize: '1.5rem',
+        fontSize: '22px',
         fontWeight: 400,
         fontFamily: 'MonaSansSemiBold',
-        letterSpacing: '.04em'
+        letterSpacing: '.04em',
+        textTransform: 'uppercase',
     },
     h6: {
         fontSize: '1.25rem',
