@@ -13,9 +13,6 @@ export type ArticleType = {
             coverImage: Image
         }
     }
-    sys: {
-        id: string;
-    } | any
 }
 type Author = {
     fields: {
