@@ -1,11 +1,11 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import type { Theme } from '@mui/material/styles';
 
-import ArnoProCaption from './ArnoProCaption.ttf';
-import LTCBodoni from './LTCBodoni175Regular.ttf';
-import MonaSansSemiBold from './MonaSansSemiBold.ttf';
+import ArnoProCaption from './fonts/ArnoProCaption.ttf';
+import LTCBodoni from './fonts/LTCBodoni175Regular.ttf';
+import MonaSansSemiBold from './fonts/MonaSansSemiBold.ttf';
+import ProximaNova from './fonts/ProximaNovaAltReg.otf';
 import { palette } from './palette';
-import ProximaNova from './ProximaNovaAltReg.otf';
 import { typography } from './typography';
 
 export const theme: Theme = responsiveFontSizes(createTheme({
