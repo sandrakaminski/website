@@ -25,7 +25,8 @@ const LoadingState = (props: LoadingStateProps) => {
     useEffect(() => {
         if (!content) {
             setLoading(true)
-        } else {
+        }
+        else if (content) {
             setLoading(false)
         }
 
