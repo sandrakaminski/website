@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 import RemoveIcon from '@mui/icons-material/Remove';
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -22,6 +23,7 @@ import { useNavigate } from 'react-router-dom';
 
 import CountryDropdown, { CurrencyExchange, shippingCosts, currencyTypes, countriesList } from './PaymentCalc';
 import Notifier from "@/components/Notifier";
+import { CartSkeleton } from "@/components/Outline";
 import type { Image } from '@/shared';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
@@ -186,16 +188,23 @@ const Cart = () => {
                     <Grid alignItems="stretch" spacing={1} container >
                         <Grid xs={12} md={8} >
                             <Card sx={{ p: 2, minHeight: 250 }}>
-                                <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                                    <Typography variant="h4" >Shopping cart</Typography>
-                                    <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
-                                </Stack>
-                                <Stack sx={{ mt: 4 }} >
-                                    {cart.map((item: Items, index: number) =>
-                                        <CartItem key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
-                                    )}
-                                </Stack>
+                                {loading ?
+                                    <CartSkeleton />
+                                    :
+                                    <>
+                                        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                                            <Typography variant="h4" >Shopping cart</Typography>
+                                            <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
+                                        </Stack>
+                                        <Stack sx={{ mt: 4 }} >
+                                            {cart.map((item: Items, index: number) =>
+                                                <CartItem key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
+                                            )}
+                                        </Stack>
+                                    </>
+                                }
                             </Card>
+
                         </Grid>
                         <Grid xs={12} md={4} >
                             <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
@@ -244,13 +253,13 @@ const CartItem = (props: CartItemProps) => {
                 <Avatar sx={{ height: 55, width: 55 }} variant="square" alt={item.name} src={item.image.fields.file.url} />
                 <Box sx={{ ml: 2 }}>
                     <Typography variant="subtitle1">{item.name}</Typography>
-                    <Typography variant="body1">${item.price.toFixed(2)} NZD</Typography>
+                    <Typography >${item.price.toFixed(2)} NZD</Typography>
                 </Box>
             </Grid>
             <Grid >
                 <Stack direction="row" justifyContent={{ xs: 'space-between', sm: "flex-end" }} alignItems="center" spacing={4}>
                     <AmountButtons amount={item} {...props} />
-                    <Button startIcon={<CloseIcon fontSize="inherit" />} color="error" onClick={() => remove(item.id)} >
+                    <Button startIcon={<DeleteIcon fontSize="inherit" />} color="error" onClick={() => remove(item.id)} >
                         Remove
                     </Button>
                 </Stack>
