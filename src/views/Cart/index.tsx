@@ -178,11 +178,12 @@ const Cart = () => {
                 <Stack sx={{ mt: 10 }} justifyContent="space-between" alignItems="center" spacing={2} >
                     <ProductionQuantityLimitsIcon sx={{ fontSize: 100 }} />
                     <Typography variant="h3" align="center" gutterBottom>Shopping cart</Typography>
-                    <Typography gutterBottom color="grayText" variant="h5" >You have nothing in your shopping cart.</Typography>
+                    <Typography gutterBottom color="grayText" variant="subtitle1" >You have nothing in your shopping cart.</Typography>
                     <Button size="large" variant="contained" onClick={() => navigate("/shop")} >
                         Shop now
                     </Button>
                 </Stack >
+
                 :
                 <>
                     <Grid alignItems="stretch" spacing={1} container >
