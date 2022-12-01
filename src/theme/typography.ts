@@ -30,8 +30,9 @@ export const typography: object = {
     },
     h5: {
         fontSize: '1.5rem',
-        fontWeight: 500,
-        fontFamily: 'proxima-nova',
+        fontWeight: 400,
+        fontFamily: 'MonaSansSemiBold',
+        letterSpacing: '.04em'
     },
     h6: {
         fontSize: '1.25rem',
