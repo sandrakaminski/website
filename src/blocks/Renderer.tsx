@@ -63,7 +63,7 @@ const Renderer = (props: FactoryProps) => {
             <GridLayout content={content} />
             <Default content={content} />
             {content ? content?.sys.contentType.sys.id !== 'assembly' &&
-                <LoadingState content={content} >
+                <LoadingState type={"Default"} content={content} >
                     <Factory detail={true} content={content} />
                 </LoadingState>
                 : null
@@ -75,12 +75,13 @@ const Renderer = (props: FactoryProps) => {
 
 export default Renderer;
 
-const Default = (props: any) => {
+const Default = (props: FactoryProps) => {
     const { content } = props;
+
     return (
         <>
             {content?.sys.contentType.sys.id === 'assembly' && content?.fields.layout === 'Default' &&
-                <LoadingState content={content} >
+                <LoadingState type={content?.fields.layout} content={content} >
                     {content.fields.references.map((block: any, index: number) =>
                         <Factory key={index} content={block} />
                     )}
@@ -90,7 +91,7 @@ const Default = (props: any) => {
     )
 }
 
-const GridLayout = (props: any) => {
+const GridLayout = (props: FactoryProps) => {
     const { content } = props;
 
     const initialCount = 12;

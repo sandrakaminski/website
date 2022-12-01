@@ -1,49 +1,62 @@
 import React, { useState, useEffect } from "react";
 
 import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Unstable_Grid2";
 
-const LoadingState = (props: any) => {
+interface LoadingStateProps {
+    content: {
+        fields: {
+            type: string;
+            references: any[];
+            layout: string;
+        }
+    }
+    children: React.ReactNode;
+    type: string;
+}
+
+const LoadingState = (props: LoadingStateProps) => {
     const { content, children, type } = props;
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         if (!content) {
             setLoading(true)
-        }
-        else {
+        } else {
             setLoading(false)
         }
-    }, [content])
-    switch (type) {
-        case "Grid": return (
+
+    }, [content, setLoading])
+
+    if (type === "Header") {
+        return loading ? <Skeleton sx={{ mx: 2 }} height={100} /> : content && <>{children}</>
+    }
+    else {
+        return (
             <>
-                {loading ? <GridOutline /> : content && children}
-            </>
-        )
-        case "Stack": return (
-            <>
-                {loading ? <Outline /> : content && children}
-            </>
-        )
-        default: return (
-            <>
-                {loading ? <Outline /> : content && children}
+                {type === "Grid" ?
+                    loading ? <GridOutline /> : content && <>{children}</>
+                    :
+                    loading ? <Outline /> : content && <>{children}</>
+                }
             </>
         )
     }
-
 }
 export default LoadingState;
 
 const GridOutline: React.FC = () => {
     return (
-        <Stack spacing={2}>
-            <Skeleton variant="rounded" height="25rem" />
-            <Skeleton variant="rounded" height="5rem" />
-        </Stack>
+        <Card>
+            <Stack spacing={2}>
+                <Skeleton variant="rounded" height="25rem" />
+                <Skeleton variant="rounded" height="4rem" />
+                <Skeleton variant="text" height="2rem" />
+            </Stack>
+        </Card>
     )
 }
 
