@@ -17,13 +17,11 @@ export const theme: Theme = responsiveFontSizes(createTheme({
                 @font-face {
                     font-family: 'ArnoPro';
                     src: url(${ArnoProCaption});
-                    font-weight: 400;
                     font-style: normal;
                 }
                 @font-face {
                     font-family: 'ProximaNova';
                     src: url(${ProximaNova});
-                    font-weight: 400;
                     font-style: normal;
                 }
                 @font-face {
