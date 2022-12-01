@@ -14,6 +14,7 @@ import Card from "@mui/material/Card";
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import ListItemButton from '@mui/material/ListItemButton';
+import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -210,7 +211,7 @@ const Cart = () => {
                         <Grid xs={12} md={4} >
                             <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
                                 <Stack spacing={1}>
-                                    <Typography variant="h4" >Order summary</Typography>
+                                    <Typography variant="h4" >{loading ? <Skeleton variant="rounded" /> : "Order summary"}</Typography>
                                     <CurrencyExchange setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
                                 </Stack>
                                 <Stack spacing={0.5}>

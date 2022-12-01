@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
@@ -17,9 +17,11 @@ export const App: React.FC = () => {
       <BrowserRouter>
         <Tracker>
           <CartProvider>
-            <Viewport>
-                <Routes />  
-            </Viewport>
+            <Suspense>
+              <Viewport>
+                <Routes />
+              </Viewport>
+            </Suspense>
           </CartProvider>
         </Tracker>
       </BrowserRouter>
