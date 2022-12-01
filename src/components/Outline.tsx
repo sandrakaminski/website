@@ -1,20 +1,61 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Unstable_Grid2";
 
-const Outline: React.FC = () => {
+const LoadingState = (props: any) => {
+    const { content, children, type } = props;
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        if (!content) {
+            setLoading(true)
+        }
+        else {
+            setLoading(false)
+        }
+    }, [content])
+    switch (type) {
+        case "Grid": return (
+            <>
+                {loading ? <GridOutline /> : content && children}
+            </>
+        )
+        case "Stack": return (
+            <>
+                {loading ? <Outline /> : content && children}
+            </>
+        )
+        default: return (
+            <>
+                {loading ? <Outline /> : content && children}
+            </>
+        )
+    }
+
+}
+export default LoadingState;
+
+const GridOutline: React.FC = () => {
     return (
         <Stack spacing={2}>
-            <Skeleton variant="rounded" height="5rem" />
-            <Skeleton variant="rounded" height="20rem" />
+            <Skeleton variant="rounded" height="25rem" />
             <Skeleton variant="rounded" height="5rem" />
         </Stack>
     )
 }
-export default Outline;
+
+const Outline: React.FC = () => {
+    return (
+        <Stack justifyContent="center" alignItems="center" spacing={2}>
+            <Skeleton variant="rounded" width={"50%"} height="5rem" />
+            <Skeleton variant="rounded" width={"100%"} height="5rem" />
+            <Skeleton variant="rounded" width={"100%"} height="5rem" />
+        </Stack>
+    )
+}
 
 export const CartSkeleton: React.FC = () => {
     return (
@@ -40,15 +81,5 @@ export const CartSkeleton: React.FC = () => {
                 </Grid>
             </Stack>
         </Stack>
-    )
-}
-
-export const EmptyMessageSkeleton = () => {
-    return (
-        <Stack spacing={2}>
-            <Skeleton variant="rounded" width={60} height="3rem" />
-            <Skeleton variant="rounded" width={60} height="20rem" />
-        </Stack>
-
     )
 }

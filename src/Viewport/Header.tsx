@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { CardMedia } from "@mui/material";
+import { CardMedia, Skeleton } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Badge from '@mui/material/Badge';
 import Box from "@mui/material/Box";
@@ -60,7 +60,7 @@ const Header: React.FC = () => {
     if (import.meta.env.MODE === "development") {
         return (
             <AppBar color="transparent" position="static" elevation={0}>
-                {menuItems &&
+                {menuItems ?
                     <Toolbar >
                         <Box sx={{ flexGrow: 1 }}>
                             <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer' }} underline="none" color="inherit">
@@ -88,9 +88,10 @@ const Header: React.FC = () => {
                             </Badge>
                         </IconButton>
                     </Toolbar>
+                    :
+                    <Skeleton sx={{ mx: 2 }} height={100} />
                 }
             </AppBar>
-
         )
     }
     else {

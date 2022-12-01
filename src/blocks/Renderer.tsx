@@ -12,7 +12,7 @@ import ImageContainer from './ImageContainer';
 import Products from './Products';
 import Profile from './Profile';
 import Section from './Section';
-import Outline from '@/components/Outline';
+import LoadingState from '@/components/Outline';
 
 type Blocks = {
     [key: string]: any;
@@ -47,10 +47,10 @@ type FactoryProps = {
 
 const Factory = (props: FactoryProps) => {
     const { content, detail } = props;
-    const name: string = content && content.sys.contentType.sys.id;
+    const name: string = content?.sys.contentType.sys.id;
 
     if (!content || !name) {
-        return <Outline />
+        return
     }
     return blocks[name]({ content, detail })
 }
@@ -60,22 +60,13 @@ const Renderer = (props: FactoryProps) => {
 
     return (
         <Box sx={{ my: 4 }}>
-            {content && content.sys.contentType.sys.id === 'assembly'
-                ?
-                <>
-                    {content.fields.layout === 'Grid'
-                        ?
-                        <GridLayout content={content} />
-                        :
-                        <Box>
-                            {content.fields.references.map((block, index) =>
-                                <Factory key={index} content={block} />
-                            )}
-                        </Box>
-                    }
-                </>
-                :
-                <Factory detail={true} content={content} />
+            <GridLayout content={content} />
+            <Default content={content} />
+            {content ? content?.sys.contentType.sys.id !== 'assembly' &&
+                <LoadingState content={content} >
+                    <Factory detail={true} content={content} />
+                </LoadingState>
+                : null
             }
             <ContactUs />
         </Box>
@@ -83,6 +74,21 @@ const Renderer = (props: FactoryProps) => {
 }
 
 export default Renderer;
+
+const Default = (props: any) => {
+    const { content } = props;
+    return (
+        <>
+            {content?.sys.contentType.sys.id === 'assembly' && content?.fields.layout === 'Default' &&
+                <LoadingState content={content} >
+                    {content.fields.references.map((block: any, index: number) =>
+                        <Factory key={index} content={block} />
+                    )}
+                </LoadingState>
+            }
+        </>
+    )
+}
 
 const GridLayout = (props: any) => {
     const { content } = props;
@@ -94,15 +100,16 @@ const GridLayout = (props: any) => {
         setLimit(limit + initialCount)
     }
 
-
     return (
         <>
-            {content &&
+            {content?.sys.contentType.sys.id === 'assembly' && content?.fields.layout === 'Grid' &&
                 <>
                     <Grid sx={{ px: { lg: 4 } }} container spacing={2}>
                         {content.fields.references.slice(0, limit).map((block: any, index: number) =>
                             <Grid key={index} xs={12} sm={6} md={4} >
-                                <Factory content={block} />
+                                <LoadingState type={content?.fields.layout} content={content} >
+                                    <Factory content={block} />
+                                </LoadingState>
                             </Grid>
                         )}
                     </Grid>

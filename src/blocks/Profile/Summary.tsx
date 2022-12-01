@@ -19,19 +19,17 @@ const Summary = ({ content }: ProfileType) => {
 
     return (
         <Card>
-            {content &&
-                <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`)}>
-                    <CardMedia loading="lazy" component="img" sx={{ height: { xs: '90vh', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: 'auto', sm: '100%' } }} src={content?.fields.image.fields.file.url} alt={content.fields.image.fields.title} />
-                    <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1}>
-                        <Typography variant="subtitle1" >
-                            {content.fields.name}
-                        </Typography>
-                        <Typography variant="body1" >
-                            {txt}
-                        </Typography>
-                    </Stack>
-                </CardActionArea>
-            }
+            <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`)}>
+                <CardMedia loading="lazy" component="img" sx={{ height: { xs: '90vh', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: 'auto', sm: '100%' } }} src={content?.fields.image.fields.file.url} alt={content.fields.image.fields.title} />
+                <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1}>
+                    <Typography variant="subtitle1" >
+                        {content.fields.name}
+                    </Typography>
+                    <Typography variant="body1" >
+                        {txt}
+                    </Typography>
+                </Stack>
+            </CardActionArea>
         </Card>
     )
 }
