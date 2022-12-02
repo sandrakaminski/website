@@ -46,7 +46,7 @@ const Summary = (props: ProductTypes) => {
                         </Typography>
                     }
                     <Typography variant="body1" >
-                        ${content.fields.price.toFixed(2)}
+                        ${content.fields.price.toFixed(2)} NZD
                     </Typography>
                 </Stack>
             </Stack>

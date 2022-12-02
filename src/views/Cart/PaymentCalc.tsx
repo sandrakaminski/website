@@ -148,6 +148,40 @@ type Amount = {
 
 const BASE_URL = 'https://api.exchangerate.host/latest';
 
+export const CartItemPrice = (props: any) => {
+    const { country, item, } = props;
+
+    // inital state (NZD)
+    const init = "NZD";
+    const currency = currencyTypes(init);
+    const newCurrency = currencyTypes(country);
+    const symbol = symbols(country);
+
+    const [price, setPrice] = useState<number>(0);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    const handleSetCurrency = useCallback(async () => {
+        setLoading(true)
+        try {
+            const response = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${item}`);
+            const data = await response.json();
+            setPrice(data?.rates[newCurrency])
+            setLoading(false)
+        }
+        catch {
+            setLoading(false)
+        }
+
+    }, [currency, item, newCurrency]);
+    useEffect(() => {
+        handleSetCurrency();
+    }, [handleSetCurrency]);
+
+    return (
+        <>{loading ? <Skeleton /> : `${symbol}${price.toFixed(2)} ${newCurrency}`}</>
+    )
+}
+
 
 // displays the approximate costs 
 export const CurrencyExchange = (props: CurrencyExchProps) => {
@@ -208,6 +242,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     return (
         <Box>
             <Typography> {loading ? <Skeleton /> : `VAT/GST: ${symbol}${vatTotal.toFixed(2)} ${newCurrency}`}</Typography>
+            <Typography variant="caption" color="grayText"> {loading ? <Skeleton /> : "*VAT/GST Included in product price"}</Typography>
             <Typography>{loading ? <Skeleton /> : `Shipping: ${symbol}${amount.shipping.toFixed(2)} ${newCurrency}`} </Typography>
             <Typography> {loading ? <Skeleton /> : `Total: ${symbol}${amount.total.toFixed(2)} ${newCurrency}`}</Typography>
         </Box>

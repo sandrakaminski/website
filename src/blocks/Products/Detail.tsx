@@ -108,9 +108,14 @@ const Heading = (props: any) => {
                         ${content.fields.oldPrice.toFixed(2)}
                     </Typography>
                 }
-                <Typography variant="h4" >
-                    ${content.fields.price.toFixed(2)}
-                </Typography>
+                <Stack spacing={1} direction="row" alignItems="flex-end">
+                    <Typography variant="h4" >
+                        ${content.fields.price.toFixed(2)}
+                    </Typography>
+                    <Typography >
+                        NZD
+                    </Typography>
+                </Stack>
             </Stack>
         </Stack>
     )
