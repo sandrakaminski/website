@@ -242,7 +242,6 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     return (
         <Box>
             <Typography> {loading ? <Skeleton /> : `VAT/GST: ${symbol}${vatTotal.toFixed(2)} ${newCurrency}`}</Typography>
-            <Typography variant="caption" color="grayText"> {loading ? <Skeleton /> : "*VAT/GST Included in product price"}</Typography>
             <Typography>{loading ? <Skeleton /> : `Shipping: ${symbol}${amount.shipping.toFixed(2)} ${newCurrency}`} </Typography>
             <Typography> {loading ? <Skeleton /> : `Total: ${symbol}${amount.total.toFixed(2)} ${newCurrency}`}</Typography>
         </Box>

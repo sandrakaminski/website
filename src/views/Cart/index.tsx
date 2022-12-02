@@ -22,7 +22,7 @@ import axios from "axios"
 import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 
-import CountryDropdown, { CurrencyExchange, shippingCosts, currencyTypes, countriesList } from './PaymentCalc';
+import CountryDropdown, { CurrencyExchange, shippingCosts, currencyTypes, countriesList, CartItemPrice } from './PaymentCalc';
 import Notifier from "@/components/Notifier";
 import { CartSkeleton } from "@/components/Outline";
 import type { Image } from '@/shared';
@@ -200,13 +200,13 @@ const Cart = () => {
                                         </Stack>
                                         <Stack sx={{ mt: 4 }} >
                                             {cart.map((item: Items, index: number) =>
-                                                <CartItem key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
+                                                <CartItem country={country} key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
                                             )}
+                                            <Typography variant="caption" color="grayText">*VAT/GST Included in product price</Typography>
                                         </Stack>
                                     </>
                                 }
                             </Card>
-
                         </Grid>
                         <Grid xs={12} md={4} >
                             <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
@@ -215,7 +215,6 @@ const Cart = () => {
                                     <CurrencyExchange setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
                                 </Stack>
                                 <Stack spacing={0.5}>
-                                    <Typography gutterBottom color="grayText" variant="caption">Country of delivery</Typography>
                                     <ButtonGroup size="small">
                                         <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => handleSetCountry(e.target.value)} />
                                         <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={disable} variant="contained" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
@@ -234,14 +233,15 @@ const Cart = () => {
 export default Cart;
 
 type CartItemProps = {
-    item: Items
+    item: Items;
     increase: Function;
-    decrease: Function
-    remove: Function
+    decrease: Function;
+    remove: Function;
+    country: string;
 }
 
 const CartItem = (props: CartItemProps) => {
-    const { item, remove } = props;
+    const { item, remove, country } = props;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -255,7 +255,7 @@ const CartItem = (props: CartItemProps) => {
                 <Avatar sx={{ height: 55, width: 55 }} variant="square" alt={item.name} src={item.image.fields.file.url} />
                 <Box sx={{ ml: 2 }}>
                     <Typography variant="subtitle1">{item.name}</Typography>
-                    <Typography >${item.price.toFixed(2)} NZD</Typography>
+                    <Typography ><CartItemPrice item={item.price} country={country} /></Typography>
                 </Box>
             </Grid>
             <Grid >
