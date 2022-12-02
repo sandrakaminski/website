@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
@@ -116,7 +115,7 @@ export const LoadingImage = (props: LoadingImageProps) => {
     return (
         <>
             {load === true ?
-                <Skeleton variant="rectangular" height={load && skeletonHeight} {...props} />
+                <Skeleton animation={false} variant="rectangular" height={load && skeletonHeight} {...props} />
                 :
                 <CardMedia {...props} loading="lazy" component="img" onLoad={() => setLoad(false)} {...props} />
             }
