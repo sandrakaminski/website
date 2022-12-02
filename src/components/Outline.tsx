@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 
+
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -87,5 +89,31 @@ export const CartSkeleton: React.FC = () => {
                 </Grid>
             </Stack>
         </Stack>
+    )
+}
+
+interface LoadingImageProps {
+    src: string;
+    alt: string;
+    sx: Object;
+    content: any
+}
+
+export const LoadingImage = (props: LoadingImageProps) => {
+    const { content } = props;
+    const [load, setLoad] = useState<boolean>(true);
+
+    useEffect(() => {
+        setLoad(false);
+    }, [content])
+
+    return (
+        <>
+            {load ?
+                <Skeleton variant="rectangular" {...props} />
+                :
+                <CardMedia loading="lazy" component="img" onLoad={() => setLoad(false)} {...props} />
+            }
+        </>
     )
 }

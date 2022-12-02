@@ -4,7 +4,6 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Box from '@mui/material/Box';
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
-import CardMedia from "@mui/material/CardMedia";
 import Fab from '@mui/material/Fab';
 import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography";
@@ -13,6 +12,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 import CartPopper from './CartPopper';
 import type { ProductTypes } from './ProductTypes';
+import { LoadingImage } from '@/components/Outline';
 import { FeatureFlagger } from '@/Tracker';
 import { useCartContext } from '@/views/Cart/cartProvider';
 
@@ -21,6 +21,7 @@ const Summary = (props: ProductTypes) => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const { slug } = useParams();
+
 
     const handleClick = () => {
         navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })
@@ -35,7 +36,7 @@ const Summary = (props: ProductTypes) => {
         <Card sx={{ width: '100%' }} >
             <CardActionArea onClick={() => handleClick()} >
                 <SoldOutBanner soldOut={!content.fields.inStock} />
-                <CardMedia loading="lazy" component="img" sx={{ height: { xs: '100%', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: '100%', sm: '100%' } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
+                <LoadingImage content={content} sx={{ height: { xs: '100%', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: '100%', sm: '100%' } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
             </CardActionArea>
             <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1} >
                 <Typography variant="subtitle1" >{`${content.fields.name}`}</Typography>
