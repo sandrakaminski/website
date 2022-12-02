@@ -3,13 +3,13 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from '@mui/material/CardContent';
 import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 
 import type { ArticleType } from "./ArticleType";
 import DateFormatter from "@/components/DateFormatter";
+import { LoadingImage } from '@/components/Outline';
 
 const Summary = (props: ArticleType) => {
     const { content } = props;
@@ -20,7 +20,7 @@ const Summary = (props: ArticleType) => {
     return (
         <Card>
             <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })}>
-                <CardMedia component="img" sx={{ height: { xs: '100%', sm: '100%', md: '36vw', xl: 600 }, width: { xs: '100%', sm: '100%' } }} src={content?.fields.coverImage.fields.file.url} alt={content.fields.coverImage.fields.title} />
+                <LoadingImage content={content} sx={{ height: { xs: '100%', sm: '100%', md: '36vw', xl: 600 }, width: { xs: '100%', sm: '100%' } }} src={content?.fields.coverImage.fields.file.url} alt={content.fields.coverImage.fields.title} />       
                 <CardHeader sx={{ maxHeight: 20, py: 6 }} title={content.fields.title} />
             </CardActionArea>
             <CardContent component={Stack} direction="row" justifyContent="space-between" alignItems="center" spacing={2}>

@@ -22,7 +22,6 @@ const Summary = (props: ProductTypes) => {
     const { pathname } = useLocation();
     const { slug } = useParams();
 
-
     const handleClick = () => {
         navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })
         ReactGA.event({

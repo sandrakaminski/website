@@ -95,24 +95,30 @@ export const CartSkeleton: React.FC = () => {
 interface LoadingImageProps {
     src: string;
     alt: string;
+    content: any;
     sx: Object;
-    content: any
+    skeletonHeight?: string | number
 }
 
 export const LoadingImage = (props: LoadingImageProps) => {
-    const { content } = props;
+    const { content, skeletonHeight } = props;
     const [load, setLoad] = useState<boolean>(true);
 
+    console.log(load)
+
     useEffect(() => {
-        setLoad(false);
-    }, [content])
+        setLoad(true)
+        if (content) {
+            setLoad(false)
+        }
+    }, [content, setLoad])
 
     return (
         <>
-            {load ?
-                <Skeleton variant="rectangular" {...props} />
+            {load === true ?
+                <Skeleton variant="rectangular" height={load && skeletonHeight} {...props} />
                 :
-                <CardMedia loading="lazy" component="img" onLoad={() => setLoad()} {...props} />
+                <CardMedia {...props} loading="lazy" component="img" onLoad={() => setLoad(false)} {...props} />
             }
         </>
     )

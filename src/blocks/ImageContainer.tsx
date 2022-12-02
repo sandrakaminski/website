@@ -2,10 +2,10 @@ import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from "react-router-dom";
 
+import { LoadingImage } from '@/components/Outline';
 import type { Image } from '@/shared'
 
 interface ImageContainerProps {
@@ -33,17 +33,15 @@ const ImageContainer = (props: ImageContainerProps) => {
     return (
         <ImageList gap={8} >
             {content.fields.blocks.map((img: Block, index: number) =>
-                <ImageListItem rows={img.fields.imageRows} component={CardActionArea} onClick={() => navigate(img.fields.slug)} key={index}>
+                <ImageListItem sx={{ img: { minHeight: 500 } }} rows={img.fields.imageRows} component={CardActionArea} onClick={() => navigate(img.fields.slug)} key={index}>
                     <FloatingText content={img} />
-                    {img.fields.image.fields.file.url ?
-                        <img
-                            src={img.fields.image.fields.file.url}
-                            alt={img.fields.image.fields.file.title}
-                            loading="lazy"
-                        />
-                        :
-                        <Skeleton variant="rectangular" width={'100%'} height={'100%'} />
-                    }
+                    <LoadingImage
+                        skeletonHeight={600}
+                        src={img.fields.image.fields.file.url}
+                        alt={`image ${index}`}
+                        content={img}
+                        sx={{ objectFit: 'cover', height: '100%' }}
+                    />
                 </ImageListItem>
             )}
         </ImageList>
