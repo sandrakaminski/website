@@ -98,8 +98,8 @@ const Heading = (props: any) => {
     const { content, sx } = props;
 
     return (
-        <Stack sx={{ mb: 4, ...sx }} alignItems="center" spacing={2}>
-            <Typography variant="h2">
+        <Stack sx={{ ...sx }} alignItems="center" spacing={2}>
+            <Typography variant="h2" align="center" sx={{ pt: 5 }}>
                 {content.fields.name}
             </Typography>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
