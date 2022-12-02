@@ -112,7 +112,7 @@ export const LoadingImage = (props: LoadingImageProps) => {
             {load ?
                 <Skeleton variant="rectangular" {...props} />
                 :
-                <CardMedia loading="lazy" component="img" onLoad={() => setLoad(false)} {...props} />
+                <CardMedia loading="lazy" component="img" onLoad={() => setLoad()} {...props} />
             }
         </>
     )
