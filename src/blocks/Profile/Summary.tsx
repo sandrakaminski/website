@@ -20,7 +20,7 @@ const Summary = ({ content }: ProfileType) => {
     return (
         <Card>
             <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`)}>
-                <LoadingImage content={content} sx={{ height: { xs: '90vh', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: 'auto', sm: '100%' } }} src={content?.fields.image.fields.file.url} alt={content.fields.image.fields.title} />
+                <LoadingImage sx={{ height: { xs: '90vh', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: 'auto', sm: '100%' } }} src={content?.fields.image.fields.file.url} alt={content.fields.image.fields.title} />
                 <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1}>
                     <Typography variant="subtitle1" >
                         {content.fields.name}

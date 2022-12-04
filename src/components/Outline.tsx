@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -94,29 +94,30 @@ export const CartSkeleton: React.FC = () => {
 interface LoadingImageProps {
     src: string;
     alt: string;
-    content: any;
-    sx: Object;
+    sx: object;
     skeletonheight?: number
 }
 
-export const LoadingImage = (props: LoadingImageProps) => {
-    const { content, skeletonheight } = props;
+export const LoadingImage = memo((props: LoadingImageProps) => {
+    const { skeletonheight, src } = props;
     const [load, setLoad] = useState<boolean>(true);
 
     useEffect(() => {
         setLoad(true)
-        if (content) {
-            setLoad(false)
+        const imageToLoad = new Image();
+        imageToLoad.src = src;
+        imageToLoad.onload = () => {
+            setLoad(false);
         }
-    }, [content, setLoad])
+    }, [src])
 
     return (
         <>
             {load === true ?
-                <Skeleton animation={false} variant="rectangular" height={load && skeletonheight} {...props} />
+                <Skeleton animation={false} variant="rectangular" height={skeletonheight} {...props} />
                 :
-                <CardMedia {...props} loading="lazy" component="img" onLoad={() => setLoad(false)} {...props} />
+                <CardMedia {...props} loading="lazy" component="img" {...props} />
             }
         </>
     )
-}
+});

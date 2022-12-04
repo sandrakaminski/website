@@ -39,7 +39,6 @@ const ImageContainer = (props: ImageContainerProps) => {
                         skeletonheight={600}
                         src={img.fields.image.fields.file.url}
                         alt={`image ${index}`}
-                        content={img}
                         sx={{ objectFit: 'cover', height: '100%' }}
                     />
                 </ImageListItem>
