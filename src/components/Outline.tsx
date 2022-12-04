@@ -96,14 +96,12 @@ interface LoadingImageProps {
     alt: string;
     content: any;
     sx: Object;
-    skeletonHeight?: string | number
+    skeletonheight?: number
 }
 
 export const LoadingImage = (props: LoadingImageProps) => {
-    const { content, skeletonHeight } = props;
+    const { content, skeletonheight } = props;
     const [load, setLoad] = useState<boolean>(true);
-
-    console.log(load)
 
     useEffect(() => {
         setLoad(true)
@@ -115,7 +113,7 @@ export const LoadingImage = (props: LoadingImageProps) => {
     return (
         <>
             {load === true ?
-                <Skeleton animation={false} variant="rectangular" height={load && skeletonHeight} {...props} />
+                <Skeleton animation={false} variant="rectangular" height={load && skeletonheight} {...props} />
                 :
                 <CardMedia {...props} loading="lazy" component="img" onLoad={() => setLoad(false)} {...props} />
             }

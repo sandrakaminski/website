@@ -147,13 +147,14 @@ type Amount = {
 }
 
 const BASE_URL = 'https://api.exchangerate.host/latest';
+const init = "NZD";
 
 export const CartItemPrice = (props: any) => {
     const { country, item, } = props;
 
     // inital state (NZD)
-    const init = "NZD";
     const currency = currencyTypes(init);
+
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
 
@@ -182,7 +183,6 @@ export const CartItemPrice = (props: any) => {
     )
 }
 
-
 // displays the approximate costs 
 export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { country, shippingCosts, setAmount, amount, setDisable } = props;
@@ -191,7 +191,6 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     const [loading, setLoading] = useState<boolean>(true);
 
     // inital state (NZD)
-    const init = "NZD";
     const currency = currencyTypes(init);
 
     // custom hooks

@@ -186,46 +186,44 @@ const Cart = () => {
                 </Stack >
 
                 :
-                <>
-                    <Grid alignItems="stretch" spacing={1} container >
-                        <Grid xs={12} md={8} >
-                            <Card sx={{ p: 2, minHeight: 250 }}>
-                                {loading ?
-                                    <CartSkeleton />
-                                    :
-                                    <>
-                                        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                                            <Typography variant="h4" >Shopping cart</Typography>
-                                            <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
-                                        </Stack>
-                                        <Stack sx={{ mt: 4 }} >
-                                            {cart.map((item: Items, index: number) =>
-                                                <CartItem country={country} key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
-                                            )}
-                                            <Typography variant="caption" color="grayText">*VAT/GST Included in product price</Typography>
-                                        </Stack>
-                                    </>
-                                }
-                            </Card>
-                        </Grid>
-                        <Grid xs={12} md={4} >
-                            <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
-                                <Stack spacing={1}>
-                                    <Typography variant="h4" >{loading ? <Skeleton variant="rounded" /> : "Order summary"}</Typography>
-                                    <CurrencyExchange setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
-                                </Stack>
-                                <Stack spacing={0.5}>
-                                    <ButtonGroup size="small">
-                                        <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => handleSetCountry(e.target.value)} />
-                                        <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={disable} variant="contained" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
-                                    </ButtonGroup>
-                                </Stack>
-                            </Stack>
-                        </Grid>
+                <Grid alignItems="stretch" spacing={1} container >
+                    <Grid xs={12} md={8} >
+                        <Card sx={{ p: 2, minHeight: 250 }}>
+                            {loading ?
+                                <CartSkeleton />
+                                :
+                                <>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                                        <Typography variant="h4" >Shopping cart</Typography>
+                                        <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
+                                    </Stack>
+                                    <Stack sx={{ mt: 4 }} >
+                                        {cart.map((item: Items, index: number) =>
+                                            <CartItem country={country} key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
+                                        )}
+                                        <Typography variant="caption" color="grayText">*VAT/GST Included in product price</Typography>
+                                    </Stack>
+                                </>
+                            }
+                        </Card>
                     </Grid>
-                    <Notifier open={error} message={`We don't currently offer shipping to ${loadVals.countryName}`} />
-                </>
+                    <Grid xs={12} md={4} >
+                        <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
+                            <Stack spacing={1}>
+                                <Typography variant="h4" >{loading ? <Skeleton variant="rounded" /> : "Order summary"}</Typography>
+                                <CurrencyExchange setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
+                            </Stack>
+                            <Stack spacing={0.5}>
+                                <ButtonGroup size="small">
+                                    <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: any) => handleSetCountry(e.target.value)} />
+                                    <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={disable} variant="contained" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
+                                </ButtonGroup>
+                            </Stack>
+                        </Stack>
+                    </Grid>
+                </Grid>
             }
+            <Notifier open={error} message={`We don't currently offer shipping to ${loadVals.countryName}`} />
         </Box >
     )
 }
