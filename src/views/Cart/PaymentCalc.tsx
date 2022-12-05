@@ -190,7 +190,6 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
 
     const [loading, setLoading] = useState<boolean>(true);
 
-
     // inital state (NZD)
     const currency = currencyTypes(init);
 
@@ -215,18 +214,13 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
 
     const handleSetCurrency = useCallback(async () => {
         setLoading(true)
-        try {
-            const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
-            const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
-            const total = await respTotal.json();
-            const shipping = await respShipping.json();
+        const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
+        const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
+        const total = await respTotal.json();
+        const shipping = await respShipping.json();
 
-            if (respShipping.status === 200 || respTotal.status === 200) {
-                setAmount({ total: total && total.rates[newCurrency], shipping: shipping && shipping.rates[newCurrency], currency: newCurrency });
-                setLoading(false)
-            }
-        }
-        catch {
+        if (respShipping.ok || respTotal.ok) {
+            setAmount({ total: total?.rates[newCurrency], shipping: shipping?.rates[newCurrency], currency: newCurrency });
             setLoading(false)
         }
 
@@ -236,7 +230,6 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     useEffect(() => {
         handleSetCurrency()
     }, [handleSetCurrency]);
-
 
     return (
         <Box>
