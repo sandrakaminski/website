@@ -25,7 +25,7 @@ const Summary = (props: ArticleType) => {
                     src={content?.fields.coverImage.fields.file.url}
                     alt={content.fields.coverImage.fields.title}
                 />
-                <CardHeader sx={{ maxHeight: 20, py: 6 }} title={content.fields.title} />
+                <CardHeader sx={{ maxHeight: 20, py: 6 }} title={content.fields.headline} />
             </CardActionArea>
             <CardContent component={Stack} direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
                 <DateFormatter dateString={content.fields.date} />
