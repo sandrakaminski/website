@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import type { ProfileType } from './ProfileType';
-import { LoadingImage } from "@/components/Outline";
+import LoadingImage from "@/components/LoadingImage";
 
 const Summary = ({ content }: ProfileType) => {
     const navigate = useNavigate();

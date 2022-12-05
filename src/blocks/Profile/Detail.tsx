@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
 
 import type { ProfileType } from './ProfileType';
-import { LoadingImage } from "@/components/Outline";
+import LoadingImage from "@/components/LoadingImage";
 import Trail from '@/components/Trail';
 import { Markdown, Image } from '@/shared';
 

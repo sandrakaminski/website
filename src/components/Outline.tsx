@@ -1,12 +1,10 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect } from "react";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Unstable_Grid2";
-import type { SystemStyleObject, Theme } from "@mui/system";
 
 interface LoadingStateProps {
     content: {
@@ -93,37 +91,3 @@ export const CartSkeleton: React.FC = () => {
         </Stack>
     )
 }
-
-interface LoadingImageProps {
-    src: string;
-    alt: string;
-    skeletonheight?: number | string;
-    card?: boolean
-    sx?: SystemStyleObject<Theme>
-}
-
-export const LoadingImage = memo((props: LoadingImageProps) => {
-    const { src, skeletonheight, card, sx } = props;
-    const [load, setLoad] = useState<boolean>(true);
-
-    useEffect(() => {
-        setLoad(true)
-        const imageToLoad = new Image();
-        imageToLoad.src = src || "";
-        imageToLoad.onload = () => {
-            setLoad(false);
-        }
-    }, [src])
-
-    const cardSize = { height: { xs: '100%', sm: '60vw', md: '36vw', xl: 600 }, width: '100%' }
-
-    return (
-        <>
-            {load === true ?
-                <Skeleton animation={false} sx={card ? cardSize : null} variant="rectangular" height={skeletonheight}  {...props} />
-                :
-                <CardMedia sx={card ? cardSize : { ...sx }} component="img" loading="lazy" {...props} />
-            }
-        </>
-    )
-});

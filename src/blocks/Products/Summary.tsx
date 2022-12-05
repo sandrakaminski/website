@@ -12,7 +12,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 import CartPopper from './CartPopper';
 import type { ProductTypes } from './ProductTypes';
-import { LoadingImage } from '@/components/Outline';
+import LoadingImage from '@/components/LoadingImage';
 import { FeatureFlagger } from '@/Tracker';
 import { useCartContext } from '@/views/Cart/cartProvider';
 

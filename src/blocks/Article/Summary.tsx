@@ -9,7 +9,7 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 
 import type { ArticleType } from "./ArticleType";
 import DateFormatter from "@/components/DateFormatter";
-import { LoadingImage } from '@/components/Outline';
+import LoadingImage from '@/components/LoadingImage';
 
 const Summary = (props: ArticleType) => {
     const { content } = props;

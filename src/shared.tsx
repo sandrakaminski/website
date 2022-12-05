@@ -3,7 +3,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { LoadingImage } from '@/components/Outline';
+import LoadingImage from '@/components/LoadingImage';
 
 export const Markdown: Record<string, unknown> = {
     a: ({ ...props }) => <Link target="_blank"  {...props} />,

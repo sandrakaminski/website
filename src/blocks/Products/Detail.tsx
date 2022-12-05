@@ -18,8 +18,8 @@ import ReactMarkdown from 'react-markdown';
 
 import CartPopper from './CartPopper';
 import type { ProductTypes } from './ProductTypes';
+import LoadingImage from '@/components/LoadingImage';
 import Notifier from '@/components/Notifier';
-import { LoadingImage } from '@/components/Outline';
 import Trail from '@/components/Trail';
 import { Markdown, Image } from '@/shared';
 import { useCartContext } from "@/views/Cart/cartProvider";
@@ -207,8 +207,6 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
 
     const avatarSize = { width: 50, height: 80 };
     const buttonSize = { height: 40, width: 40 };
-
-
 
     return (
         <>

@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 import type { ArticleType } from './ArticleType'
 import DateFormatter from "@/components/DateFormatter";
-import { LoadingImage } from '@/components/Outline';
+import LoadingImage from '@/components/LoadingImage';
 import Trail from '@/components/Trail';
 import { Markdown } from '@/shared';
 
