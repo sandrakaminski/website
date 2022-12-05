@@ -19,7 +19,8 @@ export const LoadingImage = memo((props: LoadingImageProps) => {
     let imageCard: Boolean
     if (card) {
         imageCard = true
-    } else {
+    }
+    else {
         imageCard = false
     }
 
@@ -37,9 +38,9 @@ export const LoadingImage = memo((props: LoadingImageProps) => {
     return (
         <>
             {load === true ?
-                <Skeleton animation={false} sx={imageCard ? cardSize : { ...sx }} variant="rectangular" height={skeletonheight} />
+                <Skeleton animation={false} sx={imageCard === true ? cardSize : { ...sx }} variant="rectangular" height={skeletonheight} />
                 :
-                <CardMedia sx={imageCard ? cardSize : { ...sx }} component="img" loading="lazy" {...props} />
+                <CardMedia sx={imageCard === true ? cardSize : { ...sx }} component="img" loading="lazy" {...props} />
             }
         </>
     )
