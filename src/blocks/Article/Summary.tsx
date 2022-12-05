@@ -65,7 +65,7 @@ const Summary = (props: ArticleType) => {
                     alt={content.fields.coverImage.fields.title}
                 />
             </CardActionArea>
-            <CardHeader style={expanded ? cardRootExpand : cardRoot} title={content.fields.headline} />
+            <CardHeader style={expanded ? cardRootExpand : cardRoot} title={content.fields.headline} sx={{textAlign: 'center'}} />
             <ExpandMore
                 expand={expanded ? 'true' : ''}
                 onClick={expandCard}
