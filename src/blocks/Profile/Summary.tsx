@@ -21,7 +21,7 @@ const Summary = ({ content }: ProfileType) => {
         <Card>
             <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`)}>
                 <LoadingImage
-                    card={true}
+                    card="true"
                     src={content?.fields.image.fields.file.url}
                     alt={content.fields.image.fields.title} />
                 <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1}>

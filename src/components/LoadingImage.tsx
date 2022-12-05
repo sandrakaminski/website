@@ -8,7 +8,7 @@ interface LoadingImageProps {
     src: string;
     alt: string;
     skeletonheight?: number | string;
-    card?: boolean
+    card?: string;
     sx?: SystemStyleObject<Theme>
 }
 
@@ -16,10 +16,11 @@ export const LoadingImage = memo((props: LoadingImageProps) => {
     const { src, skeletonheight, card, sx } = props;
     const [load, setLoad] = useState<boolean>(true);
 
-    if (card === null) {
-        skeletonheight
+    let imageCard: Boolean
+    if (card) {
+        imageCard = true
     } else {
-        skeletonheight === null
+        imageCard = false
     }
 
     useEffect(() => {
@@ -36,9 +37,9 @@ export const LoadingImage = memo((props: LoadingImageProps) => {
     return (
         <>
             {load === true ?
-                <Skeleton animation={false} sx={card ? cardSize : { ...sx }} variant="rectangular" height={skeletonheight} />
+                <Skeleton animation={false} sx={imageCard ? cardSize : { ...sx }} variant="rectangular" height={skeletonheight} />
                 :
-                <CardMedia sx={card ? cardSize : { ...sx }} component="img" loading="lazy" {...props} />
+                <CardMedia sx={imageCard ? cardSize : { ...sx }} component="img" loading="lazy" {...props} />
             }
         </>
     )
