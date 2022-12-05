@@ -35,7 +35,10 @@ const Summary = (props: ProductTypes) => {
         <Card sx={{ width: '100%' }} >
             <CardActionArea onClick={() => handleClick()} >
                 <SoldOutBanner soldOut={!content.fields.inStock} />
-                <LoadingImage sx={{ height: { xs: '100%', sm: '60vw', md: '36vw', xl: 600 }, width: { xs: '100%', sm: '100%' } }} src={content?.fields.featureImage.fields.file.url} alt={content.fields.featureImage.fields.title} />
+                <LoadingImage
+                    card
+                    src={content?.fields.featureImage.fields.file.url}
+                    alt={content.fields.featureImage.fields.title} />
             </CardActionArea>
             <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1} >
                 <Typography variant="subtitle1" >{`${content.fields.name}`}</Typography>

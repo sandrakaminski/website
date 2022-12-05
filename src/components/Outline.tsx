@@ -47,8 +47,10 @@ const GridOutline: React.FC = () => {
         <Card>
             <Stack spacing={2}>
                 <Skeleton variant="rounded" height="25rem" />
-                <Skeleton variant="rounded" height="4rem" />
-                <Skeleton variant="text" height="2rem" />
+                <Box sx={{ p: 1 }}>
+                    <Skeleton sx={{ my: 1 }} variant="rounded" height="3rem" />
+                    <Skeleton variant="text" height="2rem" />
+                </Box>
             </Stack>
         </Card>
     )
@@ -94,12 +96,13 @@ export const CartSkeleton: React.FC = () => {
 interface LoadingImageProps {
     src: string;
     alt: string;
-    sx: object;
-    skeletonheight?: number
+    skeletonheight?: number | string;
+    card?: boolean
+    style?: React.CSSProperties;
 }
 
 export const LoadingImage = memo((props: LoadingImageProps) => {
-    const { skeletonheight, src } = props;
+    const { src, skeletonheight, card, style } = props;
     const [load, setLoad] = useState<boolean>(true);
 
     useEffect(() => {
@@ -111,12 +114,14 @@ export const LoadingImage = memo((props: LoadingImageProps) => {
         }
     }, [src])
 
+    const cardSize = { height: { xs: '100%', sm: '60vw', md: '36vw', xl: 600 }, width: '100%' }
+
     return (
         <>
             {load === true ?
-                <Skeleton animation={false} variant="rectangular" height={skeletonheight} {...props} />
+                <Skeleton animation={false} sx={card ? cardSize : null} variant="rectangular" height={skeletonheight}  {...props} />
                 :
-                <CardMedia {...props} loading="lazy" component="img" {...props} />
+                <CardMedia sx={card ? cardSize : { ...style }} component="img" loading="lazy" {...props} />
             }
         </>
     )

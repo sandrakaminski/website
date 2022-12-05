@@ -19,6 +19,7 @@ import ReactMarkdown from 'react-markdown';
 import CartPopper from './CartPopper';
 import type { ProductTypes } from './ProductTypes';
 import Notifier from '@/components/Notifier';
+import { LoadingImage } from '@/components/Outline';
 import Trail from '@/components/Trail';
 import { Markdown, Image } from '@/shared';
 import { useCartContext } from "@/views/Cart/cartProvider";
@@ -60,9 +61,9 @@ const Detail = (props: ProductTypes) => {
                         <ThumbnailCarousel content={content} image={image} handleSetImage={handleSetImage} />
                         {content.fields.featureImage &&
                             <CardActionArea sx={{ backgroundColor: 'gray.100' }} onClick={() => handleOpen()}>
-                                <img
+                                <LoadingImage
+                                    skeletonheight={"90vh"}
                                     style={{ maxHeight: '90vh', width: '100%', objectFit: 'scale-down' }}
-                                    loading="eager"
                                     src={image}
                                     alt={"Feature image"}
                                 />
@@ -206,6 +207,8 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
 
     const avatarSize = { width: 50, height: 80 };
     const buttonSize = { height: 40, width: 40 };
+
+
 
     return (
         <>
