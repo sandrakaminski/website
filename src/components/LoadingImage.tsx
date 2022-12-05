@@ -25,7 +25,7 @@ export const LoadingImage = memo((props: LoadingImageProps) => {
     useEffect(() => {
         setLoad(true)
         const imageToLoad = new Image();
-        imageToLoad.src = src || "";
+        imageToLoad.src = src;
         imageToLoad.onload = () => {
             setLoad(false);
         }
@@ -36,7 +36,7 @@ export const LoadingImage = memo((props: LoadingImageProps) => {
     return (
         <>
             {load === true ?
-                <Skeleton animation={false} sx={card ? cardSize : null} variant="rectangular" height={skeletonheight}  {...props} />
+                <Skeleton animation={false} sx={card ? cardSize : { ...sx }} variant="rectangular" height={skeletonheight} />
                 :
                 <CardMedia sx={card ? cardSize : { ...sx }} component="img" loading="lazy" {...props} />
             }
