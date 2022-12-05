@@ -25,7 +25,7 @@ interface ExpandMoreProps {
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
     const { ...other } = props;
-    return <IconButton {...other} sx={{ display: 'flex' , mx: 1}} />;
+    return <IconButton {...other} sx={{ display: 'flex', mx: 1 }} />;
 })(({ theme, expand }) => ({
     transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
     marginLeft: 'auto',
@@ -49,11 +49,11 @@ const Summary = (props: ArticleType) => {
         maxHeight: 45,
         display: 'block',
         overflow: 'hidden',
+        textAlign: 'center',
     }
 
     const cardRootExpand = {
         display: 'block',
-        overflow: 'hidden',
     }
 
     return (
@@ -65,7 +65,7 @@ const Summary = (props: ArticleType) => {
                     alt={content.fields.coverImage.fields.title}
                 />
             </CardActionArea>
-            <CardHeader style={expanded ? cardRootExpand : cardRoot} title={content.fields.headline} sx={{textAlign: 'center'}} />
+            <CardHeader style={expanded ? cardRootExpand : cardRoot} title={content.fields.headline} />
             <ExpandMore
                 expand={expanded ? 'true' : ''}
                 onClick={expandCard}
