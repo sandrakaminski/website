@@ -36,7 +36,7 @@ const Summary = (props: ProductTypes) => {
             <CardActionArea onClick={() => handleClick()} >
                 <SoldOutBanner soldOut={!content.fields.inStock} />
                 <LoadingImage
-                    card
+                    card={true}
                     src={content?.fields.featureImage.fields.file.url}
                     alt={content.fields.featureImage.fields.title} />
             </CardActionArea>

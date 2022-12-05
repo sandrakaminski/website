@@ -60,7 +60,7 @@ const Summary = (props: ArticleType) => {
         <Card>
             <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })}>
                 <LoadingImage
-                    card
+                    card={true}
                     src={content?.fields.coverImage.fields.file.url}
                     alt={content.fields.coverImage.fields.title}
                 />
