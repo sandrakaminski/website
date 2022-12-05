@@ -30,7 +30,7 @@ const Detail = (props: ArticleType) => {
 
     return (
         <>
-            <Trail current={content.fields.title} />
+            <Trail current={content.fields.headline} />
             <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
                 <Typography sx={{ my: 2, maxWidth: "md" }} variant="h1" align="center" >
                     {content.fields.headline}

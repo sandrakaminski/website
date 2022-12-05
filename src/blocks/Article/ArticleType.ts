@@ -3,10 +3,9 @@ import type { Image } from '@/shared';
 export type ArticleType = {
     content: {
         fields: {
-            headline?: string;
+            headline: string;
             author: Author;
-            name: string;
-            title: string;
+            name: string
             body: string;
             date: string;
             slug: string;
