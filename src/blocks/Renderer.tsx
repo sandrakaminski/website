@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import Article from './Article';
@@ -16,6 +15,7 @@ import LoadingState from '@/components/Outline';
 
 type Blocks = {
     [key: string]: any;
+
 }
 
 const blocks: Blocks = {
@@ -63,7 +63,7 @@ const Renderer = (props: FactoryProps) => {
             <GridLayout content={content} />
             <DefaultLayout content={content} />
             <DetailedLayout content={content} />
-            <ContactUs />
+            {content && <ContactUs />}
         </Box>
     )
 }
@@ -100,38 +100,46 @@ const DefaultLayout = (props: FactoryProps) => {
     )
 }
 
-const GridLayout = (props: FactoryProps) => {
+const GridLayout = memo((props: FactoryProps) => {
     const { content } = props;
 
     const initialCount = 12;
     const [limit, setLimit] = useState<number>(initialCount);
+    const [disable, setDisable] = useState<boolean>(false);
 
     const limitPage = () => {
         setLimit(limit + initialCount)
     }
 
+    useEffect(() => {
+        if (limit > content?.fields.references?.length || limit === content?.fields.references?.length) {
+            setDisable(true)
+        }
+        else {
+            setDisable(false)
+        }
+    }, [content, limit])
+
     return (
         <>
             {content?.sys.contentType.sys.id === 'assembly' && content?.fields.layout === 'Grid' &&
-                <>
-                    <Grid sx={{ px: { lg: 4 } }} container spacing={2}>
-                        {content.fields.references.slice(0, limit).map((block: any, index: number) =>
-                            <Grid key={index} xs={12} sm={6} md={4} >
-                                <LoadingState type={content?.fields.layout} content={content} >
-                                    <Factory content={block} />
-                                </LoadingState>
-                            </Grid>
-                        )}
-                    </Grid>
-                    {content.fields.references.length > 12 &&
-                        <Stack alignItems="center" sx={{ mt: 2 }}>
-                            <Button disabled={limit > content.fields.references.length} onClick={limitPage}>
+                <Grid sx={{ px: { lg: 4 } }} container spacing={2}>
+                    {content.fields.references.slice(0, limit).map((block: any, index: number) =>
+                        <Grid key={index} xs={12} sm={6} md={4} >
+                            <LoadingState type={content?.fields.layout} content={content} >
+                                <Factory content={block} />
+                            </LoadingState>
+                        </Grid>
+                    )}
+                    {content?.fields.references?.length > initialCount &&
+                        <Grid xs={12} display="flex" justifyContent="center" alignItems="center" container sx={{ mt: 2 }}>
+                            <Button disabled={disable} onClick={limitPage}>
                                 Show more
                             </Button>
-                        </Stack>
+                        </Grid>
                     }
-                </>
+                </Grid>
             }
         </>
     )
-}
+})

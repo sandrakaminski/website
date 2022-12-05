@@ -25,7 +25,7 @@ export const LoadingImage = memo((props: LoadingImageProps) => {
     }
 
     useEffect(() => {
-        setLoad(true)
+        setLoad(true);
         const imageToLoad = new Image();
         imageToLoad.src = src;
         imageToLoad.onload = () => {

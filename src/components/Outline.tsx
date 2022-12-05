@@ -23,13 +23,9 @@ const LoadingState = (props: LoadingStateProps) => {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        if (!content) {
-            setLoading(true)
-        }
-        else if (content) {
+        if (content) {
             setLoading(false)
         }
-
     }, [content, setLoading])
 
     switch (type) {
