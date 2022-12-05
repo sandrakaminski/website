@@ -31,16 +31,16 @@ export const LoadingImage = memo((props: LoadingImageProps) => {
         imageToLoad.onload = () => {
             setLoad(false);
         }
-    }, [src])
+    }, [src]);
 
-    const cardSize = { height: { xs: '100%', sm: '60vw', md: '36vw', xl: 600 }, width: '100%' }
+    const cardSize = { height: { xs: '100%', sm: '60vw', md: '36vw', xl: 600 }, width: '100%' };
 
     return (
         <>
-            {load === true ?
-                <Skeleton animation={false} sx={imageCard === true ? cardSize : { ...sx }} variant="rectangular" height={skeletonheight} />
+            {load ?
+                <Skeleton animation={false} sx={imageCard ? cardSize : { ...sx }} variant="rectangular" height={skeletonheight} />
                 :
-                <CardMedia sx={imageCard === true ? cardSize : { ...sx }} component="img" loading="lazy" {...props} />
+                <CardMedia sx={imageCard ? cardSize : { ...sx }} component="img" loading="lazy" {...props} />
             }
         </>
     )
