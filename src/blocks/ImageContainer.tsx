@@ -36,7 +36,7 @@ const ImageContainer = (props: ImageContainerProps) => {
                 <ImageListItem sx={{ img: { minHeight: 500 } }} rows={img.fields.imageRows} component={CardActionArea} onClick={() => navigate(img.fields.slug)} key={index}>
                     <FloatingText content={img} />
                     <LoadingImage
-                        style={{ height: '100%' }}
+                        sx={{ height: '100%' }}
                         skeletonheight={600}
                         src={img.fields.image.fields.file.url}
                         alt={`image ${index}`}

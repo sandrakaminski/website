@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
 
 import type { ProfileType } from './ProfileType';
+import { LoadingImage } from "@/components/Outline";
 import Trail from '@/components/Trail';
 import { Markdown, Image } from '@/shared';
 
@@ -39,9 +40,7 @@ const Detail = (props: ProfileType) => {
                     <Stack sx={{ my: 4 }} direction={{ xs: "column", sm: "row" }} spacing={1} alignItems="flex-start">
                         {content.fields.otherImages.map((image: Image, index: number) =>
                             <Box key={index} >
-                                <CardMedia
-                                    loading="eager"
-                                    component="img"
+                                <LoadingImage
                                     sx={{ height: { sm: 300 } }}
                                     src={image.fields.file.url}
                                     alt={image.fields.title}

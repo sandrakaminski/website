@@ -63,7 +63,7 @@ const Detail = (props: ProductTypes) => {
                             <CardActionArea sx={{ backgroundColor: 'gray.100' }} onClick={() => handleOpen()}>
                                 <LoadingImage
                                     skeletonheight={"90vh"}
-                                    style={{ maxHeight: '90vh', width: '100%', objectFit: 'scale-down' }}
+                                    sx={{ maxHeight: '90vh', width: '100%', objectFit: 'scale-down' }}
                                     src={image}
                                     alt={"Feature image"}
                                 />

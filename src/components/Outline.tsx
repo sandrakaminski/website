@@ -6,6 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Unstable_Grid2";
+import type { SystemStyleObject, Theme } from "@mui/system";
 
 interface LoadingStateProps {
     content: {
@@ -98,17 +99,17 @@ interface LoadingImageProps {
     alt: string;
     skeletonheight?: number | string;
     card?: boolean
-    style?: React.CSSProperties;
+    sx?: SystemStyleObject<Theme>
 }
 
 export const LoadingImage = memo((props: LoadingImageProps) => {
-    const { src, skeletonheight, card, style } = props;
+    const { src, skeletonheight, card, sx } = props;
     const [load, setLoad] = useState<boolean>(true);
 
     useEffect(() => {
         setLoad(true)
         const imageToLoad = new Image();
-        imageToLoad.src = src;
+        imageToLoad.src = src || "";
         imageToLoad.onload = () => {
             setLoad(false);
         }
@@ -121,7 +122,7 @@ export const LoadingImage = memo((props: LoadingImageProps) => {
             {load === true ?
                 <Skeleton animation={false} sx={card ? cardSize : null} variant="rectangular" height={skeletonheight}  {...props} />
                 :
-                <CardMedia sx={card ? cardSize : { ...style }} component="img" loading="lazy" {...props} />
+                <CardMedia sx={card ? cardSize : { ...sx }} component="img" loading="lazy" {...props} />
             }
         </>
     )

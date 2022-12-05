@@ -1,6 +1,5 @@
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Box from '@mui/material/Box';
-import CardMedia from '@mui/material/CardMedia';
 import Link from '@mui/material/Link';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
@@ -12,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 import type { ArticleType } from './ArticleType'
 import DateFormatter from "@/components/DateFormatter";
+import { LoadingImage } from '@/components/Outline';
 import Trail from '@/components/Trail';
 import { Markdown } from '@/shared';
 
@@ -51,9 +51,8 @@ const Detail = (props: ArticleType) => {
                 </Stack>
                 <Box sx={{ maxWidth: 600 }}>
                     {content.fields.coverImage ?
-                        <CardMedia
-                            loading="lazy"
-                            component="img"
+                        <LoadingImage
+                            skeletonheight={500}
                             sx={{ width: '100%', height: 'auto', py: 4 }}
                             src={content?.fields.coverImage.fields.file.url}
                             alt={content.fields.coverImage.fields.title}
