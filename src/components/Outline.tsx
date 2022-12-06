@@ -32,7 +32,8 @@ const LoadingState = (props: LoadingStateProps) => {
         case "Header": return loading ? <Skeleton sx={{ mx: 2 }} height={100} /> : content && <>{children}</>
         case "Grid": return loading ? <GridOutline /> : content && <>{children}</>
         case "Default": return loading ? <Outline /> : content && <>{children}</>
-        default: return loading ? <Outline /> : content && <>{children}</>
+        case "Detailed": return loading ? <Outline /> : content && <>{children}</>
+        default: throw new Error("Invalid type")
     }
 }
 export default LoadingState;
@@ -41,9 +42,9 @@ const GridOutline: React.FC = () => {
     return (
         <Card>
             <Stack spacing={2}>
-                <Skeleton variant="rounded" height="25rem" />
-                <Box sx={{ p: 1 }}>
-                    <Skeleton sx={{ my: 1 }} variant="rounded" height="3rem" />
+                <Skeleton variant="rounded" height="30rem" />
+                <Box sx={{ pb: 1, px: 1 }}>
+                    <Skeleton sx={{ mb: 3 }} variant="rounded" height="2.5rem" />
                     <Skeleton variant="text" height="2rem" />
                 </Box>
             </Stack>

@@ -15,7 +15,6 @@ import LoadingState from '@/components/Outline';
 
 type Blocks = {
     [key: string]: any;
-
 }
 
 const blocks: Blocks = {
@@ -76,7 +75,7 @@ const DetailedLayout = (props: FactoryProps) => {
     return (
         <>
             {content && content.sys.contentType.sys.id !== 'assembly' &&
-                <LoadingState type={"Default"} content={content} >
+                <LoadingState type={"Detailed"} content={content} >
                     <Factory detail={true} content={content} />
                 </LoadingState>
             }

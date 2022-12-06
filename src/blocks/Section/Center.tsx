@@ -1,12 +1,12 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import CardMedia from '@mui/material/CardMedia';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
 
 import Resource from './Resource';
 import type { Content, ResourceType } from './SectionTypes';
+import LoadingImage from '@/components/LoadingImage';
 import { SectionMarkDown } from '@/shared';
 
 export const Center = (props: Content) => {
@@ -15,9 +15,9 @@ export const Center = (props: Content) => {
     return (
         <>
             {content.fields.image?.fields.file.url &&
-                <CardMedia
+                <LoadingImage
+                    skeletonheight={"50vh"}
                     sx={{ width: '100%', height: 'auto' }}
-                    component="img"
                     src={content.fields.image.fields.file.url}
                     alt={content.fields.image.fields.title}
                 />
