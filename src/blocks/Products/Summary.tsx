@@ -4,7 +4,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Box from '@mui/material/Box';
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
-import Fab from '@mui/material/Fab';
+import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography";
 import ReactGA from 'react-ga4';
@@ -93,12 +93,25 @@ const QuickAdd = (props: ProductTypes) => {
         });
     }
 
+    const style = {
+        position: 'absolute',
+        zIndex: 1,
+        m: 1,
+        borderRadius: 100,
+        backgroundColor: 'primary.main',
+        '&:hover': {
+            backgroundColor: 'primary.main',
+            boxShadow: 3,
+        },
+        color: 'info.contrastText'
+    }
+
     return (
         <FeatureFlagger>
             <Stack alignItems="flex-end" justifyContent="flex-end">
-                <Fab size={'medium'} sx={{ position: 'absolute', zIndex: 1, m: 1 }} color="primary" disabled={!content.fields.inStock} onClick={handleCart} >
+                <IconButton sx={style} disabled={!content.fields.inStock} onClick={handleCart} >
                     <AddShoppingCartIcon />
-                </Fab >
+                </IconButton >
             </Stack >
             <CartPopper clickEvent={clickEvent} />
         </FeatureFlagger>

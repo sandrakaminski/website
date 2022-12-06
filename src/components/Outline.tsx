@@ -23,6 +23,7 @@ const LoadingState = (props: LoadingStateProps) => {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
+        setLoading(true)
         if (content) {
             setLoading(false)
         }

@@ -19,10 +19,10 @@ const NotFound: React.FC = () => {
             <Typography variant="h3" align="center" gutterBottom>
                 Error 404
             </Typography>
-            <Typography gutterBottom color="grayText" variant="h5" >
+            <Typography gutterBottom color="grayText" variant="subtitle1" >
                 The page you are looking for cannot be found.
             </Typography>
-            <Button variant="outlined" onClick={() => navigate("/", { state: { data: 'home' } })}>Return Home</Button>
+            <Button size="large" variant="contained" onClick={() => navigate("/", { state: { data: 'home' } })}>Return Home</Button>
         </Stack>
     )
 }

@@ -93,8 +93,8 @@ export const useView = (props: UseView) => {
             try {
                 const getContent = async () => {
                     const resp: Response = await client.getEntries({ content_type: contentType, 'fields.slug': slug, include: 3 }); //locale,
-                    if (resp.items.length > 0) {
-                        return resp.items[0];
+                    if (resp?.items.length > 0) {
+                        return resp?.items[0];
                     }
                 }
                 const resp = await getContent();
