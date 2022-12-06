@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Box from '@mui/material/Box';
@@ -17,14 +18,12 @@ import DateFormatter from "@/components/DateFormatter";
 import LoadingImage from '@/components/LoadingImage';
 
 const Summary = (props: ArticleType) => {
-    const [expanded, setExpanded] = useState(false);
-    const [hidden] = useState<boolean>(false);
     const { content } = props;
+    const [expanded, setExpanded] = useState<boolean>(false);
     const { pathname } = useLocation();
     const { slug } = useParams();
     const navigate = useNavigate();
     const preview = content.fields.headline.length > 25 ? `${content.fields.headline.substring(0, 25)}...` : content.fields.headline;
-    const [showMore, setShowMore] = useState<string>(preview);
 
     const cardRoot = {
         display: 'block',
@@ -36,11 +35,11 @@ const Summary = (props: ArticleType) => {
     }
 
     const handleShowMore = () => {
-        setExpanded(!expanded);
+        setExpanded(true);
     }
 
     const handleShowLess = () => {
-        setShowMore(preview)
+        setExpanded(false)
     }
 
     return (
@@ -52,16 +51,16 @@ const Summary = (props: ArticleType) => {
                     alt={content.fields.coverImage.fields.title}
                 />
             </CardActionArea>
-            <CardHeader style={expanded ? cardRootExpand : cardRoot} title={expanded ? content.fields.headline : preview} />
+            <CardHeader sx={expanded ? cardRootExpand : cardRoot} title={expanded ? content.fields.headline : preview} />
             {content.fields.headline.length > 25 &&
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mx: 1 }}>
-                    {!hidden && showMore === preview ?
-                        <IconButton onClick={() => handleShowMore()} sx={{ transform: !expanded ? 'rotate(0deg)' : 'rotate(180deg)' }}>
+                    {!expanded ?
+                        <IconButton onClick={() => handleShowMore()} >
                             <ExpandMoreIcon />
                         </IconButton>
                         :
                         <IconButton onClick={() => handleShowLess()} >
-                            <ExpandMoreIcon />
+                            <ExpandLessIcon />
                         </IconButton>
                     }
                 </Box>

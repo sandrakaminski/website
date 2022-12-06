@@ -1,7 +1,6 @@
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 // import { Embed } from 'hyvor-talk-react';
@@ -50,15 +49,12 @@ const Detail = (props: ArticleType) => {
                     </Link>
                 </Stack>
                 <Box sx={{ maxWidth: 600 }}>
-                    {content.fields.coverImage ?
                         <LoadingImage
                             skeletonheight={500}
                             sx={{ width: '100%', height: 'auto', py: 4 }}
                             src={content?.fields.coverImage.fields.file.url}
                             alt={content.fields.coverImage.fields.title}
-                        />
-                        : <Skeleton sx={{ width: '100%', height: 450 }} />
-                    }
+                        />  
                     <ReactMarkdown components={Markdown}>{content.fields.body}</ReactMarkdown>
                     {/* <Embed
                         websiteId={import.meta.env.VITE_HYVOR_WEBSITE}
