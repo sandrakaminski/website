@@ -56,11 +56,11 @@ const Summary = (props: ArticleType) => {
             {content.fields.headline.length > 25 &&
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mx: 1 }}>
                     {!hidden && showMore === preview ?
-                        <IconButton onClick={handleShowMore} sx={{ transform: !expanded ? 'rotate(0deg)' : 'rotate(180deg)' }}>
+                        <IconButton onClick={() => handleShowMore()} sx={{ transform: !expanded ? 'rotate(0deg)' : 'rotate(180deg)' }}>
                             <ExpandMoreIcon />
                         </IconButton>
                         :
-                        <IconButton onClick={handleShowLess} >
+                        <IconButton onClick={() => handleShowLess()} >
                             <ExpandMoreIcon />
                         </IconButton>
                     }
