@@ -54,11 +54,17 @@ const GridOutline: React.FC = () => {
 
 const Outline: React.FC = () => {
     return (
-        <Stack justifyContent="center" alignItems="center" spacing={2}>
-            <Skeleton variant="rounded" width={"50%"} height="5rem" />
-            <Skeleton variant="rounded" width={"100%"} height="5rem" />
-            <Skeleton variant="rounded" width={"100%"} height="5rem" />
-        </Stack>
+        <>
+            <Stack justifyContent="center" alignItems="center" sx={{ pt: 10 }}>
+                <Skeleton variant="text" width={"60%"} height="5rem" />
+                <Skeleton variant="text" width={"40%"} height="5rem" />
+                <Skeleton variant="text" width={"20%"} height="2rem" sx={{ m: 5 }} />
+            </Stack>
+            <Stack direction="column" justifyContent="center" alignItems="center" spacing={6} sx={{ pt: 3 }}>
+                <Skeleton variant="rounded" width={"50%"} height={"50rem"} />
+                <Skeleton variant="rounded" width={"50%"} height={"30rem"} />
+            </Stack>
+        </>
     )
 }
 
