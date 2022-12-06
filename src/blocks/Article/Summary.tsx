@@ -28,10 +28,11 @@ const Summary = (props: ArticleType) => {
     const cardRoot = {
         display: 'block',
         textAlign: 'center',
+        height: 60
     }
 
     const cardRootExpand = {
-        display: 'block',
+        display: 'block'
     }
 
     const handleShowMore = () => {
@@ -52,7 +53,7 @@ const Summary = (props: ArticleType) => {
                 />
             </CardActionArea>
             <CardHeader sx={expanded ? cardRootExpand : cardRoot} title={expanded ? content.fields.headline : preview} />
-            {content.fields.headline.length > 25 &&
+            {content.fields.headline.length > 25 ?
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mx: 1 }}>
                     {!expanded ?
                         <IconButton onClick={() => handleShowMore()} >
@@ -64,6 +65,8 @@ const Summary = (props: ArticleType) => {
                         </IconButton>
                     }
                 </Box>
+                :
+                <Box sx={{ maxHeight: 40 }} />
             }
             <CardContent component={Stack} direction="row" justifyContent="space-between" alignItems="center" spacing={0.5}>
                 <DateFormatter dateString={content.fields.date} />
