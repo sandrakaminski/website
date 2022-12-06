@@ -66,7 +66,7 @@ const Summary = (props: ArticleType) => {
                     }
                 </Box>
                 :
-                <Box sx={{ maxHeight: 40 }} />
+                <Box sx={{ height: 40 }} />
             }
             <CardContent component={Stack} direction="row" justifyContent="space-between" alignItems="center" spacing={0.5}>
                 <DateFormatter dateString={content.fields.date} />
