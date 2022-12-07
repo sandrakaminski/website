@@ -58,7 +58,7 @@ type UseView = {
 }
 
 type View = {
-    content: null | any;
+    content?: any;
     error: null | {
         status: number;
         msg: string;

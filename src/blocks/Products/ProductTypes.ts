@@ -1,4 +1,4 @@
-import type { Image } from "../../types";
+import type { Image } from "@/types";
 
 export type ProductTypes = {
     content: {
@@ -17,6 +17,5 @@ export type ProductTypes = {
         }
     }
 }
-
 
 export default ProductTypes;
