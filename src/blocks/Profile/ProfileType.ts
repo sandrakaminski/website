@@ -1,4 +1,4 @@
-import type { Image } from '@/blocks/types';
+import type { Image } from '@/types';
 
 export type ProfileType = {
     content: {

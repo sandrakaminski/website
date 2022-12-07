@@ -1,7 +1,7 @@
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 
-import type { Image } from './types';
+import type { Image } from '@/types';
 
 interface ImageContainerProps {
     content: {

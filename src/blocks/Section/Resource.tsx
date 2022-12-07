@@ -4,7 +4,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 
 import type { ResourceType } from './SectionTypes';
-import type { Image } from '@/blocks/types';
+import type { Image } from '@/types';
 
 interface ResourceProps {
     resource: ResourceType;

@@ -16,13 +16,13 @@ import Grid from '@mui/material/Unstable_Grid2';
 import ReactGA from 'react-ga4';
 import ReactMarkdown from 'react-markdown';
 
-import type { Image } from '../types';
 import CartPopper from './CartPopper';
 import type { ProductTypes } from './ProductTypes';
 import LoadingImage from '@/components/LoadingImage';
 import { Markdown } from '@/components/Markdown';
 import Notifier from '@/components/Notifier';
 import Trail from '@/components/Trail';
+import type { Image } from '@/types';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 const Detail = (props: ProductTypes) => {

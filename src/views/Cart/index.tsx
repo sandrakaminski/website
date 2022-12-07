@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import CountryDropdown, { CurrencyExchange, shippingCosts, currencyTypes, countriesList, CartItemPrice } from './PaymentCalc';
 import Notifier from "@/components/Notifier";
 import { CartSkeleton } from "@/components/Outline";
-import type { Image } from '@/components/Markdown';
+import type { Image } from '@/types';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 type Items = {

@@ -1,6 +1,6 @@
 import Detail from './Detail';
 import Summary from './Summary';
-import type { BlockProps } from '@/blocks/types';
+import type { BlockProps } from '@/types';
 
 const Profile = (props: BlockProps) => {
     const { content, detail } = props;

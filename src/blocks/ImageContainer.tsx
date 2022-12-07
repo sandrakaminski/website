@@ -5,8 +5,8 @@ import ImageListItem from '@mui/material/ImageListItem';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from "react-router-dom";
 
-import type { Image } from './types'
 import LoadingImage from '@/components/LoadingImage';
+import type { Image } from '@/types'
 
 interface ImageContainerProps {
     content: {

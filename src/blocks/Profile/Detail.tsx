@@ -6,11 +6,11 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
 
-import type { Image } from '../types';
 import type { ProfileType } from './ProfileType';
 import LoadingImage from "@/components/LoadingImage";
 import { Markdown } from '@/components/Markdown';
 import Trail from '@/components/Trail';
+import type { Image } from '@/types';
 
 const Detail = (props: ProfileType) => {
     const { content } = props;
