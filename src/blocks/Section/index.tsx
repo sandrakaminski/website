@@ -7,7 +7,7 @@ import type { Content } from './SectionTypes';
 export const Section = (props: Content) => {
     const { content } = props;
 
-    switch (content.fields.sectionType) {
+    switch (content?.fields.sectionType) {
         case "Center":
             return <Center content={content} />
         case "Right":

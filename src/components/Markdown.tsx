@@ -3,7 +3,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import LoadingImage from '@/components/LoadingImage';
+import LoadingImage from './LoadingImage';
 
 export const Markdown: Record<string, unknown> = {
     a: ({ ...props }) => <Link target="_blank"  {...props} />,
@@ -18,40 +18,4 @@ export const SectionMarkDown: Object = {
     p: ({ ...props }: any) => <Typography sx={{ mx: { md: 4 }, lineHeight: 1.75, maxWidth: { md: 600 } }} align="justify" variant="body1" textAlign="center" {...props} />
 };
 
-// consistent image type
-export type Image = {
-    fields: {
-        file: {
-            url: string;
-            title?: string;
-        }
-        title: string;
-        description?: string;
-    }
-}
-
-// used for profile/article components
-export type BlockProps = {
-    detail: boolean;
-    content: {
-        fields: {
-            slug: string;
-            body: string;
-            otherImages: Image[];
-            image: Image;
-            headline: string;
-            author: Author;
-            name: string;
-            title: string;
-            date: string;
-            coverImage: Image;
-        }
-    }
-}
-type Author = {
-    fields: {
-        name: string;
-        slug: string;
-        image?: Image;
-    }
-}
+export default Markdown;

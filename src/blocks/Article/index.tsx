@@ -1,6 +1,6 @@
 import Detail from './Detail';
 import Summary from './Summary';
-import type { BlockProps } from '@/shared';
+import type { BlockProps } from '@/blocks/types';
 
 const Article = (props: BlockProps) => {
     const { content, detail } = props;

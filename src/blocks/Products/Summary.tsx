@@ -13,7 +13,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import CartPopper from './CartPopper';
 import type { ProductTypes } from './ProductTypes';
 import LoadingImage from '@/components/LoadingImage';
-import { FeatureFlagger } from '@/Tracker';
+// import { FeatureFlagger } from '@/Tracker';
 import { useCartContext } from '@/views/Cart/cartProvider';
 
 const Summary = (props: ProductTypes) => {
@@ -107,13 +107,13 @@ const QuickAdd = (props: ProductTypes) => {
     }
 
     return (
-        <FeatureFlagger>
+        <>
             <Stack alignItems="flex-end" justifyContent="flex-end">
                 <IconButton sx={style} disabled={!content.fields.inStock} onClick={handleCart} >
                     <AddShoppingCartIcon />
                 </IconButton >
             </Stack >
             <CartPopper clickEvent={clickEvent} />
-        </FeatureFlagger>
+        </>
     )
 }

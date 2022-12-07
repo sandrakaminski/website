@@ -1,7 +1,10 @@
+import { BlockProps } from '../types';
 import Detail from './Detail';
 import Summary from './Summary';
 
-const Products = (props: any) => {
+
+
+const Products = (props: BlockProps) => {
     const { content, detail } = props;
     return (
         <>

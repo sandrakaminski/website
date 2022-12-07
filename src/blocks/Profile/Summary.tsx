@@ -8,7 +8,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import type { ProfileType } from './ProfileType';
 import LoadingImage from "@/components/LoadingImage";
 
-const Summary = ({ content }: ProfileType) => {
+const Summary = (props: ProfileType) => {
+    const { content } = props;
     const navigate = useNavigate();
     const { pathname } = useLocation();
 
@@ -19,20 +20,22 @@ const Summary = ({ content }: ProfileType) => {
 
     return (
         <Card>
-            <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`)}>
-                <LoadingImage
-                    card="true"
-                    src={content?.fields.image.fields.file.url}
-                    alt={content.fields.image.fields.title} />
-                <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1}>
-                    <Typography variant="subtitle1" >
-                        {content.fields.name}
-                    </Typography>
-                    <Typography variant="body1" >
-                        {txt}
-                    </Typography>
-                </Stack>
-            </CardActionArea>
+            {content &&
+                <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`)}>
+                    <LoadingImage
+                        card="true"
+                        src={content?.fields.image.fields.file.url}
+                        alt={content.fields.image.fields.title} />
+                    <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1}>
+                        <Typography variant="subtitle1" >
+                            {content.fields.name}
+                        </Typography>
+                        <Typography variant="body1" >
+                            {txt}
+                        </Typography>
+                    </Stack>
+                </CardActionArea>
+            }
         </Card>
     )
 }

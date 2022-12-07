@@ -11,8 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import type { ArticleType } from './ArticleType'
 import DateFormatter from "@/components/DateFormatter";
 import LoadingImage from '@/components/LoadingImage';
+import Markdown from '@/components/Markdown';
 import Trail from '@/components/Trail';
-import { Markdown } from '@/shared';
 
 const Detail = (props: ArticleType) => {
     const { content } = props;
@@ -29,39 +29,41 @@ const Detail = (props: ArticleType) => {
 
     return (
         <>
-            <Trail current={content.fields.headline} />
-            <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
-                <Typography sx={{ my: 2, maxWidth: "md" }} variant="h1" align="center" >
-                    {content.fields.headline}
-                </Typography>
-                <Stack
-                    sx={{ my: 2 }}
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    spacing={2} >
-                    <Typography variant="body1"  >
-                        <DateFormatter dateString={content.fields.date} />
+            <Trail current={content?.fields.headline} />
+            {content &&
+                <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
+                    <Typography sx={{ my: 2, maxWidth: "md" }} variant="h1" align="center" >
+                        {content.fields.headline}
                     </Typography>
-                    <FiberManualRecordIcon sx={{ height: 5, width: 5 }} />
-                    <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => handleClick()} variant="body1">
-                        {content.fields.author.fields.name}
-                    </Link>
-                </Stack>
-                <Box sx={{ maxWidth: 600 }}>
+                    <Stack
+                        sx={{ my: 2 }}
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={2} >
+                        <Typography variant="body1"  >
+                            <DateFormatter dateString={content.fields.date} />
+                        </Typography>
+                        <FiberManualRecordIcon sx={{ height: 5, width: 5 }} />
+                        <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => handleClick()} variant="body1">
+                            {content.fields.author.fields.name}
+                        </Link>
+                    </Stack>
+                    <Box sx={{ maxWidth: 600 }}>
                         <LoadingImage
                             skeletonheight={500}
                             sx={{ width: '100%', height: 'auto', py: 4 }}
                             src={content?.fields.coverImage.fields.file.url}
                             alt={content.fields.coverImage.fields.title}
-                        />  
-                    <ReactMarkdown components={Markdown}>{content.fields.body}</ReactMarkdown>
-                    {/* <Embed
+                        />
+                        <ReactMarkdown components={Markdown}>{content.fields.body}</ReactMarkdown>
+                        {/* <Embed
                         websiteId={import.meta.env.VITE_HYVOR_WEBSITE}
                         id={content.fields.slug}
                     /> */}
-                </Box>
-            </Stack>
+                    </Box>
+                </Stack>
+            }
         </>
     )
 }

@@ -44,38 +44,42 @@ const Summary = (props: ArticleType) => {
     }
 
     return (
-        <Card>
-            <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })}>
-                <LoadingImage
-                    card="true"
-                    src={content?.fields.coverImage.fields.file.url}
-                    alt={content.fields.coverImage.fields.title}
-                />
-            </CardActionArea>
-            <CardHeader sx={expanded ? cardRootExpand : cardRoot} title={expanded ? content.fields.headline : preview} />
-            {content.fields.headline.length > 25 ?
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mx: 1 }}>
-                    {!expanded ?
-                        <IconButton onClick={() => handleShowMore()} >
-                            <ExpandMoreIcon />
-                        </IconButton>
+        <>
+            {content &&
+                <Card>
+                    <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })}>
+                        <LoadingImage
+                            card="true"
+                            src={content?.fields.coverImage.fields.file.url}
+                            alt={content.fields.coverImage.fields.title}
+                        />
+                    </CardActionArea>
+                    <CardHeader sx={expanded ? cardRootExpand : cardRoot} title={expanded ? content.fields.headline : preview} />
+                    {content.fields.headline.length > 25 ?
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mx: 1 }}>
+                            {!expanded ?
+                                <IconButton onClick={() => handleShowMore()} >
+                                    <ExpandMoreIcon />
+                                </IconButton>
+                                :
+                                <IconButton onClick={() => handleShowLess()} >
+                                    <ExpandLessIcon />
+                                </IconButton>
+                            }
+                        </Box>
                         :
-                        <IconButton onClick={() => handleShowLess()} >
-                            <ExpandLessIcon />
-                        </IconButton>
+                        <Box sx={{ height: 40 }} />
                     }
-                </Box>
-                :
-                <Box sx={{ height: 40 }} />
+                    <CardContent component={Stack} direction="row" justifyContent="space-between" alignItems="center" spacing={0.5}>
+                        <DateFormatter dateString={content.fields.date} />
+                        <FiberManualRecordIcon sx={{ width: 5, height: 5 }} />
+                        <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => navigate(`/about/${content.fields.author.fields.slug}`)} variant="body2">
+                            {content.fields.author.fields.name}
+                        </Link>
+                    </CardContent>
+                </Card>
             }
-            <CardContent component={Stack} direction="row" justifyContent="space-between" alignItems="center" spacing={0.5}>
-                <DateFormatter dateString={content.fields.date} />
-                <FiberManualRecordIcon sx={{ width: 5, height: 5 }} />
-                <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => navigate(`/about/${content.fields.author.fields.slug}`)} variant="body2">
-                    {content.fields.author.fields.name}
-                </Link>
-            </CardContent>
-        </Card>
+        </>
     )
 }
 export default Summary;

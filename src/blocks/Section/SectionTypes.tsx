@@ -1,4 +1,4 @@
-import type { Image } from '@/shared';
+import type { Image } from '../types';
 
 export type Content = {
     content: {
