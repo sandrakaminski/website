@@ -41,6 +41,5 @@ type Author = {
     fields: {
         name: string;
         slug: string;
-        image?: Image;
     }
 }

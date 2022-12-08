@@ -7,8 +7,8 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { FacebookIcon } from '@/components/icons/FacebookIcon';
-import { TumblrIcon } from '@/components/icons/TumblrIcon';
+import { FacebookIcon } from './icons/FacebookIcon';
+import { TumblrIcon } from './icons/TumblrIcon';
 
 const Footer: React.FC = () => {
     const date = new Date().getFullYear();
@@ -24,8 +24,8 @@ const Footer: React.FC = () => {
                 </Typography>
             </Stack>
             <Stack sx={{ '&:hover': { color: 'grayText' }, }} direction="row" alignItems="center" spacing={1}>
-                {social.map((item, index) =>
-                    <Link target="_blank" rel="noopener noreferrer" sx={{ '&:hover': { color: 'text.primary' }, }} color="inherit" href={item.link} key={index} >
+                {social.map((item: SocialArray, index: number) =>
+                    <Link target="_blank"  sx={{ '&:hover': { color: 'text.primary' }, }} color="inherit" href={item.link} key={index} >
                         {item.icon}
                     </Link>
                 )}

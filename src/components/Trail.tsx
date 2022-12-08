@@ -11,9 +11,10 @@ export const Trail = (props: TrailProps) => {
     const { current } = props;
     const navigate = useNavigate();
     const { type } = useParams();
+    const seperator = "\u203a"
 
     return (
-        <Breadcrumbs sx={{ display: { xs: 'none', sm: 'flex' } }} separator="›" >
+        <Breadcrumbs sx={{ display: { xs: 'none', sm: 'flex' } }} separator={seperator} >
             <Link
                 sx={{ cursor: 'pointer', textTransform: 'capitalize' }}
                 underline="hover"
@@ -23,7 +24,7 @@ export const Trail = (props: TrailProps) => {
                 {type}
             </Link>
             <Typography color="text.primary">{current}</Typography>
-        </Breadcrumbs>
+        </Breadcrumbs >
     );
 }
 export default Trail;
