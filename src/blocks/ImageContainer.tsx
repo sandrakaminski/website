@@ -33,7 +33,12 @@ const ImageContainer = (props: ImageContainerProps) => {
     return (
         <ImageList gap={8} >
             {content?.fields.blocks.map((img: Block, index: number) =>
-                <ImageListItem sx={{ img: { minHeight: 500 } }} rows={img.fields.imageRows} component={CardActionArea} onClick={() => navigate(img.fields.slug)} key={index}>
+                <ImageListItem
+                    sx={{ img: { minHeight: 500 } }}
+                    rows={img.fields.imageRows}
+                    component={CardActionArea}
+                    onClick={() => navigate(img.fields.slug)}
+                    key={index}>
                     <FloatingText content={img} />
                     <LoadingImage
                         sx={{ height: '100%' }}
