@@ -11,16 +11,16 @@ interface TrackerProps {
     }
 }
 
-const Tracker = withLDConsumer()((props: TrackerProps) => {
-    const { children, flags } = props;
+const Tracker = ((props: TrackerProps) => {
+    const { children } = props;
     const { pathname } = useLocation();
 
-    let shopExperimentVal: string;
-    if (flags?.shopExperiment) {
-        shopExperimentVal = "New shop features"
-    } else {
-        shopExperimentVal = "Standard shop features"
-    }
+    // let shopExperimentVal: string;
+    // if (flags?.shopExperiment) {
+    //     shopExperimentVal = "New shop features"
+    // } else {
+    //     shopExperimentVal = "Standard shop features"
+    // }
 
     useEffect(() => {
         const googleAnalytics = () => {
@@ -30,11 +30,11 @@ const Tracker = withLDConsumer()((props: TrackerProps) => {
                 {
                     hitType: "pageview",
                     page: pathname,
-                    contentGroup1: shopExperimentVal,
+                    // contentGroup1: shopExperimentVal,
                 });
         }
         googleAnalytics();
-    }, [pathname, shopExperimentVal]);
+    }, [pathname]);
 
     return <>{children}</>
 });
