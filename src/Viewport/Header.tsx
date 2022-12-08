@@ -59,10 +59,12 @@ const Header: React.FC = () => {
         }
     }
 
+    const state = menuItems || content
+
     // this statement is only used for rendering the shop on SQSP, we will remove this in favour of the old menu upon launch
     if (import.meta.env.MODE === "development") {
         return (
-            <LoadingState content={content} type="Header">
+            <LoadingState content={state !== null} type="Header">
                 <AppBar color="transparent" position="static" elevation={0}>
                     {menuItems &&
                         <Toolbar >

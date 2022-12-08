@@ -7,13 +7,7 @@ import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Unstable_Grid2";
 
 interface LoadingStateProps {
-    content: {
-        fields: {
-            type: string;
-            references: any[];
-            layout: string;
-        }
-    }
+    content: Boolean;
     children: React.ReactNode;
     type: string;
 }

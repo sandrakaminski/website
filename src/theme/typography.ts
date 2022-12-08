@@ -35,7 +35,7 @@ export const typography: object = {
     },
     h6: {
         fontSize: '1.25rem',
-        fontWeight: 700,
+        fontWeight: 500,
         fontFamily: 'proxima-nova',
     },
     subtitle1: {
