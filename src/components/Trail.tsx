@@ -23,7 +23,7 @@ export const Trail = (props: TrailProps) => {
             >
                 {type}
             </Link>
-            <Typography color="text.primary">{current}</Typography>
+            <Typography color="primary">{current}</Typography>
         </Breadcrumbs >
     );
 }

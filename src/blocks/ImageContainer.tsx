@@ -34,14 +34,13 @@ const ImageContainer = (props: ImageContainerProps) => {
         <ImageList gap={8} >
             {content?.fields.blocks.map((img: Block, index: number) =>
                 <ImageListItem
-                    sx={{ img: { minHeight: 500 } }}
                     rows={img.fields.imageRows}
                     component={CardActionArea}
                     onClick={() => navigate(img.fields.slug)}
                     key={index}>
                     <FloatingText content={img} />
                     <LoadingImage
-                        sx={{ height: '100%' }}
+                        sx={{ minHeight: { xs: '100%', sm: '500' } }}
                         skeletonheight={600}
                         src={img.fields.image.fields.file.url}
                         alt={`image ${index}`}
