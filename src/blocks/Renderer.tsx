@@ -30,7 +30,7 @@ type FactoryProps = {
     content: {
         fields: {
             type: string;
-            references: any[];
+            references: object[];
             layout: string;
         }
         sys: {

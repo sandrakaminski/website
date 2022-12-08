@@ -8,7 +8,6 @@ interface AlertProps {
         vertical: 'top' | 'bottom';
         horizontal: 'left' | 'center' | 'right';
     }
-
 }
 
 const Notifier = (props: AlertProps) => {
