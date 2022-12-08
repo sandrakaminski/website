@@ -2,6 +2,7 @@ import { useEffect, useState, memo } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import Article from './Article';
@@ -119,6 +120,8 @@ const GridLayout = memo((props: FactoryProps) => {
         }
     }, [content, limit])
 
+    const entryCount = limit > content?.fields.references?.length || limit === content?.fields.references?.length ? content?.fields.references?.length : limit;
+
     return (
         <>
             {content?.sys.contentType.sys.id === 'assembly' && content?.fields.layout === 'Grid' &&
@@ -131,11 +134,17 @@ const GridLayout = memo((props: FactoryProps) => {
                         </Grid>
                     )}
                     {content?.fields.references?.length > initialCount &&
-                        <Grid xs={12} display="flex" justifyContent="center" alignItems="center" container sx={{ mt: 2 }}>
-                            <Button disabled={disable} onClick={limitPage}>
-                                Show more
-                            </Button>
-                        </Grid>
+                        <>
+                            <Grid xs={12} display="flex" justifyContent="center" alignItems="center" container sx={{ mt: 2 }}>
+                                <Button disabled={disable} onClick={limitPage}>
+                                    Show more
+                                </Button>
+
+                            </Grid>
+                            <Grid xs={12} display="flex" justifyContent="center" alignItems="center" container sx={{ mt: 2 }}>
+                                <Typography>{`${entryCount} / ${content?.fields.references?.length}`}</Typography>
+                            </Grid>
+                        </>
                     }
                 </Grid>
             }
