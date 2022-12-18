@@ -48,9 +48,11 @@ const Header: React.FC = () => {
     };
     const handleClose = () => {
         setAnchorEl(null);
+
     };
 
     const handleNavigate = (path: string) => {
+        setAnchorEl(null);
         if (path === "home") {
             navigate("/", { state: { data: path } });
         }
@@ -84,7 +86,7 @@ const Header: React.FC = () => {
                                 </IconButton>
                                 <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
                                     {menuItems.map((item: MenuItemType, index: number) =>
-                                        <SmallMenuButton item={item} key={index} onClick={() => { handleNavigate(item.fields.slug), handleClose() }} />
+                                        <SmallMenuButton item={item} key={index} onClick={() => { handleNavigate(item.fields.slug) }} />
                                     )}
                                 </Menu>
                             </Box>
