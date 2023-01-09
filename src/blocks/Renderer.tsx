@@ -132,15 +132,12 @@ const GridLayout = memo((props: FactoryProps) => {
                         </Grid>
                     )}
                     {content?.fields.references?.length > initialCount &&
-                        
-                            <Grid xs={12} display="flex" justifyContent="center" alignItems="center" container sx={{ mt: 2 }}>
-                                <Button disabled={disable} onClick={limitPage}>
-                                    Show more
-                                </Button>
+                        <Grid xs={12} display="flex" justifyContent="center" alignItems="center" container sx={{ mt: 2 }}>
+                            <Button disabled={disable} onClick={limitPage}>
+                                Show more
+                            </Button>
 
-                            </Grid>
-                            
-                     
+                        </Grid>
                     }
                 </Grid>
             }

@@ -1,12 +1,9 @@
-module github.com/Sandra-Kaminski-Limited/send-grid-go
+module github.com/Sandra-Kaminski-Limited/website/functions/registration
 
 go 1.19
 
 require (
 	github.com/aws/aws-lambda-go v1.34.1
-	github.com/go-chi/chi/v5 v5.0.7
-	github.com/go-chi/cors v1.2.1
-	github.com/joho/godotenv v1.4.0
 	github.com/sendgrid/sendgrid-go v3.12.0+incompatible
 )
 
