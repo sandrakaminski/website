@@ -20,7 +20,7 @@ type Contact struct {
 	Contacts []Person `json:"contacts"`
 }
 
-func addContact(p Person) (rsp int, err error) {
+func (p Person) addContact() {
 	req := send.GetRequest(os.Getenv("SENDGRID_API_KEY"), os.Getenv("SENDGRID_ENDPOINT"), os.Getenv("SENDGRID_HOST"))
 	req.Method = "PUT"
 
@@ -38,17 +38,17 @@ func addContact(p Person) (rsp int, err error) {
 
 func handler(e events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var p Person
+
 	if err := json.Unmarshal([]byte(e.Body), &p); err != nil {
 		return nil, err
 	}
 
-	rsp, err := addContact(p)
-	if err != nil {
-		return nil, err
-	}
+	p.addContact()
 
 	return &events.APIGatewayProxyResponse{
-		StatusCode: rsp,
+		StatusCode: 200,
+		Headers:    map[string]string{"Content-Type": "application/json"},
+		Body:       "Contact added",
 	}, nil
 }
 
