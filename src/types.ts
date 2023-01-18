@@ -11,11 +11,11 @@ export type MenuItemEntry = {
 
 
 export type AssemblyEntry = {
-    references: Entry<AssemblyEntry | ImageBannerType | Content | ProfileType | ImageContainerProps>[]
+    references: Entry<AssemblyEntry | ProductTypes | ImageBannerType | Content | ProfileType | ImageContainerProps | ArticleType>[]
     layout: string;
 };
 
-export type AnyEntry = AssemblyEntry | ImageBannerType | Content | ProfileType | ImageContainerProps
+export type AnyEntry = AssemblyEntry | ProductTypes | ImageBannerType | Content | ProfileType | ImageContainerProps | ArticleType
 
 export type ContentProps<T> = {
     contentEntry: Entry<T>;
