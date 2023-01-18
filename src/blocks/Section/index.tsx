@@ -1,23 +1,25 @@
+import React from 'react';
+
 import Center from './Center';
 import Column from './Column';
 import Left from './Left';
 import Right from './Right';
-import type { Content } from './SectionTypes';
+import type { Content, ContentProps } from '@/types';
 
-export const Section = (props: Content) => {
-    const { content } = props;
+export const Section = (props: ContentProps<Content>) => {
+    const { contentEntry } = props;
 
-    switch (content?.fields.sectionType) {
+    switch (contentEntry?.fields.sectionType) {
         case "Center":
-            return <Center content={content} />
+            return <Center contentEntry={contentEntry} />
         case "Right":
-            return <Right content={content} />
+            return <Right contentEntry={contentEntry} />
         case "Left":
-            return <Left content={content} />
+            return <Left contentEntry={contentEntry} />
         case "Column":
-            return <Column content={content} />
+            return <Column contentEntry={contentEntry} />
         default:
-            return <Center content={content} />
+            return <Center contentEntry={contentEntry} />
     }
 }
 export default Section;

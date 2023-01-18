@@ -1,97 +1,85 @@
-import { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
+import { Entry } from "contentful";
 
 import Article from './Article';
-import ContactUs from './ContactUs';
+import Contact from './Contact';
 import ImageBanner from './ImageBanner';
 import ImageContainer from './ImageContainer';
 import Products from './Products';
 import Profile from './Profile';
 import Section from './Section';
 import LoadingState from '@/components/Outline';
+import { ContentProps, AnyEntry, AssemblyEntry } from '@/types';
 
-type Blocks = {
-    [key: string]: any;
+
+const blocks: Record<string, React.FC<ContentProps<any>>> = {
+    "profile": Profile,
+    "section": Section,
+    "article": Article,
+    "imageContainer": ImageContainer,
+    "product": Products,
+    "imageBanner": ImageBanner
 }
 
-const blocks: Blocks = {
-    profile: Profile,
-    section: Section,
-    article: Article,
-    imageContainer: ImageContainer,
-    product: Products,
-    imageBanner: ImageBanner
-}
 
-type FactoryProps = {
-    content: {
-        fields: {
-            type: string;
-            references: object[];
-            layout: string;
-        }
-        sys: {
-            contentType: {
-                sys: {
-                    id: string;
-                }
-            }
-        }
-    };
-    detail?: boolean;
-}
+const Factory = (props: ContentProps<AnyEntry>) => {
+    const { contentEntry, detail } = props;
+    const name = contentEntry?.sys.contentType.sys.id;
 
-const Factory = (props: FactoryProps) => {
-    const { content, detail } = props;
-    const name: string = content?.sys.contentType.sys.id;
-
-    if (!content || !name) {
-        return
+    if (!name) {
+        return <></>
     }
-    return blocks[name]({ content, detail })
+
+    const block = blocks[name];
+    return block({ contentEntry, detail })
 }
 
-const Renderer = (props: FactoryProps) => {
-    const { content } = props;
+const Renderer = (props: ContentProps<AnyEntry>) => {
+    const { contentEntry } = props;
 
     return (
         <Box sx={{ my: 4 }}>
-            <GridLayout content={content} />
-            <DefaultLayout content={content} />
-            <DetailedLayout content={content} />
-            {content && <ContactUs />}
+            <GridLayout contentEntry={contentEntry} />
+            <DefaultLayout contentEntry={contentEntry} />
+            <DetailedLayout contentEntry={contentEntry} />
+            {contentEntry && <Contact />}
         </Box>
     )
 }
 
 export default Renderer;
 
-const DetailedLayout = (props: FactoryProps) => {
-    const { content } = props;
+const DetailedLayout = (props: ContentProps<AnyEntry>) => {
+    const { contentEntry } = props;
+
+    const content = (contentEntry as Entry<AssemblyEntry>)
 
     return (
         <>
-            {content && content.sys.contentType.sys.id !== 'assembly' &&
-                <LoadingState type={"Detailed"} content={content} >
-                    <Factory detail={true} content={content} />
+            {content?.sys.contentType.sys.id !== 'assembly' &&
+                <LoadingState type={"Detailed"} contentEntry={contentEntry} >
+                    <Factory detail={true} contentEntry={contentEntry} />
                 </LoadingState>
             }
         </>
     )
 }
 
-const DefaultLayout = (props: FactoryProps) => {
-    const { content } = props;
+const DefaultLayout = (props: ContentProps<AnyEntry>) => {
+    const { contentEntry } = props;
+
+    const content = (contentEntry as Entry<AssemblyEntry>)
 
     return (
         <>
             {content?.sys.contentType.sys.id === 'assembly' && content?.fields.layout === 'Default' &&
-                <LoadingState type={content?.fields.layout} content={content} >
-                    {content.fields.references.map((block: any, index: number) =>
-                        <Factory key={index} content={block} />
+                <LoadingState type={content?.fields.layout} contentEntry={content} >
+                    {content.fields.references.map((block, index) =>
+                        <Factory key={index} contentEntry={block} />
                     )}
                 </LoadingState>
             }
@@ -99,9 +87,11 @@ const DefaultLayout = (props: FactoryProps) => {
     )
 }
 
-const GridLayout = memo((props: FactoryProps) => {
-    const { content } = props;
+const GridLayout = (props: ContentProps<AnyEntry>) => {
+    const { contentEntry } = props;
 
+
+    const content = (contentEntry as Entry<AssemblyEntry>)
     const initialCount = 12;
     const [limit, setLimit] = useState<number>(initialCount);
     const [disable, setDisable] = useState<boolean>(false);
@@ -122,12 +112,12 @@ const GridLayout = memo((props: FactoryProps) => {
 
     return (
         <>
-            {content?.sys.contentType.sys.id === 'assembly' && content?.fields.layout === 'Grid' &&
+            {content?.sys?.contentType.sys.id === 'assembly' && content?.fields.layout === 'Grid' &&
                 <Grid sx={{ px: { lg: 4 } }} container spacing={2}>
-                    {content.fields.references.slice(0, limit).map((block: any, index: number) =>
+                    {content.fields.references.slice(0, limit).map((block, index) =>
                         <Grid key={index} xs={12} sm={6} md={4} >
-                            <LoadingState type={content?.fields.layout} content={content} >
-                                <Factory content={block} />
+                            <LoadingState type={content?.fields.layout} contentEntry={contentEntry} >
+                                <Factory contentEntry={block} />
                             </LoadingState>
                         </Grid>
                     )}
@@ -143,4 +133,4 @@ const GridLayout = memo((props: FactoryProps) => {
             }
         </>
     )
-})
+}

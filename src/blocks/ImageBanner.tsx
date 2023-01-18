@@ -1,25 +1,19 @@
+import React from 'react';
+
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import { Asset } from "contentful";
 
-import type { Image } from '@/types';
+import type { ContentProps, ImageBannerType } from '@/types';
 
-interface ImageContainerProps {
-    content: {
-        fields: {
-            images: Image[];
-            spacing: number;
-        }
-    }
-}
-
-const ImageBanner = (props: ImageContainerProps) => {
-    const { content } = props;
+const ImageBanner = (props: ContentProps<ImageBannerType>) => {
+    const { contentEntry } = props;
 
     return (
-        <ImageList gap={content?.fields.spacing} cols={3}>
-            {content?.fields.images.map((img: Image, index: number) =>
+        <ImageList gap={contentEntry?.fields.spacing} cols={3}>
+            {contentEntry?.fields.images.map((img: Asset, index: number) =>
                 <ImageListItem key={index}>
-                    <img src={img.fields.file.url} alt={img.fields.file.title} />
+                    <img src={img.fields.file.url} alt={img.fields.title} />
                 </ImageListItem>
             )}
         </ImageList>

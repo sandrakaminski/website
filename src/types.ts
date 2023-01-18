@@ -1,45 +1,113 @@
-// consistent image type
-export type Image = {
-    fields: {
-        file: {
-            url: string;
-            title?: string;
-        }
-        title: string;
-        description?: string;
-    }
+import { Asset, Entry, Sys } from "contentful";
+
+export type MenuEntry = {
+    references: Entry<MenuItemEntry>[]
+};
+
+export type MenuItemEntry = {
+    name: string;
+    slug: string;
 }
 
-// used for profile/article/product components
-export type BlockProps = {
-    detail: boolean;
-    content: {
-        fields: {
-            slug: string;
-            body: string;
-            otherImages: Image[];
-            image: Image;
-            headline: string;
-            author: Author;
-            name: string;
-            title: string;
-            date: string;
-            coverImage: Image;
-            oldPrice: number;
-            price: number;
-            description: string;
-            featureImage: Image;
-            productId: string;
-            inStock: boolean;
-            productFiles: Image[]
-            nzShippingOnly: boolean;
-            publishDate: string;
-        }
-    }
+
+export type AssemblyEntry = {
+    references: Entry<AssemblyEntry | ImageBannerType | Content | ProfileType | ImageContainerProps>[]
+    layout: string;
+};
+
+export type AnyEntry = AssemblyEntry | ImageBannerType | Content | ProfileType | ImageContainerProps
+
+export type ContentProps<T> = {
+    contentEntry: Entry<T>;
+    detail?: boolean;
+    sys?: Sys;
 }
+
 type Author = {
-    fields: {
+    contentEntry: Entry<{
         name: string;
         slug: string;
-    }
+    }>
+}
+
+// image banner
+export type ImageBannerType = {
+    images: Asset[];
+    spacing: number;
+}
+
+// section 
+export type Content = {
+    ctaLabel?: string;
+    ctaSlug?: string;
+    body: string;
+    image: Asset;
+    headline: string;
+    sectionType: string;
+    resources: ResourceType[];
+}
+
+export type ResourceType = Entry<{
+    flexDirection: string;
+    headline: string;
+    description: string;
+    link: string;
+    files: Asset[];
+}>
+
+
+// profile 
+export type ProfileType = {
+    slug?: string;
+    title: string;
+    name: string;
+    headline: string;
+    body: string;
+    otherImages: Asset[];
+    image: Asset
+}
+
+// image container
+export type ImageContainerProps = {
+    blocks: Entry<{
+        imageRows: number;
+        image: Asset;
+        title: string;
+        subheader: string;
+        slug: string;
+    }>[];
+}
+
+export type ImageItem = Entry<{
+    imageRows: number;
+    image: Asset;
+    title: string;
+    subheader: string;
+    slug: string;
+}>
+
+// product
+export type ProductTypes = {
+    oldPrice: number;
+    name: string;
+    price: number;
+    description: string;
+    featureImage: Asset;
+    slug: string;
+    productId: string;
+    inStock: boolean;
+    productFiles: Asset[]
+    nzShippingOnly: boolean;
+    publishDate: string;
+}
+
+// article 
+export type ArticleType = {
+    headline: string;
+    author: Author;
+    name: string
+    body: string;
+    date: string;
+    slug: string;
+    coverImage: Asset
 }

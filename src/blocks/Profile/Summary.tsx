@@ -9,26 +9,26 @@ import type { ProfileType } from './ProfileType';
 import LoadingImage from "@/components/LoadingImage";
 
 const Summary = (props: ProfileType) => {
-    const { content } = props;
+    const { contentEntry } = props;
     const navigate = useNavigate();
     const { pathname } = useLocation();
 
-    let txt = content.fields.body;
+    let txt = contentEntry.fields.body;
     if (txt.length >= 75) {
         txt = `${txt.substring(0, 75)}...`;
     }
 
     return (
         <Card>
-            {content &&
-                <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`)}>
+            {contentEntry &&
+                <CardActionArea onClick={() => navigate(`${pathname}/${contentEntry.fields.slug}`)}>
                     <LoadingImage
                         card="true"
-                        src={content?.fields.image.fields.file.url}
-                        alt={content.fields.image.fields.title} />
+                        src={contentEntry?.fields.image.fields.file.url}
+                        alt={contentEntry.fields.image.fields.title} />
                     <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1}>
                         <Typography variant="subtitle1" >
-                            {content.fields.name}
+                            {contentEntry.fields.name}
                         </Typography>
                         <Typography variant="body1" >
                             {txt}

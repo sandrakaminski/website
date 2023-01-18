@@ -3,13 +3,13 @@ import Summary from './Summary';
 import type { BlockProps } from '@/types';
 
 const Profile = (props: BlockProps) => {
-    const { content, detail } = props;
+    const { contentEntry, detail } = props;
 
     return (
         <>
             {detail === true
-                ? <Detail content={content} />
-                : <Summary content={content} />
+                ? <Detail contentEntry={contentEntry} />
+                : <Summary contentEntry={contentEntry} />
             }
         </>
     )

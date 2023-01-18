@@ -1,8 +1,11 @@
 import React, { lazy } from 'react';
 
+import { useQuery } from "@tanstack/react-query";
+import { Entry } from 'contentful';
 import { useRoutes, useParams } from 'react-router-dom';
 
-import { useView } from "@/client";
+import { fetchContent } from "@/client";
+import { AnyEntry } from '@/types';
 
 const Renderer = lazy(() => import('@/blocks/Renderer'));
 const NotFound = lazy(() => import('@/views/NotFound'));
@@ -16,9 +19,9 @@ type Router = {
 
 const Routes: React.FC = () => {
     const routes: Router[] = [
-        { path: '/', element: <Component /> },
-        { path: '/:slug', element: <Component /> },
-        { path: '/:type/:slug', element: <Component /> },
+        { path: '/', element: <Content /> },
+        { path: '/:slug', element: <Content /> },
+        { path: '/:type/:slug', element: <Content /> },
         { path: '/cart', element: <Cart /> },
         { path: '/success', element: <PaymentSuccess /> },
     ]
@@ -27,13 +30,18 @@ const Routes: React.FC = () => {
 
 export default Routes;
 
-const Component: React.FC = () => {
-    let { type, slug } = useParams();
-    [type, slug] = [type || "assembly", slug || "home"];
-    const { content, error } = useView({ type, slug });
+type Response = {
+    data?: { items: Entry<AnyEntry>[] }
+}
 
-    if (error?.status === 404) {
+const Content = () => {
+    let { type, slug, } = useParams();
+    [type, slug] = [type || "assembly", slug || "home"];
+
+    const res: Response = useQuery(['content', type, slug], fetchContent);
+
+    if (res.data?.items.length === 0) {
         return <NotFound />
     }
-    return <Renderer content={content} />
+    return <Renderer contentEntry={res.data?.items[0] as Entry<AnyEntry>} />
 }

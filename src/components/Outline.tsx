@@ -7,27 +7,27 @@ import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Unstable_Grid2";
 
 interface LoadingStateProps {
-    content: Object;
+    contentEntry: object;
     children: React.ReactNode;
     type: string;
 }
 
 const LoadingState = (props: LoadingStateProps) => {
-    const { content, children, type } = props;
+    const { contentEntry, children, type } = props;
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         setLoading(true)
-        if (content) {
+        if (contentEntry) {
             setLoading(false)
         }
-    }, [content, setLoading])
+    }, [contentEntry, setLoading])
 
     switch (type) {
-        case "Header": return loading ? <Skeleton sx={{ mx: 2 }} height={100} /> : content && <>{children}</>
-        case "Grid": return loading ? <GridOutline /> : content && <>{children}</>
-        case "Default": return loading ? <Outline /> : content && <>{children}</>
-        case "Detailed": return loading ? <Outline /> : content && <>{children}</>
+        case "Header": return loading ? <Skeleton sx={{ mx: 2 }} height={100} /> : contentEntry && <>{children}</>
+        case "Grid": return loading ? <GridOutline /> : contentEntry && <>{children}</>
+        case "Default": return loading ? <Outline /> : contentEntry && <>{children}</>
+        case "Detailed": return loading ? <Outline /> : contentEntry && <>{children}</>
         default: throw new Error("Invalid type")
     }
 }

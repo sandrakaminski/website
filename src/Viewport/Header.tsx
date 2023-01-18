@@ -12,31 +12,32 @@ import Link from "@mui/material/Link";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from "@mui/material/Toolbar";
+import { useQuery } from "@tanstack/react-query";
+import { Entry, EntryCollection } from "contentful";
 import { useNavigate } from "react-router-dom";
 
 import logo from '@/assets/logo.png';
-import { useMenu, useView } from "@/client";
-import type { MenuItemType } from '@/client';
+import { fetchContent } from "@/client";
 import LoadingState from "@/components/Outline";
+import type { MenuEntry, MenuItemEntry } from '@/types';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
-type Headers = {
-    name: string;
-    path: string;
-}
 
-const headers: Headers[] = [
-    { name: 'Shop', path: '/shop' },
-    { name: 'Inspiration', path: 'https://sandrakaminski.com/diy' },
-    { name: 'Resources', path: 'https://sandrakaminski.com/resources' },
-    { name: 'About', path: 'https://sandrakaminski.com/about' },
-    { name: 'Blog', path: 'https://sandrakaminski.com/blog' },
-    { name: 'Contact', path: 'https://sandrakaminski.com/contact' },
+
+const headers = [
+    { name: 'Shop', slug: '/shop' },
+    { name: 'Inspiration', slug: 'https://sandrakaminski.com/diy' },
+    { name: 'Resources', slug: 'https://sandrakaminski.com/resources' },
+    { name: 'About', slug: 'https://sandrakaminski.com/about' },
+    { name: 'Blog', slug: 'https://sandrakaminski.com/blog' },
+    { name: 'Contact', slug: 'https://sandrakaminski.com/contact' },
 ]
 
 const Header: React.FC = () => {
-    const { menuItems } = useMenu();
-    const { content } = useView({ type: "assembly", slug: 'home' });
+    const res = useQuery(['menu', 'assembly', 'site-root', 1], fetchContent);
+    const menuEntry = res.data as EntryCollection<MenuEntry>
+    const allItems = menuEntry?.items[0].fields.references as Entry<MenuItemEntry>[]
+    const menuItems = allItems?.filter(item => item.fields.slug !== 'home')
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -61,12 +62,10 @@ const Header: React.FC = () => {
         }
     }
 
-    const state = menuItems || content
-
     // this statement is only used for rendering the shop on SQSP, we will remove this in favour of the old menu upon launch
     if (import.meta.env.MODE === "development") {
         return (
-            <LoadingState content={state !== null} type="Header">
+            <LoadingState contentEntry={menuItems} type="Header">
                 <AppBar color="transparent" position="static" elevation={0}>
                     {menuItems &&
                         <Toolbar >
@@ -76,7 +75,7 @@ const Header: React.FC = () => {
                                 </Link>
                             </Box>
                             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                                {menuItems.map((item: MenuItemType, index: number) =>
+                                {menuItems.map((item, index) =>
                                     <MenuButton item={item} onClick={() => handleNavigate(item.fields.slug)} key={index} />
                                 )}
                             </Box>
@@ -85,7 +84,7 @@ const Header: React.FC = () => {
                                     <MenuIcon />
                                 </IconButton>
                                 <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
-                                    {menuItems.map((item: MenuItemType, index: number) =>
+                                    {menuItems.map((item, index) =>
                                         <SmallMenuButton item={item} key={index} onClick={() => { handleNavigate(item.fields.slug) }} />
                                     )}
                                 </Menu>
@@ -103,7 +102,7 @@ const Header: React.FC = () => {
     }
     else {
         return (
-            <LoadingState content={content} type="Header">
+            <LoadingState contentEntry={menuItems} type="Header">
                 <AppBar color="transparent" position="static" elevation={0}>
                     <Toolbar >
                         <Box sx={{ flexGrow: 1 }}>
@@ -114,8 +113,8 @@ const Header: React.FC = () => {
                             </Link>
                         </Box>
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                            {headers.map((item: Headers, index: number) =>
-                                <Button href={item.path} key={index} sx={{ mx: 1 }} >
+                            {headers.map((item: MenuItemEntry, index: number) =>
+                                <Button href={item.slug} key={index} sx={{ mx: 1 }} >
                                     {item.name}
                                 </Button>
                             )}
@@ -130,10 +129,10 @@ const Header: React.FC = () => {
                                 <MenuIcon />
                             </IconButton>
                             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
-                                {headers.map((item: any, index: number) =>
+                                {headers.map((item: MenuItemEntry, index: number) =>
                                     <MenuItem
                                         key={index}
-                                        href={item.path}  >
+                                        href={item.slug}  >
                                         {item.name}
                                     </MenuItem>
                                 )}
@@ -154,7 +153,7 @@ const Header: React.FC = () => {
 export default Header;
 
 type MenuButtonProps = {
-    item: MenuItemType;
+    item: Entry<MenuItemEntry>;
     onClick: () => void;
     href?: string;
 }

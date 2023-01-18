@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container';
@@ -6,32 +8,32 @@ import Typography from '@mui/material/Typography';
 import ReactMarkdown from 'react-markdown';
 
 import Resource from './Resource';
-import type { Content, ResourceType } from './SectionTypes';
 import { SectionMarkDown } from '@/components/Markdown';
+import type { Content, ContentProps, ResourceType } from '@/types';
 
-export const Right = (props: Content) => {
-    const { content } = props;
+export const Right = (props: ContentProps<Content>) => {
+    const { contentEntry } = props;
 
     return (
         <>
-            {content &&
+            {contentEntry &&
                 <Grid container direction="row-reverse" spacing={2} sx={{ py: 6 }}>
                     <Grid item xs={12} sm={6} md={6}>
-                        {content.fields.image?.fields.file.url &&
+                        {contentEntry.fields.image?.fields.file.url &&
                             <CardMedia
                                 loading="lazy"
                                 sx={{ width: "100%", height: 'auto' }}
                                 component="img"
-                                src={content.fields.image.fields.file.url}
-                                alt={content.fields.image.fields.title}
+                                src={contentEntry.fields.image.fields.file.url}
+                                alt={contentEntry.fields.image.fields.title}
                             />
                         }
                     </Grid>
                     <Grid item xs={12} sm={6} >
                         <Typography align="center" variant="h2" >
-                            {content.fields.headline}
+                            {contentEntry.fields.headline}
                         </Typography>
-                        {content.fields.resources?.map((item: ResourceType, index: number) => (
+                        {contentEntry.fields.resources?.map((item: ResourceType, index: number) => (
                             <Box key={index} sx={{ justifyContent: "center", alignContent: "center" }}>
                                 {item.fields.headline &&
                                     <Typography align="center" variant="h3" sx={{ pt: { xs: 4, sm: 6, md: 6 } }}>
@@ -46,7 +48,7 @@ export const Right = (props: Content) => {
                     </Grid>
                     <Container maxWidth="sm">
                         <ReactMarkdown components={SectionMarkDown} >
-                            {content.fields.body}
+                            {contentEntry.fields.body}
                         </ReactMarkdown>
                     </Container>
                 </Grid >

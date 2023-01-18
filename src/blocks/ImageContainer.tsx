@@ -1,44 +1,29 @@
+import React from 'react';
+
 import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Typography from '@mui/material/Typography';
+import { Entry } from "contentful";
 import { useNavigate } from "react-router-dom";
 
 import LoadingImage from '@/components/LoadingImage';
-import type { Image } from '@/types'; 
+import type { ImageContainerProps, ContentProps, ImageItem } from '@/types';
 
-interface ImageContainerProps {
-    content: {
-        fields: {
-            blocks: Block[];
-        };
-    };
-}
-
-type Block = {
-    fields: {
-        imageRows: number;
-        image: Image;
-        title: string;
-        subheader: string;
-        slug: string;
-    };
-};
-
-const ImageContainer = (props: ImageContainerProps) => {
-    const { content } = props;
+const ImageContainer = (props: ContentProps<ImageContainerProps>) => {
+    const { contentEntry } = props;
     const navigate = useNavigate();
 
     return (
         <ImageList gap={8} >
-            {content?.fields.blocks.map((img: Block, index: number) =>
+            {contentEntry?.fields.blocks.map((img: ImageItem, index: number) =>
                 <ImageListItem
                     rows={img.fields.imageRows}
                     component={CardActionArea}
                     onClick={() => navigate(img.fields.slug)}
                     key={index}>
-                    <FloatingText content={img} />
+                    <FloatingText contentEntry={img} />
                     <LoadingImage
                         sx={{ minHeight: { xs: '100%', sm: '500' } }}
                         skeletonheight={600}
@@ -53,23 +38,21 @@ const ImageContainer = (props: ImageContainerProps) => {
 export default ImageContainer;
 
 type FloatingTextProps = {
-    content: {
-        fields: {
-            title: string;
-            subheader: string;
-        };
-    };
+    contentEntry: Entry<{
+        title: string;
+        subheader: string;
+    }>
 };
 
 const FloatingText = (props: FloatingTextProps) => {
-    const { content } = props;
+    const { contentEntry } = props;
 
     return (
         <>
-            {content &&
+            {contentEntry &&
                 <Box sx={{ height: '100%', width: '100%', background: 'rgba(0,0,0,0.10)', position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <Typography variant="h2" gutterBottom sx={{ color: 'background.paper' }}>{content.fields.title}</Typography>
-                    <Typography variant="body1" sx={{ display: { xs: 'none', md: 'flex' }, color: 'background.paper' }}>{content.fields.subheader}</Typography>
+                    <Typography variant="h2" gutterBottom sx={{ color: 'background.paper' }}>{contentEntry.fields.title}</Typography>
+                    <Typography variant="body1" sx={{ display: { xs: 'none', md: 'flex' }, color: 'background.paper' }}>{contentEntry.fields.subheader}</Typography>
                 </Box>
             }
         </>

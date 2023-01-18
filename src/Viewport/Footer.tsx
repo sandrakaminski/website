@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
         <Stack component="footer" sx={{ py: 6 }} alignItems="center" justifyContent="center" spacing={2}>
             <Stack alignItems="center" spacing={2}>
                 <Typography align="center" color="grayText" variant="body1">
-                    {`All content © copyright  ${date} ${import.meta.env.VITE_APP_NAME}.`}
+                    {`All contentEntry © copyright  ${date} ${import.meta.env.VITE_APP_NAME}.`}
                 </Typography >
                 <Typography align="center" color="grayText" variant="body1">
                     All rights reserved.
@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
             </Stack>
             <Stack sx={{ '&:hover': { color: 'grayText' }, }} direction="row" alignItems="center" spacing={1}>
                 {social.map((item: SocialArray, index: number) =>
-                    <Link target="_blank"  sx={{ '&:hover': { color: 'text.primary' }, }} color="inherit" href={item.link} key={index} >
+                    <Link target="_blank" sx={{ '&:hover': { color: 'text.primary' }, }} color="inherit" href={item.link} key={index} >
                         {item.icon}
                     </Link>
                 )}

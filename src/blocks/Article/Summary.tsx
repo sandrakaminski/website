@@ -1,3 +1,5 @@
+import React from 'react';
+
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Card from '@mui/material/Card';
 import CardActionArea from "@mui/material/CardActionArea";
@@ -7,35 +9,35 @@ import Stack from "@mui/material/Stack";
 import Typography from '@mui/material/Typography';
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 
-import type { ArticleType } from "./ArticleType";
 import DateFormatter from "@/components/DateFormatter";
 import LoadingImage from '@/components/LoadingImage';
+import type { ArticleType, ContentProps } from "@/types";
 
-const Summary = (props: ArticleType) => {
-    const { content } = props;
+const Summary = (props: ContentProps<ArticleType>) => {
+    const { contentEntry } = props;
     const { pathname } = useLocation();
     const { slug } = useParams();
     const navigate = useNavigate();
 
     return (
         <>
-            {content &&
+            {contentEntry &&
                 <Card>
-                    <CardActionArea onClick={() => navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })}>
+                    <CardActionArea onClick={() => navigate(`${pathname}/${contentEntry.fields.slug}`, { state: { data: slug } })}>
                         <LoadingImage
                             card="true"
-                            src={content?.fields.coverImage.fields.file.url}
-                            alt={content.fields.coverImage.fields.title}
+                            src={contentEntry?.fields.coverImage.fields.file.url}
+                            alt={contentEntry.fields.coverImage.fields.title}
                         />
                     </CardActionArea>
                     <Typography sx={{ p: 1, textTransform: 'capitalize' }} align="center" variant="h6">
-                        {content.fields.headline}
+                        {contentEntry.fields.headline}
                     </Typography>
                     <CardContent component={Stack} direction="row" justifyContent="space-between" alignItems="center" spacing={0.5}>
-                        <DateFormatter dateString={content.fields.date} />
+                        <DateFormatter dateString={contentEntry.fields.date} />
                         <FiberManualRecordIcon sx={{ width: 5, height: 5 }} />
-                        <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => navigate(`/about/${content.fields.author.fields.slug}`)} >
-                            {content.fields.author.fields.name}
+                        <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => navigate(`/about/${contentEntry.fields.author.fields.slug}`)} >
+                            {contentEntry.fields.author.fields.name}
                         </Link>
                     </CardContent>
                 </Card>

@@ -30,7 +30,7 @@ const Tracker = ((props: TrackerProps) => {
                 {
                     hitType: "pageview",
                     page: pathname,
-                    // contentGroup1: shopExperimentVal,
+                    // contentEntryGroup1: shopExperimentVal,
                 });
         }
         googleAnalytics();

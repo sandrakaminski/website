@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Box from '@mui/material/Box';
@@ -11,49 +11,48 @@ import ReactGA from 'react-ga4';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 import CartPopper from './CartPopper';
-import type { ProductTypes } from './ProductTypes';
 import LoadingImage from '@/components/LoadingImage';
-// import { FeatureFlagger } from '@/Tracker';
+import type { ProductTypes, ContentProps } from '@/types';
 import { useCartContext } from '@/views/Cart/cartProvider';
 
-const Summary = (props: ProductTypes) => {
-    const { content } = props;
+const Summary = (props: ContentProps<ProductTypes>) => {
+    const { contentEntry } = props;
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const { slug } = useParams();
 
     const handleClick = () => {
-        navigate(`${pathname}/${content.fields.slug}`, { state: { data: slug } })
+        navigate(`${pathname}/${contentEntry.fields.slug}`, { state: { data: slug } })
         ReactGA.event({
             category: 'Product',
-            action: `View detail for ${content.fields.name}`,
-            label: content.fields.name,
+            action: `View detail for ${contentEntry.fields.name}`,
+            label: contentEntry.fields.name,
         });
     }
 
     return (
         <Card sx={{ width: '100%' }} >
             <CardActionArea onClick={() => handleClick()} >
-                <SoldOutBanner soldOut={!content.fields.inStock} />
+                <SoldOutBanner soldOut={!contentEntry.fields.inStock} />
                 <LoadingImage
                     card="true"
-                    src={content?.fields.featureImage.fields.file.url}
-                    alt={content.fields.featureImage.fields.title} />
+                    src={contentEntry?.fields.featureImage.fields.file.url}
+                    alt={contentEntry.fields.featureImage.fields.title} />
             </CardActionArea>
             <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1} >
-                <Typography variant="subtitle1" >{`${content.fields.name}`}</Typography>
+                <Typography variant="subtitle1" >{`${contentEntry.fields.name}`}</Typography>
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
-                    {content.fields.oldPrice &&
+                    {contentEntry.fields.oldPrice &&
                         <Typography color="grayText" sx={{ textDecoration: 'line-through' }} variant="body1" >
-                            ${content.fields.oldPrice.toFixed(2)}
+                            ${contentEntry.fields.oldPrice.toFixed(2)}
                         </Typography>
                     }
                     <Typography variant="body1" >
-                        ${content.fields.price.toFixed(2)} NZD
+                        ${contentEntry.fields.price.toFixed(2)} NZD
                     </Typography>
                 </Stack>
             </Stack>
-            <QuickAdd content={content} />
+            <QuickAdd contentEntry={contentEntry} />
         </Card>
     );
 }
@@ -77,19 +76,19 @@ const SoldOutBanner = (props: SoldOutType) => {
     )
 }
 
-const QuickAdd = (props: ProductTypes) => {
-    const { content } = props;
+const QuickAdd = (props: ContentProps<ProductTypes>) => {
+    const { contentEntry } = props;
     const { addToCart } = useCartContext();
 
     const [clickEvent, setClickEvent] = useState<boolean>(false);
 
     const handleCart = () => {
         setClickEvent(true);
-        addToCart(content.fields.productId, '1', content.fields);
+        addToCart(contentEntry.fields.productId, '1', contentEntry.fields);
         ReactGA.event({
             category: 'Product',
-            action: `Quick add ${content.fields.name} to cart`,
-            label: content.fields.name,
+            action: `Quick add ${contentEntry.fields.name} to cart`,
+            label: contentEntry.fields.name,
         });
     }
 
@@ -109,7 +108,7 @@ const QuickAdd = (props: ProductTypes) => {
     return (
         <>
             <Stack alignItems="flex-end" justifyContent="flex-end">
-                <IconButton sx={style} disabled={!content.fields.inStock} onClick={handleCart} >
+                <IconButton sx={style} disabled={!contentEntry.fields.inStock} onClick={handleCart} >
                     <AddShoppingCartIcon />
                 </IconButton >
             </Stack >

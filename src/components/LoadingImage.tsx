@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, memo } from "react";
 
 import CardMedia from "@mui/material/CardMedia";
 import Skeleton from "@mui/material/Skeleton";
@@ -12,7 +12,7 @@ interface LoadingImageProps {
     sx?: SystemStyleObject<Theme>
 }
 
-export const LoadingImage = memo((props: LoadingImageProps) => {
+export const LoadingImage = (props: LoadingImageProps) => {
     const { src, skeletonheight, card, sx } = props;
     const [load, setLoad] = useState<boolean>(true);
 
@@ -44,6 +44,6 @@ export const LoadingImage = memo((props: LoadingImageProps) => {
             }
         </>
     )
-});
+}
 
 export default LoadingImage;

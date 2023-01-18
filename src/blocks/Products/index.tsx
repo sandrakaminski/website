@@ -1,14 +1,23 @@
+import React from 'react';
+
+import { Entry } from 'contentful';
+
 import Detail from './Detail';
 import Summary from './Summary';
-import { BlockProps } from '@/types';
+import { ProductTypes } from '@/types';
+
+type BlockProps = {
+    contentEntry: Entry<ProductTypes>;
+    detail?: boolean;
+}
 
 const Products = (props: BlockProps) => {
-    const { content, detail } = props;
+    const { contentEntry, detail } = props;
     return (
         <>
             {detail
-                ? <Detail content={content} />
-                : <Summary content={content} />
+                ? <Detail contentEntry={contentEntry} />
+                : <Summary contentEntry={contentEntry} />
             }
         </>
     );
