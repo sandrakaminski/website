@@ -1,10 +1,12 @@
+import React from 'react';
+
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { useNavigate, useParams } from 'react-router-dom';
 
 interface TrailProps {
-    current: String;
+    current: string;
 }
 
 export const Trail = (props: TrailProps) => {

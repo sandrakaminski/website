@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect } from "react";
 
 import CardMedia from "@mui/material/CardMedia";
 import Skeleton from "@mui/material/Skeleton";
@@ -16,7 +16,7 @@ export const LoadingImage = (props: LoadingImageProps) => {
     const { src, skeletonheight, card, sx } = props;
     const [load, setLoad] = useState<boolean>(true);
 
-    let imageCard: Boolean
+    let imageCard: boolean
     if (card) {
         imageCard = true
     }

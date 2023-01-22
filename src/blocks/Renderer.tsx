@@ -15,7 +15,7 @@ import Section from './Section';
 import LoadingState from '@/components/Outline';
 import { ContentProps, AnyEntry, AssemblyEntry } from '@/types';
 
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const blocks: Record<string, React.FC<ContentProps<any>>> = {
     "profile": Profile,
     "section": Section,

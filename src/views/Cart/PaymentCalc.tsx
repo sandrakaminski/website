@@ -32,7 +32,7 @@ export const countriesList: Init = {
 }
 
 type DropdownProps = {
-    onChange: (event: React.ChangeEvent<{ value: unknown }>) => void;
+    onChange: any;
     value: string | object;
     label: string;
     id: string;
