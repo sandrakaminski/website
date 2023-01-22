@@ -74,7 +74,7 @@ const Cart = () => {
 
     const { cart, clear, decrease, increase, remove } = useCartContext();
     const shippingCost = shippingCosts(country);
-    const cartQuantity = cart.map((item) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
+    const cartQuantity = cart.map((item: Items) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
     const shippingTotal = shippingCost * cartQuantity;
     const currency = currencyTypes(country).toLowerCase();
 
@@ -109,7 +109,7 @@ const Cart = () => {
         if (cart.length === 0) {
             localStorage.removeItem("country");
         }
-        else if (cart && cart.map((item) => item.nzShippingOnly).includes(true)) {
+        else if (cart && cart.map((item: Items) => item.nzShippingOnly).includes(true)) {
             handleSetCountry("NZ");
             setLoading(false);
             setNzOnly(true);
@@ -199,7 +199,7 @@ const Cart = () => {
                                         <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
                                     </Stack>
                                     <Stack sx={{ mt: 4 }} >
-                                        {cart.map((item, index) =>
+                                        {cart.map((item: Items, index: number) =>
                                             <CartItem country={country} key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
                                         )}
                                         <Typography variant="caption" color="grayText">*VAT/GST Included in product price</Typography>
@@ -216,7 +216,7 @@ const Cart = () => {
                             </Stack>
                             <Stack spacing={0.5}>
                                 <ButtonGroup size="small">
-                                    <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e) => handleSetCountry(e.target.value)} />
+                                    <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: { target: { value: string; }; }) => handleSetCountry(e.target.value)} />
                                     <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={disable} variant="contained" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
                                 </ButtonGroup>
                             </Stack>
