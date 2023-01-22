@@ -10,6 +10,8 @@ import (
 	"github.com/stripe/stripe-go/v73"
 	"github.com/stripe/stripe-go/v73/checkout/session"
 	"github.com/stripe/stripe-go/v73/product"
+
+	"github.com/joho/godotenv"
 )
 
 type Order struct {
@@ -27,6 +29,8 @@ type OrderItem struct {
 const url = "https://sandrakaminski.netlify.app"
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	godotenv.Load(".env")
+
 	stripe.Key = os.Getenv("STRIPE_SECRET")
 
 	var ord Order

@@ -7,6 +7,8 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/joho/godotenv"
+
 	send "github.com/sendgrid/sendgrid-go"
 )
 
@@ -21,6 +23,8 @@ type Contact struct {
 }
 
 func (p Person) addContact() {
+	godotenv.Load(".env")
+
 	req := send.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/marketing/contacts", "https://api.sendgrid.com")
 	req.Method = "PUT"
 
