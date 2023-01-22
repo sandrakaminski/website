@@ -32,7 +32,7 @@ export const countriesList: Init = {
 }
 
 type DropdownProps = {
-    onChange: React.EventHandler<any>;
+    onChange: (event: React.ChangeEvent<{ value: unknown }>) => void;
     value: string | object;
     label: string;
     id: string;
@@ -56,7 +56,7 @@ const CountryDropdown = (props: DropdownProps) => {
                         name={id}
                         label={label}
                     >
-                        {Object.entries(countriesList).map(([k, v]: any) =>
+                        {Object.entries(countriesList).map(([k, v]) =>
                             <MenuItem key={v.code} value={k}>{v.name}</MenuItem>
                         )}
                     </Select>
@@ -135,10 +135,10 @@ export const vat = (country: string) => {
 
 interface CurrencyExchProps {
     country: string;
-    shippingCosts: any;
+    shippingCosts: number;
     setAmount: (amount: Amount) => typeof amount | void;
     amount: Amount;
-    setDisable: Function;
+    setDisable: (disable: boolean) => typeof disable | void;
 }
 type Amount = {
     shipping: number;
@@ -149,7 +149,12 @@ type Amount = {
 const BASE_URL = 'https://api.exchangerate.host/latest';
 const init = "NZD";
 
-export const CartItemPrice = (props: any) => {
+type CartItem = {
+    country: string;
+    item: number;
+}
+
+export const CartItemPrice = (props: CartItem) => {
     const { country, item, } = props;
 
     // inital state (NZD)
