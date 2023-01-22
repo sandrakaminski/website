@@ -31,24 +31,24 @@ const reducer = (state: State, action: Action): State => {
     let error
 
     switch (action.type) {
+        case 'firstName':
+            return { ...state, firstName: action.value };
+        case 'lastName':
+            return { ...state, lastName: action.value };
         case 'email':
             if (!validEmail.test(action.value.toLowerCase())) {
                 error = "Please enter a valid email address";
             }
             return { ...state, email: action.value, errors: { ...state.errors, email: error } };
-        case 'firstName':
-            return { ...state, firstName: action.value };
-        case 'lastName':
-            return { ...state, lastName: action.value };
         default:
             throw new Error(`Unhandled action type: ${action.type}`)
     }
 }
 
 const init = {
-    email: "",
     firstName: "",
     lastName: "",
+    email: "",
     errors: {}
 };
 
@@ -58,7 +58,6 @@ const Contact = () => {
     const [state, dispatch] = useReducer(reducer, init);
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
-
     const formCheck = emailValid(state);
 
     const handleSubmit = () => {
@@ -70,13 +69,13 @@ const Contact = () => {
             email: state.email,
         };
 
-        const url = `/.netlify/functions/contact`;
+        const url = `/.netlify/functions/registration`;
         createSubmission({ url, data, setSubmitting, setSubmitted });
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        dispatch({ name: name, value: value });
+        dispatch({ type: name, value: value });
     }
 
     return (
