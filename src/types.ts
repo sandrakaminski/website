@@ -23,12 +23,11 @@ export type ContentProps<T> = {
     sys?: Sys;
 }
 
-type Author = {
-    contentEntry: Entry<{
-        name: string;
-        slug: string;
-    }>
-}
+type Author = Entry<{
+    name: string;
+    slug: string;
+}>
+
 
 // image banner
 export type ImageBannerType = {

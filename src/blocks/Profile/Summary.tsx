@@ -1,3 +1,4 @@
+import React from "react";
 
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
@@ -5,10 +6,10 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import type { ProfileType } from './ProfileType';
 import LoadingImage from "@/components/LoadingImage";
+import type { ProfileType, ContentProps } from '@/types';
 
-const Summary = (props: ProfileType) => {
+const Summary = (props: ContentProps<ProfileType>) => {
     const { contentEntry } = props;
     const navigate = useNavigate();
     const { pathname } = useLocation();
