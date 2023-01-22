@@ -1,4 +1,4 @@
-module github.com/sandra-kaminski-limited/website/functions/payment
+module github.com/Sandra-Kaminski-Limited/website/functions/payment
 
 go 1.19
 

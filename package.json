@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "ndev": "netlify env:import functions/.env && netlify dev",
+   "ndev": "netlify env:import functions/.env && netlify dev",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",

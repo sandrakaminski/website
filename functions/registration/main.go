@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 
@@ -30,13 +31,10 @@ func (p Person) addContact() {
 
 	req.Body, _ = json.Marshal(Contact{Contacts: []Person{p}})
 	response, err := send.API(req)
-
-	if response.StatusCode != 202 {
-		log.Println("unsuccessful")
-		return response.StatusCode, err
+	if err != nil {
+		fmt.Println(err)
 	} else {
 		log.Println(response.Body)
-		return response.StatusCode, err
 	}
 }
 
