@@ -18,7 +18,6 @@
     "@mui/material": "^5.10.11",
     "@tanstack/react-query": "^4.22.0",
     "axios": "^1.2.0",
-    "contentEntryful": "^9.2.9",
     "dotenv": "^16.0.3",
     "hyvor-talk-react": "^2.0.1",
     "launchdarkly-react-client-sdk": "^2.29.2",
