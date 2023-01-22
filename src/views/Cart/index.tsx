@@ -55,6 +55,8 @@ type IpItems = {
     countryCode: string;
 }
 
+type EventTargetting = { target: { value: string; }; }
+
 const Cart = () => {
     const navigate = useNavigate();
     const [processing, setProcessing] = useState<boolean>(false);
@@ -216,7 +218,7 @@ const Cart = () => {
                             </Stack>
                             <Stack spacing={0.5}>
                                 <ButtonGroup size="small">
-                                    <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: { target: { value: string; }; }) => handleSetCountry(e.target.value)} />
+                                    <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: EventTargetting) => handleSetCountry(e.target.value)} />
                                     <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={disable} variant="contained" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
                                 </ButtonGroup>
                             </Stack>

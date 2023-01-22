@@ -1,6 +1,15 @@
+import React from 'react';
+
+import { Entry } from 'contentful';
+
 import Detail from './Detail';
 import Summary from './Summary';
-import type { BlockProps } from '@/types';
+import type { ProfileType } from '@/types';
+
+type BlockProps = {
+    contentEntry: Entry<ProfileType>;
+    detail?: boolean;
+}
 
 const Profile = (props: BlockProps) => {
     const { contentEntry, detail } = props;
