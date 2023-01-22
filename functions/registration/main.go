@@ -21,7 +21,7 @@ type Contact struct {
 }
 
 func (p Person) addContact() {
-	req := send.GetRequest(os.Getenv("SENDGRID_API_KEY"), os.Getenv("SENDGRID_ENDPOINT"), os.Getenv("SENDGRID_HOST"))
+	req := send.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/marketing/contacts", "https://api.sendgrid.com")
 	req.Method = "PUT"
 
 	req.Body, _ = json.Marshal(Contact{Contacts: []Person{p}})
