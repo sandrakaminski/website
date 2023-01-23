@@ -7,10 +7,8 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-
 import { FacebookIcon } from './icons/FacebookIcon';
 import { TumblrIcon } from './icons/TumblrIcon';
-
 
 const Footer = () => {
     const date = new Date().getFullYear();
@@ -26,7 +24,7 @@ const Footer = () => {
                 </Typography>
             </Stack>
             <Stack sx={{ '&:hover': { color: 'grayText' }, }} direction="row" alignItems="center" spacing={1}>
-                {social.map((item: SocialArray, index: number) =>
+                {social.map((item: Social, index: number) =>
                     <Link target="_blank" sx={{ '&:hover': { color: 'text.primary' }, }} color="inherit" href={item.link} key={index} >
                         {item.icon}
                     </Link>
@@ -37,12 +35,13 @@ const Footer = () => {
 }
 export default Footer;
 
-type SocialArray = {
-    icon: JSX.Element;
+
+type Social = {
+    icon: React.ReactNode;
     link: string;
 }
 
-const social: SocialArray[] = [
+const social: Social[] = [
     { icon: <FacebookIcon />, link: 'https://www.facebook.com/sandra.kaminskinz' },
     { icon: <TwitterIcon />, link: 'https://twitter.com/Sandrakaminski1' },
     { icon: <TumblrIcon />, link: 'https://sandrakaminskinz.tumblr.com/' },

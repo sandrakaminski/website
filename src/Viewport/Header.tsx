@@ -132,7 +132,7 @@ const Header: React.FC = () => {
                                 {headers.map((item: MenuItemEntry, index: number) =>
                                     <MenuItem
                                         key={index}
-                                        href={item.slug}  >
+                                        onClick={() => { handleNavigate(item.slug) }}>
                                         {item.name}
                                     </MenuItem>
                                 )}
@@ -146,7 +146,7 @@ const Header: React.FC = () => {
 
                     </Toolbar>
                 </AppBar >
-            </LoadingState>
+            </LoadingState >
         )
     }
 }
