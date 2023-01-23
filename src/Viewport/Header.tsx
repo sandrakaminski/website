@@ -12,6 +12,7 @@ import Link from "@mui/material/Link";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from "@mui/material/Toolbar";
+import { Stack } from "@mui/system";
 import { useQuery } from "@tanstack/react-query";
 import { Entry, EntryCollection } from "contentful";
 import { useNavigate } from "react-router-dom";
@@ -129,13 +130,15 @@ const Header: React.FC = () => {
                                 <MenuIcon />
                             </IconButton>
                             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
-                                {headers.map((item: MenuItemEntry, index: number) =>
-                                    <MenuItem
-                                        key={index}
-                                        onClick={() => { handleNavigate(item.slug) }}>
-                                        {item.name}
-                                    </MenuItem>
-                                )}
+                                <Stack>
+                                    {headers.map((item: MenuItemEntry, index: number) =>
+                                        <Button
+                                            key={index}
+                                            href={item.slug}>
+                                            {item.name}
+                                        </Button>
+                                    )}
+                                </Stack>
                             </Menu>
                             <IconButton color="inherit" onClick={() => handleNavigate('cart')}>
                                 <Badge badgeContent={amount && amount - 1 > 0 ? amount - 1 : 0} color="info">
