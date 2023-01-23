@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -7,6 +7,7 @@ import CardActions from '@mui/material/CardActions';
 import Dialog from '@mui/material/Dialog';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useQuery } from "@tanstack/react-query";
 import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,7 +26,7 @@ const CartPopper = (props: CartPopperProps) => {
     const [open, setOpen] = useState<boolean>(false);
     const amountTotal = amount - 1;
 
-    useEffect(() => {
+    const openMsg = () => {
         if (clickEvent) {
             if (cart?.length === 1 || amountTotal === 1) {
                 setOpen(true)
@@ -37,7 +38,9 @@ const CartPopper = (props: CartPopperProps) => {
                 setOpen(false)
             }
         }
-    }, [cart, amount, amountTotal, setOpen, clickEvent])
+        return clickEvent
+    }
+    useQuery([clickEvent], openMsg)
 
     const handleClose = () => {
         setOpen(false);

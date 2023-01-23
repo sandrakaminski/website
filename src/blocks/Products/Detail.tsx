@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -13,6 +13,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
+import { useQuery } from "@tanstack/react-query";
 import { Asset, Entry } from 'contentful';
 import ReactGA from 'react-ga4';
 import ReactMarkdown from 'react-markdown';
@@ -146,11 +147,13 @@ const Body = (props: ContentProps<ProductTypes>) => {
         setShowMore(preview)
     }
 
-    useEffect(() => {
+    const detectLength = () => {
         if (detect.length === preview.length) {
             setHidden(true)
         }
-    }, [contentEntry.fields.description, detect, preview])
+        return detect.length === preview.length
+    }
+    useQuery(['detectLength'], detectLength)
 
     return (
         <Box sx={{ p: 2 }}>

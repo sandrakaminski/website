@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import CardMedia from "@mui/material/CardMedia";
 import Skeleton from "@mui/material/Skeleton";
 import type { SystemStyleObject, Theme } from "@mui/system";
+import { useQuery } from "@tanstack/react-query";
 
 interface LoadingImageProps {
     src: string;
@@ -24,14 +25,16 @@ export const LoadingImage = (props: LoadingImageProps) => {
         imageCard = false
     }
 
-    useEffect(() => {
+    const imageSrc = () => {
         setLoad(true);
         const imageToLoad = new Image();
         imageToLoad.src = src;
         imageToLoad.onload = () => {
             setLoad(false);
         }
-    }, [src]);
+        return src
+    }
+    useQuery([src], imageSrc)
 
     const cardSize = { height: { xs: '100%', sm: '60vw', md: '36vw', xl: 600 }, width: '100%' };
 

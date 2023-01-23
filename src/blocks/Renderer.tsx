@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
+import { useQuery } from "@tanstack/react-query";
 import { Entry } from "contentful";
 
 import Article from './Article';
@@ -100,14 +101,17 @@ const GridLayout = (props: ContentProps<AnyEntry>) => {
         setLimit(limit + initialCount)
     }
 
-    useEffect(() => {
+    const setLayout = () => {
         if (limit > content?.fields.references?.length || limit === content?.fields.references?.length) {
             setDisable(true)
         }
         else {
             setDisable(false)
         }
-    }, [content, limit])
+        return limit
+    }
+
+    useQuery([limit, window.location], setLayout)
 
 
     return (

@@ -19,7 +19,7 @@ type CartItem = {
 }
 
 type Action = {
-    type: String;
+    type: string;
     payload: any;
 }
 
