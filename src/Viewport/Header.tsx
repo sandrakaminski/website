@@ -23,8 +23,6 @@ import LoadingState from "@/components/Outline";
 import type { MenuEntry, MenuItemEntry } from '@/types';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
-
-
 const headers = [
     { name: 'Shop', slug: '/shop' },
     { name: 'Inspiration', slug: 'https://sandrakaminski.com/diy' },
