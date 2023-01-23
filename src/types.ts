@@ -1,5 +1,6 @@
 import { Asset, Entry, Sys } from "contentful";
 
+
 export type MenuEntry = {
     references: Entry<MenuItemEntry>[]
 };
@@ -8,7 +9,6 @@ export type MenuItemEntry = {
     name: string;
     slug: string;
 }
-
 
 export type AssemblyEntry = {
     references: Entry<AssemblyEntry | ProductTypes | ImageBannerType | Content | ProfileType | ImageContainerProps | ArticleType>[]

@@ -7,17 +7,19 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+
 import { FacebookIcon } from './icons/FacebookIcon';
 import { TumblrIcon } from './icons/TumblrIcon';
 
-const Footer: React.FC = () => {
+
+const Footer = () => {
     const date = new Date().getFullYear();
 
     return (
         <Stack component="footer" sx={{ py: 6 }} alignItems="center" justifyContent="center" spacing={2}>
             <Stack alignItems="center" spacing={2}>
                 <Typography align="center" color="grayText" variant="body1">
-                    {`All contentEntry © copyright  ${date} ${import.meta.env.VITE_APP_NAME}.`}
+                    {`All content © copyright  ${date} ${import.meta.env.VITE_APP_NAME}.`}
                 </Typography >
                 <Typography align="center" color="grayText" variant="body1">
                     All rights reserved.
@@ -47,3 +49,4 @@ const social: SocialArray[] = [
     { icon: <PinterestIcon />, link: 'https://www.pinterest.com/stylistnz/' },
     { icon: <InstagramIcon />, link: 'https://www.instagram.com/sandra.kaminski/' }
 ]
+
