@@ -182,6 +182,7 @@ export const CartItemPrice = (props: CartItem) => {
             setLoading(false)
         }
     }, [currency, item, newCurrency]);
+    
     useEffect(() => {
         handleSetCurrency();
     }, [handleSetCurrency]);
