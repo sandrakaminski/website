@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 
@@ -32,8 +32,8 @@ export const countriesList: Init = {
 }
 
 type DropdownProps = {
-    onChange: any;
-    value: string | object;
+    setCountry: (country: string) => void;
+    value: string;
     label: string;
     id: string;
     disabled?: boolean;
@@ -41,7 +41,11 @@ type DropdownProps = {
 }
 
 const CountryDropdown = (props: DropdownProps) => {
-    const { onChange, value, label, id, disabled, loading } = props;
+    const { setCountry, value, label, id, disabled, loading } = props;
+
+    const changeCountry = (e: SelectChangeEvent) => {
+        setCountry(e.target.value as string);
+    }
 
     return (
         <>
@@ -49,7 +53,7 @@ const CountryDropdown = (props: DropdownProps) => {
                 <FormControl disabled={disabled} size="small" variant="outlined" fullWidth>
                     <InputLabel id={id}>Country</InputLabel>
                     <Select
-                        onChange={onChange}
+                        onChange={changeCountry}
                         value={value}
                         labelId="country"
                         id={id}
@@ -177,7 +181,6 @@ export const CartItemPrice = (props: CartItem) => {
         catch {
             setLoading(false)
         }
-
     }, [currency, item, newCurrency]);
     useEffect(() => {
         handleSetCurrency();

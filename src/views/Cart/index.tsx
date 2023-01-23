@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState } from "react";
 
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
@@ -19,6 +19,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios"
 import { Asset } from 'contentful';
 import ReactGA from 'react-ga4';
@@ -55,8 +56,6 @@ type IpItems = {
     countryCode: string;
 }
 
-type EventTargetting = { target: { value: string; }; }
-
 const Cart = () => {
     const navigate = useNavigate();
     const [processing, setProcessing] = useState<boolean>(false);
@@ -85,7 +84,7 @@ const Cart = () => {
         setCountry(val);
     }
 
-    const getData = useCallback(async () => {
+    const getData = async () => {
         try {
             const res = await axios.get('http://geolocation-db.com/json/');
             const { country_name, country_code } = res.data;
@@ -105,9 +104,9 @@ const Cart = () => {
             handleSetCountry("NZ");
             setLoading(false);
         }
-    }, []);
+    };
 
-    useEffect(() => {
+    const trigger = () => {
         if (cart.length === 0) {
             localStorage.removeItem("country");
         }
@@ -127,7 +126,9 @@ const Cart = () => {
                 setLoading(false);
             }
         }
-    }, [cart, country, getData]);
+        return cart;
+    };
+    useQuery([cart], trigger)
 
     // this is to keep shipping prices consistent between Chile/Japan and everywhere else
     let shipping;
@@ -218,7 +219,7 @@ const Cart = () => {
                             </Stack>
                             <Stack spacing={0.5}>
                                 <ButtonGroup size="small">
-                                    <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} onChange={(e: EventTargetting) => handleSetCountry(e.target.value)} />
+                                    <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} setCountry={handleSetCountry} />
                                     <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={disable} variant="contained" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
                                 </ButtonGroup>
                             </Stack>
@@ -245,10 +246,11 @@ const CartItem = (props: CartItemProps) => {
     const { item, remove, country } = props;
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (item.inStock !== true)
-            remove(item.id)
-    }, [item.inStock, remove, item.id])
+    const inStock = () => {
+        item.inStock === true ? "In stock" : "Out of stock";
+        return item.inStock;
+    }
+    useQuery([item.inStock], inStock)
 
     return (
         <Grid sx={{ my: 0.5, px: 1 }} spacing={2} container direction="row" justifyContent="space-between" alignItems="center" >
@@ -284,11 +286,14 @@ type AmountButtonsProps = {
 const AmountButtons = (props: AmountButtonsProps) => {
     const { decrease, increase, amount, remove } = props;
 
-    useEffect(() => {
+    const changeAmount = () => {
         if (amount?.amount.length === undefined || amount?.amount.length === 0) {
             remove(amount.id);
         }
-    }, [amount?.amount.length, amount.id, remove])
+        return amount?.amount.length;
+    }
+    useQuery(["amount", amount?.id], changeAmount)
+
 
     return (
         <Stack direction="row" justifyContent="center" alignItems="center"    >
