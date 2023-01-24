@@ -109,9 +109,7 @@ const GridLayout = (props: ContentProps<AnyEntry>) => {
         }
         return limit
     }
-
     useQuery([limit, window.location], setLayout)
-
 
     return (
         <>

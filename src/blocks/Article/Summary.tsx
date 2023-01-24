@@ -30,7 +30,7 @@ const Summary = (props: ContentProps<ArticleType>) => {
                             alt={contentEntry.fields.coverImage.fields.title}
                         />
                     </CardActionArea>
-                    <Typography sx={{ p: 1, textTransform: 'capitalize' }} align="center" variant="h6">
+                    <Typography sx={{ p: 1, textTransform: 'capitalize', height: { sm: 100, md: 90, lg: 70 } }} align="center" variant="h6">
                         {contentEntry.fields.headline}
                     </Typography>
                     <CardContent component={Stack} direction="row" justifyContent="space-between" alignItems="center" spacing={0.5}>
