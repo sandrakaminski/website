@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Card from '@mui/material/Card';
@@ -18,6 +18,16 @@ const Summary = (props: ContentProps<ArticleType>) => {
     const { pathname } = useLocation();
     const { slug } = useParams();
     const navigate = useNavigate();
+    const [style, setStyle] = useState({});
+
+    useEffect(() => {
+        if (pathname === "/blog") {
+            setStyle({ p: 1, textTransform: 'uppercase', height: { sm: 130, lg: 110 } })
+        }
+        else {
+            setStyle({ p: 1, textTransform: 'uppercase' })
+        }
+    }, [pathname])
 
     return (
         <>
@@ -30,7 +40,7 @@ const Summary = (props: ContentProps<ArticleType>) => {
                             alt={contentEntry.fields.coverImage.fields.title}
                         />
                     </CardActionArea>
-                    <Typography sx={{ p: 1, textTransform: 'capitalize', height: { sm: 100, md: 90, lg: 70 } }} align="center" variant="h6">
+                    <Typography sx={style} align="center" variant="h6">
                         {contentEntry.fields.headline}
                     </Typography>
                     <CardContent component={Stack} direction="row" justifyContent="space-between" alignItems="center" spacing={0.5}>
