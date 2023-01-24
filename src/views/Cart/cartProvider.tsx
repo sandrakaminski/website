@@ -148,27 +148,27 @@ const CartProvider = ({ children }: CartProviderProps) => {
     const [state, dispatch] = useReducer(reducer, initialState && initialState);
 
     // add to cart
-    const addToCart: Function = (id: number, amount: number, product: CartItem) => {
+    const addToCart: (id: number, amount: number, product: CartItem) => void = (id: number, amount: number, product: CartItem) => {
         dispatch({ type: "CART", payload: { id, amount, product } });
     };
 
     // remove
-    const remove: Function = (id: number) => {
+    const remove: (id: number) => void = (id: number) => {
         dispatch({ type: "REMOVE", payload: id });
     };
 
     // increase
-    const increase: Function = (id: number) => {
+    const increase: (id: number) => void = (id: number) => {
         dispatch({ type: "INC", payload: id });
     };
 
     // decrease
-    const decrease: Function = (id: number) => {
+    const decrease: (id: number) => void = (id: number) => {
         dispatch({ type: "DEC", payload: id });
     };
 
     // clear
-    const clear: Function = () => {
+    const clear: () => void = () => {
         dispatch({
             type: "CLEAR",
             payload: undefined
