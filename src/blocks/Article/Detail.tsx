@@ -51,7 +51,7 @@ const Detail = (props: ContentProps<ArticleType>) => {
                             {contentEntry.fields.author.fields.name}
                         </Link>
                     </Stack>
-                    <Box sx={{ maxWidth: 600 }}>
+                    <Box sx={{ maxWidth: 700 }}>
                         <LoadingImage
                             skeletonheight={500}
                             sx={{ width: '100%', height: 'auto', py: 4 }}

@@ -21,6 +21,7 @@ const Summary = (props: ContentProps<ProductTypes>) => {
     const { pathname } = useLocation();
     const { slug } = useParams();
 
+
     const handleClick = () => {
         navigate(`${pathname}/${contentEntry.fields.slug}`, { state: { data: slug } })
         ReactGA.event({
@@ -30,8 +31,9 @@ const Summary = (props: ContentProps<ProductTypes>) => {
         });
     }
 
+
     return (
-        <Card sx={{ width: '100%' }} >
+        <Card>
             <CardActionArea onClick={() => handleClick()} >
                 <SoldOutBanner soldOut={!contentEntry.fields.inStock} />
                 <LoadingImage
@@ -40,7 +42,7 @@ const Summary = (props: ContentProps<ProductTypes>) => {
                     alt={contentEntry.fields.featureImage.fields.title} />
             </CardActionArea>
             <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1} >
-                <Typography variant="subtitle1" >{`${contentEntry.fields.name}`}</Typography>
+                <Typography sx={{ height: { sm: 50 } }} variant="subtitle1" >{`${contentEntry.fields.name}`}</Typography>
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
                     {contentEntry.fields.oldPrice &&
                         <Typography color="grayText" sx={{ textDecoration: 'line-through' }} variant="body1" >

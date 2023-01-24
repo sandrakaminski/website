@@ -44,9 +44,10 @@ export const typography: object = {
         letterSpacing: '.025em',
     },
     subtitle2: {
-        fontSize: '0.875rem',
-        fontWeight: 500,
-        fontFamily: 'proxima-nova',
+        fontSize: '0.9rem',
+        fontWeight: 800,
+        letterSpacing: '.025em',
+        // fontFamily: 'proxima-nova',
     },
     body1: {
         fontSize: '14px',
