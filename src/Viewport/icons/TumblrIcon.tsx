@@ -2,7 +2,7 @@ import React from "react";
 
 import { SvgIcon } from "@mui/material";
 
-export const TumblrIcon: React.FC = () => {
+const TumblrIcon: React.FC = () => {
     return (
         <SvgIcon sx={{ fontSize: 20 }} viewBox="0 0 310 310" >
             <g id="XMLID_828_">
@@ -48,3 +48,4 @@ export const TumblrIcon: React.FC = () => {
         </SvgIcon>
     )
 }
+export default TumblrIcon;
