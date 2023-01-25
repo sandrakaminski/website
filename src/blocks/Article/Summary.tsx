@@ -25,7 +25,7 @@ const Summary = (props: ContentProps<ArticleType>) => {
             setStyle({ p: 1, textTransform: 'uppercase', height: { sm: 130, lg: 110 } })
         }
         else {
-            setStyle({ p: 1, textTransform: 'uppercase' })
+            setStyle({ p: 1, textTransform: 'uppercase', height: 50 })
         }
     }, [pathname])
 

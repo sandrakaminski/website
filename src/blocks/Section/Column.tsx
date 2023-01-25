@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import Resource from './Resource';
-import type { Content, ContentProps } from '@/types';
+import type { Content, ContentProps, ResourceType } from '@/types';
 
 export const Column = (props: ContentProps<Content>) => {
     const { contentEntry } = props;
@@ -18,7 +18,7 @@ export const Column = (props: ContentProps<Content>) => {
                         {contentEntry.fields.headline}
                     </Typography>
                     <Grid container>
-                        {contentEntry.fields.resources.map((item: any, index: number) => (
+                        {contentEntry.fields.resources.map((item: ResourceType, index: number) => (
                             <Grid key={index} xs={12} md={6} >
                                 <Typography align="center" variant="h3" sx={{ p: 4 }}>
                                     {item.fields.headline}

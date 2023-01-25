@@ -6,6 +6,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useQuery } from "@tanstack/react-query";
 import { Entry } from "contentful";
+import { useLocation } from 'react-router-dom';
 
 import Article from './Article';
 import Contact from './Contact';
@@ -96,6 +97,8 @@ const GridLayout = (props: ContentProps<AnyEntry>) => {
     const [limit, setLimit] = useState<number>(initialCount);
     const [disable, setDisable] = useState<boolean>(false);
 
+    const { pathname } = useLocation();
+
     const limitPage = () => {
         setLimit(limit + initialCount)
     }
@@ -109,7 +112,7 @@ const GridLayout = (props: ContentProps<AnyEntry>) => {
         }
         return limit
     }
-    useQuery([limit, window.location], setLayout)
+    useQuery([limit, pathname], setLayout)
 
     return (
         <>
