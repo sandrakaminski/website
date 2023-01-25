@@ -114,7 +114,7 @@ const GridLayout = (props: ContentProps<AnyEntry>) => {
     useQuery([limit, pathname], setLayout)
 
     return (
-        <Container maxWidth="xl">
+        <Container sx={{ maxWidth: 2000 }} maxWidth={false}>
             {content?.sys?.contentType.sys.id === 'assembly' && content?.fields.layout === 'Grid' &&
                 <Grid sx={{ px: { lg: 4 } }} container spacing={2}>
                     {content.fields.references.slice(0, limit).map((block, index) =>
