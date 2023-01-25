@@ -23,6 +23,10 @@ type Action = {
     payload: any;
 }
 
+// type AddShoppingCart = {
+
+// }
+
 const init: State = {
     cart: [],
     amount: 0,
@@ -35,6 +39,8 @@ const reducer = (state: State, action: Action) => {
     if (action.type === "CLEAR") {
         return { ...state, cart: [] };
     }
+
+    console.log(action)
 
     //Remove items from Cart
     if (action.type === "REMOVE") {
