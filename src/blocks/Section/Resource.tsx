@@ -6,10 +6,9 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import { Asset } from 'contentful';
 
-
 import type { ResourceType } from '@/types';
 
-interface ResourceProps {
+type ResourceProps = {
     resource: ResourceType;
 }
 
