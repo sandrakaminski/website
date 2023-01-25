@@ -128,7 +128,7 @@ const Cart = () => {
         }
         return cart
     };
-    useQuery(["cart"], trigger)
+    useQuery([cart], trigger)
 
     // this is to keep shipping prices consistent between Chile/Japan and everywhere else
     let shipping;
