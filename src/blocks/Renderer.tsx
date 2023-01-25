@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useQuery } from "@tanstack/react-query";
 import { Entry } from "contentful";
@@ -95,7 +96,6 @@ const GridLayout = (props: ContentProps<AnyEntry>) => {
     const initialCount = 12;
     const [limit, setLimit] = useState<number>(initialCount);
     const [disable, setDisable] = useState<boolean>(false);
-
     const { pathname } = useLocation();
 
     const limitPage = () => {
@@ -114,27 +114,25 @@ const GridLayout = (props: ContentProps<AnyEntry>) => {
     useQuery([limit, pathname], setLayout)
 
     return (
-        <Box display="flex" justifyContent="center" >
-            <Box sx={{ maxWidth: 2000 }}>
-                {content?.sys?.contentType.sys.id === 'assembly' && content?.fields.layout === 'Grid' &&
-                    <Grid sx={{ px: { lg: 4 } }} container spacing={2}>
-                        {content.fields.references.slice(0, limit).map((block, index) =>
-                            <Grid alignItems="stretch" key={index} xs={12} sm={6} md={4} xl={3} >
-                                <LoadingState type={content?.fields.layout} contentEntry={contentEntry} >
-                                    <Factory contentEntry={block} />
-                                </LoadingState>
-                            </Grid>
-                        )}
-                        {content?.fields.references?.length > initialCount &&
-                            <Grid xs={12} display="flex" justifyContent="center" alignItems="center" container sx={{ mt: 2 }}>
-                                <Button disabled={disable} onClick={limitPage}>
-                                    Show more
-                                </Button>
-                            </Grid>
-                        }
-                    </Grid>
-                }
-            </Box>
-        </Box>
+        <Container maxWidth="xl">
+            {content?.sys?.contentType.sys.id === 'assembly' && content?.fields.layout === 'Grid' &&
+                <Grid sx={{ px: { lg: 4 } }} container spacing={2}>
+                    {content.fields.references.slice(0, limit).map((block, index) =>
+                        <Grid alignItems="stretch" key={index} xs={12} sm={6} md={4} xl={3} >
+                            <LoadingState type={content?.fields.layout} contentEntry={contentEntry} >
+                                <Factory contentEntry={block} />
+                            </LoadingState>
+                        </Grid>
+                    )}
+                    {content?.fields.references?.length > initialCount &&
+                        <Grid xs={12} display="flex" justifyContent="center" alignItems="center" container sx={{ mt: 2 }}>
+                            <Button disabled={disable} onClick={limitPage}>
+                                Show more
+                            </Button>
+                        </Grid>
+                    }
+                </Grid>
+            }
+        </Container>
     )
 }
