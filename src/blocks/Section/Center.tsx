@@ -19,7 +19,7 @@ export const Center = (props: ContentProps<Content>) => {
         <>
             {contentEntry?.fields.image?.fields.file.url &&
                 <LoadingImage
-                    skeletonheight={"50vh"}
+                    skeletonheight={500}
                     sx={{ width: '100%', height: 'auto' }}
                     src={contentEntry.fields.image.fields.file.url}
                     alt={contentEntry.fields.image.fields.title}
