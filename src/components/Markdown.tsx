@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
@@ -14,8 +15,8 @@ type Img = {
 
 export const Markdown: Record<string, unknown> = {
     a: ({ ...props }) => <Link target="_blank"  {...props} />,
-    img: ({ ...props }, { alt, src }: Img) => <LoadingImage skeletonheight={500} src={src} alt={alt} {...props} />,
-    p: ({ ...props }) => <Typography sx={{ lineHeight: 1.75 }} paragraph align="justify" variant="body1" {...props} />,
+    img: ({ ...props }, { alt, src }: Img) => <LoadingImage sx={{ width: '100%' }} skeletonheight={500} src={src} alt={alt} {...props} />,
+    p: ({ ...props }) => <Box maxWidth="md"><Typography sx={{ lineHeight: 1.75 }} paragraph align="justify" variant="body1" {...props} /></Box>,
     hr: ({ ...props }) => <Divider sx={{ my: 2 }} {...props} />,
     div: ({ ...props }) => <Stack justifyContent="center" alignItems="center" direction="row" {...props} />,
 }

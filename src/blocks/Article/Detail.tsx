@@ -58,12 +58,8 @@ const Detail = (props: ContentProps<ArticleType>) => {
                             src={contentEntry?.fields.coverImage.fields.file.url}
                             alt={contentEntry.fields.coverImage.fields.title}
                         />
-                        <ReactMarkdown  components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
-                        {/* <Embed
-                        websiteId={import.meta.env.VITE_HYVOR_WEBSITE}
-                        id={contentEntry.fields.slug}
-                    /> */}
                     </Box>
+                    <ReactMarkdown components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
                 </Stack>
             }
         </>
