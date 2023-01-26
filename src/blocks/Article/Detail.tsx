@@ -51,14 +51,14 @@ const Detail = (props: ContentProps<ArticleType>) => {
                             {contentEntry.fields.author.fields.name}
                         </Link>
                     </Stack>
-                    <Box sx={{ maxWidth: 700 }}>
+                    <Box sx={{ maxWidth: 800 }}>
                         <LoadingImage
                             skeletonheight={500}
                             sx={{ width: '100%', height: 'auto', py: 4 }}
                             src={contentEntry?.fields.coverImage.fields.file.url}
                             alt={contentEntry.fields.coverImage.fields.title}
                         />
-                        <ReactMarkdown components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
+                        <ReactMarkdown  components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
                         {/* <Embed
                         websiteId={import.meta.env.VITE_HYVOR_WEBSITE}
                         id={contentEntry.fields.slug}

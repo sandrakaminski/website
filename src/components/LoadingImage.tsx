@@ -36,7 +36,7 @@ export const LoadingImage = (props: LoadingImageProps) => {
     }
     useQuery([src], imageSrc)
 
-    const cardSize = { height: { xs: '100%', sm: '60vw', md: '36vw', xl: 600 }, width: '100%' };
+    const cardSize = { height: { xs: '100%', sm: '60vw', md: '36vw', xl: 700 }, width: '100%' };
 
     return (
         <>

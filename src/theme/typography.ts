@@ -34,9 +34,13 @@ export const typography: object = {
         textTransform: 'uppercase',
     },
     h6: {
-        fontSize: '1.25rem',
+        fontFamily: 'ltc-bodoni-175',
         fontWeight: 500,
-        fontFamily: 'proxima-nova',
+        fontStyle: 'normal',
+        fontSize: '22px',
+        letterSpacing: '.02em',
+        textTransform: 'uppercase',
+        textDecoration: 'none'
     },
     subtitle1: {
         fontSize: '1rem',
