@@ -35,7 +35,7 @@ export const typography: object = {
     },
     h6: {
         fontFamily: 'ltc-bodoni-175',
-        fontWeight: 600,
+        fontWeight: 500,
         fontStyle: 'normal',
         fontSize: '22px',
         letterSpacing: '.03em',

@@ -116,7 +116,7 @@ const GridLayout = (props: ContentProps<AnyEntry>) => {
     return (
         <Container maxWidth={false}>
             {content?.sys?.contentType.sys.id === 'assembly' && content?.fields.layout === 'Grid' &&
-                <Grid sx={{ px: { lg: 4 } }} container spacing={{ xs: 2, xl: 6 }}>
+                <Grid container spacing={{ xs: 2, xl: 6 }}>
                     {content.fields.references.slice(0, limit).map((block, index) =>
                         <Grid alignItems="stretch" key={index} xs={12} sm={6} md={4} xl={3} >
                             <LoadingState type={content?.fields.layout} contentEntry={contentEntry} >

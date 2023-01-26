@@ -2,7 +2,6 @@ import React from 'react';
 
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CardActionArea from "@mui/material/CardActionArea";
-// import CardContent from '@mui/material/CardContent';
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from '@mui/material/Typography';
@@ -17,16 +16,6 @@ const Summary = (props: ContentProps<ArticleType>) => {
     const { pathname } = useLocation();
     const { slug } = useParams();
     const navigate = useNavigate();
-    // const [style, setStyle] = useState({});
-
-    // useEffect(() => {
-    //     if (pathname === "/blog") {
-    //         setStyle({ p: 1.3, height: { sm: 130, xl: 110 } })
-    //     }
-    //     else {
-    //         setStyle({ p: 1.3, height: 110 })
-    //     }
-    // }, [pathname])
 
     return (
         <>
@@ -39,9 +28,9 @@ const Summary = (props: ContentProps<ArticleType>) => {
                             alt={contentEntry.fields.coverImage.fields.title}
                         />
                     </CardActionArea>
-                    <Typography sx={{ p: 1.5 }} align="center" variant="h6">
+                    <Link color="primary" underline="none" sx={{ cursor: 'pointer', p: 1.5, pt: 4, lineHeight: '1.5rem' }} component={Typography} onClick={() => navigate(`${pathname}/${contentEntry.fields.slug}`, { state: { data: slug } })} align="center" variant="h6">
                         {contentEntry.fields.headline}
-                    </Typography>
+                    </Link>
                     <Stack sx={{ my: 2 }} spacing={2} justifyContent="center" alignItems="center">
                         <Stack
                             sx={{ my: 2 }}
