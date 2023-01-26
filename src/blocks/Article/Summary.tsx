@@ -28,7 +28,7 @@ const Summary = (props: ContentProps<ArticleType>) => {
                             alt={contentEntry.fields.coverImage.fields.title}
                         />
                     </CardActionArea>
-                    <Link color="primary" underline="none" sx={{ cursor: 'pointer', p: 1.5, pt: 4, lineHeight: '1.5rem' }} component={Typography} onClick={() => navigate(`${pathname}/${contentEntry.fields.slug}`, { state: { data: slug } })} align="center" variant="h6">
+                    <Link color="primary" underline="none" sx={{ cursor: 'pointer', p: 1.5, pt: 4, lineHeight: '28px' }} component={Typography} onClick={() => navigate(`${pathname}/${contentEntry.fields.slug}`, { state: { data: slug } })} align="center" variant="h6">
                         {contentEntry.fields.headline}
                     </Link>
                     <Stack sx={{ my: 2 }} spacing={2} justifyContent="center" alignItems="center">

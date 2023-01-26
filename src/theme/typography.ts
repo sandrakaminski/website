@@ -35,12 +35,12 @@ export const typography: object = {
     },
     h6: {
         fontFamily: 'ltc-bodoni-175',
-        fontWeight: 500,
+        fontWeight: 400,
         fontStyle: 'normal',
-        fontSize: '22px',
-        letterSpacing: '.03em',
+        fontSize: '24px',
+        letterSpacing: '0.72px',
         textTransform: 'uppercase',
-        textDecoration: 'none'
+        textDecorationStyle: 'solid'
     },
     subtitle1: {
         fontSize: '1rem',
