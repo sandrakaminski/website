@@ -46,7 +46,7 @@ const Detail = (props: ContentProps<ArticleType>) => {
                         <Typography variant="body1"  >
                             <DateFormatter dateString={contentEntry.fields.date} />
                         </Typography>
-                        <FiberManualRecordIcon sx={{ height: 5, width: 5 }} />
+                        <FiberManualRecordIcon sx={{ height: 2.5, width: 2.5 }} />
                         <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => handleClick()} variant="body1">
                             {contentEntry.fields.author.fields.name}
                         </Link>
