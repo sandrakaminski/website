@@ -35,10 +35,10 @@ export const typography: object = {
     },
     h6: {
         fontFamily: 'ltc-bodoni-175',
-        fontWeight: 500,
+        fontWeight: 600,
         fontStyle: 'normal',
         fontSize: '22px',
-        letterSpacing: '.02em',
+        letterSpacing: '.03em',
         textTransform: 'uppercase',
         textDecoration: 'none'
     },
