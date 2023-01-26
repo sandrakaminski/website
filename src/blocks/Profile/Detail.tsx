@@ -11,7 +11,7 @@ import ReactMarkdown from 'react-markdown';
 
 import LoadingImage from "@/components/LoadingImage";
 import { Markdown } from '@/components/Markdown';
-import Trail from '@/components/Trail';
+// import Trail from '@/components/Trail';
 import type { ProfileType, ContentProps } from '@/types';
 
 const Detail = (props: ContentProps<ProfileType>) => {
@@ -19,7 +19,7 @@ const Detail = (props: ContentProps<ProfileType>) => {
 
     return (
         <>
-            <Trail current={contentEntry?.fields.title} />
+            {/* <Trail current={contentEntry?.fields.title} /> */}
             {contentEntry &&
                 <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
                     <Box sx={{ mt: 4 }}>

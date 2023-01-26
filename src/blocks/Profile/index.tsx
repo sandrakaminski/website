@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Entry } from 'contentful';
+import { useNavigate } from 'react-router-dom';
 
 import Detail from './Detail';
 import Summary from './Summary';
@@ -13,6 +14,11 @@ type BlockProps = {
 
 const Profile = (props: BlockProps) => {
     const { contentEntry, detail } = props;
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        navigate(`/profile/${contentEntry.fields.slug}`, { state: { data: contentEntry.fields.slug } })
+    }, [contentEntry.fields.slug, navigate])
 
     return (
         <>
