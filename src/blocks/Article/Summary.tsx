@@ -25,7 +25,7 @@ const Summary = (props: ContentProps<ArticleType>) => {
             setStyle({ p: 1, height: { sm: 130, lg: 110 } })
         }
         else {
-            setStyle({ p: 1, height: 100 })
+            setStyle({ p: 1, height: 110 })
         }
     }, [pathname])
 
