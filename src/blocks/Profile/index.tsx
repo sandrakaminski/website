@@ -18,10 +18,10 @@ const Profile = (props: BlockProps) => {
     const navigate = useNavigate();
 
     const navigateToProfile = () => {
-        navigate(`/profile/${contentEntry.fields.slug}`, { state: { data: contentEntry.fields.slug } })
-        return contentEntry.fields.slug
-    }
-    useQuery([contentEntry.fields.slug], navigateToProfile)
+        navigate(`/profile/${contentEntry.fields.slug}`, { state: { data: contentEntry.fields.slug } });
+        return contentEntry.fields.slug;
+    };
+    useQuery([contentEntry.fields.slug], navigateToProfile);
 
     return (
         <>

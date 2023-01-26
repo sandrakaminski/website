@@ -36,7 +36,7 @@ const Detail = (props: ContentProps<ProfileType>) => {
                             {contentEntry.fields.name}
                         </Typography>
                     </Box>
-                    <Typography variant="h2">
+                    <Typography variant="h3">
                         {contentEntry.fields.title}
                     </Typography>
                     <Container maxWidth="sm">

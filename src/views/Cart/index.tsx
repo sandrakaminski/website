@@ -48,7 +48,7 @@ type OrderItems = {
 
 type Prices = {
     shipping: any;
-    total: any;
+    total: number;
 }
 
 type IpItems = {
@@ -68,6 +68,7 @@ const Cart = () => {
         countryName: "",
         countryCode: "",
     });
+
     const [amount, setAmount] = useState<Prices>({
         shipping: 0,
         total: 0
@@ -135,6 +136,7 @@ const Cart = () => {
     if (!amount.shipping) {
         shipping = '';
     }
+
     else {
         if (country === "CL" || country === "JP") {
             shipping = amount.shipping.toFixed(0)

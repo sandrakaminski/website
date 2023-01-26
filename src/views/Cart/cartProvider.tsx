@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useReducer, createContext, useEffect, useContext } from "react";
 
 type State = {
