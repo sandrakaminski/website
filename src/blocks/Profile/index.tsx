@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
+import { useQuery } from '@tanstack/react-query';
 import { Entry } from 'contentful';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,9 +17,11 @@ const Profile = (props: BlockProps) => {
     const { contentEntry, detail } = props;
     const navigate = useNavigate();
 
-    useEffect(() => {
+    const navigateToProfile = () => {
         navigate(`/profile/${contentEntry.fields.slug}`, { state: { data: contentEntry.fields.slug } })
-    }, [contentEntry.fields.slug, navigate])
+        return contentEntry.fields.slug
+    }
+    useQuery([contentEntry.fields.slug], navigateToProfile)
 
     return (
         <>
