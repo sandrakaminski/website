@@ -13,6 +13,7 @@ interface LoadingImageProps {
     skeletonheight?: number | string;
     card?: string;
     sx?: SystemStyleObject<Theme>
+    width?: number | string;
 }
 
 export const LoadingImage = (props: LoadingImageProps) => {
@@ -35,7 +36,7 @@ export const LoadingImage = (props: LoadingImageProps) => {
     return (
         <>
             {load ?
-                <Skeleton animation={false} sx={imageCard ? cardSize : { ...sx }} variant="rectangular" height={skeletonheight} />
+                <Skeleton animation={false} sx={imageCard ? cardSize : { ...sx }} variant="rectangular" {...props} height={skeletonheight} />
                 :
                 <CardMedia sx={imageCard ? cardSize : { ...sx }} component="img" loading="lazy" {...props} />
             }

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Box from '@mui/material/Box';
-import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
@@ -21,11 +20,11 @@ const Detail = (props: ContentProps<ProfileType>) => {
         <>
             {/* <Trail current={contentEntry?.fields.title} /> */}
             {contentEntry &&
-                <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
+                <Stack sx={{ my: 4 }} spacing={2} justifyContent="space-evenly" alignItems="center">
                     <Box sx={{ mt: 4 }}>
-                        <CardMedia
-                            loading="lazy"
-                            component="img"
+                        <LoadingImage
+                            width={500}
+                            skeletonheight={500}
                             sx={{ width: '100%', height: 'auto' }}
                             src={contentEntry?.fields.image.fields.file.url}
                             alt={contentEntry.fields.image.fields.title}

@@ -188,14 +188,6 @@ const CartProvider = ({ children }: CartProviderProps) => {
     }
     useQuery([state.cart], getTotal)
 
-    // useEffect(() => {
-    //     dispatch({
-    //         type: "GET_TOTALS",
-    //         payload: undefined
-    //     });
-    //     localStorage.setItem("cart", JSON.stringify(state.cart));
-    // }, [state.cart]);
-
     return (
         <cartContext.Provider value={{ ...state, addToCart, clear, decrease, increase, remove }}>
             {children}
