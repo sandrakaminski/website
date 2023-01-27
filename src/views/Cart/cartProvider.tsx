@@ -41,8 +41,6 @@ const reducer = (state: State, action: Action) => {
         return { ...state, cart: [] };
     }
 
-    console.log(action)
-
     //Remove items from Cart
     if (action.type === "REMOVE") {
         const tempCart = state.cart.filter((item: CartItem) => item.id !== action.payload);

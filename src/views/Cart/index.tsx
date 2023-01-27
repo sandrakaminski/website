@@ -127,9 +127,9 @@ const Cart = () => {
                 setLoading(false);
             }
         }
-        return cart
+        return [cart, country]
     };
-    useQuery([cart], trigger)
+    useQuery([cart, country], trigger)
 
     // this is to keep shipping prices consistent between Chile/Japan and everywhere else
     let shipping;
@@ -294,8 +294,7 @@ const AmountButtons = (props: AmountButtonsProps) => {
         }
         return amount?.amount.length;
     }
-    useQuery(["amount", amount?.id], changeAmount)
-
+    useQuery([amount, amount?.id], changeAmount)
 
     return (
         <Stack direction="row" justifyContent="center" alignItems="center"    >

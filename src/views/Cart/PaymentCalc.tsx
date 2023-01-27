@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
+import { useQuery } from '@tanstack/react-query';
 
 import { useCartContext } from "@/views/Cart/cartProvider";
 
@@ -137,7 +138,7 @@ export const vat = (country: string) => {
     return 0.15;
 }
 
-interface CurrencyExchProps {
+type CurrencyExchProps = {
     country: string;
     shippingCosts: number;
     setAmount: (amount: Amount) => typeof amount | void;
@@ -160,7 +161,6 @@ type CartItem = {
 
 export const CartItemPrice = (props: CartItem) => {
     const { country, item, } = props;
-
     // inital state (NZD)
     const currency = currencyTypes(init);
 
@@ -182,7 +182,7 @@ export const CartItemPrice = (props: CartItem) => {
             setLoading(false)
         }
     }, [currency, item, newCurrency]);
-    
+
     useEffect(() => {
         handleSetCurrency();
     }, [handleSetCurrency]);
@@ -196,32 +196,18 @@ export const CartItemPrice = (props: CartItem) => {
 export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { country, shippingCosts, setAmount, amount, setDisable } = props;
     const { total } = useCartContext();
-
     const [loading, setLoading] = useState<boolean>(true);
 
-    // inital state (NZD)
     const currency = currencyTypes(init);
-
-    // custom hooks
     const vatCosts = vat(country);
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
 
-    // calculations 
     const totalCost = total + shippingCosts;
     const vatTotal = vatCosts * amount.total;
     const totalCosts = totalCost.toFixed(2).toString();
 
-    useEffect(() => {
-        if (!loading) {
-            setDisable(false)
-        }
-        else {
-            setDisable(true)
-        }
-    }, [loading, setDisable])
-
-    const handleSetCurrency = useCallback(async () => {
+    const handleSetCurrency = async () => {
         setLoading(true)
         const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
         const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
@@ -232,13 +218,20 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
             setAmount({ total: total?.rates[newCurrency], shipping: shipping?.rates[newCurrency], currency: newCurrency });
             setLoading(false)
         }
+        return [currency, newCurrency, totalCosts, shippingCosts, setAmount]
+    }
+    const loadRate = useQuery([currency, newCurrency, totalCosts, shippingCosts, setAmount, setDisable], handleSetCurrency);
 
-    }, [currency, newCurrency, totalCosts, shippingCosts, setAmount])
-
-    // fetches the exchange rate
-    useEffect(() => {
-        handleSetCurrency()
-    }, [handleSetCurrency]);
+    const checkState = () => {
+        if (loadRate.isLoading) {
+            setDisable(true)
+        }
+        else {
+            setDisable(false)
+        }
+        return [loadRate.isLoading, setDisable]
+    }
+    useQuery([loadRate.isLoading, setDisable], checkState)
 
     return (
         <Box>
