@@ -5,6 +5,8 @@ import Skeleton from "@mui/material/Skeleton";
 import type { SystemStyleObject, Theme } from "@mui/system";
 import { useQuery } from "@tanstack/react-query";
 
+import { imageSrc } from "@/functions";
+
 interface LoadingImageProps {
     src: string;
     alt: string;
@@ -25,16 +27,8 @@ export const LoadingImage = (props: LoadingImageProps) => {
         imageCard = false
     }
 
-    const imageSrc = () => {
-        setLoad(true);
-        const imageToLoad = new Image();
-        imageToLoad.src = src;
-        imageToLoad.onload = () => {
-            setLoad(false);
-        }
-        return src
-    }
-    useQuery([src], imageSrc)
+    const loadSrc = () => imageSrc({ setLoad, src })
+    useQuery([src], loadSrc)
 
     const cardSize = { height: { xs: '100%', sm: '60vw', md: '36vw', xl: `calc(${700} - 50%)` }, width: '100%' };
 

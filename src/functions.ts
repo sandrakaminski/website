@@ -50,3 +50,19 @@ export const createSubmission = async (props: Submission) => {
         console.error(error);
     }
 }
+
+type ImgSrc = {
+    setLoad: (load: boolean) => void;
+    src: string;
+}
+
+export const imageSrc = (props: ImgSrc) => {
+    const { setLoad, src } = props;
+    setLoad(true);
+    const imageToLoad = new Image();
+    imageToLoad.src = src;
+    imageToLoad.onload = () => {
+        setLoad(false);
+    }
+    return src;
+}

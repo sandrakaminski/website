@@ -24,6 +24,7 @@ import LoadingImage from '@/components/LoadingImage';
 import { Markdown } from '@/components/Markdown';
 import Notifier from '@/components/Notifier';
 import Trail from '@/components/Trail';
+import { imageSrc } from '@/functions';
 import type { ProductTypes, ContentProps } from '@/types';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
@@ -267,16 +268,8 @@ const LoadingAvatar = (props: loadingAvatarProps) => {
     const [load, setLoad] = useState<boolean>(true);
     const avatarSize = { width: 50, height: 80 };
 
-    const imageSrc = () => {
-        setLoad(true);
-        const imageToLoad = new Image();
-        imageToLoad.src = src;
-        imageToLoad.onload = () => {
-            setLoad(false);
-        }
-        return src
-    }
-    useQuery([src, image], imageSrc)
+    const loadSrc = () => imageSrc({ setLoad, src })
+    useQuery([src, image,], loadSrc)
 
     return (
         <>
