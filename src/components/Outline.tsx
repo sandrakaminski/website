@@ -5,7 +5,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Unstable_Grid2";
 
-interface LoadingStateProps {
+type LoadingStateProps = {
     contentEntry: object;
     children: React.ReactNode;
     type: string;
@@ -16,7 +16,6 @@ const LoadingState = (props: LoadingStateProps) => {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        setLoading(true)
         if (contentEntry) {
             setLoading(false)
         }
@@ -34,15 +33,15 @@ export default LoadingState;
 
 const GridOutline: React.FC = () => {
     return (
-        <>
+        <Box>
             <Stack spacing={2}>
-                <Skeleton variant="rounded" height="30rem" />
+                <Skeleton variant="rectangular" height={500} />
                 <Box sx={{ pb: 1, px: 1 }}>
                     <Skeleton sx={{ mb: 3 }} variant="rounded" height="2.5rem" />
                     <Skeleton variant="text" height="2rem" />
                 </Box>
             </Stack>
-        </>
+        </Box>
     )
 }
 

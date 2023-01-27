@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useReducer, createContext, useEffect, useContext } from "react";
+import React, { useReducer, createContext, useContext } from "react";
+
+import { useQuery } from "@tanstack/react-query";
 
 type State = {
     cart: CartItem[];
@@ -23,10 +25,6 @@ type Action = {
     type: string;
     payload: any;
 }
-
-// type AddShoppingCart = {
-
-// }
 
 const init: State = {
     cart: [],
@@ -180,13 +178,23 @@ const CartProvider = ({ children }: CartProviderProps) => {
         });
     };
 
-    useEffect(() => {
+    const getTotal = () => {
         dispatch({
             type: "GET_TOTALS",
             payload: undefined
         });
         localStorage.setItem("cart", JSON.stringify(state.cart));
-    }, [state.cart]);
+        return state.cart
+    }
+    useQuery([state.cart], getTotal)
+
+    // useEffect(() => {
+    //     dispatch({
+    //         type: "GET_TOTALS",
+    //         payload: undefined
+    //     });
+    //     localStorage.setItem("cart", JSON.stringify(state.cart));
+    // }, [state.cart]);
 
     return (
         <cartContext.Provider value={{ ...state, addToCart, clear, decrease, increase, remove }}>
