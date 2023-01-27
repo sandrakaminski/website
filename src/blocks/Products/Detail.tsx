@@ -10,6 +10,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
+import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -29,7 +30,6 @@ import { useCartContext } from "@/views/Cart/cartProvider";
 const Detail = (props: ContentProps<ProductTypes>) => {
     const { contentEntry } = props;
     const { addToCart } = useCartContext();
-
     const [open, setOpen] = useState<boolean>(false);
     const [clickEvent, setClickEvent] = useState<boolean>(false);
     const [image, setImage] = useState<string>(contentEntry.fields.featureImage.fields.file.url);
@@ -61,16 +61,14 @@ const Detail = (props: ContentProps<ProductTypes>) => {
                 <Grid xs={12} md={6}  >
                     <Stack justifyContent="center" spacing={2} direction="row" >
                         <ThumbnailCarousel contentEntry={contentEntry} image={image} handleSetImage={handleSetImage} />
-                        {contentEntry.fields.featureImage &&
-                            <CardActionArea sx={{ backgroundColor: 'gray.100' }} onClick={() => handleOpen()}>
-                                <LoadingImage
-                                    skeletonheight={"90vh"}
-                                    sx={{ maxHeight: '90vh', width: '100%', objectFit: 'scale-down' }}
-                                    src={image}
-                                    alt={"Feature image"}
-                                />
-                            </CardActionArea>
-                        }
+                        <CardActionArea sx={{ backgroundColor: 'gray.100' }} onClick={() => handleOpen()}>
+                            <LoadingImage
+                                skeletonheight={"90vh"}
+                                sx={{ maxHeight: '90vh', width: '100%', objectFit: 'scale-down' }}
+                                src={image}
+                                alt={"Feature image"}
+                            />
+                        </CardActionArea>
                     </Stack>
                 </Grid>
                 <Grid xs={12} md={6} >
@@ -214,7 +212,11 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
         }
     }
 
-    const avatarSize = { width: 50, height: 80 };
+    const handleImage = (img: Asset, index: number) => {
+        handleSetImage(img)
+        carouselScroll(index)
+    }
+
     const buttonSize = { height: 40, width: 40 };
 
     return (
@@ -230,14 +232,13 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
                         </IconButton>
                     }
                     {contentEntry.fields.productFiles.slice(offset, count).map((img: Asset, index: number) =>
-                        <Avatar
-                            key={index}
-                            onClick={() => { handleSetImage(img), carouselScroll(index) }}
-                            component={CardActionArea}
-                            sx={image === img.fields.file.url ? { border: 1, ...avatarSize } : avatarSize}
-                            variant="square"
+                        <LoadingAvatar
+                            key={img.sys.id}
                             src={img.fields.file.url}
-                            alt={img.fields.title} />
+                            image={image}
+                            alt={img.fields.title}
+                            onClick={() => handleImage(img, index)}
+                        />
                     )}
                     {contentEntry.fields.productFiles.length > initialCount &&
                         <IconButton
@@ -248,6 +249,46 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
                         </IconButton>
                     }
                 </Stack>
+            }
+        </>
+    )
+}
+
+type loadingAvatarProps = {
+    src: string;
+    onClick: () => void;
+    image: string;
+    alt: string;
+}
+
+const LoadingAvatar = (props: loadingAvatarProps) => {
+    const { src, image } = props;
+
+    const [load, setLoad] = useState<boolean>(true);
+    const avatarSize = { width: 50, height: 80 };
+
+    const imageSrc = () => {
+        setLoad(true);
+        const imageToLoad = new Image();
+        imageToLoad.src = src;
+        imageToLoad.onload = () => {
+            setLoad(false);
+        }
+        return src
+    }
+    useQuery([src, image], imageSrc)
+
+    return (
+        <>
+            {load ?
+                <Skeleton sx={avatarSize} variant="rectangular" />
+                :
+                <Avatar
+                    component={CardActionArea}
+                    sx={image === src ? { border: 1, ...avatarSize } : avatarSize}
+                    variant="square"
+                    {...props}
+                />
             }
         </>
     )
