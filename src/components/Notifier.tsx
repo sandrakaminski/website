@@ -3,7 +3,7 @@ import React from 'react';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
-interface AlertProps {
+type AlertProps = {
     open: boolean;
     message: string;
     anchorOrigin?: {
@@ -14,9 +14,9 @@ interface AlertProps {
 
 const Notifier = (props: AlertProps) => {
     const { message } = props;
-    
+
     return (
-        <Snackbar  {...props}>
+        <Snackbar {...props}>
             <Alert sx={{ color: "info.contrastText" }} variant="filled" severity="info" >
                 {message}
             </Alert>

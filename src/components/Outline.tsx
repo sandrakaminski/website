@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -35,7 +34,7 @@ export default LoadingState;
 
 const GridOutline: React.FC = () => {
     return (
-        <Card>
+        <>
             <Stack spacing={2}>
                 <Skeleton variant="rounded" height="30rem" />
                 <Box sx={{ pb: 1, px: 1 }}>
@@ -43,7 +42,7 @@ const GridOutline: React.FC = () => {
                     <Skeleton variant="text" height="2rem" />
                 </Box>
             </Stack>
-        </Card>
+        </>
     )
 }
 
