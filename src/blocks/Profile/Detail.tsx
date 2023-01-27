@@ -23,15 +23,13 @@ const Detail = (props: ContentProps<ProfileType>) => {
             {contentEntry &&
                 <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
                     <Box sx={{ mt: 4 }}>
-                        {contentEntry.fields.image &&
-                            <CardMedia
-                                loading="eager"
-                                component="img"
-                                sx={{ width: '100%', height: 'auto' }}
-                                src={contentEntry?.fields.image.fields.file.url}
-                                alt={contentEntry.fields.image.fields.title}
-                            />
-                        }
+                        <CardMedia
+                            loading="lazy"
+                            component="img"
+                            sx={{ width: '100%', height: 'auto' }}
+                            src={contentEntry?.fields.image.fields.file.url}
+                            alt={contentEntry.fields.image.fields.title}
+                        />
                         <Typography color="grayText" variant="caption" >
                             {contentEntry.fields.name}
                         </Typography>

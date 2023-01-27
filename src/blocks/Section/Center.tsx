@@ -26,7 +26,7 @@ export const Center = (props: ContentProps<Content>) => {
                 />
             }
             {contentEntry?.fields.headline &&
-                <Typography align="center" variant="h2" sx={{ pt: { xs: 2, md: 4 }, my: 2 }}>
+                <Typography align="center" variant="h3" sx={{ pt: { xs: 2, md: 4 }, my: 2 }}>
                     {contentEntry.fields.headline}
                 </Typography>
             }
