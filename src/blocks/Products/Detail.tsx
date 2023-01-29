@@ -152,7 +152,7 @@ const Body = (props: ContentProps<ProductTypes>) => {
         }
         return detect.length === preview.length
     }
-    useQuery(['detectLength'], detectLength)
+    useQuery([detect], detectLength)
 
     return (
         <Box sx={{ p: 2 }}>
