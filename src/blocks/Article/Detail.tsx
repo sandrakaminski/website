@@ -16,7 +16,7 @@ import LoadingImage from '@/components/LoadingImage';
 import Markdown from '@/components/Markdown';
 import Trail from '@/components/Trail';
 import type { ArticleType, ContentProps } from '@/types'
-import Container from '@mui/material/Container';
+
 
 const Detail = (props: ContentProps<ArticleType>) => {
     const { contentEntry } = props;
