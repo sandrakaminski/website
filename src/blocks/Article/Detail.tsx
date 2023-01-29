@@ -16,6 +16,7 @@ import LoadingImage from '@/components/LoadingImage';
 import Markdown from '@/components/Markdown';
 import Trail from '@/components/Trail';
 import type { ArticleType, ContentProps } from '@/types'
+import Container from '@mui/material/Container';
 
 const Detail = (props: ContentProps<ArticleType>) => {
     const { contentEntry } = props;
@@ -59,8 +60,9 @@ const Detail = (props: ContentProps<ArticleType>) => {
                             src={contentEntry?.fields.coverImage.fields.file.url}
                             alt={contentEntry.fields.coverImage.fields.title}
                         />
+                        <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
                     </Box>
-                    <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
+
                 </Stack>
             }
         </>
