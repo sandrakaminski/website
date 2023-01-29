@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import ReactGA from 'react-ga4';
 import ReactMarkdown from 'react-markdown';
 import { useNavigate } from 'react-router-dom';
+import gfm from 'remark-gfm';
 
 import DateFormatter from "@/components/DateFormatter";
 import LoadingImage from '@/components/LoadingImage';
@@ -59,7 +60,7 @@ const Detail = (props: ContentProps<ArticleType>) => {
                             alt={contentEntry.fields.coverImage.fields.title}
                         />
                     </Box>
-                    <ReactMarkdown components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
+                    <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
                 </Stack>
             }
         </>
