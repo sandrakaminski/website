@@ -113,25 +113,19 @@ type CommentsProps = {
 const Comments = (props: ContentProps<ArticleType>) => {
     const { contentEntry } = props
     const { type } = useParams();
-
-    const init = {
+    const [state, dispatch] = useReducer(reducer, {
         name: '',
         comment: ''
-    }
-
-    const [state, dispatch] = useReducer(reducer, init);
+    });
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [comments, setComments] = useState<CommentsProps>();
     const [loading, setLoading] = useState<boolean>(true);
-
     const searchText = `${type}-${contentEntry.fields.slug}`
 
     const handleGet = async () => {
-
         const q = new URLSearchParams();
-        const text = searchText
-        q.append('searchText', text);
+        q.append('searchText', searchText);
         const url = `/.netlify/functions/comments?${q.toString()}`;
         const res = await fetch(url)
         const data = await res.json();
@@ -142,15 +136,14 @@ const Comments = (props: ContentProps<ArticleType>) => {
         return data;
     }
     useQuery([comments, searchText], handleGet)
+
     const handleSubmit = () => {
         setSubmitting(true);
-
         const data = {
             name: state.name,
             comment: state.comment,
             id: searchText,
         }
-
         const url = `/.netlify/functions/comments`;
         createSubmission({ url, data, setSubmitting, setSubmitted });
     }

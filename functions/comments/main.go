@@ -30,10 +30,8 @@ type Page struct {
 type Store struct {
 	locaColl *mongo.Collection
 }
-type CommentStore struct {
-	Store Store
-}
 
+// stores
 func Connect() Store {
 	godotenv.Load(".env")
 	clientOptions := options.Client().ApplyURI(os.Getenv("MONGO_URI"))
@@ -48,8 +46,6 @@ func Connect() Store {
 		locaColl: db.Collection("comments"),
 	}
 }
-
-// stores
 
 func (s *Store) AddComment(c Comments) {
 	insertResult, err := s.locaColl.InsertOne(context.Background(), c)
@@ -77,7 +73,6 @@ func (s *Store) GetComments(searchText string, limit, skip *int64) (Page, error)
 		return Page{}, err
 	}
 
-	// unpack results
 	var pg Page
 	if err := cursor.All(mctx, &pg.Data); err != nil {
 		return Page{}, err
@@ -138,12 +133,12 @@ func (s *Store) Get(r events.APIGatewayProxyRequest) (*events.APIGatewayProxyRes
 }
 
 func handler(r events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	cmmntSt := CommentStore{Store: Connect()}
+	cmmntSt := Connect()
 	switch r.HTTPMethod {
 	case "POST":
-		return cmmntSt.Store.Create(r)
+		return cmmntSt.Create(r)
 	case "GET":
-		return cmmntSt.Store.Get(r)
+		return cmmntSt.Get(r)
 	default:
 		return nil, fmt.Errorf("unsupported method: %s", r.HTTPMethod)
 	}
