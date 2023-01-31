@@ -68,7 +68,7 @@ const Detail = (props: ContentProps<ArticleType>) => {
                             alt={contentEntry.fields.coverImage.fields.title}
                         />
                         <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
-                        <Comments contentEntry={contentEntry} />
+                        {/* <Comments contentEntry={contentEntry} /> */}
                     </Box>
                 </Stack>
             }
