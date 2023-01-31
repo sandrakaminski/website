@@ -26,8 +26,8 @@ type Date = {
 }
 // converts epoch to 'time ago' format
 export const Time = ({ date }: Date) => {
-    const now = new Date()
-    const dateParser = new Date(date * 1000)
+    const now: any = new Date()
+    const dateParser: any = new Date(date * 1000)
 
     return (
         <>{timeFunc(now - Date.parse(dateParser))}</>

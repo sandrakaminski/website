@@ -127,7 +127,6 @@ const Comments = (props: ContentProps<ArticleType>) => {
 
     const searchText = `${type}-${contentEntry.fields.slug}`
 
-
     const handleGet = async () => {
         const q = new URLSearchParams();
         const text = searchText
