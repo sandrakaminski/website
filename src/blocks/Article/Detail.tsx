@@ -163,7 +163,7 @@ const Comments = (props: ContentProps<ArticleType>) => {
 
     return (
         <Stack sx={{ mt: 10 }} spacing={2}>
-            <Typography variant="h1">Comments {" "} {comments?.data?.length !== 0 && <Chip color="info" label={comments?.data?.length} />}</Typography>
+            <Typography variant="h1">Comments {" "} {comments?.data?.length !== undefined && <Chip color="info" label={comments?.data?.length} />}</Typography>
             {!submitted ?
                 <Stack alignItems="flex-end" spacing={2}>
                     <TextField onChange={handleChange} label="Name" name="name" fullWidth />
