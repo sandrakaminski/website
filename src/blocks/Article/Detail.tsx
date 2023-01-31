@@ -1,5 +1,6 @@
 import React, { useReducer, useState } from 'react';
 
+import CheckCircle from '@mui/icons-material/CheckCircle';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import LoadingButton from "@mui/lab/LoadingButton";
 import Avatar from '@mui/material/Avatar';
@@ -101,6 +102,7 @@ const reducer = (state: State, action: Action): State => {
 }
 
 type SingleCommentProps = {
+    id: string;
     date: number;
     name: string;
     comment: string;
@@ -112,7 +114,6 @@ type CommentsProps = {
 
 const Comments = (props: ContentProps<ArticleType>) => {
     const { contentEntry } = props
-    const { type } = useParams();
     const [state, dispatch] = useReducer(reducer, {
         name: '',
         comment: ''
@@ -121,11 +122,10 @@ const Comments = (props: ContentProps<ArticleType>) => {
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [comments, setComments] = useState<CommentsProps>();
     const [loading, setLoading] = useState<boolean>(true);
-    const searchText = `${type}-${contentEntry.fields.slug}`
 
     const handleGet = async () => {
         const q = new URLSearchParams();
-        q.append('searchText', searchText);
+        q.append('searchText', contentEntry.sys.id);
         const url = `/.netlify/functions/comments?${q.toString()}`;
         const res = await fetch(url)
         const data = await res.json();
@@ -135,14 +135,14 @@ const Comments = (props: ContentProps<ArticleType>) => {
         }
         return data;
     }
-    useQuery([comments, searchText], handleGet)
+    useQuery([comments, contentEntry.sys.id], handleGet)
 
     const handleSubmit = () => {
         setSubmitting(true);
         const data = {
             name: state.name,
             comment: state.comment,
-            id: searchText,
+            id: contentEntry.sys.id,
         }
         const url = `/.netlify/functions/comments`;
         createSubmission({ url, data, setSubmitting, setSubmitted });
@@ -153,10 +153,9 @@ const Comments = (props: ContentProps<ArticleType>) => {
         dispatch({ type: name, value: value });
     }
 
-    useQuery([comments, searchText], handleGet, {
+    useQuery([comments, contentEntry.sys.id], handleGet, {
         enabled: submitted,
     })
-
 
     return (
         <Stack sx={{ mt: 10 }} spacing={2}>
@@ -173,8 +172,9 @@ const Comments = (props: ContentProps<ArticleType>) => {
                         size="large">Post comment...</LoadingButton>
                 </Stack>
                 :
-                <Stack>
-                    <Typography>Comment posted successfully</Typography>
+                <Stack alignItems="center" spacing={2}>
+                    <CheckCircle sx={{ color: 'success.main' }} />
+                    <Typography variant="subtitle2" >Comment posted successfully</Typography>
                 </Stack>
             }
             {loading && <Skeleton variant="rectangular" height={100} />}
