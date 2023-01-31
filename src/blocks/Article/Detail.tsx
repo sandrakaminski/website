@@ -25,7 +25,7 @@ import LoadingImage from '@/components/LoadingImage';
 import Markdown from '@/components/Markdown';
 import Trail from '@/components/Trail';
 import { createSubmission } from '@/functions';
-import type { ArticleType, ContentProps } from '@/types'
+import type { ArticleType, ContentProps } from '@/types';
 
 const Detail = (props: ContentProps<ArticleType>) => {
     const { contentEntry } = props;
@@ -62,16 +62,22 @@ const Detail = (props: ContentProps<ArticleType>) => {
                             {contentEntry.fields.author.fields.name}
                         </Link>
                     </Stack>
-                    <Box sx={{ maxWidth: 800 }}>
+
+                    <Box maxWidth={800} >
                         <LoadingImage
                             skeletonheight={500}
                             sx={{ width: '100%', height: 'auto', py: 4 }}
                             src={contentEntry?.fields.coverImage.fields.file.url}
                             alt={contentEntry.fields.coverImage.fields.title}
                         />
+                    </Box>
+                    <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
                         <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
+                    </Stack>
+                    <Box maxWidth={800} >
                         <Comments contentEntry={contentEntry} />
                     </Box>
+
                 </Stack>
             }
         </>
