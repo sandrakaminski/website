@@ -39,8 +39,6 @@ const Detail = (props: ContentProps<ArticleType>) => {
         });
     }
 
-    console.log(contentEntry.fields.date)
-
     return (
         <>
             <Trail current={contentEntry?.fields.headline} />
