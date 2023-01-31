@@ -8,6 +8,7 @@ import Chip from '@mui/material/Chip';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
+import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -124,17 +125,22 @@ const Comments = (props: ContentProps<ArticleType>) => {
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [comments, setComments] = useState<CommentsProps>();
+    const [loading, setLoading] = useState<boolean>(true);
 
     const searchText = `${type}-${contentEntry.fields.slug}`
 
     const handleGet = async () => {
+
         const q = new URLSearchParams();
         const text = searchText
         q.append('searchText', text);
         const url = `/.netlify/functions/comments?${q.toString()}`;
         const res = await fetch(url)
         const data = await res.json();
-        setComments(data)
+        if (res.status === 200) {
+            setLoading(false);
+            setComments(data)
+        }
         return data;
     }
     useQuery([comments, searchText], handleGet)
@@ -180,7 +186,8 @@ const Comments = (props: ContentProps<ArticleType>) => {
                     <Typography>Comment posted successfully</Typography>
                 </Stack>
             }
-            {comments?.data?.map((item: SingleCommentProps, index: number) =>
+            {loading && <Skeleton variant="rectangular" height={100} />}
+            {!loading && comments?.data?.map((item: SingleCommentProps, index: number) =>
                 <Stack key={index} >
                     <Stack direction="row" alignItems="center" spacing={2} >
                         <Avatar />

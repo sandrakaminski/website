@@ -21,11 +21,11 @@ export default DateFormatter;
 
 const months: Array<string> = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-type Date = {
+type DateType = {
     date: number;
 }
 // converts epoch to 'time ago' format
-export const Time = ({ date }: Date) => {
+export const Time = ({ date }: DateType) => {
     const now: any = new Date()
     const dateParser: any = new Date(date * 1000)
 
@@ -49,7 +49,6 @@ export const Calculate24Hour = (time: number) => {
 
     return value
 }
-
 
 const timeFunc = (elapsed: number) => {
     var msPerMinute = 60 * 1000;
