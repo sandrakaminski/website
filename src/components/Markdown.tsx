@@ -4,8 +4,6 @@ import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
 type Img = {
@@ -20,9 +18,7 @@ export const Markdown: Record<string, unknown> = {
     hr: ({ ...props }) => <Divider sx={{ my: 2 }} {...props} />,
     div: ({ ...props }) => <Stack justifyContent="center" alignItems="center" direction="row" {...props} />,
     ul: ({ ...props }) => <Typography sx={{ lineHeight: 1.75 }} color="grayText" paragraph align="justify" variant="body1" {...props} />,
-    thead: ({ ...props }) => <TableHead {...props} />,
-    tr: ({ ...props }) => <TableRow {...props} />,
-    td: ({ ...props }) => <TableCell sx={{ borderBottom: 'none' }} {...props} />,
+    td: ({ ...props }) => <TableCell sx={{ borderBottom: 'none' }}>{props.children}</TableCell>
 
 }
 
