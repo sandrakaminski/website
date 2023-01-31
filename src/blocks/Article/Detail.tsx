@@ -62,7 +62,6 @@ const Detail = (props: ContentProps<ArticleType>) => {
                             {contentEntry.fields.author.fields.name}
                         </Link>
                     </Stack>
-
                     <Box maxWidth={800} >
                         <LoadingImage
                             skeletonheight={500}
@@ -71,13 +70,10 @@ const Detail = (props: ContentProps<ArticleType>) => {
                             alt={contentEntry.fields.coverImage.fields.title}
                         />
                     </Box>
-                    <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
-                        <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
-                    </Stack>
-                    <Box maxWidth={800} >
+                    <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
+                    <Container maxWidth={false} sx={{ maxWidth: 800 }} >
                         <Comments contentEntry={contentEntry} />
-                    </Box>
-
+                    </Container>
                 </Stack>
             }
         </>

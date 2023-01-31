@@ -19,7 +19,6 @@ export const Markdown: Record<string, unknown> = {
     div: ({ ...props }) => <Stack justifyContent="center" alignItems="center" direction="row" {...props} />,
     ul: ({ ...props }) => <Typography sx={{ lineHeight: 1.75 }} color="grayText" paragraph align="justify" variant="body1" {...props} />,
     td: ({ ...props }) => <TableCell sx={{ borderBottom: 'none' }}>{props.children}</TableCell>
-
 }
 
 export const SectionMarkDown = {
