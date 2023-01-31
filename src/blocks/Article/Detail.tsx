@@ -5,6 +5,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
+import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
@@ -17,6 +18,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import gfm from 'remark-gfm';
 
 import DateFormatter from "@/components/DateFormatter";
+import { Time } from '@/components/DateFormatter';
 import LoadingImage from '@/components/LoadingImage';
 import Markdown from '@/components/Markdown';
 import Trail from '@/components/Trail';
@@ -68,7 +70,7 @@ const Detail = (props: ContentProps<ArticleType>) => {
                             alt={contentEntry.fields.coverImage.fields.title}
                         />
                         <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
-                        {/* <Comments contentEntry={contentEntry} /> */}
+                        <Comments contentEntry={contentEntry} />
                     </Box>
                 </Stack>
             }
@@ -81,6 +83,7 @@ export default Detail;
 type State = {
     name: string;
     comment: string;
+    date?: number;
 }
 type Action = {
     [key: string]: string;
@@ -98,12 +101,14 @@ const reducer = (state: State, action: Action): State => {
     }
 }
 
-type CommentsProps = {
-    data: {
-        name: string;
-        comment: string;
-    }[]
+type SingleCommentProps = {
+    date: number;
+    name: string;
+    comment: string;
+}
 
+type CommentsProps = {
+    data: SingleCommentProps[]
 }
 
 const Comments = (props: ContentProps<ArticleType>) => {
@@ -127,7 +132,7 @@ const Comments = (props: ContentProps<ArticleType>) => {
         const q = new URLSearchParams();
         const text = searchText
         q.append('searchText', text);
-        const url = `http://localhost:8080/get?${q.toString()}`;
+        const url = `/.netlify/functions/comments?${q.toString()}`;
         const res = await fetch(url)
         const data = await res.json();
         setComments(data)
@@ -135,6 +140,8 @@ const Comments = (props: ContentProps<ArticleType>) => {
     }
     useQuery([comments, searchText], handleGet)
     const handleSubmit = () => {
+        setSubmitting(true);
+
         const data = {
             name: state.name,
             comment: state.comment,
@@ -143,7 +150,6 @@ const Comments = (props: ContentProps<ArticleType>) => {
 
         const url = `/.netlify/functions/comments`;
         createSubmission({ url, data, setSubmitting, setSubmitted });
-
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -156,36 +162,43 @@ const Comments = (props: ContentProps<ArticleType>) => {
     })
 
 
-
     return (
         <Stack sx={{ mt: 10 }} spacing={2}>
-            <Typography variant="h1">Comments {" "} {comments?.data?.length === 0 && <Chip color="info" label={comments?.data?.length} />}</Typography>
+            <Typography variant="h1">Comments {" "} {comments?.data?.length !== 0 && <Chip color="info" label={comments?.data?.length} />}</Typography>
             {!submitted ?
                 <Stack alignItems="flex-end" spacing={2}>
                     <TextField onChange={handleChange} label="Name" name="name" fullWidth />
                     <TextField onChange={handleChange} label="Comment" name="comment" multiline rows={4} fullWidth />
-                    <LoadingButton loading={submitting} onClick={handleSubmit} variant="contained" size="large">Post comment...</LoadingButton>
+                    <LoadingButton
+                        disabled={state.name === '' || state.comment === ''}
+                        loading={submitting}
+                        onClick={handleSubmit}
+                        variant="contained"
+                        size="large">Post comment...</LoadingButton>
                 </Stack>
                 :
                 <Stack>
                     <Typography>Comment posted successfully</Typography>
                 </Stack>
             }
-            {comments?.data?.map((item: any, index: number) =>
-                <Box key={index} display="flex" alignItems="center" justifyContent="space-between">
+            {comments?.data?.map((item: SingleCommentProps, index: number) =>
+                <Stack key={index} >
                     <Stack direction="row" alignItems="center" spacing={2} >
                         <Avatar />
-                        <Typography variant="body1">
+                        <Typography variant="subtitle1">
                             {item.name}
                         </Typography>
+                        <Typography sx={{ pt: 0.25 }} >
+                            <Time date={item?.date} />
+                        </Typography>
                     </Stack>
-                    <Typography sx={{ ml: 2 }} variant="body1">
-                        {item.comment}
-                    </Typography>
-                    <Typography >
-                        {item.date} ago
-                    </Typography>
-                </Box>
+                    <Container sx={{ mb: 1 }} maxWidth="md">
+                        <Typography sx={{ mt: 2 }} variant="body1">
+                            {item.comment}
+                        </Typography>
+                    </Container>
+                    <Divider />
+                </Stack>
             )}
         </Stack>
     )
