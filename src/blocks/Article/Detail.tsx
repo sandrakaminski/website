@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography';
 import { useQuery } from '@tanstack/react-query';
 import ReactGA from 'react-ga4';
 import ReactMarkdown from 'react-markdown';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import gfm from 'remark-gfm';
 
 import DateFormatter from "@/components/DateFormatter";
@@ -177,7 +177,9 @@ const Comments = (props: ContentProps<ArticleType>) => {
                     <Typography variant="subtitle2" >Comment posted successfully</Typography>
                 </Stack>
             }
-            {loading && <Skeleton variant="rectangular" height={100} />}
+            {loading &&
+                <CommentSkeleton />
+            }
             {!loading && comments?.data?.map((item: SingleCommentProps, index: number) =>
                 <Stack key={index} >
                     <Stack direction="row" alignItems="center" spacing={2} >
@@ -197,6 +199,25 @@ const Comments = (props: ContentProps<ArticleType>) => {
                     <Divider />
                 </Stack>
             )}
+        </Stack>
+    )
+}
+
+const CommentSkeleton = () => {
+    return (
+        <Stack>
+            <Stack direction="row" alignItems="center" spacing={2} >
+                <Avatar />
+                <Typography variant="subtitle1">
+                    <Skeleton width={150} variant="text" />
+                </Typography>
+                <Typography sx={{ pt: 0.25 }} >
+                    <Skeleton width={100} variant="text" />
+                </Typography>
+            </Stack>
+            <Container sx={{ mb: 1 }} maxWidth="md">
+                <Skeleton variant="text" height={200} />
+            </Container>
         </Stack>
     )
 }
