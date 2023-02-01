@@ -31,6 +31,7 @@ const Detail = (props: ContentProps<ArticleType>) => {
     const { contentEntry } = props;
     const navigate = useNavigate();
 
+
     const handleClick = () => {
         navigate(`/about/${contentEntry.fields.author.fields.slug}`, { state: { data: 'about' } })
         ReactGA.event({
@@ -44,37 +45,38 @@ const Detail = (props: ContentProps<ArticleType>) => {
         <>
             <Trail current={contentEntry?.fields.headline} />
             {contentEntry &&
-                <Stack sx={{ my: 4 }} spacing={2} justifyContent="center" alignItems="center">
-                    <Typography sx={{ my: 2, maxWidth: "md" }} variant="h1" align="center" >
-                        {contentEntry.fields.headline}
-                    </Typography>
-                    <Stack
-                        sx={{ my: 2 }}
-                        direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        spacing={2} >
-                        <Typography variant="body1"  >
-                            <DateFormatter dateString={contentEntry.fields.date} />
+                <>
+                    <Stack sx={{ my: 4 }} spacing={2} alignItems="center">
+                        <Typography sx={{ my: 2, maxWidth: "md" }} variant="h1" align="center" >
+                            {contentEntry.fields.headline}
                         </Typography>
-                        <FiberManualRecordIcon sx={{ height: 2.5, width: 2.5 }} />
-                        <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => handleClick()} variant="body1">
-                            {contentEntry.fields.author.fields.name}
-                        </Link>
-                    </Stack>
-                    <Box maxWidth={800} >
-                        <LoadingImage
-                            skeletonheight={500}
-                            sx={{ width: '100%', height: 'auto', py: 4 }}
-                            src={contentEntry?.fields.coverImage.fields.file.url}
-                            alt={contentEntry.fields.coverImage.fields.title}
-                        />
-                    </Box>
-                    <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
-                    <Container maxWidth={false} sx={{ maxWidth: 800 }} >
+                        <Stack
+                            sx={{ my: 2 }}
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            spacing={2} >
+                            <Typography variant="body1"  >
+                                <DateFormatter dateString={contentEntry.fields.date} />
+                            </Typography>
+                            <FiberManualRecordIcon sx={{ height: 2.5, width: 2.5 }} />
+                            <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => handleClick()} variant="body1">
+                                {contentEntry.fields.author.fields.name}
+                            </Link>
+                        </Stack>
+                        <Box maxWidth={800} >
+                            <LoadingImage
+                                skeletonheight={500}
+                                sx={{ width: '100%', height: 'auto', py: 4 }}
+                                src={contentEntry?.fields.coverImage.fields.file.url}
+                                alt={contentEntry.fields.coverImage.fields.title}
+                            />
+                        </Box>
+                        <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
                         <Comments contentEntry={contentEntry} />
-                    </Container>
-                </Stack>
+                    </Stack>
+
+                </>
             }
         </>
     )
@@ -160,48 +162,50 @@ const Comments = (props: ContentProps<ArticleType>) => {
     })
 
     return (
-        <Stack sx={{ mt: 10 }} spacing={2}>
-            <Typography variant="h1">Comments {" "} {comments?.data?.length !== undefined && <Chip color="info" label={comments?.data?.length} />}</Typography>
-            {!submitted ?
-                <Stack alignItems="flex-end" spacing={2}>
-                    <TextField onChange={handleChange} label="Name" name="name" fullWidth />
-                    <TextField onChange={handleChange} label="Comment" name="comment" multiline rows={4} fullWidth />
-                    <LoadingButton
-                        disabled={state.name === '' || state.comment === ''}
-                        loading={submitting}
-                        onClick={handleSubmit}
-                        variant="contained"
-                        size="large">Post comment...</LoadingButton>
-                </Stack>
-                :
-                <Stack alignItems="center" spacing={2}>
-                    <CheckCircle sx={{ color: 'success.main' }} />
-                    <Typography variant="subtitle2" >Comment posted successfully</Typography>
-                </Stack>
-            }
-            {loading &&
-                <CommentSkeleton />
-            }
-            {!loading && comments?.data?.map((item: SingleCommentProps, index: number) =>
-                <Stack key={index} >
-                    <Stack direction="row" alignItems="center" spacing={2} >
-                        <Avatar />
-                        <Typography variant="subtitle1">
-                            {item.name}
-                        </Typography>
-                        <Typography sx={{ pt: 0.25 }} >
-                            <Time date={item?.date} />
-                        </Typography>
+        <Container maxWidth={false} sx={{ maxWidth: 800, mt: 10 }} >
+            <Stack spacing={2}>
+                <Typography variant="h1">Comments {" "} {comments?.data?.length !== undefined && <Chip color="info" label={comments?.data?.length} />}</Typography>
+                {!submitted ?
+                    <Stack alignItems="flex-end" spacing={2}>
+                        <TextField onChange={handleChange} label="Name" name="name" fullWidth />
+                        <TextField onChange={handleChange} label="Comment" name="comment" multiline rows={4} fullWidth />
+                        <LoadingButton
+                            disabled={state.name === '' || state.comment === ''}
+                            loading={submitting}
+                            onClick={handleSubmit}
+                            variant="contained"
+                            size="large">Post comment...</LoadingButton>
                     </Stack>
-                    <Container sx={{ mb: 1 }} maxWidth="md">
-                        <Typography sx={{ mt: 2 }} variant="body1">
-                            {item.comment}
-                        </Typography>
-                    </Container>
-                    <Divider />
-                </Stack>
-            )}
-        </Stack>
+                    :
+                    <Stack alignItems="center" spacing={2}>
+                        <CheckCircle sx={{ color: 'success.main' }} />
+                        <Typography variant="subtitle2" >Comment posted successfully</Typography>
+                    </Stack>
+                }
+                {loading &&
+                    <CommentSkeleton />
+                }
+                {!loading && comments?.data?.map((item: SingleCommentProps, index: number) =>
+                    <Stack key={index} >
+                        <Stack direction="row" alignItems="center" spacing={2} >
+                            <Avatar />
+                            <Typography variant="subtitle1">
+                                {item.name}
+                            </Typography>
+                            <Typography sx={{ pt: 0.25 }} >
+                                <Time date={item?.date} />
+                            </Typography>
+                        </Stack>
+                        <Container sx={{ mb: 1 }} maxWidth="md">
+                            <Typography sx={{ mt: 2 }} variant="body1">
+                                {item.comment}
+                            </Typography>
+                        </Container>
+                        <Divider />
+                    </Stack>
+                )}
+            </Stack>
+        </Container>
     )
 }
 
