@@ -17,7 +17,7 @@ export const Markdown: Record<string, unknown> = {
     h3: ({ ...props }) => <TextElement variant="subtitle1" {...props} />,
     a: ({ ...props }) => <Link target="_blank"  {...props} />,
     img: ({ ...props }, { alt, src }: Img) => <img style={{ width: '100%' }} src={src} alt={alt} {...props} />,
-    p: ({ ...props }) => <TextElement color="grayText" {...props} />,
+    p: ({ ...props }) => <TextElement paragraph align="justify" color="grayText" {...props} />,
     hr: ({ ...props }) => <Divider sx={{ my: 2 }} {...props} />,
     ul: ({ ...props }) => <TextElement color="grayText" {...props} />,
     td: ({ ...props }) => <TableCell sx={{ borderBottom: 'none' }}>{props.children}</TableCell>,
@@ -34,7 +34,7 @@ export default Markdown;
 
 const TextElement = ({ ...props }) => {
     return (
-        <Container component={Typography} maxWidth={false} sx={{ maxWidth: 800 }} paragraph align="justify"   {...props}>
+        <Container component={Typography} maxWidth={false} sx={{ maxWidth: 800 }} {...props}>
             {props.children}
         </Container>
     )

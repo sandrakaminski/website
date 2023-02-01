@@ -162,8 +162,8 @@ const Comments = (props: ContentProps<ArticleType>) => {
     })
 
     return (
-        <Container maxWidth={false} sx={{ maxWidth: 800, mt: 10 }} >
-            <Stack spacing={2}>
+        <Container maxWidth={false} sx={{ maxWidth: 800 }} >
+            <Stack sx={{ mt: 10 }} spacing={2}>
                 <Typography variant="h1">Comments {" "} {comments?.data?.length !== undefined && <Chip color="info" label={comments?.data?.length} />}</Typography>
                 {!submitted ?
                     <Stack alignItems="flex-end" spacing={2}>
