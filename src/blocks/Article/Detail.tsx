@@ -140,8 +140,6 @@ const Comments = (props: ContentProps<ArticleType>) => {
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [comments, setComments] = useState<CommentsProps>();
     const [loading, setLoading] = useState<boolean>(true);
-    const [replyTo, setReplyTo] = useState<string | null>(null);
-    const [replyFields, setReplyFields] = useState<ReplyInit>({ name: '', reply: '' });
 
     const handleGet = async () => {
         const q = new URLSearchParams();
@@ -174,42 +172,6 @@ const Comments = (props: ContentProps<ArticleType>) => {
         dispatch({ type: name, value: value });
     }
 
-    const replyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setReplyFields({ ...replyFields, [name]: value })
-    }
-
-    useQuery([comments, contentEntry.sys.id], handleGet, {
-        enabled: submitted,
-    })
-
-    const openReply = async (r: string) => {
-        setReplyTo(r)
-    }
-
-    const submitReply = async () => {
-        const resp = await fetch(`/.netlify/functions/comments/${replyTo}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-                commentId: replyTo,
-                replies: [
-                    {
-                        name: replyFields.name,
-                        reply: replyFields.reply
-                    }
-                ]
-            })
-        })
-        if (resp.status === 200) {
-            setReplyTo(null);
-            setReplyFields({ name: '', reply: '' });
-            handleGet();
-        } else {
-            console.log(resp)
-        }
-    }
-
-
     return (
         <Container maxWidth={false} sx={{ maxWidth: 800 }} >
             <Stack sx={{ mt: 10 }} spacing={2}>
@@ -231,51 +193,11 @@ const Comments = (props: ContentProps<ArticleType>) => {
                         <Typography variant="subtitle2" >Comment posted successfully</Typography>
                     </Stack>
                 }
-                {loading &&
+                {loading ?
                     <CommentSkeleton />
+                    :
+                    <CommentThread comments={comments} handleGet={handleGet} />
                 }
-                {!loading && comments?.data?.map((item: SingleCommentProps, index: number) =>
-                    <Stack key={index} >
-                        <Stack direction="row" alignItems="center" spacing={2} justifyContent="space-between" >
-                            <CommentInfo name={item.name} date={item?.date} />
-                            {replyTo !== item.commentId ?
-                                <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => openReply(item.commentId)}>
-                                    <ReplyIcon fontSize="small" /> Reply
-                                </Link>
-                                :
-                                <Link color="error" underline="hover" sx={{ cursor: 'pointer' }} onClick={() => openReply("")}>
-                                    Cancel
-                                </Link>
-                            }
-                        </Stack>
-                        <Container sx={{ mb: 1 }} maxWidth="md">
-                            <Typography sx={{ mt: 2 }} variant="body1">
-                                {item.comment}
-                            </Typography>
-                            {item.replies?.map((r: Replies, index: number) =>
-                                <Stack sx={{ py: 2 }} key={index} >
-                                    <CommentInfo name={r.name} date={r?.date} />
-                                    <Typography key={index} sx={{ mt: 2 }} variant="body1">
-                                        {r.reply}
-                                    </Typography>
-                                </Stack>
-                            )}
-                        </Container>
-                        {replyTo === item.commentId &&
-                            <Stack sx={{ p: 1 }} alignItems="flex-start" spacing={2}>
-                                <TextField sx={{ width: 400 }} name="name" label="Name" onChange={replyChange} size="small" />
-                                <TextField sx={{ width: 400 }} name="reply" label="Reply" onChange={replyChange} multiline rows={4} size="small" />
-                                <LoadingButton
-                                    disabled={replyFields.name === '' || replyFields.reply === ''}
-                                    loading={submitting}
-                                    onClick={() => submitReply()}
-                                    variant="contained"
-                                    size="small">Reply </LoadingButton>
-                            </Stack>
-                        }
-                        <Divider />
-                    </Stack>
-                )}
             </Stack>
         </Container >
     )
@@ -300,7 +222,105 @@ const CommentSkeleton = () => {
     )
 }
 
-const CommentInfo = (props: any) => {
+type CommentThreadProps = {
+    comments?: CommentsProps;
+    handleGet: () => void;
+}
+
+const CommentThread = (props: CommentThreadProps) => {
+    const { comments, handleGet } = props;
+
+    const [replyTo, setReplyTo] = useState<string | null>(null);
+    const [replyFields, setReplyFields] = useState<ReplyInit>({ name: '', reply: '' });
+    const [submitting, setSubmitting] = useState<boolean>(false);
+
+    const openReply = async (r: string) => {
+        setReplyTo(r)
+    }
+
+    const replyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setReplyFields({ ...replyFields, [name]: value })
+    }
+
+    const submitReply = async () => {
+        setSubmitting(true);
+        const resp = await fetch(`/.netlify/functions/comments/${replyTo}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                commentId: replyTo,
+                replies: [
+                    {
+                        name: replyFields.name,
+                        reply: replyFields.reply
+                    }
+                ]
+            })
+        })
+        if (resp.status === 200) {
+            setReplyTo(null);
+            setReplyFields({ name: '', reply: '' });
+            handleGet();
+        } else {
+            console.log(resp)
+        }
+    }
+
+
+    return (
+        <>
+            {comments?.data?.map((item: SingleCommentProps, index: number) =>
+                <Stack key={index} >
+                    <Stack direction="row" alignItems="center" spacing={2} justifyContent="space-between" >
+                        <CommentInfo name={item.name} date={item?.date} />
+                        {replyTo !== item.commentId ?
+                            <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => openReply(item.commentId)}>
+                                <ReplyIcon fontSize="small" /> Reply
+                            </Link>
+                            :
+                            <Link color="error" underline="hover" sx={{ cursor: 'pointer' }} onClick={() => openReply("")}>
+                                Cancel
+                            </Link>
+                        }
+                    </Stack>
+                    <Container sx={{ mb: 1 }} maxWidth="md">
+                        <Typography sx={{ mt: 2 }} variant="body1">
+                            {item.comment}
+                        </Typography>
+                        {item.replies?.map((r: Replies, index: number) =>
+                            <Stack sx={{ py: 2 }} key={index} >
+                                <CommentInfo name={r.name} date={r?.date} />
+                                <Typography key={index} sx={{ mt: 2 }} variant="body1">
+                                    {r.reply}
+                                </Typography>
+                            </Stack>
+                        )}
+                    </Container>
+                    {replyTo === item.commentId &&
+                        <Stack sx={{ p: 1 }} alignItems="flex-start" spacing={2}>
+                            <TextField sx={{ width: 400 }} name="name" label="Name" onChange={replyChange} size="small" />
+                            <TextField sx={{ width: 400 }} name="reply" label="Reply" onChange={replyChange} multiline rows={4} size="small" />
+                            <LoadingButton
+                                disabled={replyFields.name === '' || replyFields.reply === ''}
+                                loading={submitting}
+                                onClick={() => submitReply()}
+                                variant="contained"
+                                size="small">Reply </LoadingButton>
+                        </Stack>
+                    }
+                    <Divider />
+                </Stack>
+            )}
+        </>
+    )
+}
+
+type CommentInfoProps = {
+    name: string;
+    date: number;
+}
+
+const CommentInfo = (props: CommentInfoProps) => {
     const { name, date } = props;
 
     return (
