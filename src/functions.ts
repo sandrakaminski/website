@@ -22,17 +22,18 @@ export const emailValid = (state: ValidEmail) => {
 
 type Submission = {
     url: string;
+    method?: string;
     data: object;
     setSubmitting: (submitting: boolean) => void;
     setSubmitted: (submitted: boolean) => void;
 }
 
 export const createSubmission = async (props: Submission) => {
-    const { url, data, setSubmitting, setSubmitted } = props;
+    const { url, method, data, setSubmitting, setSubmitted } = props;
 
     try {
         const resp = await fetch(url, {
-            method: 'POST',
+            method: method ? method : 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },

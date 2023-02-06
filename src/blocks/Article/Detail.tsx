@@ -167,6 +167,8 @@ const Comments = (props: ContentProps<ArticleType>) => {
         createSubmission({ url, data, setSubmitting, setSubmitted });
     }
 
+    useQuery([comments, contentEntry.sys.id], handleGet, { enabled: submitted })
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         dispatch({ type: name, value: value });
@@ -230,9 +232,15 @@ type CommentThreadProps = {
 const CommentThread = (props: CommentThreadProps) => {
     const { comments, handleGet } = props;
 
+    const init = {
+        name: '',
+        reply: ''
+    }
+
     const [replyTo, setReplyTo] = useState<string | null>(null);
-    const [replyFields, setReplyFields] = useState<ReplyInit>({ name: '', reply: '' });
+    const [replyFields, setReplyFields] = useState<ReplyInit>(init);
     const [submitting, setSubmitting] = useState<boolean>(false);
+    const [submitted, setSubmitted] = useState<boolean>(false);
 
     const openReply = async (r: string) => {
         setReplyTo(r)
@@ -245,27 +253,24 @@ const CommentThread = (props: CommentThreadProps) => {
 
     const submitReply = async () => {
         setSubmitting(true);
-        const resp = await fetch(`/.netlify/functions/comments/${replyTo}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-                commentId: replyTo,
-                replies: [
-                    {
-                        name: replyFields.name,
-                        reply: replyFields.reply
-                    }
-                ]
-            })
-        })
-        if (resp.status === 200) {
-            setReplyTo(null);
-            setReplyFields({ name: '', reply: '' });
+        const data = {
+            commentId: replyTo,
+            replies: [
+                {
+                    name: replyFields.name,
+                    reply: replyFields.reply
+                }
+            ]
+        }
+        const url = `/.netlify/functions/comments`;
+        const method = 'PUT';
+        createSubmission({ url, method, data, setSubmitting, setSubmitted });
+        if (submitted) {
+            setReplyFields({ ...init });
+            setReplyTo("");
             handleGet();
-        } else {
-            console.log(resp)
         }
     }
-
 
     return (
         <>
