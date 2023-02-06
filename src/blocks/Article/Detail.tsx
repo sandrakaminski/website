@@ -2,6 +2,7 @@ import React, { useReducer, useState } from 'react';
 
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import ReplyIcon from '@mui/icons-material/Reply';
 import LoadingButton from "@mui/lab/LoadingButton";
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -26,6 +27,7 @@ import Markdown from '@/components/Markdown';
 import Trail from '@/components/Trail';
 import { createSubmission } from '@/functions';
 import type { ArticleType, ContentProps } from '@/types';
+
 
 const Detail = (props: ContentProps<ArticleType>) => {
     const { contentEntry } = props;
@@ -99,7 +101,6 @@ const reducer = (state: State, action: Action): State => {
             return { ...state, name: action.value };
         case 'comment':
             return { ...state, comment: action.value };
-
         default:
             throw new Error(`Unhandled action type: ${action.type}`)
     }
@@ -110,6 +111,20 @@ type SingleCommentProps = {
     date: number;
     name: string;
     comment: string;
+    commentId: string;
+    replies: Replies[]
+}
+
+type ReplyInit = {
+    name: string;
+    reply: string;
+}
+
+type Replies = {
+    name: string;
+    reply: string;
+    date: number;
+    replyId: string;
 }
 
 type CommentsProps = {
@@ -126,6 +141,8 @@ const Comments = (props: ContentProps<ArticleType>) => {
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [comments, setComments] = useState<CommentsProps>();
     const [loading, setLoading] = useState<boolean>(true);
+    const [replyTo, setReplyTo] = useState<string | null>(null);
+    const [replyFields, setReplyFields] = useState<ReplyInit>({ name: '', reply: '' });
 
     const handleGet = async () => {
         const q = new URLSearchParams();
@@ -147,6 +164,7 @@ const Comments = (props: ContentProps<ArticleType>) => {
             name: state.name,
             comment: state.comment,
             id: contentEntry.sys.id,
+            replies: []
         }
         const url = `/.netlify/functions/comments`;
         createSubmission({ url, data, setSubmitting, setSubmitted });
@@ -157,9 +175,41 @@ const Comments = (props: ContentProps<ArticleType>) => {
         dispatch({ type: name, value: value });
     }
 
+    const replyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setReplyFields({ ...replyFields, [name]: value })
+    }
+
     useQuery([comments, contentEntry.sys.id], handleGet, {
         enabled: submitted,
     })
+
+    const openReply = async (r: string) => {
+        setReplyTo(r)
+    }
+
+    const submitReply = async () => {
+        const resp = await fetch(`/.netlify/functions/comments/${replyTo}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                commentId: replyTo,
+                replies: [
+                    {
+                        name: replyFields.name,
+                        reply: replyFields.reply
+                    }
+                ]
+            })
+        })
+        if (resp.status === 200) {
+            setReplyTo(null);
+            setReplyFields({ name: '', reply: '' });
+            handleGet();
+        } else {
+            console.log(resp)
+        }
+    }
+
 
     return (
         <Container maxWidth={false} sx={{ maxWidth: 800 }} >
@@ -187,25 +237,64 @@ const Comments = (props: ContentProps<ArticleType>) => {
                 }
                 {!loading && comments?.data?.map((item: SingleCommentProps, index: number) =>
                     <Stack key={index} >
-                        <Stack direction="row" alignItems="center" spacing={2} >
-                            <Avatar />
-                            <Typography variant="subtitle1">
-                                {item.name}
-                            </Typography>
-                            <Typography sx={{ pt: 0.25 }} >
-                                <Time date={item?.date} />
-                            </Typography>
+                        <Stack direction="row" alignItems="center" spacing={2} justifyContent="space-between" >
+                            <Stack direction="row" alignItems="center" spacing={2} >
+                                <Avatar />
+                                <Typography variant="subtitle1">
+                                    {item.name}
+                                </Typography>
+                                <Typography sx={{ pt: 0.25 }} >
+                                    <Time date={item?.date} />
+                                </Typography>
+                            </Stack>
+                            {replyTo !== item.commentId ?
+                                <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => openReply(item.commentId)}>
+                                    <ReplyIcon fontSize="small" /> Reply
+                                </Link>
+                                :
+                                <Link color="error" underline="hover" sx={{ cursor: 'pointer' }} onClick={() => openReply("")}>
+                                    Cancel
+                                </Link>
+                            }
                         </Stack>
                         <Container sx={{ mb: 1 }} maxWidth="md">
                             <Typography sx={{ mt: 2 }} variant="body1">
                                 {item.comment}
                             </Typography>
+                            {item.replies?.map((r: Replies, index: number) =>
+                                <Stack key={index} >
+                                    <Stack direction="row" alignItems="center" spacing={2} >
+                                        <Avatar />
+                                        <Typography variant="subtitle1">
+                                            {r.name}
+                                        </Typography>
+                                        <Typography sx={{ pt: 0.25 }} >
+                                            <Time date={r?.date} />
+                                        </Typography>
+                                    </Stack>
+                                    <Typography key={index} sx={{ mt: 2 }} variant="body1">
+                                        {r.reply}
+                                    </Typography>
+                                </Stack>
+                            )}
                         </Container>
+                        {replyTo === item.commentId &&
+                            <Stack sx={{ p: 1, border: 1 }} alignItems="flex-start" spacing={2}>
+                                <TextField sx={{ width: 400 }} name="name" label="Name" onChange={replyChange} size="small" />
+                                <TextField sx={{ width: 400 }} name="reply" label="Reply" onChange={replyChange} multiline rows={4} size="small" />
+                                <LoadingButton
+                                    disabled={replyFields.name === '' || replyFields.reply === ''}
+                                    loading={submitting}
+                                    onClick={() => submitReply()}
+                                    variant="contained"
+                                    size="small">Reply </LoadingButton>
+                            </Stack>
+                        }
                         <Divider />
                     </Stack>
                 )}
             </Stack>
-        </Container>
+        </Container >
     )
 }
 
@@ -227,3 +316,4 @@ const CommentSkeleton = () => {
         </Stack>
     )
 }
+
