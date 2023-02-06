@@ -11,17 +11,27 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type Comments struct {
+type Reply struct {
 	Name    string `json:"name"`
-	Comment string `json:"comment"`
-	ID      string `json:"id"`
+	Reply   string `json:"reply"`
 	Date    int64  `json:"date"`
+	ReplyId string `json:"replyId"`
+}
+
+type Comments struct {
+	Name      string  `json:"name"`
+	Comment   string  `json:"comment"`
+	ID        string  `json:"id"`
+	CommentId string  `json:"commentId"`
+	Date      int64   `json:"date"`
+	Replies   []Reply `json:"replies"`
 }
 type Page struct {
 	Data    []Comments `json:"data"`
@@ -83,6 +93,16 @@ func (s *Store) GetComments(searchText string, limit, skip *int64) (Page, error)
 	return pg, nil
 }
 
+func (s *Store) put(commentId string, c Comments) {
+	filter := bson.M{"commentid": commentId}
+	update := bson.M{"$addToSet": bson.M{"replies": c.Replies[len(c.Replies)-1]}}
+
+	_, err := s.locaColl.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 // handlers
 
 func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
@@ -91,6 +111,7 @@ func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxy
 		log.Fatal(err)
 	}
 	coms.Date = time.Now().Unix()
+	coms.CommentId = uuid.New().String()
 	s.AddComment(coms)
 
 	rspByt, err := json.Marshal(coms)
@@ -105,7 +126,7 @@ func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxy
 	}, nil
 }
 
-func (s *Store) Get(r events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+func (s *Store) Query(r events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	limit, err := strconv.ParseInt(r.QueryStringParameters["limit"], 10, 64)
 	if err != nil {
 		limit = 10
@@ -132,15 +153,48 @@ func (s *Store) Get(r events.APIGatewayProxyRequest) (*events.APIGatewayProxyRes
 	}, nil
 }
 
+func (s *Store) Update(r events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+
+	var coms Comments
+	if err := json.Unmarshal([]byte(r.Body), &coms); err != nil {
+		log.Fatal(err)
+	}
+
+	coms.Replies[len(coms.Replies)-1].Date = time.Now().Unix()
+	coms.Replies[len(coms.Replies)-1].ReplyId = uuid.New().String()
+
+	s.put(coms.CommentId, coms)
+
+	rspByt, err := json.Marshal(coms)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling payment link: %w", err)
+	}
+
+	return &events.APIGatewayProxyResponse{
+		StatusCode: 200,
+		Headers:    map[string]string{"Content-Type": "application/json"},
+		Body:       string(rspByt),
+	}, nil
+
+}
+
 func handler(r events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	cmmntSt := Connect()
+
 	switch r.HTTPMethod {
+	case "GET":
+		return cmmntSt.Query(r)
 	case "POST":
 		return cmmntSt.Create(r)
-	case "GET":
-		return cmmntSt.Get(r)
+	case "PUT":
+		return cmmntSt.Update(r)
 	default:
-		return nil, fmt.Errorf("unsupported method: %s", r.HTTPMethod)
+		return &events.APIGatewayProxyResponse{
+			StatusCode: 405,
+			Headers:    map[string]string{"Content-Type": "application/json"},
+			Body:       "Method Not Allowed",
+		}, nil
+
 	}
 }
 
