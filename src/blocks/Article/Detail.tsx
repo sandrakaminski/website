@@ -77,7 +77,6 @@ const Detail = (props: ContentProps<ArticleType>) => {
                         <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
                         <Comments contentEntry={contentEntry} />
                     </Stack>
-
                 </>
             }
         </>
@@ -238,15 +237,7 @@ const Comments = (props: ContentProps<ArticleType>) => {
                 {!loading && comments?.data?.map((item: SingleCommentProps, index: number) =>
                     <Stack key={index} >
                         <Stack direction="row" alignItems="center" spacing={2} justifyContent="space-between" >
-                            <Stack direction="row" alignItems="center" spacing={2} >
-                                <Avatar />
-                                <Typography variant="subtitle1">
-                                    {item.name}
-                                </Typography>
-                                <Typography sx={{ pt: 0.25 }} >
-                                    <Time date={item?.date} />
-                                </Typography>
-                            </Stack>
+                            <CommentInfo name={item.name} date={item?.date} />
                             {replyTo !== item.commentId ?
                                 <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => openReply(item.commentId)}>
                                     <ReplyIcon fontSize="small" /> Reply
@@ -262,16 +253,8 @@ const Comments = (props: ContentProps<ArticleType>) => {
                                 {item.comment}
                             </Typography>
                             {item.replies?.map((r: Replies, index: number) =>
-                                <Stack key={index} >
-                                    <Stack direction="row" alignItems="center" spacing={2} >
-                                        <Avatar />
-                                        <Typography variant="subtitle1">
-                                            {r.name}
-                                        </Typography>
-                                        <Typography sx={{ pt: 0.25 }} >
-                                            <Time date={r?.date} />
-                                        </Typography>
-                                    </Stack>
+                                <Stack sx={{ py: 2 }} key={index} >
+                                    <CommentInfo name={r.name} date={r?.date} />
                                     <Typography key={index} sx={{ mt: 2 }} variant="body1">
                                         {r.reply}
                                     </Typography>
@@ -279,7 +262,7 @@ const Comments = (props: ContentProps<ArticleType>) => {
                             )}
                         </Container>
                         {replyTo === item.commentId &&
-                            <Stack sx={{ p: 1, border: 1 }} alignItems="flex-start" spacing={2}>
+                            <Stack sx={{ p: 1 }} alignItems="flex-start" spacing={2}>
                                 <TextField sx={{ width: 400 }} name="name" label="Name" onChange={replyChange} size="small" />
                                 <TextField sx={{ width: 400 }} name="reply" label="Reply" onChange={replyChange} multiline rows={4} size="small" />
                                 <LoadingButton
@@ -317,3 +300,18 @@ const CommentSkeleton = () => {
     )
 }
 
+const CommentInfo = (props: any) => {
+    const { name, date } = props;
+
+    return (
+        <Stack direction="row" alignItems="center" spacing={2} >
+            <Avatar />
+            <Typography variant="subtitle1">
+                {name}
+            </Typography>
+            <Typography sx={{ pt: 0.25 }} >
+                <Time date={date} />
+            </Typography>
+        </Stack>
+    )
+}
