@@ -14,6 +14,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Container from '@mui/material/Container';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
@@ -424,11 +425,11 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
                                 <CommentSkeleton />
                             </Box>
                         }
-                        {!loading && reviews?.data?.length !== undefined && reviews?.data?.map((review: Review, index: number) =>
-                            <Box key={index} sx={{ p: 2 }}>
-                                <CommentInfo name={review.name} date={review.date} />
-                                <Box sx={{ m: 2 }}>
-                                    <Stack spacing={1} direction="row" alignItems="center" >
+                        <DialogContent>
+                            {!loading && reviews?.data?.length !== undefined && reviews?.data?.map((review: Review, index: number) =>
+                                <Box key={index} >
+                                    <CommentInfo name={review.name} date={review.date} />
+                                    <Stack sx={{ mt: 2 }} spacing={1} direction="row" alignItems="center" >
                                         {starArr.map((star: number) =>
                                             <div key={star} >
                                                 {review.rating >= star ? <StarIcon sx={{ color: "warning.light" }} /> :
@@ -439,13 +440,11 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
                                     </Stack>
                                     <Typography >{review.review}</Typography>
                                 </Box>
-                            </Box>
-                        )}
-                        {!loading && reviews?.data?.length === undefined &&
-                            <Box sx={{ p: 2 }}>
+                            )}
+                            {!loading && reviews?.data?.length === undefined &&
                                 <Typography >No reviews yet</Typography>
-                            </Box>
-                        }
+                            }
+                        </DialogContent>
                         <DialogActions>
                             <Button onClick={() => setWriteReview(true)} >Write a review</Button>
                         </DialogActions>
@@ -468,7 +467,7 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
                             <TextField name="name" onChange={handleChange} label="Full Name" />
                             <TextField name="review" onChange={handleChange} label="Review" multiline rows={4} />
                             <DialogActions>
-                                <LoadingButton loading={submitting} onClick={handleSubmit} variant="contained" >Send Review</LoadingButton>
+                                <LoadingButton loading={submitting} disabled={state.review === "" || state.name === ""} onClick={handleSubmit} variant="contained" >Send Review</LoadingButton>
                                 <Button color="error" onClick={() => setWriteReview(false)} >Cancel</Button>
                             </DialogActions>
                         </Stack>
@@ -476,9 +475,7 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
                 }
             </Dialog>
         </Stack>
-
     )
-
 }
 
 type CommentInfoProps = {
