@@ -18,6 +18,7 @@ import Section from './Section';
 import LoadingState from '@/components/Outline';
 import { ContentProps, AnyEntry, AssemblyEntry } from '@/types';
 
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const blocks: Record<string, React.FC<ContentProps<any>>> = {
     "profile": Profile,
@@ -28,7 +29,7 @@ const blocks: Record<string, React.FC<ContentProps<any>>> = {
     "imageBanner": ImageBanner
 }
 
-const Factory = (props: ContentProps<AnyEntry>) => {
+const ContentBlock = (props: ContentProps<AnyEntry>) => {
     const { contentEntry, detail } = props;
     const name = contentEntry?.sys.contentType.sys.id;
 
@@ -36,13 +37,11 @@ const Factory = (props: ContentProps<AnyEntry>) => {
         return <></>
     }
 
-    const block = blocks[name];
-    return block({ contentEntry, detail })
+    return blocks[name]({ contentEntry, detail })
 }
 
 const Renderer = (props: ContentProps<AnyEntry>) => {
     const { contentEntry } = props;
-
     return (
         <Box sx={{ my: 4 }}>
             <GridLayout contentEntry={contentEntry} />
@@ -64,7 +63,7 @@ const DetailedLayout = (props: ContentProps<AnyEntry>) => {
         <>
             {content?.sys.contentType.sys.id !== 'assembly' &&
                 <LoadingState type={"Detailed"} contentEntry={contentEntry} >
-                    <Factory detail={true} contentEntry={contentEntry} />
+                    <ContentBlock detail={true} contentEntry={contentEntry} />
                 </LoadingState>
             }
         </>
@@ -81,7 +80,7 @@ const DefaultLayout = (props: ContentProps<AnyEntry>) => {
             {content?.sys.contentType.sys.id === 'assembly' && content?.fields.layout === 'Default' &&
                 <LoadingState type={content?.fields.layout} contentEntry={content} >
                     {content.fields.references.map((block, index) =>
-                        <Factory key={index} contentEntry={block} />
+                        <ContentBlock key={index} contentEntry={block} />
                     )}
                 </LoadingState>
             }
@@ -120,7 +119,7 @@ const GridLayout = (props: ContentProps<AnyEntry>) => {
                     {content.fields.references.slice(0, limit).map((block, index) =>
                         <Grid alignItems="stretch" key={index} xs={12} sm={6} md={4} xl={3} >
                             <LoadingState type={content?.fields.layout} contentEntry={contentEntry} >
-                                <Factory contentEntry={block} />
+                                <ContentBlock contentEntry={block} />
                             </LoadingState>
                         </Grid>
                     )}

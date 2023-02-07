@@ -133,7 +133,6 @@ func (s *Store) sendEmail(page, person string) {
 		fmt.Println(response.Headers)
 		fmt.Println(response.StatusCode)
 	}
-
 }
 
 func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
@@ -150,6 +149,7 @@ func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxy
 		return nil, fmt.Errorf("error marshaling payment link: %w", err)
 	}
 
+	// alert 
 	s.sendEmail(coms.Page, coms.Name)
 
 	return &events.APIGatewayProxyResponse{

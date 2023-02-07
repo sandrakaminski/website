@@ -4,10 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Entry } from 'contentful';
 import { useRoutes, useParams } from 'react-router-dom';
 
-import { fetchContent } from "@/client";
+import { fetchContent } from "@/contentful";
 import { AnyEntry } from '@/types';
 
-const Renderer = lazy(() => import('@/blocks/Renderer'));
+const Renderer = lazy(() => import('@/blocks/ContentRenderer'));
 const NotFound = lazy(() => import('@/views/NotFound'));
 const Cart = lazy(() => import('@/views/Cart'));
 const PaymentSuccess = lazy(() => import('@/views/PaymentSuccess'));

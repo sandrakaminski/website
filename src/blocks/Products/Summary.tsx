@@ -55,7 +55,6 @@ const Summary = (props: ContentProps<ProductTypes>) => {
                     </Stack>
                 </Stack>
             </CardActionArea>
-            {/* <QuickAdd contentEntry={contentEntry} /> */}
         </>
     );
 }
