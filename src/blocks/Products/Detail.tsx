@@ -471,7 +471,7 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
                             <TextField name="name" onChange={handleChange} label="Full Name" />
                             <TextField name="review" onChange={handleChange} label="Review" multiline rows={4} />
                             <DialogActions>
-                                <LoadingButton loading={submitting} disabled={state.review === "" || state.name === ""} onClick={handleSubmit} variant="contained" >Send Review</LoadingButton>
+                                <LoadingButton loading={submitting} disabled={state.review === "" || state.name === "" || starFilled === 0} onClick={handleSubmit} variant="contained" >Send Review</LoadingButton>
                                 <Button color="error" onClick={() => setWriteReview(false)} >Cancel</Button>
                             </DialogActions>
                         </Stack>
