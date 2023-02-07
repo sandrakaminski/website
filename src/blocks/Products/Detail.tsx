@@ -168,22 +168,20 @@ const Body = (props: ContentProps<ProductTypes>) => {
     useQuery([detect], detectLength)
 
     return (
-        <Box >
+        <Container maxWidth="md" >
             <ReactMarkdown components={Markdown} >
                 {showMore === preview && !hidden ? `${showMore}...` : showMore}
             </ReactMarkdown>
-            <Box sx={{ p: 2 }}>
-                {!hidden && showMore === preview ?
-                    <Link sx={{ cursor: 'pointer' }} onClick={handleShowMore} >
-                        Read more
-                    </Link>
-                    :
-                    <Link sx={{ cursor: 'pointer' }} onClick={handleShowLess} >
-                        Read less
-                    </Link>
-                }
-            </Box>
-        </Box>
+            {!hidden && showMore === preview ?
+                <Link sx={{ cursor: 'pointer' }} onClick={handleShowMore} >
+                    Read more
+                </Link>
+                :
+                <Link sx={{ cursor: 'pointer' }} onClick={handleShowLess} >
+                    Read less
+                </Link>
+            }
+        </Container>
     )
 }
 
