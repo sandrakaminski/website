@@ -177,7 +177,9 @@ const Comments = (props: ContentProps<ArticleType>) => {
     return (
         <Container maxWidth={false} sx={{ maxWidth: 800 }} >
             <Stack sx={{ mt: 10 }} spacing={2}>
-                <Typography variant="h1">Comments {" "} {comments?.data?.length !== undefined && <Chip color="info" label={comments?.data?.length} />}</Typography>
+                <Stack alignItems="center" direction="row" spacing={1}>
+                    <Typography variant="h1">Comments  </Typography>{comments?.data?.length !== undefined && <Chip size="small" color="info" label={comments?.data?.length} />}
+                </Stack>
                 {!submitted ?
                     <Stack alignItems="flex-end" spacing={2}>
                         <TextField onChange={handleChange} label="Name" name="name" fullWidth />
@@ -292,7 +294,7 @@ const CommentThread = (props: CommentThreadProps) => {
                         {item.replies?.map((r: Replies, index: number) =>
                             <Stack sx={{ py: 2 }} key={index} >
                                 <CommentInfo name={r.name} date={r?.date} />
-                                <Typography key={index} sx={{ mt: 2 }} variant="body1">
+                                <Typography key={index} sx={{ mt: 2, ml: 4 }} variant="body1">
                                     {r.reply}
                                 </Typography>
                             </Stack>
