@@ -2,7 +2,6 @@ import React, { useReducer, useState } from 'react';
 
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import ReplyIcon from '@mui/icons-material/Reply';
 import LoadingButton from "@mui/lab/LoadingButton";
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -282,7 +281,7 @@ const CommentThread = (props: CommentThreadProps) => {
                         <CommentInfo name={item.name} date={item?.date} />
                         {replyTo !== item.commentId ?
                             <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => openReply(item.commentId)}>
-                                <ReplyIcon fontSize="small" /> Reply
+                                Reply
                             </Link>
                             :
                             <Link color="error" underline="hover" sx={{ cursor: 'pointer' }} onClick={() => openReply("")}>
