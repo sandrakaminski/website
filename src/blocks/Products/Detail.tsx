@@ -2,18 +2,19 @@ import React, { useState, useReducer, useEffect } from 'react';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
+// import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import StarIcon from '@mui/icons-material/Star';
-import DialogTitle from '@mui/material/DialogTitle';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
+import Container from '@mui/material/Container';
 import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
 import Skeleton from '@mui/material/Skeleton';
@@ -36,7 +37,6 @@ import { imageSrc } from '@/functions';
 import { createSubmission } from '@/functions';
 import type { ProductTypes, ContentProps } from '@/types';
 import { useCartContext } from "@/views/Cart/cartProvider";
-import { DialogActions } from '@mui/material';
 
 const Detail = (props: ContentProps<ProductTypes>) => {
     const { contentEntry } = props;
