@@ -19,8 +19,7 @@ import ReactMarkdown from 'react-markdown';
 import { useNavigate, useParams } from 'react-router-dom';
 import gfm from 'remark-gfm';
 
-import DateFormatter from "@/components/DateFormatter";
-import { Time } from '@/components/DateFormatter';
+import DateFormatter, { Time } from "@/components/DateFormatter";
 import LoadingImage from '@/components/LoadingImage';
 import Markdown from '@/components/Markdown';
 import Trail from '@/components/Trail';
@@ -301,24 +300,24 @@ const CommentThread = (props: CommentThreadProps) => {
                                 </Typography>
                             </Stack>
                         )}
+                        {!submitted ? replyTo === item.commentId &&
+                            <Stack sx={{ p: 1, ml: 2 }} alignItems="flex-start" spacing={2}>
+                                <TextField sx={{ width: 400 }} name="name" label="Name" onChange={replyChange} size="small" />
+                                <TextField sx={{ width: 400 }} name="reply" label="Reply" onChange={replyChange} multiline rows={4} size="small" />
+                                <LoadingButton
+                                    disabled={replyFields.name === '' || replyFields.reply === ''}
+                                    loading={submitting}
+                                    onClick={() => submitReply()}
+                                    variant="contained"
+                                    size="small">Reply </LoadingButton>
+                            </Stack>
+                            :
+                            <Stack alignItems="center" spacing={2}>
+                                <CheckCircle sx={{ color: 'success.main' }} />
+                                <Typography variant="subtitle2">Reply sent successfully</Typography>
+                            </Stack>
+                        }
                     </Container>
-                    {!submitted ? replyTo === item.commentId &&
-                        <Stack sx={{ p: 1 }} alignItems="flex-start" spacing={2}>
-                            <TextField sx={{ width: 400 }} name="name" label="Name" onChange={replyChange} size="small" />
-                            <TextField sx={{ width: 400 }} name="reply" label="Reply" onChange={replyChange} multiline rows={4} size="small" />
-                            <LoadingButton
-                                disabled={replyFields.name === '' || replyFields.reply === ''}
-                                loading={submitting}
-                                onClick={() => submitReply()}
-                                variant="contained"
-                                size="small">Reply </LoadingButton>
-                        </Stack>
-                        :
-                        <Stack alignItems="center" spacing={2}>
-                            <CheckCircle sx={{ color: 'success.main' }} />
-                            <Typography variant="subtitle2">Reply sent successfully</Typography>
-                        </Stack>
-                    }
                     <Divider />
                 </Stack>
             )}
