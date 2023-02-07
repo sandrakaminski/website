@@ -265,12 +265,9 @@ const CommentThread = (props: CommentThreadProps) => {
         const url = `/.netlify/functions/comments`;
         const method = 'PUT';
         createSubmission({ url, method, data, setSubmitting, setSubmitted });
-        if (submitted) {
-            setReplyFields({ ...init });
-            setReplyTo("");
-            handleGet();
-        }
     }
+
+    useQuery([comments], handleGet, { enabled: submitted })
 
     return (
         <>
@@ -301,7 +298,7 @@ const CommentThread = (props: CommentThreadProps) => {
                             </Stack>
                         )}
                     </Container>
-                    {replyTo === item.commentId &&
+                    {!submitted ? replyTo === item.commentId &&
                         <Stack sx={{ p: 1 }} alignItems="flex-start" spacing={2}>
                             <TextField sx={{ width: 400 }} name="name" label="Name" onChange={replyChange} size="small" />
                             <TextField sx={{ width: 400 }} name="reply" label="Reply" onChange={replyChange} multiline rows={4} size="small" />
@@ -311,6 +308,11 @@ const CommentThread = (props: CommentThreadProps) => {
                                 onClick={() => submitReply()}
                                 variant="contained"
                                 size="small">Reply </LoadingButton>
+                        </Stack>
+                        :
+                        <Stack alignItems="center" spacing={2}>
+                            <CheckCircle sx={{ color: 'success.main' }} />
+                            <Typography variant="subtitle2" >Reply sent successfully</Typography>
                         </Stack>
                     }
                     <Divider />
