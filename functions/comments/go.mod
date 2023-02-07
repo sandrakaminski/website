@@ -6,6 +6,7 @@ require (
 	github.com/aws/aws-lambda-go v1.37.0
 	github.com/google/uuid v1.3.0
 	github.com/joho/godotenv v1.4.0
+	github.com/sendgrid/sendgrid-go v3.12.0+incompatible
 	go.mongodb.org/mongo-driver v1.11.1
 )
 
@@ -14,6 +15,7 @@ require (
 	github.com/klauspost/compress v1.15.15 // indirect
 	github.com/montanaflynn/stats v0.7.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/sendgrid/rest v2.6.9+incompatible // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect

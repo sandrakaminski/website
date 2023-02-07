@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import { useQuery } from '@tanstack/react-query';
 import ReactGA from 'react-ga4';
 import ReactMarkdown from 'react-markdown';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import gfm from 'remark-gfm';
 
 import DateFormatter from "@/components/DateFormatter";
@@ -131,7 +131,9 @@ type CommentsProps = {
 }
 
 const Comments = (props: ContentProps<ArticleType>) => {
-    const { contentEntry } = props
+    const { contentEntry } = props;
+
+    const { type } = useParams();
     const [state, dispatch] = useReducer(reducer, {
         name: '',
         comment: ''
@@ -158,6 +160,7 @@ const Comments = (props: ContentProps<ArticleType>) => {
     const handleSubmit = () => {
         setSubmitting(true);
         const data = {
+            page: `${type}/${contentEntry.fields.slug}`,
             name: state.name,
             comment: state.comment,
             id: contentEntry.sys.id,
@@ -314,7 +317,7 @@ const CommentThread = (props: CommentThreadProps) => {
                         :
                         <Stack alignItems="center" spacing={2}>
                             <CheckCircle sx={{ color: 'success.main' }} />
-                            <Typography variant="subtitle2" >Reply sent successfully</Typography>
+                            <Typography variant="subtitle2">Reply sent successfully</Typography>
                         </Stack>
                     }
                     <Divider />

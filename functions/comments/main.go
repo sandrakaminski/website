@@ -13,6 +13,8 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
+	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/helpers/mail"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -32,6 +34,7 @@ type Comments struct {
 	CommentId string  `json:"commentId"`
 	Date      int64   `json:"date"`
 	Replies   []Reply `json:"replies"`
+	Page      string  `json:"page"`
 }
 type Page struct {
 	Data    []Comments `json:"data"`
@@ -104,6 +107,34 @@ func (s *Store) put(commentId string, c Comments) {
 }
 
 // handlers
+func (s *Store) sendEmail(page, person string) {
+	godotenv.Load(".env")
+
+	from := mail.NewEmail("sandrakaminski.com", "info@sandrakaminski.com")
+	subject := "New comment on " + page 
+	to := mail.NewEmail("Sandra Kaminski", "sandra.kaminski@propellerhead.co.nz")
+	body := "Hi Sandra, you have recieved a new comment from" + person + " on " + page
+	htmlContent := "Hi Sandra, " + person + " has commented on " + page + " <br> <br> <a href='https://www.sandrakaminski.com/" + page + "'>View comments</a>"
+	msg := mail.NewSingleEmail(from, subject, to, body, htmlContent)
+
+	client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
+	response, err := client.Send(msg)
+	if err != nil {
+		fmt.Println(err)
+	}
+	statusCode := response.StatusCode
+
+	if statusCode == 200 || statusCode == 201 || statusCode == 202 {
+		fmt.Println("Email sent!")
+
+	} else {
+		fmt.Println("Email not sent!")
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+		fmt.Println(response.StatusCode)
+	}
+
+}
 
 func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var coms Comments
@@ -118,6 +149,8 @@ func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxy
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling payment link: %w", err)
 	}
+
+	s.sendEmail(coms.Page, coms.Name)
 
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 200,
