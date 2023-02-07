@@ -16,6 +16,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
 import Skeleton from '@mui/material/Skeleton';
@@ -401,7 +402,9 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
             setWriteReview(false);
         }
     }, [submitted])
-
+    useQuery([reviews, contentEntry.sys.id], handleGet, {
+        enabled: submitted
+    })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -427,7 +430,7 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
                         }
                         <DialogContent>
                             {!loading && reviews?.data?.length !== undefined && reviews?.data?.map((review: Review, index: number) =>
-                                <Box key={index} >
+                                <Box sx={{ my: 2 }} key={index} >
                                     <CommentInfo name={review.name} date={review.date} />
                                     <Stack sx={{ mt: 2 }} spacing={1} direction="row" alignItems="center" >
                                         {starArr.map((star: number) =>
@@ -439,6 +442,7 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
                                         )}
                                     </Stack>
                                     <Typography >{review.review}</Typography>
+                                    <Divider />
                                 </Box>
                             )}
                             {!loading && reviews?.data?.length === undefined &&
