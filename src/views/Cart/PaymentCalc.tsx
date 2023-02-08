@@ -242,7 +242,7 @@ export const CartItemPrice = (props: CartItem) => {
     const handleSetCurrency = useCallback(async () => {
         setLoading(true)
         try {
-            const response = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${item}`);
+            const response = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${price}`);
             const data = await response.json();
             setPrice(data?.rates[newCurrency])
             setLoading(false)
@@ -250,7 +250,7 @@ export const CartItemPrice = (props: CartItem) => {
         catch {
             setLoading(false)
         }
-    }, [currency, item, newCurrency]);
+    }, [currency, price, newCurrency]);
 
     useEffect(() => {
         handleSetCurrency();
