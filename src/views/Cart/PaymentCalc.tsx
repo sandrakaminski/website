@@ -251,7 +251,7 @@ export const CartItemPrice = (props: CartItem) => {
         catch {
             setLoading(false)
         }
-    }, [currency, price, newCurrency]);
+    }, [currency, newCurrency, item]);
 
     useEffect(() => {
         handleSetCurrency();
