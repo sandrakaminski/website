@@ -206,7 +206,7 @@ const Cart = () => {
                         <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
                             <Stack spacing={1}>
                                 <Typography variant="h4" >{loading ? <Skeleton variant="rounded" /> : "Order summary"}</Typography>
-                                <CurrencyExchange  setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
+                                <CurrencyExchange setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
                             </Stack>
                             <Stack spacing={0.5}>
                                 <ButtonGroup size="small">

@@ -155,7 +155,8 @@ export const americanPricing = (props: AmericanPricingProps) => {
 
     var price
     if (item.name === "DREAMING IN PETALS" && country === "US") {
-        price = 82.30
+        // price = 82.30
+        price = item.price
     }
     else {
         price = item.price
@@ -242,7 +243,7 @@ export const CartItemPrice = (props: CartItem) => {
     const handleSetCurrency = useCallback(async () => {
         setLoading(true)
         try {
-            const response = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${price}`);
+            const response = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${item}`);
             const data = await response.json();
             setPrice(data?.rates[newCurrency])
             setLoading(false)
