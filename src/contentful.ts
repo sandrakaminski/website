@@ -9,6 +9,15 @@ const previewToken: string = import.meta.env.VITE_PREVIEW_TOKEN;
 export const fetchContent = async ({ queryKey }: QueryFunctionContext): Promise<EntryCollection<unknown>> => {
     const [, type, slug, include] = queryKey;
 
+    if (type === "preview") {
+        return previewApi.getEntries({
+            // eslint-disable-next-line camelcase
+            content_type: "inspiration",
+            'fields.slug': slug,
+            include: include || 3
+        });
+    }
+
     let contentType
     if (type === 'about') {
         contentType = 'profile'
@@ -25,14 +34,7 @@ export const fetchContent = async ({ queryKey }: QueryFunctionContext): Promise<
     else {
         contentType = type
     }
-    if (type === "preview") {
-        return previewApi.getEntries({
-            // eslint-disable-next-line camelcase
-            content_type: "preview",
-            'fields.slug': slug,
-            include: include || 3
-        });
-    }
+
     return client.getEntries({
         // eslint-disable-next-line camelcase
         content_type: contentType,
