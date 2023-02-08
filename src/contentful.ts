@@ -12,7 +12,7 @@ export const fetchContent = async ({ queryKey }: QueryFunctionContext): Promise<
     if (type === "preview") {
         return previewApi.getEntries({
             // eslint-disable-next-line camelcase
-            content_type: "inspiration",
+            content_type: "article",
             'fields.slug': slug,
             include: include || 3
         });
