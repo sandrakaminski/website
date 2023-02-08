@@ -4,6 +4,7 @@ import { createClient, ContentfulClientApi, EntryCollection } from 'contentful';
 const spaceId: string = import.meta.env.VITE_CONTENTFUL_SPACE_ID;
 const deliveryApiToken: string = import.meta.env.VITE_DELIVERY_TOKEN;
 const environment: string = import.meta.env.VITE_ENVIRONMENT;
+const previewToken: string = import.meta.env.VITE_PREVIEW_TOKEN;
 
 export const fetchContent = async ({ queryKey }: QueryFunctionContext): Promise<EntryCollection<unknown>> => {
     const [, type, slug, include] = queryKey;
@@ -24,7 +25,14 @@ export const fetchContent = async ({ queryKey }: QueryFunctionContext): Promise<
     else {
         contentType = type
     }
-
+    if (type === "preview") {
+        return previewApi.getEntries({
+            // eslint-disable-next-line camelcase
+            content_type: contentType,
+            'fields.slug': slug,
+            include: include || 3
+        });
+    }
     return client.getEntries({
         // eslint-disable-next-line camelcase
         content_type: contentType,
@@ -38,5 +46,13 @@ const client: ContentfulClientApi = createClient({
     environment: environment,
     accessToken: deliveryApiToken,
     host: 'https://cdn.contentEntryful.com',
+    removeUnresolved: true
+})
+
+const previewApi: ContentfulClientApi = createClient({
+    space: spaceId,
+    environment: environment,
+    accessToken: previewToken,
+    host: 'https://cdn.contentful.com',
     removeUnresolved: true
 })
