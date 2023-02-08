@@ -7,7 +7,7 @@ import { useRoutes, useParams } from 'react-router-dom';
 import { fetchContent } from "@/contentful";
 import { AnyEntry } from '@/types';
 
-const Renderer = lazy(() => import('@/blocks/ContentRenderer'));
+const Renderer = lazy(() => import('@/contentBlocks/ContentRenderer'));
 const NotFound = lazy(() => import('@/views/NotFound'));
 const Cart = lazy(() => import('@/views/Cart'));
 const PaymentSuccess = lazy(() => import('@/views/PaymentSuccess'));
