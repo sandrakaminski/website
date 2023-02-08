@@ -303,10 +303,10 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
 
         return [currency, newCurrency, totalCosts, shippingCosts, setAmount]
     }
-    const loadRate = useQuery([currency, newCurrency, totalCosts, shippingCosts, setAmount, setDisable], handleSetCurrency);
-    useQuery([currency, newCurrency, totalCosts, shippingCosts, setAmount, setDisable], handleSetCurrency, {
+    const loadRate = useQuery([currency, newCurrency, totalCosts, shippingCosts, setAmount, setDisable], handleSetCurrency, {
         refetchOnWindowFocus: true,
-    })
+    });
+
 
     const checkState = () => {
         if (loadRate.isLoading) {
