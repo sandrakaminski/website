@@ -143,6 +143,30 @@ export const vat = (country: string) => {
     return 0.15;
 }
 
+// reduce fee for paper products if there is no book in the cart
+type ShippingFeeProps = {
+    country: string;
+    category: string[];
+}
+export const shippingFee = (props: ShippingFeeProps) => {
+    const { country, category } = props
+    const PaperProductShipping = paperProductShipping(country);
+    const shippingCost = shippingCosts(country);
+
+    let shippingFee
+    if (category.join(" ") === "Paper Products") {
+        shippingFee = PaperProductShipping
+    }
+    else if (category.includes("Paper Products"), category.includes("Book")) {
+        shippingFee = shippingCost
+    }
+    else {
+        shippingFee = shippingCost
+    }
+    return shippingFee
+}
+
+
 type CurrencyExchProps = {
     country: string;
     // category: string;
@@ -209,7 +233,6 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
 
-
     const totalCost = total + shippingCosts;
     const vatTotal = vatCosts * amount.total;
     const totalCosts = totalCost.toFixed(2).toString();
@@ -238,13 +261,15 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
         }
         return [loadRate.isLoading, setDisable]
     }
-    useQuery([loadRate.isLoading, setDisable], checkState)
+    useQuery([loadRate.isLoading, setDisable], checkState, {
+        refetchOnWindowFocus: true,
+    })
 
     return (
         <Box>
-            <Typography> {loading ? <Skeleton /> : `VAT/GST: ${symbol}${vatTotal.toFixed(2)} ${newCurrency}`}</Typography>
-            <Typography>{loading ? <Skeleton /> : `Shipping: ${symbol}${amount.shipping.toFixed(2)} ${newCurrency}`} </Typography>
-            <Typography> {loading ? <Skeleton /> : `Total: ${symbol}${amount.total.toFixed(2)} ${newCurrency}`}</Typography>
+            <Typography> {loading ? <Skeleton /> : `VAT/GST: ${symbol}${vatTotal && vatTotal.toFixed(2)} ${newCurrency}`}</Typography>
+            <Typography>{loading ? <Skeleton /> : `Shipping: ${symbol}${amount.shipping && amount.shipping.toFixed(2)} ${newCurrency}`} </Typography>
+            <Typography> {loading ? <Skeleton /> : `Total: ${symbol}${amount.total && amount.total.toFixed(2)} ${newCurrency}`}</Typography>
         </Box>
     )
 }

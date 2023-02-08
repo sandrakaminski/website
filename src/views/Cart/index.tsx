@@ -25,7 +25,7 @@ import { Asset } from 'contentful';
 import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 
-import CountryDropdown, { CurrencyExchange, shippingCosts, currencyTypes, countriesList, CartItemPrice, paperProductShipping } from './PaymentCalc';
+import CountryDropdown, { CurrencyExchange, currencyTypes, countriesList, CartItemPrice, shippingFee } from './PaymentCalc';
 import Notifier from "@/components/Notifier";
 import { CartSkeleton } from "@/components/Outline";
 import { useCartContext } from "@/views/Cart/cartProvider";
@@ -76,33 +76,18 @@ const Cart = () => {
     });
 
     const { cart, clear, decrease, increase, remove } = useCartContext();
-    const shippingCost = shippingCosts(country);
-    const PaperProductShipping = paperProductShipping(country);
-    const cartCategory = cart.map((item: Items) => item.category);
-
-
-    // reduce fee for paper products if there is no book in the cart
-    let shippingFee
-    if (cartCategory.join(" ") === "Paper Products") {
-        shippingFee = PaperProductShipping
-    }
-    else if (cartCategory.includes("Paper Products"), cartCategory.includes("Book")) {
-        shippingFee = shippingCost
-    }
-    else {
-        shippingFee = shippingCost
-    }
+    const category = cart.map((item: Items) => item.category);
 
     // removes them from shipping fee if there is a book in the cart
     let quantity
-    if (cartCategory.includes("Paper Products") & cartCategory.includes("Book")) {
+    if (category.includes("Paper Products") & category.includes("Book")) {
         quantity = cart.filter((item: Items) => item.category !== "Paper Products").map((item: Items) => item.amount.length).reduce((a: number, b: number) => a + b, 0)
     }
     else {
         quantity = cart.map((item: Items) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
     }
 
-    const shippingTotal = shippingFee * quantity;
+    const shippingTotal = shippingFee({ country, category }) * quantity;
     const currency = currencyTypes(country).toLowerCase();
 
     const handleSetCountry = (val: string) => {
