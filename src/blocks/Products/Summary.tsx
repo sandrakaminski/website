@@ -1,26 +1,20 @@
 import React from 'react';
 
-// import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Box from '@mui/material/Box';
-// import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
-// import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography";
 import ReactGA from 'react-ga4';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
-// import CartPopper from './CartPopper';
 import LoadingImage from '@/components/LoadingImage';
 import type { ProductTypes, ContentProps } from '@/types';
-// import { useCartContext } from '@/views/Cart/cartProvider';
 
 const Summary = (props: ContentProps<ProductTypes>) => {
     const { contentEntry } = props;
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const { slug } = useParams();
-
 
     const handleClick = () => {
         navigate(`${pathname}/${contentEntry.fields.slug}`, { state: { data: slug } })
@@ -30,7 +24,6 @@ const Summary = (props: ContentProps<ProductTypes>) => {
             label: contentEntry.fields.name,
         });
     }
-
 
     return (
         <>
@@ -77,44 +70,3 @@ const SoldOutBanner = (props: SoldOutType) => {
         </>
     )
 }
-
-// const QuickAdd = (props: ContentProps<ProductTypes>) => {
-//     const { contentEntry } = props;
-//     const { addToCart } = useCartContext();
-
-//     const [clickEvent, setClickEvent] = useState<boolean>(false);
-
-//     const handleCart = () => {
-//         setClickEvent(true);
-//         addToCart(contentEntry.fields.productId, '1', contentEntry.fields);
-//         ReactGA.event({
-//             category: 'Product',
-//             action: `Quick add ${contentEntry.fields.name} to cart`,
-//             label: contentEntry.fields.name,
-//         });
-//     }
-
-//     const style = {
-//         position: 'absolute',
-//         zIndex: 1,
-//         m: 1,
-//         borderRadius: 100,
-//         backgroundColor: 'primary.main',
-//         '&:hover': {
-//             backgroundColor: 'primary.main',
-//             boxShadow: 3,
-//         },
-//         color: 'info.contrastText'
-//     }
-
-//     return (
-//         <>
-//             <Stack alignItems="flex-end" justifyContent="flex-end">
-//                 <IconButton sx={style} disabled={!contentEntry.fields.inStock} onClick={handleCart} >
-//                     <AddShoppingCartIcon />
-//                 </IconButton >
-//             </Stack >
-//             <CartPopper clickEvent={clickEvent} />
-//         </>
-//     )
-// }

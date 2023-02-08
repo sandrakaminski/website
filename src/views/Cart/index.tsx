@@ -24,7 +24,7 @@ import axios from "axios"
 import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 
-import CountryDropdown, { CurrencyExchange, currencyTypes, countriesList, CartItemPrice, shippingFee, checkProductType } from './PaymentCalc';
+import CountryDropdown, { CurrencyExchange, currencyTypes, countriesList, americanPricing, CartItemPrice, shippingFee, checkProductType } from './PaymentCalc';
 import Notifier from "@/components/Notifier";
 import { CartSkeleton } from "@/components/Outline";
 import { ProductItems } from "@/types";
@@ -127,7 +127,6 @@ const Cart = () => {
     if (!amount.shipping) {
         shipping = '';
     }
-
     else {
         if (country === "CL" || country === "JP") {
             shipping = amount.shipping.toFixed(0)
@@ -181,7 +180,6 @@ const Cart = () => {
                         Shop now
                     </Button>
                 </Stack >
-
                 :
                 <Grid alignItems="stretch" spacing={1} container >
                     <Grid xs={12} md={8} >
@@ -208,7 +206,7 @@ const Cart = () => {
                         <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
                             <Stack spacing={1}>
                                 <Typography variant="h4" >{loading ? <Skeleton variant="rounded" /> : "Order summary"}</Typography>
-                                <CurrencyExchange setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
+                                <CurrencyExchange  setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
                             </Stack>
                             <Stack spacing={0.5}>
                                 <ButtonGroup size="small">
@@ -238,6 +236,7 @@ type CartItemProps = {
 const CartItem = (props: CartItemProps) => {
     const { item, remove, country } = props;
     const navigate = useNavigate();
+    const price = americanPricing({ item, country })
 
     const inStock = () => {
         item.inStock === true ? "In stock" : "Out of stock";
@@ -245,13 +244,14 @@ const CartItem = (props: CartItemProps) => {
     }
     useQuery([item.inStock], inStock)
 
+
     return (
         <Grid sx={{ my: 0.5, px: 1 }} spacing={2} container direction="row" justifyContent="space-between" alignItems="center" >
             <Grid onClick={() => navigate(`/shop/${item.slug}`)} component={ListItemButton}  >
                 <Avatar sx={{ height: 55, width: 55 }} variant="square" alt={item.name} src={item.image.fields.file.url} />
                 <Box sx={{ ml: 2 }}>
                     <Typography variant="subtitle1">{item.name}</Typography>
-                    <Typography ><CartItemPrice item={item.price} country={country} /></Typography>
+                    <Typography ><CartItemPrice item={price} country={country} /></Typography>
                 </Box>
             </Grid>
             <Grid >

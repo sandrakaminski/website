@@ -97,8 +97,6 @@ export const paperProductShipping = (country: string) => {
     return 5.95;
 }
 
-
-
 // currency symbols
 export const symbols = (country: string) => {
     if (country === "AU") return ("$");
@@ -147,12 +145,31 @@ export const vat = (country: string) => {
     return 0.15;
 }
 
-// reduce fee for paper products if there is no book in the cart
+// custom code for american pricing 
+type AmericanPricingProps = {
+    country: string;
+    item: ProductItems;
+}
+export const americanPricing = (props: AmericanPricingProps) => {
+    const { country, item } = props;
+
+    var price
+    if (item.name === "DREAMING IN PETALS" && country === "US") {
+        price = 82.30
+    }
+    else {
+        price = item.price
+    }
+    return price
+}
+
+
 type ShippingFeeProps = {
     country: string;
     category: string[];
 }
 
+// reduces shipping fee for paper products if there is no book in the cart
 export const shippingFee = (props: ShippingFeeProps) => {
     const { country, category } = props
     const PaperProductShipping = paperProductShipping(country);
@@ -171,12 +188,12 @@ export const shippingFee = (props: ShippingFeeProps) => {
     return shippingFee
 }
 
-// removes them from shipping fee if there is a book in the cart
 type CheckProductTypeProps = {
     cart: ProductItems[];
     category: any;
 }
 
+// removes paper products from shipping fee if there is a book in the cart
 export const checkProductType = (props: CheckProductTypeProps) => {
     const { cart, category } = props
 
@@ -247,32 +264,47 @@ export const CartItemPrice = (props: CartItem) => {
 // displays the approximate costs 
 export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { country, shippingCosts, setAmount, amount, setDisable } = props;
-    const { total } = useCartContext();
+    const { total, cart } = useCartContext();
     const [loading, setLoading] = useState<boolean>(true);
+    // console.log(item, price, country)
 
     const currency = currencyTypes(init);
     const vatCosts = vat(country);
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
 
-    const totalCost = total + shippingCosts;
+    const item = cart.map((item: ProductItems) => item.name).join(" ");
+    var price
+    var shippingCost: number
+    if (item === "DREAMING IN PETALS" && country === "US") {
+        price = 82.30
+        shippingCost = 15.04
+    }
+    else {
+        price = total
+        shippingCost = shippingCosts
+    }
+
+    const totalCost = price + shippingCost;
     const vatTotal = vatCosts * amount.total;
     const totalCosts = totalCost.toFixed(2).toString();
+
 
     const handleSetCurrency = async () => {
         setLoading(true)
         const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
-        const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
+        const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCost}`);
         const total = await respTotal.json();
         const shipping = await respShipping.json();
+
 
         if (respShipping.ok || respTotal.ok) {
             setAmount({ total: total?.rates[newCurrency], shipping: shipping?.rates[newCurrency], currency: newCurrency });
             setLoading(false)
         }
-        return [currency, newCurrency, totalCosts, shippingCosts, setAmount]
+        return [currency, newCurrency, totalCosts, shippingCost, setAmount]
     }
-    const loadRate = useQuery([currency, newCurrency, totalCosts, shippingCosts, setAmount, setDisable], handleSetCurrency);
+    const loadRate = useQuery([currency, newCurrency, totalCosts, shippingCost, setAmount, setDisable], handleSetCurrency);
 
     const checkState = () => {
         if (loadRate.isLoading) {
