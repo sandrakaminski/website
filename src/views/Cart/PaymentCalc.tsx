@@ -273,38 +273,40 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
 
-    const item = cart.map((item: ProductItems) => item.name).join(" ");
-    var price
-    var shippingCost: number
-    if (item === "DREAMING IN PETALS" && country === "US") {
-        price = 82.30
-        shippingCost = 15.04
-    }
-    else {
-        price = total
-        shippingCost = shippingCosts
-    }
+    // const item = cart.map((item: ProductItems) => item.name).join(" ");
+    // var price
+    // var shippingCost: number
+    // if (item === "DREAMING IN PETALS" && country === "US") {
+    //     price = 82.30
+    //     shippingCost = 15.04
+    // }
+    // else {
+    //     price = total
+    //     shippingCost = shippingCosts
+    // }
 
-    const totalCost = price + shippingCost;
+    const totalCost = total + shippingCosts;
     const vatTotal = vatCosts * amount.total;
     const totalCosts = totalCost.toFixed(2).toString();
-
 
     const handleSetCurrency = async () => {
         setLoading(true)
         const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
-        const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCost}`);
+        const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
         const total = await respTotal.json();
         const shipping = await respShipping.json();
-
 
         if (respShipping.ok || respTotal.ok) {
             setAmount({ total: total?.rates[newCurrency], shipping: shipping?.rates[newCurrency], currency: newCurrency });
             setLoading(false)
         }
-        return [currency, newCurrency, totalCosts, shippingCost, setAmount]
+
+        return [currency, newCurrency, totalCosts, shippingCosts, setAmount]
     }
-    const loadRate = useQuery([currency, newCurrency, totalCosts, shippingCost, setAmount, setDisable], handleSetCurrency);
+    const loadRate = useQuery([currency, newCurrency, totalCosts, shippingCosts, setAmount, setDisable], handleSetCurrency);
+    useQuery([currency, newCurrency, totalCosts, shippingCosts, setAmount, setDisable], handleSetCurrency, {
+        refetchOnWindowFocus: true,
+    })
 
     const checkState = () => {
         if (loadRate.isLoading) {
@@ -318,6 +320,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     useQuery([loadRate.isLoading, setDisable], checkState, {
         refetchOnWindowFocus: true,
     })
+
 
     return (
         <Box>
