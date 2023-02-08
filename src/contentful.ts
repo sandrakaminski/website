@@ -28,7 +28,7 @@ export const fetchContent = async ({ queryKey }: QueryFunctionContext): Promise<
     if (type === "preview") {
         return previewApi.getEntries({
             // eslint-disable-next-line camelcase
-            content_type: contentType,
+            content_type: "preview",
             'fields.slug': slug,
             include: include || 3
         });
@@ -54,5 +54,5 @@ const previewApi: ContentfulClientApi = createClient({
     environment: environment,
     accessToken: previewToken,
     host: 'https://preview.contentful.com',
-    removeUnresolved: true
+    // removeUnresolved: true
 })
