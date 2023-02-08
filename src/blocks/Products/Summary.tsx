@@ -42,14 +42,14 @@ const Summary = (props: ContentProps<ProductTypes>) => {
                     alt={contentEntry.fields.featureImage.fields.title} />
 
                 <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1} >
-                    <Typography variant="subtitle1" >{`${contentEntry.fields.name}`}</Typography>
+                    <Typography variant="h6" >{`${contentEntry.fields.name}`}</Typography>
                     <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
                         {contentEntry.fields.oldPrice &&
                             <Typography color="grayText" sx={{ textDecoration: 'line-through' }} variant="body1" >
                                 ${contentEntry.fields.oldPrice.toFixed(2)}
                             </Typography>
                         }
-                        <Typography variant="body1" >
+                        <Typography color="grayText" variant="body1" >
                             ${contentEntry.fields.price.toFixed(2)} NZD
                         </Typography>
                     </Stack>

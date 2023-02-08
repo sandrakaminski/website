@@ -91,10 +91,13 @@ export const shippingCosts = (country: string) => {
     return 11;
 }
 
+// custom shipping price for paper products
 export const paperProductShipping = (country: string) => {
     if (country === "NZ") return (5.95);
     return 5.95;
 }
+
+
 
 // currency symbols
 export const symbols = (country: string) => {

@@ -29,9 +29,6 @@ const Detail = (props: ContentProps<ProfileType>) => {
                             src={contentEntry?.fields.image.fields.file.url}
                             alt={contentEntry.fields.image.fields.title}
                         />
-                        <Typography color="grayText" variant="caption" >
-                            {contentEntry.fields.name}
-                        </Typography>
                     </Box>
                     <Typography variant="h3">
                         {contentEntry.fields.title}
