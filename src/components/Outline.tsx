@@ -45,7 +45,7 @@ const GridOutline: React.FC = () => {
     )
 }
 
-const Outline: React.FC = () => {
+export const Outline: React.FC = () => {
     return (
         <>
             <Stack justifyContent="center" alignItems="center" sx={{ pt: 10 }}>
