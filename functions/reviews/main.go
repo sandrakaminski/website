@@ -84,6 +84,7 @@ func (s *Store) GetReviews(searchText string, limit, skip *int64) (Page, error) 
 	return pg, nil
 }
 
+// handlers
 func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var rev Review
 	if err := json.Unmarshal([]byte(r.Body), &rev); err != nil {

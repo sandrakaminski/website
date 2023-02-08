@@ -2,7 +2,6 @@ import React, { useState, useReducer, useEffect } from 'react';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-// import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
@@ -32,7 +31,6 @@ import ReactMarkdown from 'react-markdown';
 import CartPopper from './CartPopper';
 import { Time } from '@/components/DateFormatter';
 import LoadingImage from '@/components/LoadingImage';
-import { Markdown } from '@/components/Markdown';
 import Notifier from '@/components/Notifier';
 import Trail from '@/components/Trail';
 import { imageSrc } from '@/functions';
@@ -168,8 +166,8 @@ const Body = (props: ContentProps<ProductTypes>) => {
     useQuery([detect], detectLength)
 
     return (
-        <Container maxWidth="md" >
-            <ReactMarkdown components={Markdown} >
+        <>
+            <ReactMarkdown>
                 {showMore === preview && !hidden ? `${showMore}...` : showMore}
             </ReactMarkdown>
             {!hidden && showMore === preview ?
@@ -181,7 +179,7 @@ const Body = (props: ContentProps<ProductTypes>) => {
                     Read less
                 </Link>
             }
-        </Container>
+        </>
     )
 }
 
@@ -410,8 +408,8 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
     }
 
     return (
-        <Stack spacing={1} direction="row"  >
-            <Link onClick={handleOpen} underline="hover" sx={{ cursor: 'pointer' }} variant="body1" >
+        <Stack spacing={1} direction="row">
+            <Link onClick={handleOpen} underline="hover" sx={{ cursor: 'pointer' }} variant="body1">
                 Read Reviews
             </Link>
             {/* <Stack spacing={1} direction="row" alignItems="center" justifyContent="center" >
@@ -450,7 +448,6 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
                         <DialogActions>
                             <Button onClick={() => setWriteReview(true)} >Write a review</Button>
                         </DialogActions>
-
                     </>
                 }
                 {writeReview &&
@@ -503,7 +500,7 @@ const CommentInfo = (props: CommentInfoProps) => {
 
 const CommentSkeleton = () => {
     return (
-        <Stack>
+        <>
             <Stack direction="row" alignItems="center" spacing={2} >
                 <Avatar />
                 <Typography variant="subtitle1">
@@ -516,6 +513,6 @@ const CommentSkeleton = () => {
             <Container sx={{ mb: 1 }} maxWidth="md">
                 <Skeleton variant="text" height={200} />
             </Container>
-        </Stack>
+        </>
     )
 }

@@ -70,6 +70,7 @@ const reducer = (state: State, action: Action) => {
             slug: product.slug,
             name: product.name,
             amount,
+            category: product.category,
             image: product.featureImage,
             price: product.price,
             max: product.stock,

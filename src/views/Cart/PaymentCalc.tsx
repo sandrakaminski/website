@@ -90,6 +90,11 @@ export const shippingCosts = (country: string) => {
     return 11;
 }
 
+export const paperProductShipping = (country: string) => {
+    if (country === "NZ") return (5.95);
+    return 5.95;
+}
+
 // currency symbols
 export const symbols = (country: string) => {
     if (country === "AU") return ("$");
@@ -140,6 +145,7 @@ export const vat = (country: string) => {
 
 type CurrencyExchProps = {
     country: string;
+    // category: string;
     shippingCosts: number;
     setAmount: (amount: Amount) => typeof amount | void;
     amount: Amount;
@@ -202,6 +208,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     const vatCosts = vat(country);
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
+
 
     const totalCost = total + shippingCosts;
     const vatTotal = vatCosts * amount.total;
