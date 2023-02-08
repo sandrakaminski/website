@@ -25,7 +25,6 @@ import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 
 import CountryDropdown, { CurrencyExchange, currencyTypes, countriesList, americanPricing, CartItemPrice, shippingFee, checkProductType } from './PaymentCalc';
-import Notifier from "@/components/Notifier";
 import { CartSkeleton } from "@/components/Outline";
 import { ProductItems } from "@/types";
 import { useCartContext } from "@/views/Cart/cartProvider";
@@ -40,24 +39,13 @@ type Prices = {
     total: number;
 }
 
-type IpItems = {
-    countryName: string;
-    countryCode: string;
-}
-
 const Cart = () => {
     const navigate = useNavigate();
     const [processing, setProcessing] = useState<boolean>(false);
     const [nzOnly, setNzOnly] = useState<boolean>(false);
-    const [error, setError] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
     const [disable, setDisable] = useState<boolean>(true);
     const [country, setCountry] = useState<string>("");
-    const [loadVals, setLoadVals] = useState<IpItems>({
-        countryName: "",
-        countryCode: "",
-    });
-
     const [amount, setAmount] = useState<Prices>({
         shipping: 0,
         total: 0
@@ -79,13 +67,8 @@ const Cart = () => {
     const getData = async () => {
         try {
             const res = await axios.get('http://geolocation-db.com/json/');
-            const { country_name, country_code } = res.data;
-            setLoadVals({
-                countryName: country_name,
-                countryCode: country_code,
-            });
+            const { country_code } = res.data;
             if (countriesList[country_code] === undefined) {
-                setError(true);
                 handleSetCountry("NZ");
                 setLoading(false);
             }
@@ -120,7 +103,9 @@ const Cart = () => {
         }
         return [cart, country]
     };
-    useQuery([cart, country], trigger)
+    useQuery([cart, country], trigger, {
+        refetchOnWindowFocus: false,
+    })
 
     // this is to keep shipping prices consistent between Chile/Japan and everywhere else
     let shipping;
@@ -181,7 +166,7 @@ const Cart = () => {
                     </Button>
                 </Stack >
                 :
-                <Grid alignItems="stretch" spacing={1} container >
+                <Grid alignItems="stretch" spacing={1} container>
                     <Grid xs={12} md={8} >
                         <Card sx={{ p: 2, minHeight: 250 }}>
                             {loading ?
@@ -203,23 +188,20 @@ const Cart = () => {
                         </Card>
                     </Grid>
                     <Grid xs={12} md={4} >
-                        <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={2} >
-                            <Stack spacing={1}>
-                                <Typography variant="h4" >{loading ? <Skeleton variant="rounded" /> : "Order summary"}</Typography>
+                        <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={1} >
+                            <Box>
+                                <Typography gutterBottom variant="h4" >{loading ? <Skeleton variant="rounded" /> : "Order summary"}</Typography>
                                 <CurrencyExchange setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
-                            </Stack>
-                            <Stack spacing={0.5}>
-                                <ButtonGroup size="small">
-                                    <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} setCountry={handleSetCountry} />
-                                    <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={disable} variant="contained" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
-                                </ButtonGroup>
-                            </Stack>
+                            </Box>
+                            <ButtonGroup size="small">
+                                <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} setCountry={handleSetCountry} />
+                                <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={disable} variant="contained" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
+                            </ButtonGroup>
                         </Stack>
                     </Grid>
                 </Grid>
             }
-            <Notifier open={error} message={`We don't currently offer shipping to ${loadVals.countryName}`} />
-        </Box >
+        </Box>
     )
 }
 
@@ -251,16 +233,14 @@ const CartItem = (props: CartItemProps) => {
                 <Avatar sx={{ height: 55, width: 55 }} variant="square" alt={item.name} src={item.image.fields.file.url} />
                 <Box sx={{ ml: 2 }}>
                     <Typography variant="subtitle1">{item.name}</Typography>
-                    <Typography ><CartItemPrice item={price} country={country} /></Typography>
+                    <CartItemPrice item={price} country={country} />
                 </Box>
             </Grid>
-            <Grid >
-                <Stack direction="row" justifyContent={{ xs: 'space-between', sm: "flex-end" }} alignItems="center" spacing={4}>
-                    <AmountButtons amount={item} {...props} />
-                    <Button startIcon={<DeleteIcon fontSize="inherit" />} color="error" onClick={() => remove(item.id)} >
-                        Remove
-                    </Button>
-                </Stack>
+            <Grid container direction="row" justifyContent={{ xs: 'space-between', sm: "flex-end" }} alignItems="center" spacing={4}>
+                <AmountButtons amount={item} {...props} />
+                <Button startIcon={<DeleteIcon fontSize="inherit" />} color="error" onClick={() => remove(item.id)} >
+                    Remove
+                </Button>
             </Grid>
         </Grid>
     )
@@ -285,7 +265,9 @@ const AmountButtons = (props: AmountButtonsProps) => {
         }
         return amount?.amount.length;
     }
-    useQuery([amount, amount?.id], changeAmount)
+    useQuery([amount, amount?.id], changeAmount, {
+        refetchOnWindowFocus: false,
+    })
 
     return (
         <Stack direction="row" justifyContent="center" alignItems="center"    >

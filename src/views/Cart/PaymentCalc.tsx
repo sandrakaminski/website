@@ -258,7 +258,7 @@ export const CartItemPrice = (props: CartItem) => {
     }, [handleSetCurrency]);
 
     return (
-        <>{loading ? <Skeleton /> : `${symbol}${price.toFixed(2)} ${newCurrency}`}</>
+        <Typography>{loading ? <Skeleton /> : `${symbol}${price.toFixed(2)} ${newCurrency}`}</Typography>
     )
 }
 

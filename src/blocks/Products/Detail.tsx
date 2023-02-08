@@ -397,6 +397,7 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
             setWriteReview(false);
         }
     }, [submitted])
+
     useQuery([reviews, contentEntry.sys.id], handleGet, {
         enabled: submitted
     })

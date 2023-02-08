@@ -51,8 +51,6 @@ const Header: React.FC = () => {
         }
     }
 
-    // this statement is only used for rendering the shop on SQSP, we will remove this in favour of the old menu upon launch
-
     return (
         <LoadingState contentEntry={menuItems} type="Header">
             <AppBar color="transparent" position="static" elevation={0}>

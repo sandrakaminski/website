@@ -78,72 +78,62 @@ const Contact = () => {
         dispatch({ type: name, value: value });
     }
 
-    return (
-        <>
-            {slug === 'contact' &&
-                <>
-                    {!submitted &&
-                        <>
-                            <Typography gutterBottom align="center" variant="h4" sx={{ mt: 6, mb: 2 }}>
-                                Sign up to my newsletter for exclusive monthly updates.
-                            </Typography>
-
-                            <Container maxWidth="sm">
-                                <Grid container spacing={2}>
-                                    <Grid xs={12} sm={6} >
-                                        <TextField
-                                            size="medium"
-                                            name="firstName"
-                                            onChange={handleChange}
-                                            fullWidth
-                                            label="First Name"
-                                        />
-                                    </Grid>
-                                    <Grid xs={12} sm={6} >
-                                        <TextField
-                                            size="medium"
-                                            name="lastName"
-                                            onChange={handleChange}
-                                            type="text"
-                                            fullWidth
-                                            label="Last Name"
-                                        />
-                                    </Grid>
-                                    <Grid xs={12} >
-                                        <TextField
-                                            name="email"
-                                            size="medium"
-                                            helperText={state.errors.email}
-                                            error={state.errors.email ? true : false}
-                                            onChange={handleChange}
-                                            type="email"
-                                            fullWidth
-                                            label="Email Address"
-                                        />
-                                    </Grid>
-                                    <Grid xs={12} >
-                                        <LoadingButton disabled={!formCheck} loading={submitting} onClick={handleSubmit}>
-                                            Subscribe
-                                        </LoadingButton>
-                                    </Grid>
-                                </Grid>
-                            </Container>
-                        </>
-                    }
-                    {submitted &&
-                        <Stack
-                            sx={{ mt: 10 }}
-                            justifyContent="center"
-                            alignItems="center"
-                            spacing={2}>
-                            <DoneIcon sx={{ fontSize: 100, color: 'success.main' }} />
-                            <Typography variant="h2" textAlign="center">Thank you for subscribing</Typography>
-                        </Stack>
-                    }
-                </>
-            }
-        </>
-    );
+    if (slug === 'contact')
+        return (
+            <Stack
+                sx={{ mt: 10 }}
+                justifyContent="center"
+                alignItems="center"
+                spacing={2}>
+                {submitted && <DoneIcon sx={{ fontSize: 100, color: 'success.main' }} />}
+                <Typography gutterBottom align="center" variant="h4" sx={{ mt: 6, mb: 2 }}>
+                    {!submitted ? "Sign up to my newsletter for exclusive monthly updates." : "Thank you for signing up!"}
+                </Typography>
+                {!submitted &&
+                    <Container maxWidth="sm">
+                        <Grid container spacing={2}>
+                            <Grid xs={12} sm={6} >
+                                <TextField
+                                    size="medium"
+                                    name="firstName"
+                                    onChange={handleChange}
+                                    fullWidth
+                                    label="First Name"
+                                />
+                            </Grid>
+                            <Grid xs={12} sm={6} >
+                                <TextField
+                                    size="medium"
+                                    name="lastName"
+                                    onChange={handleChange}
+                                    type="text"
+                                    fullWidth
+                                    label="Last Name"
+                                />
+                            </Grid>
+                            <Grid xs={12} >
+                                <TextField
+                                    name="email"
+                                    size="medium"
+                                    helperText={state.errors.email}
+                                    error={state.errors.email ? true : false}
+                                    onChange={handleChange}
+                                    type="email"
+                                    fullWidth
+                                    label="Email Address"
+                                />
+                            </Grid>
+                            <Grid xs={12} >
+                                <LoadingButton disabled={!formCheck} loading={submitting} onClick={handleSubmit}>
+                                    Subscribe
+                                </LoadingButton>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                }
+            </Stack>
+        )
+    return <></>
 };
 
 export default Contact;
