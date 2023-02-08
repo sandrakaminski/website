@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { imageSrc } from "@/functions";
 
-interface LoadingImageProps {
+type LoadingImageProps = {
     src: string;
     alt: string;
     skeletonheight?: number | string;

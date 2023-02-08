@@ -4,7 +4,7 @@ import { withLDConsumer } from 'launchdarkly-react-client-sdk';
 import ReactGA from 'react-ga4';
 import { useLocation } from 'react-router-dom';
 
-interface TrackerProps {
+type TrackerProps = {
     children: React.ReactNode;
     flags?: {
         [key: string]: boolean;
@@ -15,13 +15,6 @@ const Tracker = ((props: TrackerProps) => {
     const { children } = props;
     const { pathname } = useLocation();
 
-    // let shopExperimentVal: string;
-    // if (flags?.shopExperiment) {
-    //     shopExperimentVal = "New shop features"
-    // } else {
-    //     shopExperimentVal = "Standard shop features"
-    // }
-
     useEffect(() => {
         const googleAnalytics = () => {
             window.scrollTo(0, 0);
@@ -30,7 +23,6 @@ const Tracker = ((props: TrackerProps) => {
                 {
                     hitType: "pageview",
                     page: pathname,
-                    // contentEntryGroup1: shopExperimentVal,
                 });
         }
         googleAnalytics();
