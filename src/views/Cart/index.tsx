@@ -21,26 +21,14 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios"
-import { Asset } from 'contentful';
 import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 
-import CountryDropdown, { CurrencyExchange, currencyTypes, countriesList, CartItemPrice, shippingFee } from './PaymentCalc';
+import CountryDropdown, { CurrencyExchange, currencyTypes, countriesList, CartItemPrice, shippingFee, checkProductType } from './PaymentCalc';
 import Notifier from "@/components/Notifier";
 import { CartSkeleton } from "@/components/Outline";
+import { ProductItems } from "@/types";
 import { useCartContext } from "@/views/Cart/cartProvider";
-
-type Items = {
-    inStock: boolean;
-    slug: string;
-    id: string;
-    name: string;
-    price: number;
-    amount: number[];
-    image: Asset;
-    nzShippingOnly: boolean;
-    category: string;
-}
 
 type OrderItems = {
     id: string;
@@ -76,17 +64,10 @@ const Cart = () => {
     });
 
     const { cart, clear, decrease, increase, remove } = useCartContext();
-    const category = cart.map((item: Items) => item.category);
+    const category = cart.map((item: ProductItems) => item.category);
 
     // removes them from shipping fee if there is a book in the cart
-    let quantity
-    if (category.includes("Paper Products") & category.includes("Book")) {
-        quantity = cart.filter((item: Items) => item.category !== "Paper Products").map((item: Items) => item.amount.length).reduce((a: number, b: number) => a + b, 0)
-    }
-    else {
-        quantity = cart.map((item: Items) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
-    }
-
+    const quantity = checkProductType({ cart, category });
     const shippingTotal = shippingFee({ country, category }) * quantity;
     const currency = currencyTypes(country).toLowerCase();
 
@@ -121,7 +102,7 @@ const Cart = () => {
         if (cart.length === 0) {
             localStorage.removeItem("country");
         }
-        else if (cart && cart.map((item: Items) => item.nzShippingOnly).includes(true)) {
+        else if (cart && cart.map((item: ProductItems) => item.nzShippingOnly).includes(true)) {
             handleSetCountry("NZ");
             setLoading(false);
             setNzOnly(true);
@@ -214,7 +195,7 @@ const Cart = () => {
                                         <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
                                     </Stack>
                                     <Stack sx={{ mt: 4 }} >
-                                        {cart.map((item: Items, index: number) =>
+                                        {cart.map((item: ProductItems, index: number) =>
                                             <CartItem country={country} key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
                                         )}
                                         <Typography variant="caption" color="grayText">*VAT/GST Included in product price</Typography>
@@ -247,7 +228,7 @@ const Cart = () => {
 export default Cart;
 
 type CartItemProps = {
-    item: Items;
+    item: ProductItems;
     remove: (id: string) => void;
     increase: (id: string) => void;
     decrease: (id: string) => void;

@@ -9,6 +9,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import { useQuery } from '@tanstack/react-query';
 
+import { ProductItems } from "@/types";
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 type Init = {
@@ -148,6 +149,7 @@ type ShippingFeeProps = {
     country: string;
     category: string[];
 }
+
 export const shippingFee = (props: ShippingFeeProps) => {
     const { country, category } = props
     const PaperProductShipping = paperProductShipping(country);
@@ -166,10 +168,27 @@ export const shippingFee = (props: ShippingFeeProps) => {
     return shippingFee
 }
 
+// removes them from shipping fee if there is a book in the cart
+type CheckProductTypeProps = {
+    cart: ProductItems[];
+    category: any;
+}
+
+export const checkProductType = (props: CheckProductTypeProps) => {
+    const { cart, category } = props
+
+    let quantity
+    if (category.includes("Paper Products") & category.includes("Book")) {
+        quantity = cart.filter((item: ProductItems) => item.category !== "Paper Products").map((item: ProductItems) => item.amount.length).reduce((a: number, b: number) => a + b, 0)
+    }
+    else {
+        quantity = cart.map((item: ProductItems) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
+    }
+    return quantity
+}
 
 type CurrencyExchProps = {
     country: string;
-    // category: string;
     shippingCosts: number;
     setAmount: (amount: Amount) => typeof amount | void;
     amount: Amount;

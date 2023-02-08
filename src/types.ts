@@ -110,3 +110,15 @@ export type ArticleType = {
     slug: string;
     coverImage: Asset
 }
+
+export type ProductItems = {
+    inStock: boolean;
+    slug: string;
+    id: string;
+    name: string;
+    price: number;
+    amount: number[];
+    image: Asset;
+    nzShippingOnly: boolean;
+    category: string;
+}
