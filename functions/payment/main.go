@@ -26,7 +26,7 @@ type OrderItem struct {
 	Quantity  int64  `json:"quantity"`
 }
 
-const url = "https://sandrakaminski.com"
+const url = "https://www.sandrakaminski.com"
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	godotenv.Load(".env")
