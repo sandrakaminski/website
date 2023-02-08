@@ -109,10 +109,11 @@ func (s *Store) put(commentId string, c Comments) {
 // handlers
 func (s *Store) sendEmail(page, person string) {
 	godotenv.Load(".env")
+	const email = "info@sandrakaminski.com"
 
-	from := mail.NewEmail("sandrakaminski.com", "info@sandrakaminski.com")
-	subject := "New comment on " + page 
-	to := mail.NewEmail("Sandra Kaminski", "sandra.kaminski@propellerhead.co.nz")
+	from := mail.NewEmail("sandrakaminski.com", email)
+	subject := "New comment on " + page
+	to := mail.NewEmail("Sandra Kaminski", email)
 	body := "Hi Sandra, you have recieved a new comment from" + person + " on " + page
 	htmlContent := "Hi Sandra, " + person + " has commented on " + page + " <br> <br> <a href='https://www.sandrakaminski.com/" + page + "'>View comments</a>"
 	msg := mail.NewSingleEmail(from, subject, to, body, htmlContent)
@@ -149,7 +150,7 @@ func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxy
 		return nil, fmt.Errorf("error marshaling payment link: %w", err)
 	}
 
-	// alert 
+	// alert
 	s.sendEmail(coms.Page, coms.Name)
 
 	return &events.APIGatewayProxyResponse{
