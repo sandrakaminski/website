@@ -18,11 +18,12 @@ import (
 )
 
 type Review struct {
-	ID     string `json:"id"`
-	Name   string `json:"name"`
-	Rating int    `json:"rating"`
-	Review string `json:"review"`
-	Date   int64  `json:"date"`
+	ID     string   `json:"id"`
+	Name   string   `json:"name"`
+	Rating int      `json:"rating"`
+	Review string   `json:"review"`
+	Date   int64    `json:"date"`
+	Media  []string `json:"media"`
 }
 type Page struct {
 	Data    []Review `json:"data"`

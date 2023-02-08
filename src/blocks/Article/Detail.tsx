@@ -3,13 +3,11 @@ import React, { useReducer, useState } from 'react';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import LoadingButton from "@mui/lab/LoadingButton";
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
-import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -19,7 +17,8 @@ import ReactMarkdown from 'react-markdown';
 import { useNavigate, useParams } from 'react-router-dom';
 import gfm from 'remark-gfm';
 
-import DateFormatter, { Time } from "@/components/DateFormatter";
+import CommenterInfo, { CommentSkeleton } from '@/components/CommenterInfo';
+import DateFormatter from "@/components/DateFormatter";
 import LoadingImage from '@/components/LoadingImage';
 import Markdown from '@/components/Markdown';
 import Trail from '@/components/Trail';
@@ -208,25 +207,6 @@ const Comments = (props: ContentProps<ArticleType>) => {
     )
 }
 
-const CommentSkeleton = () => {
-    return (
-        <Stack>
-            <Stack direction="row" alignItems="center" spacing={2} >
-                <Avatar />
-                <Typography variant="subtitle1">
-                    <Skeleton width={150} variant="text" />
-                </Typography>
-                <Typography sx={{ pt: 0.25 }} >
-                    <Skeleton width={100} variant="text" />
-                </Typography>
-            </Stack>
-            <Container sx={{ mb: 1 }} maxWidth="md">
-                <Skeleton variant="text" height={200} />
-            </Container>
-        </Stack>
-    )
-}
-
 type CommentThreadProps = {
     comments?: CommentsProps;
     handleGet: () => void;
@@ -277,7 +257,7 @@ const CommentThread = (props: CommentThreadProps) => {
             {comments?.data?.map((item: SingleCommentProps, index: number) =>
                 <Stack key={index} >
                     <Stack direction="row" alignItems="center" spacing={2} justifyContent="space-between" >
-                        <CommentInfo name={item.name} date={item?.date} />
+                        <CommenterInfo name={item.name} date={item?.date} />
                         {replyTo !== item.commentId ?
                             <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => openReply(item.commentId)}>
                                 Reply
@@ -294,7 +274,7 @@ const CommentThread = (props: CommentThreadProps) => {
                         </Typography>
                         {item.replies?.map((r: Replies, index: number) =>
                             <Stack sx={{ py: 2 }} key={index} >
-                                <CommentInfo name={r.name} date={r?.date} />
+                                <CommenterInfo name={r.name} date={r?.date} />
                                 <Typography key={index} sx={{ mt: 2, ml: 4 }} variant="body1">
                                     {r.reply}
                                 </Typography>
@@ -322,26 +302,5 @@ const CommentThread = (props: CommentThreadProps) => {
                 </Stack>
             )}
         </>
-    )
-}
-
-type CommentInfoProps = {
-    name: string;
-    date: number;
-}
-
-const CommentInfo = (props: CommentInfoProps) => {
-    const { name, date } = props;
-
-    return (
-        <Stack direction="row" alignItems="center" spacing={2} >
-            <Avatar />
-            <Typography variant="subtitle1">
-                {name}
-            </Typography>
-            <Typography sx={{ pt: 0.25 }} >
-                <Time date={date} />
-            </Typography>
-        </Stack>
     )
 }

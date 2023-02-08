@@ -193,7 +193,7 @@ const Cart = () => {
                                         <Button endIcon={<CloseIcon />} onClick={clear}>Clear cart</Button>
                                     </Stack>
                                     <Stack sx={{ mt: 4 }} >
-                                        {cart.map((item: ProductItems, index: number) =>
+                                        {cart?.map((item: ProductItems, index: number) =>
                                             <CartItem country={country} key={index} item={item} increase={increase} decrease={decrease} remove={remove} />
                                         )}
                                         <Typography variant="caption" color="grayText">*VAT/GST Included in product price</Typography>

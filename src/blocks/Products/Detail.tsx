@@ -10,7 +10,6 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
-import Container from '@mui/material/Container';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -29,7 +28,7 @@ import ReactGA from 'react-ga4';
 import ReactMarkdown from 'react-markdown';
 
 import CartPopper from './CartPopper';
-import { Time } from '@/components/DateFormatter';
+import CommenterInfo, { CommentSkeleton } from '@/components/CommenterInfo';
 import LoadingImage from '@/components/LoadingImage';
 import Notifier from '@/components/Notifier';
 import Trail from '@/components/Trail';
@@ -412,22 +411,17 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
             <Link onClick={handleOpen} underline="hover" sx={{ cursor: 'pointer' }} variant="body1">
                 Read Reviews
             </Link>
-            {/* <Stack spacing={1} direction="row" alignItems="center" justifyContent="center" >
-                <StarIcon sx={{ color: "warning.light" }} />  <Typography>{reviews?.data && averageRating}</Typography>
-            </Stack> */}
             <Dialog fullWidth open={openReviews} onClose={() => setOpenReviews(false)} >
+                <DialogTitle >{!writeReview ? "Reviews" : "Write a review"}</DialogTitle>
                 {!writeReview &&
                     <>
-                        <DialogTitle >Reviews</DialogTitle>
-                        {loading &&
-                            <Box sx={{ p: 2 }}>
-                                <CommentSkeleton />
-                            </Box>
-                        }
                         <DialogContent>
+                            {loading &&
+                                <CommentSkeleton />
+                            }
                             {!loading && reviews?.data?.length !== undefined && reviews?.data?.map((review: Review, index: number) =>
-                                <Box sx={{ my: 2 }} key={index} >
-                                    <CommentInfo name={review.name} date={review.date} />
+                                <Box key={index} >
+                                    <CommenterInfo name={review.name} date={review.date} />
                                     <Stack sx={{ mt: 2 }} spacing={1} direction="row" alignItems="center" >
                                         {starArr.map((star: number) =>
                                             <div key={star} >
@@ -451,8 +445,8 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
                     </>
                 }
                 {writeReview &&
-                    <Box sx={{ p: 2 }}>
-                        <Stack spacing={2}>
+                    <>
+                        <Stack spacing={2} component={DialogContent}  >
                             <Stack direction="row" alignItems="center">
                                 <Typography variant="subtitle2" >Rating</Typography>
                                 {starArr.map((star: number) =>
@@ -465,54 +459,14 @@ const Reviews = (props: ContentProps<ProductTypes>) => {
                             </Stack>
                             <TextField name="name" onChange={handleChange} label="Full Name" />
                             <TextField name="review" onChange={handleChange} label="Review" multiline rows={4} />
-                            <DialogActions>
-                                <LoadingButton loading={submitting} disabled={state.review === "" || state.name === "" || starFilled === 0} onClick={handleSubmit} variant="contained" >Send Review</LoadingButton>
-                                <Button color="error" onClick={() => setWriteReview(false)} >Cancel</Button>
-                            </DialogActions>
                         </Stack>
-                    </Box>
+                        <DialogActions>
+                            <LoadingButton loading={submitting} disabled={state.review === "" || state.name === "" || starFilled === 0} onClick={handleSubmit} variant="contained" >Send Review</LoadingButton>
+                            <Button color="error" onClick={() => setWriteReview(false)} >Cancel</Button>
+                        </DialogActions>
+                    </>
                 }
             </Dialog>
         </Stack>
-    )
-}
-
-type CommentInfoProps = {
-    name: string;
-    date: number;
-}
-
-const CommentInfo = (props: CommentInfoProps) => {
-    const { name, date } = props;
-
-    return (
-        <Stack direction="row" alignItems="center" spacing={2} >
-            <Avatar />
-            <Typography variant="subtitle1">
-                {name}
-            </Typography>
-            <Typography sx={{ pt: 0.25 }} >
-                <Time date={date} />
-            </Typography>
-        </Stack>
-    )
-}
-
-const CommentSkeleton = () => {
-    return (
-        <>
-            <Stack direction="row" alignItems="center" spacing={2} >
-                <Avatar />
-                <Typography variant="subtitle1">
-                    <Skeleton width={150} variant="text" />
-                </Typography>
-                <Typography sx={{ pt: 0.25 }} >
-                    <Skeleton width={100} variant="text" />
-                </Typography>
-            </Stack>
-            <Container sx={{ mb: 1 }} maxWidth="md">
-                <Skeleton variant="text" height={200} />
-            </Container>
-        </>
     )
 }
