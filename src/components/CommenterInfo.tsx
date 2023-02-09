@@ -30,7 +30,7 @@ const CommenterInfo = (props: CommenterInfoProps) => {
 }
 export default CommenterInfo;
 
-export const  CommentSkeleton = () => {
+export const CommentSkeleton = () => {
     return (
         <Stack>
             <Stack direction="row" alignItems="center" spacing={2} >
@@ -42,8 +42,8 @@ export const  CommentSkeleton = () => {
                     <Skeleton width={100} variant="text" />
                 </Typography>
             </Stack>
-            <Container sx={{ mb: 1 }} maxWidth="md">
-                <Skeleton variant="text" height={200} />
+            <Container maxWidth="md">
+                <Skeleton height={200} />
             </Container>
         </Stack>
     )

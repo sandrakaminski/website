@@ -112,7 +112,6 @@ func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxy
 	rev.Date = time.Now().Unix()
 
 	// decode base64, check it's valid, then re-encode
-
 	if rev.Media != "" {
 		b64data := rev.Media[strings.IndexByte(rev.Media, ',')+1:]
 		data, err := base64.StdEncoding.DecodeString(b64data)
@@ -122,6 +121,7 @@ func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxy
 		en := base64.StdEncoding.EncodeToString(data)
 		rev.Media = s.detectContentType(data) + ";base64," + en
 	}
+
 	s.AddReview(rev)
 	rspByt, err := json.Marshal(rev)
 	if err != nil {
