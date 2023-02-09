@@ -1,5 +1,6 @@
 import React, { useState, useReducer, useEffect } from 'react';
 
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -22,7 +23,6 @@ import CommenterInfo, { CommentSkeleton } from '@/components/CommenterInfo';
 import MediaUploader from '@/components/MediaUploader';
 import { createSubmission } from '@/functions';
 import type { ProductTypes, ContentEntryProps } from '@/types';
-
 
 type State = {
     name: string;
@@ -72,13 +72,11 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const [loading, setLoading] = useState<boolean>(true);
     const [reviews, setReviews] = useState<Page>();
-    const [fields, setFields] = useState<any>(
-        {
-            media: "",
-            title: ""
-            // file: []
-        }
-    );
+    const [fields, setFields] = useState<Action>({
+        media: "",
+        title: ""
+    });
+    const [fullImg, setFullImg] = useState<string>("");
     // const [averageRating, setAverageRating] = useState<number>(0);
 
     const setRating = (rating: number) => {
@@ -99,21 +97,14 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
     }
     useQuery([reviews, contentEntry.sys.id], handleGet, { enabled: true })
 
-    // const handleSet = React.useCallback(() => {
-    //     if (reviews?.data?.length !== undefined) {
-    //         const total = reviews?.data?.reduce((acc: number, review: Review) => acc + review.rating, 0)
-    //         const average = total / reviews?.data?.length
-    //         setAverageRating(average)
-    //     }
-    // }, [reviews])
-
-    // useEffect(() => {
-    //     handleSet()
-    // }, [handleSet])
-
     const handleOpen = () => {
         setOpenReviews(true)
     }
+
+    const handleFullImg = (img: string) => {
+        setFullImg(img)
+    }
+
 
     const handleSubmit = () => {
         setSubmitting(true);
@@ -169,17 +160,23 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
         });
     };
 
-    console.log(fields)
-
-
     return (
         <Stack spacing={1} direction="row">
             <Link onClick={handleOpen} underline="hover" sx={{ cursor: 'pointer' }} variant="body1">
                 Read Reviews
             </Link>
             <Dialog fullWidth open={openReviews} onClose={() => setOpenReviews(false)} >
-                <DialogTitle >{!writeReview ? "Reviews" : "Write a review"}</DialogTitle>
-                {!writeReview &&
+
+                {fullImg && <img src={fullImg} alt="full" />}
+                {fullImg &&
+                    <DialogActions>
+                        <Button startIcon={<KeyboardReturnIcon />} onClick={() => setFullImg("")}  >
+                            Back
+                        </Button>
+                    </DialogActions>
+                }
+                {!fullImg && <DialogTitle >{!writeReview ? "Reviews" : "Write a review"}</DialogTitle>}
+                {!fullImg && !writeReview &&
                     <>
                         <DialogContent>
                             {loading &&
@@ -198,7 +195,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
                                         )}
                                     </Stack>
                                     <Typography >{review.review}</Typography>
-                                    {review.media && <Avatar src={review.media} sx={{ width: 100, height: 100 }} variant="square" />}
+                                    {review.media && <Avatar component={Button} onClick={() => handleFullImg(review.media)} src={review.media} sx={{ width: 100, height: 100 }} variant="square" />}
                                     <Divider sx={{ py: 2 }} />
                                 </Box>
                             )}
