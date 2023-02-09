@@ -9,9 +9,9 @@ import ReactMarkdown from 'react-markdown';
 import Resource from './Resource';
 import LoadingImage from '@/components/LoadingImage';
 import { SectionMarkDown } from '@/components/Markdown';
-import type { Content, ContentProps, ResourceType } from '@/types';
+import type { Content, ContentEntryProps, ResourceType } from '@/types';
 
-export const Right = (props: ContentProps<Content>) => {
+export const Right = (props: ContentEntryProps<Content>) => {
     const { contentEntry } = props;
 
     return (

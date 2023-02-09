@@ -8,9 +8,9 @@ import ReactGA from 'react-ga4';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 import LoadingImage from '@/components/LoadingImage';
-import type { ProductTypes, ContentProps } from '@/types';
+import type { ProductTypes, ContentEntryProps } from '@/types';
 
-const Summary = (props: ContentProps<ProductTypes>) => {
+const Summary = (props: ContentEntryProps<ProductTypes>) => {
     const { contentEntry } = props;
     const navigate = useNavigate();
     const { pathname } = useLocation();

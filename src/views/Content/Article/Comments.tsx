@@ -14,7 +14,7 @@ import {  useParams } from 'react-router-dom';
 
 import CommenterInfo, { CommentSkeleton } from '@/components/CommenterInfo';
 import { createSubmission } from '@/functions';
-import type { ArticleType, ContentProps } from '@/types';
+import type { ArticleType, ContentEntryProps } from '@/types';
 
 type State = {
     name: string;
@@ -61,7 +61,7 @@ type CommentsProps = {
     data: SingleCommentProps[]
 }
 
-const Comments = (props: ContentProps<ArticleType>) => {
+const Comments = (props: ContentEntryProps<ArticleType>) => {
     const { contentEntry } = props;
 
     const { type } = useParams();

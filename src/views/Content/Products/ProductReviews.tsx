@@ -21,7 +21,7 @@ import { useQuery } from "@tanstack/react-query";
 import CommenterInfo, { CommentSkeleton } from '@/components/CommenterInfo';
 import MediaUploader from '@/components/MediaUploader';
 import { createSubmission } from '@/functions';
-import type { ProductTypes, ContentProps } from '@/types';
+import type { ProductTypes, ContentEntryProps } from '@/types';
 
 
 type State = {
@@ -65,7 +65,7 @@ const reducer = (state: State, action: Action): State => {
     }
 }
 
-const ProductReviews = (props: ContentProps<ProductTypes>) => {
+const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
     const { contentEntry } = props;
     const [openReviews, setOpenReviews] = useState<boolean>(false);
     const [writeReview, setWriteReview] = useState<boolean>(false);

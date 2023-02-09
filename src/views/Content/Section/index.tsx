@@ -4,9 +4,9 @@ import Center from './Center';
 import Column from './Column';
 import Left from './Left';
 import Right from './Right';
-import type { Content, ContentProps } from '@/types';
+import type { Content, ContentEntryProps } from '@/types';
 
-export const Section = (props: ContentProps<Content>) => {
+export const Section = (props: ContentEntryProps<Content>) => {
     const { contentEntry } = props;
 
     switch (contentEntry?.fields.sectionType) {

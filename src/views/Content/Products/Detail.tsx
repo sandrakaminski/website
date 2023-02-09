@@ -24,10 +24,10 @@ import LoadingImage from '@/components/LoadingImage';
 import Notifier from '@/components/Notifier';
 import Trail from '@/components/Trail';
 import { imageSrc } from '@/functions';
-import type { ProductTypes, ContentProps } from '@/types';
+import type { ProductTypes, ContentEntryProps } from '@/types';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
-const Detail = (props: ContentProps<ProductTypes>) => {
+const Detail = (props: ContentEntryProps<ProductTypes>) => {
     const { contentEntry } = props;
     const { addToCart } = useCartContext();
     const [open, setOpen] = useState<boolean>(false);
@@ -128,7 +128,7 @@ const Heading = (props: HeadingProps) => {
     )
 }
 
-const Body = (props: ContentProps<ProductTypes>) => {
+const Body = (props: ContentEntryProps<ProductTypes>) => {
     const { contentEntry } = props;
 
     const sentences = contentEntry.fields.description.split('.');

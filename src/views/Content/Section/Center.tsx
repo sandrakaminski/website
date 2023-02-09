@@ -9,10 +9,10 @@ import ReactMarkdown from 'react-markdown';
 import Resource from './Resource';
 import LoadingImage from '@/components/LoadingImage';
 import { SectionMarkDown } from '@/components/Markdown';
-import type { Content, ContentProps } from '@/types';
+import type { Content, ContentEntryProps } from '@/types';
 
 
-export const Center = (props: ContentProps<Content>) => {
+export const Center = (props: ContentEntryProps<Content>) => {
     const { contentEntry } = props;
 
     return (

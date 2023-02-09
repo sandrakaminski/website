@@ -9,9 +9,9 @@ import { Entry } from "contentful";
 import { useNavigate } from "react-router-dom";
 
 import LoadingImage from '@/components/LoadingImage';
-import type { ImageContainerProps, ContentProps, ImageItem } from '@/types';
+import type { ImageContainerProps, ContentEntryProps, ImageItem } from '@/types';
 
-const ImageContainer = (props: ContentProps<ImageContainerProps>) => {
+const ImageContainer = (props: ContentEntryProps<ImageContainerProps>) => {
     const { contentEntry } = props;
     const navigate = useNavigate();
 

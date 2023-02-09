@@ -4,9 +4,9 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { Asset } from "contentful";
 
-import type { ContentProps, ImageBannerType } from '@/types';
+import type { ContentEntryProps, ImageBannerType } from '@/types';
 
-const ImageBanner = (props: ContentProps<ImageBannerType>) => {
+const ImageBanner = (props: ContentEntryProps<ImageBannerType>) => {
     const { contentEntry } = props;
 
     return (

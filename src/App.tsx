@@ -33,7 +33,6 @@ export const App: FC = () => {
                                         <Route path="/:type/:slug" element={<Content />} />
                                         <Route path="/cart" element={<Cart />} />
                                         <Route path="/success" element={<PaymentSuccess />} />
-
                                         <Route path="/preview/:slug" element={<Content preview />} />
                                         <Route path="/preview/:type/:slug" element={<Content preview />} />
                                     </Routes>

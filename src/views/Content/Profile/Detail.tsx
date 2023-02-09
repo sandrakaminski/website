@@ -11,9 +11,9 @@ import ReactMarkdown from 'react-markdown';
 import LoadingImage from "@/components/LoadingImage";
 import { Markdown } from '@/components/Markdown';
 // import Trail from '@/components/Trail';
-import type { ProfileType, ContentProps } from '@/types';
+import type { ProfileType, ContentEntryProps } from '@/types';
 
-const Detail = (props: ContentProps<ProfileType>) => {
+const Detail = (props: ContentEntryProps<ProfileType>) => {
     const { contentEntry } = props;
 
     return (

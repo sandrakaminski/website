@@ -9,9 +9,9 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 
 import DateFormatter from "@/components/DateFormatter";
 import LoadingImage from '@/components/LoadingImage';
-import type { ArticleType, ContentProps } from "@/types";
+import type { ArticleType, ContentEntryProps } from "@/types";
 
-const Summary = (props: ContentProps<ArticleType>) => {
+const Summary = (props: ContentEntryProps<ArticleType>) => {
     const { contentEntry } = props;
     const { pathname } = useLocation();
     const { slug } = useParams();

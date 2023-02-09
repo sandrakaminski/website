@@ -15,10 +15,10 @@ import DateFormatter from "@/components/DateFormatter";
 import LoadingImage from '@/components/LoadingImage';
 import Markdown from '@/components/Markdown';
 import Trail from '@/components/Trail';
-import type { ArticleType, ContentProps } from '@/types';
+import type { ArticleType, ContentEntryProps } from '@/types';
 
 
-const Detail = (props: ContentProps<ArticleType>) => {
+const Detail = (props: ContentEntryProps<ArticleType>) => {
     const { contentEntry } = props;
     const navigate = useNavigate();
 
