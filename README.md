@@ -1,7 +1,10 @@
 # Sandra Kaminski Website
 
 This project is an ecommerce site using Contentful for contentEntry management, with a  Vite-React frontend using Typescript, and netlify for hosting. Stripe payments are processed via the netlify functions directory using golang. The site is broken down into contentEntry types which are assembled in contentEntryful via assembly, each component for contentEntry types can be found under the `blocks` directory. Custom pages which don't rely on contentEntryful are found under the `views` directory. 
+
 The shopping cart and add to cart function is organised in a context provider, using localstorage to hold the state, the information is taken from the Products entry in contentEntryful, and the product ID is matched with stripe products to charge the client accordingly in the payment netlify function. 
+
+Comments on articles, and reviews on shop items are serverside CRUD functions using mongoDB to hold the info. They can also be founf on the netlify functions directory. 
 
 ## Getting started: 
 - Run `yarn` to install all dependencies
