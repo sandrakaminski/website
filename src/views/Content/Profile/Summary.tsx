@@ -7,9 +7,9 @@ import Typography from "@mui/material/Typography";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import LoadingImage from "@/components/LoadingImage";
-import type { ProfileType, ContentProps } from '@/types';
+import type { ProfileType, ContentEntryProps } from '@/types';
 
-const Summary = (props: ContentProps<ProfileType>) => {
+const Summary = (props: ContentEntryProps<ProfileType>) => {
     const { contentEntry } = props;
     const navigate = useNavigate();
     const { pathname } = useLocation();
