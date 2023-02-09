@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 
 import logo from '@/assets/logo.png';
 import LoadingState from "@/components/Outline";
-import { fetchContent } from "@/contentful";
+import { fetchContent } from "@/views/Content/api";
 import type { MenuEntry, MenuItemEntry } from '@/types';
 import { useCartContext } from "@/views/Cart/cartProvider";
 

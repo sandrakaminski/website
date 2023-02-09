@@ -1,36 +1,19 @@
-# Logs
 logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
+# build stuff
 node_modules
+.yarn
+yarn.lock
+.pnp.*
+package-lock.json
 dist
-dist-ssr
 *.local
 
-# Editor directories and files
+.netlify
+.env
+
+# dev stuff
 .vscode/*
 !.vscode/extensions.json
-.idea
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Netlify artefacts
-.netlify
-
-# React artefacts
-node_modules
-dist
-*.lock
-*.log
-
-# env vars
-.env

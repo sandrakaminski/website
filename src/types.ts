@@ -17,7 +17,7 @@ export type AssemblyEntry = {
 
 export type AnyEntry = AssemblyEntry | ProductTypes | ImageBannerType | Content | ProfileType | ImageContainerProps | ArticleType
 
-export type ContentProps<T> = {
+export type ContentEntryProps<T> = {
     contentEntry: Entry<T>;
     detail?: boolean;
     sys?: Sys;

@@ -1,13 +1,15 @@
-import React, { createElement, useState } from 'react';
+import React, { lazy, useState } from 'react'
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useQuery } from "@tanstack/react-query";
-import { Entry } from "contentful";
+import { Entry } from 'contentful';
+import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
+import { fetchContent } from './api';
 import Article from './Article';
 import Contact from './Contact';
 import ImageBanner from './ImageBanner';
@@ -16,10 +18,16 @@ import Products from './Products';
 import Profile from './Profile';
 import Section from './Section';
 import LoadingState from '@/components/Outline';
-import { ContentProps, AnyEntry, AssemblyEntry } from '@/types';
+import { ContentEntryProps, AnyEntry, AssemblyEntry } from '@/types';
+
+const NotFound = lazy(() => import('@/views/NotFound'));
+
+// type Response = {
+//     data?: { items: Entry<AnyEntry>[] }
+// }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const blocks: Record<string, React.FC<ContentProps<any>>> = {
+const blocks: Record<string, React.FC<ContentEntryProps<any>>> = {
     "profile": Profile,
     "section": Section,
     "article": Article,
@@ -28,10 +36,54 @@ const blocks: Record<string, React.FC<ContentProps<any>>> = {
     "imageBanner": ImageBanner
 }
 
-const ContentBlock = (props: ContentProps<AnyEntry>) => {
-    const { contentEntry, detail } = props;
-    const name = contentEntry?.sys.contentType.sys.id;
+type ContentProps = {
+    preview?: boolean
+}
+export const Content = (props: ContentProps) => {
+    const { preview } = props;
 
+    let { type, slug, } = useParams();
+    [type, slug] = [type || "assembly", slug || "home"];
+
+    let contentType
+    if (type === 'about') {
+        contentType = 'profile'
+    }
+    else if (type === 'shop') {
+        contentType = 'product'
+    }
+    else if (type === 'inspiration') {
+        contentType = 'article'
+    }
+    else if (type === 'blog') {
+        contentType = 'article'
+    }
+    else {
+        contentType = type
+    }
+
+    const name = preview ? 'preview' : 'content';
+    const res = useQuery([name, contentType, slug], fetchContent);
+    if (res.data?.items.length === 0) {
+        return <NotFound />
+    }
+
+    const entry = res.data?.items[0] as Entry<AnyEntry>
+
+    return (
+        <Box sx={{ my: 4 }}>
+            <GridLayout contentEntry={entry} />
+            <DefaultLayout contentEntry={entry} />
+            <DetailedLayout contentEntry={entry} />
+            {entry && <Contact />}
+        </Box>
+    )
+}
+
+const ContentBlock = (props: ContentEntryProps<AnyEntry>) => {
+    const { contentEntry, detail } = props;
+
+    const name = contentEntry?.sys.contentType.sys.id;
     if (!name) {
         return <></>
     }
@@ -39,22 +91,7 @@ const ContentBlock = (props: ContentProps<AnyEntry>) => {
     return blocks[name]({ contentEntry, detail })
 }
 
-const Renderer = (props: ContentProps<AnyEntry>) => {
-    const { contentEntry } = props;
-
-    return (
-        <Box sx={{ my: 4 }}>
-            <GridLayout contentEntry={contentEntry} />
-            <DefaultLayout contentEntry={contentEntry} />
-            <DetailedLayout contentEntry={contentEntry} />
-            {contentEntry && <Contact />}
-        </Box>
-    )
-}
-
-export default Renderer;
-
-const DetailedLayout = (props: ContentProps<AnyEntry>) => {
+const DetailedLayout = (props: ContentEntryProps<AnyEntry>) => {
     const { contentEntry } = props;
 
     const content = (contentEntry as Entry<AssemblyEntry>)
@@ -70,7 +107,7 @@ const DetailedLayout = (props: ContentProps<AnyEntry>) => {
     )
 }
 
-const DefaultLayout = (props: ContentProps<AnyEntry>) => {
+const DefaultLayout = (props: ContentEntryProps<AnyEntry>) => {
     const { contentEntry } = props;
 
     const content = (contentEntry as Entry<AssemblyEntry>)
@@ -88,7 +125,7 @@ const DefaultLayout = (props: ContentProps<AnyEntry>) => {
     )
 }
 
-const GridLayout = (props: ContentProps<AnyEntry>) => {
+const GridLayout = (props: ContentEntryProps<AnyEntry>) => {
     const { contentEntry } = props;
 
     const content = (contentEntry as Entry<AssemblyEntry>)
@@ -135,3 +172,5 @@ const GridLayout = (props: ContentProps<AnyEntry>) => {
         </Container>
     )
 }
+
+export default Content
