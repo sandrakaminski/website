@@ -265,26 +265,13 @@ export const CartItemPrice = (props: CartItem) => {
 // displays the approximate costs 
 export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { country, shippingCosts, setAmount, amount, setDisable } = props;
-    const { total, cart } = useCartContext();
+    const { total } = useCartContext();
     const [loading, setLoading] = useState<boolean>(true);
-    // console.log(item, price, country)
 
     const currency = currencyTypes(init);
     const vatCosts = vat(country);
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
-
-    // const item = cart.map((item: ProductItems) => item.name).join(" ");
-    // var price
-    // var shippingCost: number
-    // if (item === "DREAMING IN PETALS" && country === "US") {
-    //     price = 82.30
-    //     shippingCost = 15.04
-    // }
-    // else {
-    //     price = total
-    //     shippingCost = shippingCosts
-    // }
 
     const totalCost = total + shippingCosts;
     const vatTotal = vatCosts * amount.total;

@@ -18,7 +18,6 @@ import Section from './Section';
 import LoadingState from '@/components/Outline';
 import { ContentProps, AnyEntry, AssemblyEntry } from '@/types';
 
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const blocks: Record<string, React.FC<ContentProps<any>>> = {
     "profile": Profile,
@@ -42,8 +41,6 @@ const ContentBlock = (props: ContentProps<AnyEntry>) => {
 
 const Renderer = (props: ContentProps<AnyEntry>) => {
     const { contentEntry } = props;
-
-
 
     return (
         <Box sx={{ my: 4 }}>

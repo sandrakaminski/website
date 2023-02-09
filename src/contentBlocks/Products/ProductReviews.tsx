@@ -3,6 +3,7 @@ import React, { useState, useReducer, useEffect } from 'react';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -18,6 +19,7 @@ import Typography from '@mui/material/Typography';
 import { useQuery } from "@tanstack/react-query";
 
 import CommenterInfo, { CommentSkeleton } from '@/components/CommenterInfo';
+import MediaUploader from '@/components/MediaUploader';
 import { createSubmission } from '@/functions';
 import type { ProductTypes, ContentProps } from '@/types';
 
@@ -35,6 +37,10 @@ type Review = {
     review: string;
     rating: number;
     date: number;
+    media: {
+        url: string;
+        title: string;
+    }
 }
 
 type Page = {
@@ -45,7 +51,7 @@ const starArr = [1, 2, 3, 4, 5];
 
 const initialState = {
     name: '',
-    review: '',
+    review: ''
 }
 
 const reducer = (state: State, action: Action): State => {
@@ -69,6 +75,12 @@ const ProductReviews = (props: ContentProps<ProductTypes>) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const [loading, setLoading] = useState<boolean>(true);
     const [reviews, setReviews] = useState<Page>();
+    const [fields, setFields] = useState<any>(
+        {
+            media: "",
+            title: "",
+        }
+    );
     // const [averageRating, setAverageRating] = useState<number>(0);
 
     const setRating = (rating: number) => {
@@ -112,6 +124,10 @@ const ProductReviews = (props: ContentProps<ProductTypes>) => {
             name: state.name,
             review: state.review,
             id: contentEntry.sys.id,
+            media: {
+                title: fields.title,
+                url: fields.media
+            }
         }
         const url = `/.netlify/functions/reviews`;
         createSubmission({ url, data, setSubmitting, setSubmitted });
@@ -131,6 +147,35 @@ const ProductReviews = (props: ContentProps<ProductTypes>) => {
         const { name, value } = e.target;
         dispatch({ type: name, value: value });
     }
+
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
+
+    const handleFileRead = async (e) => {
+        const { name } = e.target;
+        const img = e.target.files[0]
+
+        const base64 = await convertBase64(img);
+        setFields((prev) => {
+            prev[name] = base64
+            prev["title"] = img.name
+            return { ...prev };
+        });
+    };
+    console.log(fields)
+
 
     return (
         <Stack spacing={1} direction="row">
@@ -158,7 +203,8 @@ const ProductReviews = (props: ContentProps<ProductTypes>) => {
                                         )}
                                     </Stack>
                                     <Typography >{review.review}</Typography>
-                                    <Divider />
+                                    {review.media.url && <Avatar src={review.media.url} sx={{ width: 100, height: 100 }} variant="square" />}
+                                    <Divider sx={{ py: 2 }} />
                                 </Box>
                             )}
                             {!loading && reviews?.data?.length === undefined &&
@@ -185,6 +231,13 @@ const ProductReviews = (props: ContentProps<ProductTypes>) => {
                             </Stack>
                             <TextField name="name" onChange={handleChange} label="Full Name" />
                             <TextField name="review" onChange={handleChange} label="Review" multiline rows={4} />
+                            <MediaUploader name={'media'} onChange={handleFileRead} title={fields.media ? "Change file" : "Upload media"} />
+                            {fields.media &&
+                                <>
+                                    <Avatar src={fields.media} sx={{ width: 100, height: 100 }} variant="square" />
+                                    {fields.title}
+                                </>
+                            }
                         </Stack>
                         <DialogActions>
                             <LoadingButton loading={submitting} disabled={state.review === "" || state.name === "" || starFilled === 0} onClick={handleSubmit} variant="contained" >Send Review</LoadingButton>
@@ -193,7 +246,7 @@ const ProductReviews = (props: ContentProps<ProductTypes>) => {
                     </>
                 }
             </Dialog>
-        </Stack>
+        </Stack >
     )
 }
 export default ProductReviews
