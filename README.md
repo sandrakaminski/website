@@ -7,8 +7,8 @@ The shopping cart and add to cart function is organised in a context provider, u
 Comments on articles, and reviews on shop items are serverside CRUD functions using mongoDB to hold the info. They can also be founf on the netlify functions directory. 
 
 ## Getting started: 
-- Run `yarn` to install all dependencies
-- `yarn dev` to start the project, this can be found under port `5173` 
+- Run `npm install` to install all dependencies
+- `npm run dev` to start the project, this can be found under port `5173` 
 
 ## Netlify
 
@@ -23,7 +23,7 @@ netlify login
 Once configured, run the web app using `yarn ndev` command instead of `yarn dev`:
 
 ```bash
-yarn ndev
+npm run ndev
 ```
 
 Alternatively, using the `netlify` CLI:

@@ -22,10 +22,6 @@ import { ContentEntryProps, AnyEntry, AssemblyEntry } from '@/types';
 
 const NotFound = lazy(() => import('@/views/NotFound'));
 
-// type Response = {
-//     data?: { items: Entry<AnyEntry>[] }
-// }
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const blocks: Record<string, React.FC<ContentEntryProps<any>>> = {
     "profile": Profile,
