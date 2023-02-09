@@ -2,11 +2,14 @@ package main
 
 import (
 	"context"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	_ "image/png"
 	"log"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -17,18 +20,13 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type Media struct {
-	Url   string `json:"url"`
-	Title string `json:"title"`
-}
-
 type Review struct {
 	ID     string `json:"id"`
 	Name   string `json:"name"`
 	Rating int    `json:"rating"`
 	Review string `json:"review"`
 	Date   int64  `json:"date"`
-	Media  Media  `json:"media"`
+	Media  string `json:"media"`
 }
 type Page struct {
 	Data    []Review `json:"data"`
@@ -36,6 +34,20 @@ type Page struct {
 }
 type Store struct {
 	locaColl *mongo.Collection
+}
+
+var validMedia = map[string]string{
+	"\xff\xd8\xff":      "data:image/jpeg",
+	"\x89PNG\r\n\x1a\n": "data:image/png",
+}
+
+func (s *Store) detectContentType(data []byte) string {
+	for magic, contentType := range validMedia {
+		if strings.HasPrefix(string(data), magic) {
+			return contentType
+		}
+	}
+	return ""
 }
 
 // stores
@@ -93,12 +105,22 @@ func (s *Store) GetReviews(searchText string, limit, skip *int64) (Page, error) 
 // handlers
 func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var rev Review
+
 	if err := json.Unmarshal([]byte(r.Body), &rev); err != nil {
 		log.Fatal(err)
 	}
 	rev.Date = time.Now().Unix()
-	s.AddReview(rev)
 
+	// decode base64, check it's valid, then re-encode
+	b64data := rev.Media[strings.IndexByte(rev.Media, ',')+1:]
+	data, err := base64.StdEncoding.DecodeString(b64data)
+	if err != nil {
+		log.Fatal("error:", err)
+	}
+	en := base64.StdEncoding.EncodeToString(data)
+	rev.Media = s.detectContentType(data) + ";base64," + en
+
+	s.AddReview(rev)
 	rspByt, err := json.Marshal(rev)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling payment link: %w", err)

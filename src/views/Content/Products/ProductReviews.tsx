@@ -37,10 +37,7 @@ type Review = {
     review: string;
     rating: number;
     date: number;
-    media: {
-        url: string;
-        title: string;
-    }
+    media: string
 }
 
 type Page = {
@@ -78,7 +75,8 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
     const [fields, setFields] = useState<any>(
         {
             media: "",
-            title: "",
+            title: ""
+            // file: []
         }
     );
     // const [averageRating, setAverageRating] = useState<number>(0);
@@ -124,10 +122,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
             name: state.name,
             review: state.review,
             id: contentEntry.sys.id,
-            media: {
-                title: fields.title,
-                url: fields.media
-            }
+            media: fields.media
         }
         const url = `/.netlify/functions/reviews`;
         createSubmission({ url, data, setSubmitting, setSubmitted });
@@ -151,8 +146,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
     const convertBase64 = (file: Blob) => {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-
+            fileReader.readAsDataURL(file)
             fileReader.onload = () => {
                 resolve(fileReader.result);
             };
@@ -163,9 +157,9 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
         });
     };
 
-    const handleFileRead = async (e: { target: { files?: any; name?: any; }; }) => {
-        const { name } = e.target;
-        const img = e.target.files[0]
+    const handleFileRead = async (event: { target: { files?: any; name?: any; }; }) => {
+        const { name } = event.target;
+        const img = event.target.files[0]
 
         const base64 = await convertBase64(img);
         setFields((prev: any) => {
@@ -174,6 +168,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
             return { ...prev };
         });
     };
+
     console.log(fields)
 
 
@@ -203,7 +198,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
                                         )}
                                     </Stack>
                                     <Typography >{review.review}</Typography>
-                                    {review.media.url && <Avatar src={review.media.url} sx={{ width: 100, height: 100 }} variant="square" />}
+                                    {review.media && <Avatar src={review.media} sx={{ width: 100, height: 100 }} variant="square" />}
                                     <Divider sx={{ py: 2 }} />
                                 </Box>
                             )}
