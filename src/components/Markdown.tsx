@@ -18,7 +18,7 @@ export const Markdown: Record<string, unknown> = {
     a: ({ ...props }) => <Link target="_blank"  {...props} />,
     img: ({ ...props }, { alt, src }: Img) => <img style={{ width: '100%' }} src={src} alt={alt} {...props} />,
     p: ({ ...props }) => <TextElement paragraph align="justify" color="grayText" {...props} />,
-    hr: ({ ...props }) => <Divider sx={{ my: 2 }} {...props} />,
+    hr: ({ ...props }) => <Container maxWidth={false} sx={{ maxWidth: 800 }} ><Divider sx={{ width: '100%' }} {...props} /></Container>,
     ul: ({ ...props }) => <TextElement color="grayText" {...props} />,
     td: ({ ...props }) => <TableCell sx={{ borderBottom: 'none' }}>{props.children}</TableCell>,
 
