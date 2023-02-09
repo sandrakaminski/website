@@ -48,13 +48,13 @@ const client: ContentfulClientApi = createClient({
     space: spaceId,
     environment: environment,
     accessToken: deliveryApiToken,
-    host: 'https://cdn.contentEntryful.com',
+    host: 'https://cdn.contentful.com',
     removeUnresolved: true
 })
 
 const previewApi: ContentfulClientApi = createClient({
     space: spaceId,
-    environment: "master",
+    environment: environment,
     accessToken: previewToken,
     host: 'https://preview.contentful.com',
     // removeUnresolved: true
