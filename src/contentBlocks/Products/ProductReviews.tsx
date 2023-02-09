@@ -148,7 +148,7 @@ const ProductReviews = (props: ContentProps<ProductTypes>) => {
         dispatch({ type: name, value: value });
     }
 
-    const convertBase64 = (file) => {
+    const convertBase64 = (file: Blob) => {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(file);
@@ -163,12 +163,12 @@ const ProductReviews = (props: ContentProps<ProductTypes>) => {
         });
     };
 
-    const handleFileRead = async (e) => {
+    const handleFileRead = async (e: { target: { files?: any; name?: any; }; }) => {
         const { name } = e.target;
         const img = e.target.files[0]
 
         const base64 = await convertBase64(img);
-        setFields((prev) => {
+        setFields((prev: any) => {
             prev[name] = base64
             prev["title"] = img.name
             return { ...prev };
