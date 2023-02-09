@@ -24,7 +24,7 @@ import axios from "axios"
 import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 
-import CountryDropdown, { CurrencyExchange, currencyTypes, countriesList, americanPricing, CartItemPrice, shippingFee, checkProductType } from './PaymentCalc';
+import CountryDropdown, { CurrencyExchange, currencyTypes, countriesList, CartItemPrice, shippingFee, checkProductType } from './PaymentCalc';
 import { CartSkeleton } from "@/components/Outline";
 import { ProductItems } from "@/types";
 import { useCartContext } from "@/views/Cart/cartProvider";
@@ -218,7 +218,6 @@ type CartItemProps = {
 const CartItem = (props: CartItemProps) => {
     const { item, remove, country } = props;
     const navigate = useNavigate();
-    const price = americanPricing({ item, country })
 
     const inStock = () => {
         item.inStock === true ? "In stock" : "Out of stock";
@@ -233,7 +232,7 @@ const CartItem = (props: CartItemProps) => {
                 <Avatar sx={{ height: 55, width: 55 }} variant="square" alt={item.name} src={item.image.fields.file.url} />
                 <Box sx={{ ml: 2 }}>
                     <Typography variant="subtitle1">{item.name}</Typography>
-                    <CartItemPrice item={price} country={country} />
+                    <CartItemPrice item={item.price} country={country} />
                 </Box>
             </Grid>
             <Grid container direction="row" justifyContent={{ xs: 'space-between', sm: "flex-end" }} alignItems="center" spacing={4}>

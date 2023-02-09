@@ -146,23 +146,23 @@ export const vat = (country: string) => {
 }
 
 // custom code for american pricing 
-type AmericanPricingProps = {
-    country: string;
-    item: ProductItems;
-}
-export const americanPricing = (props: AmericanPricingProps) => {
-    const { country, item } = props;
+// type AmericanPricingProps = {
+//     country: string;
+//     item: ProductItems;
+// }
+// export const americanPricing = (props: AmericanPricingProps) => {
+//     const { country, item } = props;
 
-    var price
-    if (item.name === "DREAMING IN PETALS" && country === "US") {
-        // price = 82.30
-        price = item.price
-    }
-    else {
-        price = item.price
-    }
-    return price
-}
+//     var price
+//     if (item.name === "DREAMING IN PETALS" && country === "US") {
+//         // price = 82.30
+//         price = item.price
+//     }
+//     else {
+//         price = item.price
+//     }
+//     return price
+// }
 
 
 type ShippingFeeProps = {
