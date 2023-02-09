@@ -27,7 +27,7 @@ export const fetchContent = async ({ queryKey }: QueryFunctionContext): Promise<
         else {
             contentType = type
         }
-        return client.getEntries({
+        return await client.getEntries({
             // eslint-disable-next-line camelcase
             content_type: contentType,
             'fields.slug': slug,
@@ -36,7 +36,7 @@ export const fetchContent = async ({ queryKey }: QueryFunctionContext): Promise<
     }
 
     // preview articles
-    return previewApi.getEntries({
+    return await previewApi.getEntries({
         // eslint-disable-next-line camelcase
         content_type: "article",
         'fields.slug': slug,
