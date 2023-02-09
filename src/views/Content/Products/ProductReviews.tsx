@@ -184,7 +184,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
                                     )}
                                 </Stack>
                                 <Typography>{review.review}</Typography>
-                                {review.media && <Avatar component={Button} onClick={() => handleFullImg(review.media)} src={review.media} sx={{ width: 100, height: 100 }} variant="square" />}
+                                {review.media !== "" && <Avatar component={Button} onClick={() => handleFullImg(review.media)} src={review.media} sx={{ width: 100, height: 100 }} variant="square" />}
                                 <Divider />
                             </Box>
                         )}
