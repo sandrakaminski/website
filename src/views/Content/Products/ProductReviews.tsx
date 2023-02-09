@@ -164,7 +164,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
             <Link onClick={handleOpen} underline="hover" sx={{ cursor: 'pointer' }} variant="body1">
                 Read Reviews
             </Link>
-            <Dialog maxWidth={fullImg !== "" ? "xl" : "sm"} open={openReviews} onClose={() => setOpenReviews(false)} >
+            <Dialog fullWidth maxWidth={fullImg !== "" ? "xl" : "sm"} open={openReviews} onClose={() => setOpenReviews(false)} >
                 {!fullImg && <DialogTitle >{!writeReview ? "Reviews" : "Write a review"}</DialogTitle>}
                 {!fullImg ? !writeReview &&
                     <DialogContent>
@@ -172,7 +172,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
                             <CommentSkeleton />
                         }
                         {!loading && reviews?.data?.length !== undefined && reviews?.data?.map((review: Review, index: number) =>
-                            <Box key={index} >
+                            <Box sx={{ my: 2 }} key={index} >
                                 <CommenterInfo name={review.name} date={review.date} />
                                 <Stack sx={{ mt: 2 }} spacing={1} direction="row" alignItems="center" >
                                     {starArr.map((star: number) =>
@@ -183,9 +183,9 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
                                         </div>
                                     )}
                                 </Stack>
-                                <Typography >{review.review}</Typography>
+                                <Typography>{review.review}</Typography>
                                 {review.media && <Avatar component={Button} onClick={() => handleFullImg(review.media)} src={review.media} sx={{ width: 100, height: 100 }} variant="square" />}
-                                <Divider sx={{ py: 2 }} />
+                                <Divider />
                             </Box>
                         )}
                         {!loading && reviews?.data?.length === undefined &&
