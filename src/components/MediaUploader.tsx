@@ -5,22 +5,21 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 type MediaUploaderProps = {
-    accept?: string;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     title?: string;
     name?: string;
     variant?: 'text' | 'outlined' | 'contained';
 }
 
 const MediaUploader = (props: MediaUploaderProps) => {
-    const { accept, title, variant } = props;
+    const { title, variant } = props;
+
 
     return (
         <Box>
             <input
                 {...props}
-                // multiple
-                accept={accept || '.xlsx,.xls,image/*,.doc,.docx,.txt,.rtf,.pdf'}
+                accept="image/png, image/jpeg"
                 style={{ display: 'none', }}
                 id={"file-upload"}
                 type="file"
