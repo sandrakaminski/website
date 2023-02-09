@@ -77,7 +77,6 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
         title: ""
     });
     const [fullImg, setFullImg] = useState<string>("");
-    // const [averageRating, setAverageRating] = useState<number>(0);
 
     const setRating = (rating: number) => {
         setStarFilled(rating)
@@ -165,78 +164,73 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
             <Link onClick={handleOpen} underline="hover" sx={{ cursor: 'pointer' }} variant="body1">
                 Read Reviews
             </Link>
-            <Dialog fullWidth open={openReviews} onClose={() => setOpenReviews(false)} >
-
-                {fullImg && <img src={fullImg} alt="full" />}
-                {fullImg &&
-                    <DialogActions>
-                        <Button startIcon={<KeyboardReturnIcon />} onClick={() => setFullImg("")}  >
-                            Back
-                        </Button>
-                    </DialogActions>
-                }
+            <Dialog maxWidth={fullImg !== "" ? "xl" : "sm"} open={openReviews} onClose={() => setOpenReviews(false)} >
                 {!fullImg && <DialogTitle >{!writeReview ? "Reviews" : "Write a review"}</DialogTitle>}
-                {!fullImg && !writeReview &&
-                    <>
-                        <DialogContent>
-                            {loading &&
-                                <CommentSkeleton />
-                            }
-                            {!loading && reviews?.data?.length !== undefined && reviews?.data?.map((review: Review, index: number) =>
-                                <Box key={index} >
-                                    <CommenterInfo name={review.name} date={review.date} />
-                                    <Stack sx={{ mt: 2 }} spacing={1} direction="row" alignItems="center" >
-                                        {starArr.map((star: number) =>
-                                            <div key={star} >
-                                                {review.rating >= star ? <StarIcon sx={{ color: "warning.light" }} /> :
-                                                    <StarBorderIcon sx={{ color: "warning.light" }} />
-                                                }
-                                            </div>
-                                        )}
-                                    </Stack>
-                                    <Typography >{review.review}</Typography>
-                                    {review.media && <Avatar component={Button} onClick={() => handleFullImg(review.media)} src={review.media} sx={{ width: 100, height: 100 }} variant="square" />}
-                                    <Divider sx={{ py: 2 }} />
-                                </Box>
-                            )}
-                            {!loading && reviews?.data?.length === undefined &&
-                                <Typography >No reviews yet</Typography>
-                            }
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={() => setWriteReview(true)} >Write a review</Button>
-                        </DialogActions>
-                    </>
+                {!fullImg ? !writeReview &&
+                    <DialogContent>
+                        {loading &&
+                            <CommentSkeleton />
+                        }
+                        {!loading && reviews?.data?.length !== undefined && reviews?.data?.map((review: Review, index: number) =>
+                            <Box key={index} >
+                                <CommenterInfo name={review.name} date={review.date} />
+                                <Stack sx={{ mt: 2 }} spacing={1} direction="row" alignItems="center" >
+                                    {starArr.map((star: number) =>
+                                        <div key={star} >
+                                            {review.rating >= star ? <StarIcon sx={{ color: "warning.light" }} /> :
+                                                <StarBorderIcon sx={{ color: "warning.light" }} />
+                                            }
+                                        </div>
+                                    )}
+                                </Stack>
+                                <Typography >{review.review}</Typography>
+                                {review.media && <Avatar component={Button} onClick={() => handleFullImg(review.media)} src={review.media} sx={{ width: 100, height: 100 }} variant="square" />}
+                                <Divider sx={{ py: 2 }} />
+                            </Box>
+                        )}
+                        {!loading && reviews?.data?.length === undefined &&
+                            <Typography >No reviews yet</Typography>
+                        }
+                    </DialogContent>
+                    :
+                    <img width="auto" style={{ maxHeight: 600 }} src={fullImg} alt="full" />
                 }
                 {writeReview &&
-                    <>
-                        <Stack spacing={2} component={DialogContent}  >
-                            <Stack direction="row" alignItems="center">
-                                <Typography variant="subtitle2" >Rating</Typography>
-                                {starArr.map((star: number) =>
-                                    <IconButton onClick={() => setRating(star)} key={star} >
-                                        {starFilled >= star ? <StarIcon sx={{ color: "warning.light" }} /> :
-                                            <StarBorderIcon sx={{ color: "warning.light" }} />
-                                        }
-                                    </IconButton>
-                                )}
-                            </Stack>
-                            <TextField name="name" onChange={handleChange} label="Full Name" />
-                            <TextField name="review" onChange={handleChange} label="Review" multiline rows={4} />
-                            <MediaUploader name={'media'} onChange={handleFileRead} title={fields.media ? "Change file" : "Upload media"} />
-                            {fields.media &&
-                                <>
-                                    <Avatar src={fields.media} sx={{ width: 100, height: 100 }} variant="square" />
-                                    {fields.title}
-                                </>
-                            }
+                    <Stack spacing={2} component={DialogContent}  >
+                        <Stack direction="row" alignItems="center">
+                            <Typography variant="subtitle2" >Rating</Typography>
+                            {starArr.map((star: number) =>
+                                <IconButton onClick={() => setRating(star)} key={star} >
+                                    {starFilled >= star ? <StarIcon sx={{ color: "warning.light" }} /> :
+                                        <StarBorderIcon sx={{ color: "warning.light" }} />
+                                    }
+                                </IconButton>
+                            )}
                         </Stack>
-                        <DialogActions>
+                        <TextField name="name" onChange={handleChange} label="Full Name" />
+                        <TextField name="review" onChange={handleChange} label="Review" multiline rows={4} />
+                        <MediaUploader name={'media'} onChange={handleFileRead} title={fields.media ? "Change file" : "Upload media"} />
+                        {fields.media &&
+                            <>
+                                <Avatar src={fields.media} sx={{ width: 100, height: 100 }} variant="square" />
+                                {fields.title}
+                            </>
+                        }
+                    </Stack>
+                }
+                <DialogActions>
+                    {!writeReview ?
+                        <Button onClick={() => setWriteReview(true)} >Write a review</Button>
+                        :
+                        <>
                             <LoadingButton loading={submitting} disabled={state.review === "" || state.name === "" || starFilled === 0} onClick={handleSubmit} variant="contained" >Send Review</LoadingButton>
                             <Button color="error" onClick={() => setWriteReview(false)} >Cancel</Button>
-                        </DialogActions>
-                    </>
-                }
+                        </>
+                    }
+                    {fullImg &&
+                        <Button startIcon={<KeyboardReturnIcon />} onClick={() => setFullImg("")}  >Back</Button>
+                    }
+                </DialogActions>
             </Dialog>
         </Stack >
     )
