@@ -14,26 +14,36 @@ type ToggleStoryProps = {
     pageID: string;
 }
 
-// TODO - remove any's
+type PageToggle = {
+    sys: {
+        id: string;
+    };
+    fields: {
+        slug: string;
+        headline: string;
+    };
+}
+
+// TODO - remove any
 const ToggleStory = (props: ToggleStoryProps) => {
     const { pageID } = props
     const { type } = useParams();
     const navigate = useNavigate();
     const res: any = useQuery(['content', "assembly", type], fetchContent);
-    const arr: any = res.data?.items[0]?.fields?.references; 
-    const currntPage: any = arr?.filter((item: any) => item.sys.id === pageID)[0]; 
-    const index = arr?.indexOf(currntPage); 
+    const arr: Array<PageToggle> = res.data?.items[0]?.fields?.references;
+    const currntPage = arr?.filter((item) => item.sys.id === pageID)[0];
+    const index = arr?.indexOf(currntPage);
 
-    const prevPage = arr?.[index + 1]; 
-    const nextPage = arr?.[index - 1]; 
+    const prevPage = arr?.[index + 1];
+    const nextPage = arr?.[index - 1];
 
     const getPrev = () => {
         navigate(`/${type}/${prevPage?.fields?.slug}`);
-    }; 
+    };
 
     const getNext = () => {
         navigate(`/${type}/${nextPage?.fields?.slug}`);
-    }; 
+    };
 
     return (
         <Container sx={{ maxWidth: 800 }} maxWidth={false}>
