@@ -14,6 +14,7 @@ import Comments from './Comments';
 import DateFormatter from "@/components/DateFormatter";
 import LoadingImage from '@/components/LoadingImage';
 import Markdown from '@/components/Markdown';
+import ToggleStory from '@/components/ToggleStory';
 import Trail from '@/components/Trail';
 import type { ArticleType, ContentEntryProps } from '@/types';
 
@@ -66,6 +67,7 @@ const Detail = (props: ContentEntryProps<ArticleType>) => {
                         <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
                         <Comments contentEntry={contentEntry} />
                     </Stack>
+                    <ToggleStory pageID={contentEntry.sys.id} />
                 </>
             }
         </>

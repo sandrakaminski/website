@@ -89,8 +89,12 @@ const ContentBlock = (props: ContentEntryProps<AnyEntry>) => {
 
 const DetailedLayout = (props: ContentEntryProps<AnyEntry>) => {
     const { contentEntry } = props;
+    // const [prev, setPrev] = useState();
 
     const content = (contentEntry as Entry<AssemblyEntry>)
+    // const navigate = useNavigate()
+    // const { pathname } = useLocation();
+
 
     return (
         <>
