@@ -31,8 +31,8 @@ const ToggleStory = (props: ToggleStoryProps) => {
     const navigate = useNavigate();
     const res: any = useQuery(['content', "assembly", type], fetchContent);
     const arr: Array<PageToggle> = res.data?.items[0]?.fields?.references;
-    const currntPage = arr?.filter((item) => item.sys.id === pageID)[0];
-    const index = arr?.indexOf(currntPage);
+    const currentPage = arr?.filter((item) => item.sys.id === pageID)[0];
+    const index = arr?.indexOf(currentPage);
 
     const prevPage = arr?.[index + 1];
     const nextPage = arr?.[index - 1];
