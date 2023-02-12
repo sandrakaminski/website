@@ -35,7 +35,7 @@ type OrderItems = {
 }
 
 type Prices = {
-    shipping: any;
+    shipping: number extends number ? number : string;
     total: number;
 }
 
@@ -117,14 +117,14 @@ const Cart = () => {
             shipping = amount.shipping.toFixed(0)
         }
         else {
-            shipping = amount.shipping.toFixed(2) * 100
+            shipping = amount.shipping.toFixed(2) as unknown as number * 100
         }
     }
 
     const data = {
         country: country,
         currency: currency,
-        shipping: parseInt(shipping),
+        shipping: parseInt(shipping as string),
         orderItems: cart?.map((item: OrderItems) => {
             return {
                 productId: item.id,

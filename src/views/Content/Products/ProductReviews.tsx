@@ -147,14 +147,20 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
         });
     };
 
-    const handleFileRead = async (event: { target: { files?: any; name?: any; }; }) => {
-        const { name } = event.target;
+    type EventTarget = {
+        target: {
+            files?: any;
+            name?: any;
+        };
+    }
+    const handleFileRead = async (event: EventTarget) => {
+        const { name } = event.target
         const img = event.target.files[0]
 
         const base64 = await convertBase64(img);
-        setFields((prev: any) => {
-            prev[name] = base64
-            prev["title"] = img.name
+        setFields((prev) => {
+            prev[name] = base64 as string
+            prev["title"] = img.name as string
             return { ...prev };
         });
     };

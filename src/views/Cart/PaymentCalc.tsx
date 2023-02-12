@@ -191,7 +191,7 @@ export const shippingFee = (props: ShippingFeeProps) => {
 
 type CheckProductTypeProps = {
     cart: ProductItems[];
-    category: any;
+    category: string;
 }
 
 // removes paper products from shipping fee if there is a book in the cart
@@ -199,7 +199,7 @@ export const checkProductType = (props: CheckProductTypeProps) => {
     const { cart, category } = props
 
     let quantity
-    if (category.includes("Paper Products") & category.includes("Book")) {
+    if (category.includes("Paper Products"), category.includes("Book")) {
         quantity = cart.filter((item: ProductItems) => item.category !== "Paper Products").map((item: ProductItems) => item.amount.length).reduce((a: number, b: number) => a + b, 0)
     }
     else {

@@ -4,6 +4,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
+
 type MediaUploaderProps = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     title?: string;
@@ -18,6 +19,7 @@ const MediaUploader = (props: MediaUploaderProps) => {
     return (
         <Box>
             <input
+
                 {...props}
                 accept="image/png, image/jpeg"
                 style={{ display: 'none', }}

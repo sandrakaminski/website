@@ -29,7 +29,6 @@ type Response = {
     data: { items: Array<PageToggle> };
 };
 
-// TODO - remove any
 const ToggleStory = (props: ToggleStoryProps) => {
     const { pageID } = props
     const { type } = useParams();
