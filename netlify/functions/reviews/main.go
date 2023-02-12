@@ -7,6 +7,7 @@ import (
 	"fmt"
 	_ "image/png"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 	"strings"
@@ -36,16 +37,10 @@ type Store struct {
 	locaColl *mongo.Collection
 }
 
-var validMedia = map[string]string{
-	"\xff\xd8\xff":      "data:image/jpeg",
-	"\x89PNG\r\n\x1a\n": "data:image/png",
-}
-
 func (s *Store) detectContentType(data []byte) string {
-	for magic, contentType := range validMedia {
-		if strings.HasPrefix(string(data), magic) {
-			return contentType
-		}
+	det := http.DetectContentType(data)
+	if det == "image/jpeg" || det == "image/png" {
+		return "data:" + det
 	}
 	return ""
 }
