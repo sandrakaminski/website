@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 type DateString = {
     dateString: string;
@@ -24,30 +24,15 @@ const months: Array<string> = ['January', 'February', 'March', 'April', 'May', '
 type DateType = {
     date: number;
 }
+
 // converts epoch to 'time ago' format
 export const Time = ({ date }: DateType) => {
-    const now: any = new Date()
-    const dateParser: any = new Date(date * 1000)
+    const now = new Date();
+    const dateParser = new Date(date * 1000);
 
     return (
-        <>{timeFunc(now - Date.parse(dateParser))}</>
+        <>{timeFunc(now as unknown as number - Date.parse(dateParser as unknown as string))}</>
     )
-}
-
-// calculates an epoch value to see if it exceeded the time limit
-export const Calculate24Hour = (time: number) => {
-    const [value, setValue] = useState<number>(0);
-
-    useEffect(() => {
-        const recentTime = new Date(time * 1000)
-        const then = new Date(recentTime);
-        const now = new Date();
-        const msBetweenDates = Math.abs(then.getTime() - now.getTime());
-        const hoursBetweenDates = msBetweenDates / (60 * 60 * 1000);
-        setValue(hoursBetweenDates)
-    }, [time])
-
-    return value
 }
 
 const timeFunc = (elapsed: number) => {

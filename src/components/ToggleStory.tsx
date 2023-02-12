@@ -19,18 +19,24 @@ type PageToggle = {
         id: string;
     };
     fields: {
+        references: PageToggle[];
         slug: string;
         headline: string;
     };
 }
+
+type Response = {
+    data: { items: Array<PageToggle> };
+};
 
 // TODO - remove any
 const ToggleStory = (props: ToggleStoryProps) => {
     const { pageID } = props
     const { type } = useParams();
     const navigate = useNavigate();
-    const res: any = useQuery(['content', "assembly", type], fetchContent);
-    const arr: Array<PageToggle> = res.data?.items[0]?.fields?.references;
+    const res = useQuery(['content', "assembly", type], fetchContent);
+
+    const arr: Array<PageToggle> = (res as Response)?.data?.items[0]?.fields?.references;
     const currentPage = arr?.filter((item) => item.sys.id === pageID)[0];
     const index = arr?.indexOf(currentPage);
 

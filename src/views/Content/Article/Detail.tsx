@@ -66,8 +66,9 @@ const Detail = (props: ContentEntryProps<ArticleType>) => {
                         </Box>
                         <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
                         <Comments contentEntry={contentEntry} />
+                        <ToggleStory pageID={contentEntry.sys.id} />
                     </Stack>
-                    <ToggleStory pageID={contentEntry.sys.id} />
+
                 </>
             }
         </>

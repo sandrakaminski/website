@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
@@ -32,19 +33,17 @@ export default CommenterInfo;
 
 export const CommentSkeleton = () => {
     return (
-        <Stack>
+        <Box>
             <Stack direction="row" alignItems="center" spacing={2} >
-                <Avatar />
-                <Typography variant="subtitle1">
-                    <Skeleton width={150} variant="text" />
-                </Typography>
-                <Typography sx={{ pt: 0.25 }} >
-                    <Skeleton width={100} variant="text" />
-                </Typography>
+                <Skeleton variant="circular" width={45} height={45} />
+                <Skeleton width={150} variant="text" />
+                <Skeleton width={100} variant="text" />
             </Stack>
-            <Container maxWidth="md">
-                <Skeleton height={200} />
+            <Container sx={{ mt: 2 }} maxWidth="md">
+                <Skeleton width={"100%"} variant="text" />
+                <Skeleton width={"75%"} variant="text" />
+                <Skeleton width={"25%"} variant="text" />
             </Container>
-        </Stack>
+        </Box>
     )
 }

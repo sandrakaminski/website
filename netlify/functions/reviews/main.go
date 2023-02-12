@@ -109,6 +109,8 @@ func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxy
 		det := http.DetectContentType(data)
 		if det == "image/jpeg" || det == "image/png" {
 			rev.Media = "data:" + det + ";base64," + en
+		} else {
+			rev.Media = ""
 		}
 	}
 
