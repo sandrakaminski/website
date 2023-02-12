@@ -37,14 +37,6 @@ type Store struct {
 	locaColl *mongo.Collection
 }
 
-func (s *Store) detectContentType(data []byte) string {
-	det := http.DetectContentType(data)
-	if det == "image/jpeg" || det == "image/png" {
-		return "data:" + det
-	}
-	return ""
-}
-
 // stores
 func Connect() Store {
 	godotenv.Load(".env")
@@ -114,7 +106,10 @@ func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxy
 			log.Fatal("error:", err)
 		}
 		en := base64.StdEncoding.EncodeToString(data)
-		rev.Media = s.detectContentType(data) + ";base64," + en
+		det := http.DetectContentType(data)
+		if det == "image/jpeg" || det == "image/png" {
+			rev.Media = "data:" + det + ";base64," + en
+		}
 	}
 
 	s.AddReview(rev)
