@@ -81,7 +81,6 @@ const Contact = () => {
     if (slug === 'contact')
         return (
             <Stack
-                sx={{ mt: 10 }}
                 justifyContent="center"
                 alignItems="center"
                 spacing={2}>

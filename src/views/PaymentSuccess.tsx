@@ -22,10 +22,10 @@ const PaymentSuccess: React.FC = () => {
     useQuery([cart], clearCart)
 
     return (
-        <Stack spacing={2} sx={{ mt: 10 }} alignItems="center" justifyContent="center">
+        <Stack spacing={2} sx={{ my: 10 }} alignItems="center" justifyContent="center">
             <CheckCircleIcon sx={{ fontSize: 100, color: "success.main" }} />
             <Typography variant="h3" align="center" gutterBottom>Payment successful</Typography>
-            <Typography color="grayText" align="center" variant="h6" >  Thank you for your purchase. <br /> Please check your inbox and spam folder for your confirmation email. </Typography>
+            <Typography color="grayText" align="center"  >  Thank you for your purchase. <br /> Please check your inbox and spam folder for your confirmation email. </Typography>
             <Button size="large" variant="contained" onClick={() => navigate("/shop")} >Return Home</Button>
         </Stack>
     )

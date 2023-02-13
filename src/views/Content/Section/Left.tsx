@@ -1,9 +1,8 @@
 import React from 'react';
 
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';
 import ReactMarkdown from 'react-markdown';
 
 import Resource from './Resource';
@@ -17,8 +16,8 @@ export const Left = (props: ContentEntryProps<Content>) => {
     return (
         <>
             {contentEntry &&
-                <Grid container direction="row" spacing={2} sx={{ py: 6 }}>
-                    <Grid item xs={12} sm={6} md={6} lg={6}>
+                <Grid container direction="row" spacing={2} >
+                    <Grid xs={12} sm={6} >
                         {contentEntry.fields.image?.fields.file.url &&
                             <LoadingImage
                                 skeletonheight={500}
@@ -28,28 +27,24 @@ export const Left = (props: ContentEntryProps<Content>) => {
                             />
                         }
                     </Grid>
-                    <Grid item xs={12} sm={6} >
+                    <Grid xs={12} sm={6} >
                         <Typography align="center" variant="h2" >
                             {contentEntry.fields.headline}
                         </Typography>
                         {contentEntry.fields.resources?.map((item: ResourceType, index: number) => (
-                            <Box key={index} sx={{ justifyContent: "center", alignContent: "center" }}>
+                            <Box key={index}>
                                 {item.fields.headline &&
                                     <Typography align="center" variant="h3" sx={{ pt: { xs: 4, sm: 6, md: 6 } }}>
                                         {item.fields.headline}
                                     </Typography>
                                 }
-                                <Box sx={{ pt: 4 }}>
-                                    <Resource resource={item} />
-                                </Box>
+                                <Resource resource={item} />
                             </Box>
                         ))}
                     </Grid>
-                    <Container maxWidth="sm">
-                        <ReactMarkdown components={SectionMarkDown} >
-                            {contentEntry.fields.body}
-                        </ReactMarkdown>
-                    </Container>
+                    <ReactMarkdown components={SectionMarkDown} >
+                        {contentEntry.fields.body}
+                    </ReactMarkdown>
                 </Grid >
             }
         </>

@@ -1,9 +1,8 @@
 import React from 'react';
 
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Unstable_Grid2';
 import { Asset } from 'contentful';
 
 import type { ResourceType } from '@/types';
@@ -16,12 +15,12 @@ export const Resource = (props: ResourceProps) => {
     const { resource } = props;
 
     return (
-        <>
+        <Stack sx={{ pt: 2 }}>
             {resource?.fields.flexDirection === "Flex" ?
-                <Grid container direction="row" justifyContent="center" alignItems="center" spacing={0.5} sx={{ px: { xs: 4, md: 6 } }}>
+                <Grid container direction="row" justifyContent="center" spacing={0.5} sx={{ px: 4 }}>
                     {resource.fields.files?.map((file: Asset, index: number) => (
-                        <Grid item key={index} >
-                            <Link sx={{ justifyContent: "center", alignItems: "center", textUnderlineOffset: '6px' }} href={`${file.fields.file.url}`} align="center" target="_blank">
+                        <Grid key={index} >
+                            <Link sx={{ textUnderlineOffset: '6px' }} href={`${file.fields.file.url}`} target="_blank">
                                 {file.fields.title}
                             </Link>
                             {resource.fields.files?.length - 1 !== index && ","}
@@ -29,20 +28,15 @@ export const Resource = (props: ResourceProps) => {
                     ))}
                 </Grid>
                 :
-                <Stack
-                    spacing={1}
-                    justifyContent="center"
-                    alignItems="center">
+                <Stack spacing={1}>
                     {resource?.fields.files?.map((file: Asset, index: number) =>
-                        <Box key={index}>
-                            <Link href={`${file.fields.file.url}`} target="_blank" align="center" sx={{ textUnderlineOffset: '6px' }}>
-                                {file.fields.title}
-                            </Link>
-                        </Box>
+                        <Link key={index} href={`${file.fields.file.url}`} target="_blank" align="center" sx={{ textUnderlineOffset: '6px' }}>
+                            {file.fields.title}
+                        </Link>
                     )}
                 </Stack>
             }
-        </>
+        </Stack>
     )
 }
 export default Resource;

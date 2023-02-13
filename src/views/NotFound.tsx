@@ -11,7 +11,7 @@ const NotFound: React.FC = () => {
 
     return (
         <Stack
-            sx={{ mt: 10 }}
+            sx={{ my: 10 }}
             justifyContent="center"
             alignItems="center"
             spacing={2}>
@@ -19,7 +19,7 @@ const NotFound: React.FC = () => {
             <Typography variant="h3" align="center" gutterBottom>
                 Error 404
             </Typography>
-            <Typography gutterBottom color="grayText" variant="subtitle1" >
+            <Typography gutterBottom color="grayText"  >
                 The page you are looking for cannot be found.
             </Typography>
             <Button size="large" variant="contained" onClick={() => navigate("/", { state: { data: 'home' } })}>Return Home</Button>

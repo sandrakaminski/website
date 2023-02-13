@@ -113,7 +113,9 @@ const DefaultLayout = (props: ContentEntryProps<AnyEntry>) => {
             {content?.sys.contentType.sys.id === 'assembly' && content?.fields.layout === 'Default' &&
                 <LoadingState type={content?.fields.layout} contentEntry={content} >
                     {content.fields.references.map((block, index) =>
-                        <ContentBlock key={index} contentEntry={block} />
+                        <Box key={index} sx={{ py: 4 }}>
+                            <ContentBlock contentEntry={block} />
+                        </Box>
                     )}
                 </LoadingState>
             }

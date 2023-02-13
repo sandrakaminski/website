@@ -26,7 +26,7 @@ export const Markdown: Record<string, unknown> = {
 
 export const SectionMarkDown = {
     a: ({ ...props }) => <Link target="_blank" sx={{ my: 2 }} {...props} />,
-    p: ({ ...props }) => <Typography sx={{ mx: { md: 4 }, lineHeight: 1.75, maxWidth: { md: 600 } }} align="justify" variant="body1" textAlign="center" {...props} />
+    p: ({ ...props }) => <Typography sx={{ mx: { md: 4 }, lineHeight: 1.75, maxWidth: { md: 600 } }} align="justify" variant="body1" textAlign="center" color="grayText" {...props} />
 };
 
 export default Markdown;

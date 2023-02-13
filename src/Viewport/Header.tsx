@@ -6,7 +6,6 @@ import AppBar from "@mui/material/AppBar";
 import Badge from '@mui/material/Badge';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
 import Menu from '@mui/material/Menu';
@@ -58,12 +57,12 @@ const Header: React.FC = () => {
                     <Toolbar >
                         <Box sx={{ flexGrow: 1 }}>
                             <Link onClick={() => handleNavigate('home')} component="button" sx={{ cursor: 'pointer' }} underline="none" color="inherit">
-                                <CardMedia component="img" sx={{ width: { xs: '40vw', sm: 200 } }} loading="lazy" src={logo} alt="Sandra Kaminski" />
+                                <Box component="img" sx={{ width: { xs: '40vw', sm: 200 } }} loading="lazy" src={logo} alt="Sandra Kaminski" />
                             </Link>
                         </Box>
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                             {menuItems.map((item, index) =>
-                                <MenuButton item={item} onClick={() => handleNavigate(item.fields.slug)} key={index} />
+                                <Button sx={{ mx: 1 }} color="inherit" onClick={() => handleNavigate(item.fields.slug)} key={index} >{item.fields.name}</Button>
                             )}
                         </Box>
                         <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -72,7 +71,7 @@ const Header: React.FC = () => {
                             </IconButton>
                             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}   >
                                 {menuItems.map((item, index) =>
-                                    <SmallMenuButton item={item} key={index} onClick={() => { handleNavigate(item.fields.slug) }} />
+                                    <MenuItem key={index} onClick={() => { handleNavigate(item.fields.slug) }} >  {item.fields.name}</MenuItem>
                                 )}
                             </Menu>
                         </Box>
@@ -89,42 +88,3 @@ const Header: React.FC = () => {
 }
 
 export default Header;
-
-type MenuButtonProps = {
-    item: Entry<MenuItemEntry>;
-    onClick: () => void;
-    href?: string;
-}
-
-const SmallMenuButton = (props: MenuButtonProps) => {
-    const { item } = props;
-
-    return (
-        <>
-            {item.fields.slug === 'home' ?
-                null
-                :
-                <MenuItem  {...props}>
-                    {item.fields.name}
-                </MenuItem>
-            }
-        </>
-    )
-
-}
-
-const MenuButton = (props: MenuButtonProps) => {
-    const { item } = props;
-
-    return (
-        <>
-            {item.fields.slug === 'home' ?
-                null
-                :
-                <Button sx={{ mx: 1 }} color="inherit" {...props}>
-                    {item.fields.name}
-                </Button>
-            }
-        </>
-    )
-}
