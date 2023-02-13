@@ -185,7 +185,7 @@ const CartProvider = ({ children }: CartProviderProps) => {
             payload: undefined
         });
         localStorage.setItem("cart", JSON.stringify(state.cart));
-        return state.cart
+        return [state.cart]
     }
     useQuery([state.cart], getTotal)
 
