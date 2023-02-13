@@ -17,9 +17,9 @@ const PaymentSuccess: React.FC = () => {
         if (cart?.length > 0) {
             clear()
         }
-        return cart
+        return cart?.length > 0
     }
-    useQuery([cart], clearCart)
+    useQuery([cart?.length > 0], clearCart)
 
     return (
         <Stack spacing={2} sx={{ my: 10 }} alignItems="center" justifyContent="center">
