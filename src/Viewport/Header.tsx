@@ -18,9 +18,9 @@ import { useNavigate } from "react-router-dom";
 
 import logo from '@/assets/logo.png';
 import LoadingState from "@/components/Outline";
-import { fetchContent } from "@/views/Content/api";
 import type { MenuEntry, MenuItemEntry } from '@/types';
 import { useCartContext } from "@/views/Cart/cartProvider";
+import { fetchContent } from "@/views/Content/api";
 
 const Header: React.FC = () => {
     const res = useQuery(['menu', 'assembly', 'site-root', 1], fetchContent);
