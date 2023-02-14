@@ -23,7 +23,7 @@ import axios from "axios"
 import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 
-import CountryDropdown, { CurrencyExchange, currencyTypes, countriesList, CartItemPrice, shippingFee, checkProductType, handleJapanChileShipping } from './PaymentCalc';
+import CountryDropdown, { CurrencyExchange, CartItemPrice, useCartHooks } from './PaymentCalc';
 import { CartSkeleton } from "@/components/Outline";
 import { ProductItems } from "@/types";
 import { useCartContext } from "@/views/Cart/cartProvider";
@@ -40,6 +40,9 @@ type Prices = {
 
 const Cart = () => {
     const navigate = useNavigate();
+    const { countriesList, currencyTypes, shippingFee, checkProductType, handleJapanChileShipping } = useCartHooks();
+    const { cart, clear, decrease, increase, remove } = useCartContext();
+
     const [processing, setProcessing] = useState<boolean>(false);
     const [nzOnly, setNzOnly] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
@@ -50,10 +53,7 @@ const Cart = () => {
         total: 0
     });
 
-    const { cart, clear, decrease, increase, remove } = useCartContext();
     const category = cart.map((item: ProductItems) => item.category);
-
-    // removes them from shipping fee if there is a book in the cart
     const quantity = checkProductType({ cart, category });
     const shippingTotal = shippingFee({ country, category }) * quantity;
     const currency = currencyTypes(country).toLowerCase();

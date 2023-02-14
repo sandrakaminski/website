@@ -12,31 +12,10 @@ import { useQuery } from '@tanstack/react-query';
 import { ProductItems } from "@/types";
 import { useCartContext } from "@/views/Cart/cartProvider";
 
-type Init = {
-    [key: string]: {
-        name: string;
-        code: number;
-    }
-}
-
 type Amount = {
     shipping: number;
     total: number;
     currency?: string;
-}
-
-export const countriesList: Init = {
-    AU: { name: "Australia", code: 0 },
-    CA: { name: "Canada", code: 1 },
-    CL: { name: "Chile", code: 2 },
-    FR: { name: "France", code: 3 },
-    IT: { name: "Italy", code: 4 },
-    JP: { name: "Japan", code: 5 },
-    NZ: { name: "New Zealand", code: 6 },
-    NO: { name: "Norway", code: 7 },
-    TW: { name: "Taiwan", code: 8 },
-    GB: { name: "United Kingdom", code: 9 },
-    US: { name: "United States", code: 10 },
 }
 
 type DropdownProps = {
@@ -50,6 +29,8 @@ type DropdownProps = {
 
 const CountryDropdown = (props: DropdownProps) => {
     const { setCountry, value, label, id, disabled, loading } = props;
+
+    const { countriesList } = useCartHooks();
 
     const changeCountry = (e: SelectChangeEvent) => {
         setCountry(e.target.value as string);
@@ -81,142 +62,6 @@ const CountryDropdown = (props: DropdownProps) => {
 }
 export default CountryDropdown;
 
-// exact shipping costs
-export const shippingCosts = (country: string) => {
-    if (country === "AU") return (44.92);
-    if (country === "CA") return (46.92);
-    if (country === "CL") return (31);
-    if (country === "FR") return (34.92);
-    if (country === "IT") return (36.92);
-    if (country === "JP") return (21);
-    if (country === "NZ") return (11);
-    if (country === "NO") return (42);
-    if (country === "TW") return (13);
-    if (country === "GB") return (32.92);
-    if (country === "US") return (37.92);
-    return 11;
-}
-
-// custom shipping price for paper products
-export const paperProductShipping = (country: string) => {
-    if (country === "NZ") return (5.95);
-    return 5.95;
-}
-
-// currency symbols
-export const symbols = (country: string) => {
-    if (country === "AU") return ("$");
-    if (country === "CA") return ("$");
-    if (country === "CL") return ("$");
-    if (country === "FR") return ("€");
-    if (country === "IT") return ("€");
-    if (country === "JP") return ("¥");
-    if (country === "NZ") return ("$");
-    if (country === "NO") return ("kr");
-    if (country === "TW") return ("NT$");
-    if (country === "GB") return ("£");
-    if (country === "US") return ("$");
-    return "$";
-}
-
-// set currency of country
-export const currencyTypes = (country: string) => {
-    if (country === "AU") return ("AUD");
-    if (country === "CA") return ("CAD");
-    if (country === "CL") return ("CLP");
-    if (country === "FR") return ("EUR");
-    if (country === "IT") return ("EUR");
-    if (country === "JP") return ("JPY");
-    if (country === "NZ") return ("NZD");
-    if (country === "NO") return ("NOK");
-    if (country === "TW") return ("TWD");
-    if (country === "GB") return ("GBP");
-    if (country === "US") return ("USD");
-    return "NZD";
-}
-
-// exact tax rate for each country
-export const vat = (country: string) => {
-    if (country === "AU") return (0);
-    if (country === "CA") return (0.05);
-    if (country === "CL") return (0.19);
-    if (country === "FR") return (0.22);
-    if (country === "IT") return (0.24);
-    if (country === "JP") return (0.1);
-    if (country === "NZ") return (0.15);
-    if (country === "NO") return (0.25);
-    if (country === "TW") return (0.05);
-    if (country === "GB") return (0.2);
-    if (country === "US") return (0);
-    return 0.15;
-}
-
-
-type AmountProps = {
-    country: string;
-    amount: Amount
-}
-
-export const handleJapanChileShipping = (props: AmountProps) => {
-    const { country, amount } = props
-
-    let shipping;
-    if (!amount.shipping) {
-        shipping = '';
-    }
-    else {
-        if (country === "CL" || country === "JP") {
-            shipping = amount.shipping.toFixed(0)
-        }
-        else {
-            shipping = amount.shipping.toFixed(2) as unknown as number * 100
-        }
-    }
-    return shipping
-}
-
-type ShippingFeeProps = {
-    country: string;
-    category: string[];
-}
-
-// reduces shipping fee for paper products if there is no book in the cart
-export const shippingFee = (props: ShippingFeeProps) => {
-    const { country, category } = props
-    const PaperProductShipping = paperProductShipping(country);
-    const shippingCost = shippingCosts(country);
-
-    let shippingFee
-    if (category.join(" ") === "Paper Products") {
-        shippingFee = PaperProductShipping
-    }
-    else if (category.includes("Paper Products"), category.includes("Book")) {
-        shippingFee = shippingCost
-    }
-    else {
-        shippingFee = shippingCost
-    }
-    return shippingFee
-}
-
-type CheckProductTypeProps = {
-    cart: ProductItems[];
-    category: string;
-}
-
-// removes paper products from shipping fee if there is a book in the cart
-export const checkProductType = (props: CheckProductTypeProps) => {
-    const { cart, category } = props
-
-    let quantity
-    if (category.includes("Paper Products"), category.includes("Book")) {
-        quantity = cart.filter((item: ProductItems) => item.category !== "Paper Products").map((item: ProductItems) => item.amount.length).reduce((a: number, b: number) => a + b, 0)
-    }
-    else {
-        quantity = cart.map((item: ProductItems) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
-    }
-    return quantity
-}
 
 type CurrencyExchProps = {
     country: string;
@@ -236,9 +81,10 @@ type CartItem = {
 
 export const CartItemPrice = (props: CartItem) => {
     const { country, item, } = props;
-    // inital state (NZD)
-    const currency = currencyTypes(init);
 
+    const { currencyTypes, symbols } = useCartHooks();
+
+    const currency = currencyTypes(init);
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
 
@@ -270,6 +116,8 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     const { country, shippingCosts, setAmount, amount, setDisable } = props;
     const { total } = useCartContext();
     const [loading, setLoading] = useState<boolean>(true);
+
+    const { currencyTypes, symbols, vat } = useCartHooks();
 
     const currency = currencyTypes(init);
     const vatCosts = vat(country);
@@ -321,4 +169,169 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
             <Typography> {loading ? <Skeleton /> : `Total: ${symbol}${amount.total && amount.total.toFixed(2)} ${newCurrency}`}</Typography>
         </Box>
     )
+}
+
+
+// used for non jsx elements
+export const useCartHooks = () => {
+    type Init = {
+        [key: string]: {
+            name: string;
+            code: number;
+        }
+    }
+
+    const countriesList: Init = {
+        AU: { name: "Australia", code: 0 },
+        CA: { name: "Canada", code: 1 },
+        CL: { name: "Chile", code: 2 },
+        FR: { name: "France", code: 3 },
+        IT: { name: "Italy", code: 4 },
+        JP: { name: "Japan", code: 5 },
+        NZ: { name: "New Zealand", code: 6 },
+        NO: { name: "Norway", code: 7 },
+        TW: { name: "Taiwan", code: 8 },
+        GB: { name: "United Kingdom", code: 9 },
+        US: { name: "United States", code: 10 },
+    }
+
+    const shippingCosts = (country: string) => {
+        if (country === "AU") return (44.92);
+        if (country === "CA") return (46.92);
+        if (country === "CL") return (31);
+        if (country === "FR") return (34.92);
+        if (country === "IT") return (36.92);
+        if (country === "JP") return (21);
+        if (country === "NZ") return (11);
+        if (country === "NO") return (42);
+        if (country === "TW") return (13);
+        if (country === "GB") return (32.92);
+        if (country === "US") return (37.92);
+        return 11;
+    }
+
+    // custom shipping price for paper products
+    const paperProductShipping = (country: string) => {
+        if (country === "NZ") return (5.95);
+        return 5.95;
+    }
+
+    // currency symbols
+    const symbols = (country: string) => {
+        if (country === "AU") return ("$");
+        if (country === "CA") return ("$");
+        if (country === "CL") return ("$");
+        if (country === "FR") return ("€");
+        if (country === "IT") return ("€");
+        if (country === "JP") return ("¥");
+        if (country === "NZ") return ("$");
+        if (country === "NO") return ("kr");
+        if (country === "TW") return ("NT$");
+        if (country === "GB") return ("£");
+        if (country === "US") return ("$");
+        return "$";
+    }
+
+    // set currency of country
+    const currencyTypes = (country: string) => {
+        if (country === "AU") return ("AUD");
+        if (country === "CA") return ("CAD");
+        if (country === "CL") return ("CLP");
+        if (country === "FR") return ("EUR");
+        if (country === "IT") return ("EUR");
+        if (country === "JP") return ("JPY");
+        if (country === "NZ") return ("NZD");
+        if (country === "NO") return ("NOK");
+        if (country === "TW") return ("TWD");
+        if (country === "GB") return ("GBP");
+        if (country === "US") return ("USD");
+        return "NZD";
+    }
+
+    // exact tax rate for each country
+    const vat = (country: string) => {
+        if (country === "AU") return (0);
+        if (country === "CA") return (0.05);
+        if (country === "CL") return (0.19);
+        if (country === "FR") return (0.22);
+        if (country === "IT") return (0.24);
+        if (country === "JP") return (0.1);
+        if (country === "NZ") return (0.15);
+        if (country === "NO") return (0.25);
+        if (country === "TW") return (0.05);
+        if (country === "GB") return (0.2);
+        if (country === "US") return (0);
+        return 0.15;
+    }
+
+    type AmountProps = {
+        country: string;
+        amount: Amount
+    }
+
+    // float to int conversion for Japan and Chile
+    const handleJapanChileShipping = (props: AmountProps) => {
+        const { country, amount } = props
+
+        let shipping;
+        if (!amount.shipping) {
+            shipping = '';
+        }
+        else {
+            if (country === "CL" || country === "JP") {
+                shipping = amount.shipping.toFixed(0)
+            }
+            else {
+                shipping = amount.shipping.toFixed(2) as unknown as number * 100
+            }
+        }
+        return shipping
+    }
+
+    type ShippingFeeProps = {
+        country: string;
+        category: string[];
+    }
+
+    // reduces shipping fee for paper products if there is no book in the cart
+    const shippingFee = (props: ShippingFeeProps) => {
+        const { country, category } = props;
+
+        const PaperProductShipping = paperProductShipping(country);
+        const shippingCost = shippingCosts(country);
+
+        let shippingFee
+        if (category.join(" ") === "Paper Products") {
+            shippingFee = PaperProductShipping
+        }
+        else if (category.includes("Paper Products"), category.includes("Book")) {
+            shippingFee = shippingCost
+        }
+        else {
+            shippingFee = shippingCost
+        }
+        return shippingFee
+    }
+
+    type CheckProductTypeProps = {
+        cart: ProductItems[];
+        category: string;
+    }
+
+    // removes paper products from shipping fee if there is a book in the cart
+    const checkProductType = (props: CheckProductTypeProps) => {
+        const { cart, category } = props
+
+        let quantity
+        if (category.includes("Paper Products"), category.includes("Book")) {
+            quantity = cart.filter((item: ProductItems) => item.category !== "Paper Products").map((item: ProductItems) => item.amount.length).reduce((a: number, b: number) => a + b, 0)
+        }
+        else {
+            quantity = cart.map((item: ProductItems) => item.amount.length).reduce((a: number, b: number) => a + b, 0);
+        }
+        return quantity
+    }
+
+
+    return { countriesList, shippingCosts, symbols, currencyTypes, vat, paperProductShipping, handleJapanChileShipping, shippingFee, checkProductType }
 }
