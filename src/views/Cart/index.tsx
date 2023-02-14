@@ -15,7 +15,6 @@ import Card from "@mui/material/Card";
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import ListItemButton from '@mui/material/ListItemButton';
-import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -24,7 +23,7 @@ import axios from "axios"
 import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 
-import CountryDropdown, { CurrencyExchange, currencyTypes, countriesList, CartItemPrice, shippingFee, checkProductType } from './PaymentCalc';
+import CountryDropdown, { CurrencyExchange, currencyTypes, countriesList, CartItemPrice, shippingFee, checkProductType, handleJapanChileShipping } from './PaymentCalc';
 import { CartSkeleton } from "@/components/Outline";
 import { ProductItems } from "@/types";
 import { useCartContext } from "@/views/Cart/cartProvider";
@@ -107,24 +106,10 @@ const Cart = () => {
         refetchOnWindowFocus: false,
     })
 
-    // this is to keep shipping prices consistent between Chile/Japan and everywhere else
-    let shipping;
-    if (!amount.shipping) {
-        shipping = '';
-    }
-    else {
-        if (country === "CL" || country === "JP") {
-            shipping = amount.shipping.toFixed(0)
-        }
-        else {
-            shipping = amount.shipping.toFixed(2) as unknown as number * 100
-        }
-    }
-
     const data = {
         country: country,
         currency: currency,
-        shipping: parseInt(shipping as string),
+        shipping: parseInt(handleJapanChileShipping({ country, amount }) as string),
         orderItems: cart?.map((item: OrderItems) => {
             return {
                 productId: item.id,
@@ -189,10 +174,7 @@ const Cart = () => {
                     </Grid>
                     <Grid xs={12} md={4} >
                         <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={1} >
-                            <Box>
-                                <Typography gutterBottom variant="h4" >{loading ? <Skeleton variant="rounded" /> : "Order summary"}</Typography>
-                                <CurrencyExchange setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
-                            </Box>
+                            <CurrencyExchange setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
                             <ButtonGroup size="small">
                                 <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} setCountry={handleSetCountry} />
                                 <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={disable} variant="contained" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>

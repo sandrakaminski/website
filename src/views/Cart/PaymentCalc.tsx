@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -17,6 +17,12 @@ type Init = {
         name: string;
         code: number;
     }
+}
+
+type Amount = {
+    shipping: number;
+    total: number;
+    currency?: string;
 }
 
 export const countriesList: Init = {
@@ -145,6 +151,30 @@ export const vat = (country: string) => {
     return 0.15;
 }
 
+
+type AmountProps = {
+    country: string;
+    amount: Amount
+}
+
+export const handleJapanChileShipping = (props: AmountProps) => {
+    const { country, amount } = props
+
+    let shipping;
+    if (!amount.shipping) {
+        shipping = '';
+    }
+    else {
+        if (country === "CL" || country === "JP") {
+            shipping = amount.shipping.toFixed(0)
+        }
+        else {
+            shipping = amount.shipping.toFixed(2) as unknown as number * 100
+        }
+    }
+    return shipping
+}
+
 type ShippingFeeProps = {
     country: string;
     category: string[];
@@ -195,11 +225,6 @@ type CurrencyExchProps = {
     amount: Amount;
     setDisable: (disable: boolean) => typeof disable | void;
 }
-type Amount = {
-    shipping: number;
-    total: number;
-    currency?: string;
-}
 
 const BASE_URL = 'https://api.exchangerate.host/latest';
 const init = "NZD";
@@ -220,7 +245,7 @@ export const CartItemPrice = (props: CartItem) => {
     const [price, setPrice] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const handleSetCurrency = useCallback(async () => {
+    const handleSetCurrency = async () => {
         setLoading(true)
         try {
             const response = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${item}`);
@@ -231,11 +256,9 @@ export const CartItemPrice = (props: CartItem) => {
         catch {
             setLoading(false)
         }
-    }, [currency, newCurrency, item]);
-
-    useEffect(() => {
-        handleSetCurrency();
-    }, [handleSetCurrency]);
+        return [currency, newCurrency, item]
+    };
+    useQuery([currency, newCurrency, item], handleSetCurrency)
 
     return (
         <Typography>{loading ? <Skeleton /> : `${symbol}${price.toFixed(2)} ${newCurrency}`}</Typography>
@@ -269,7 +292,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
             setLoading(false)
         }
 
-        return [currency, newCurrency, totalCosts, shippingCosts, setAmount]
+        return [currency, newCurrency, totalCosts, shippingCosts, setAmount, setDisable]
     }
     const loadRate = useQuery([currency, newCurrency, totalCosts, shippingCosts, setAmount, setDisable], handleSetCurrency, {
         refetchOnWindowFocus: true,
@@ -292,6 +315,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
 
     return (
         <Box>
+            <Typography gutterBottom variant="h4" >{loading ? <Skeleton variant="rounded" /> : "Order summary"}</Typography>
             <Typography> {loading ? <Skeleton /> : `VAT/GST: ${symbol}${vatTotal && vatTotal.toFixed(2)} ${newCurrency}`}</Typography>
             <Typography>{loading ? <Skeleton /> : `Shipping: ${symbol}${amount.shipping && amount.shipping.toFixed(2)} ${newCurrency}`} </Typography>
             <Typography> {loading ? <Skeleton /> : `Total: ${symbol}${amount.total && amount.total.toFixed(2)} ${newCurrency}`}</Typography>
