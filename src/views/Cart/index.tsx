@@ -23,7 +23,7 @@ import axios from "axios"
 import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 
-import CountryDropdown, { CurrencyExchange, CartItemPrice, useCartHooks } from './PaymentCalc';
+import { CountryDropdown, CurrencyExchange, CartItemPrice, useCartHooks } from './PaymentCalc';
 import { CartSkeleton } from "@/components/Outline";
 import { ProductItems } from "@/types";
 import { useCartContext } from "@/views/Cart/cartProvider";

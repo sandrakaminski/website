@@ -27,7 +27,7 @@ type DropdownProps = {
     loading?: boolean;
 }
 
-const CountryDropdown = (props: DropdownProps) => {
+export const CountryDropdown = (props: DropdownProps) => {
     const { setCountry, value, label, id, disabled, loading } = props;
 
     const { countriesList } = useCartHooks();
@@ -60,8 +60,6 @@ const CountryDropdown = (props: DropdownProps) => {
 
     )
 }
-export default CountryDropdown;
-
 
 type CurrencyExchProps = {
     country: string;
@@ -171,7 +169,6 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     )
 }
 
-
 // used for non jsx elements
 export const useCartHooks = () => {
     type Init = {
@@ -181,6 +178,7 @@ export const useCartHooks = () => {
         }
     }
 
+    // list of countries
     const countriesList: Init = {
         AU: { name: "Australia", code: 0 },
         CA: { name: "Canada", code: 1 },
@@ -195,6 +193,7 @@ export const useCartHooks = () => {
         US: { name: "United States", code: 10 },
     }
 
+    // standard shipping costs for each country
     const shippingCosts = (country: string) => {
         if (country === "AU") return (44.92);
         if (country === "CA") return (46.92);
@@ -331,7 +330,6 @@ export const useCartHooks = () => {
         }
         return quantity
     }
-
 
     return { countriesList, shippingCosts, symbols, currencyTypes, vat, paperProductShipping, handleJapanChileShipping, shippingFee, checkProductType }
 }
