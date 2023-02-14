@@ -3,12 +3,6 @@ import React, { useReducer, createContext, useContext } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-type State = {
-    cart: CartItem[];
-    amount: number[] | any;
-    total: number;
-}
-
 type CartItem = {
     id: string;
     inStock: boolean;
@@ -19,6 +13,12 @@ type CartItem = {
     price: string;
     max: number;
     nzShippingOnly: boolean;
+}
+
+type State = {
+    cart: CartItem[];
+    amount: number[] | any;
+    total: number;
 }
 
 type Action = {
