@@ -42,19 +42,11 @@ const ToggleStory = (props: ToggleStoryProps) => {
     const prevPage = arr?.[index + 1];
     const nextPage = arr?.[index - 1];
 
-    const getPrev = () => {
-        navigate(`/${type}/${prevPage?.fields?.slug}`);
-    };
-
-    const getNext = () => {
-        navigate(`/${type}/${nextPage?.fields?.slug}`);
-    };
-
     return (
         <Container sx={{ maxWidth: 800 }} maxWidth={false}>
             <Stack sx={{ mt: 2 }} direction="row" justifyContent="space-between">
-                <Button disabled={nextPage === undefined} startIcon={<ChevronLeftIcon />} onClick={() => getNext()} >{nextPage === undefined ? "No more stories" : nextPage?.fields?.headline}</Button>
-                <Button disabled={prevPage === undefined} endIcon={<ChevronRightIcon />} onClick={() => getPrev()} >{prevPage === undefined ? "No more stories" : prevPage?.fields?.headline}</Button>
+                <Button disabled={nextPage === undefined} startIcon={<ChevronLeftIcon />} onClick={() => navigate(`/${type}/${nextPage?.fields?.slug}`)} >{nextPage === undefined ? "No more stories" : nextPage?.fields?.headline}</Button>
+                <Button disabled={prevPage === undefined} endIcon={<ChevronRightIcon />} onClick={() => navigate(`/${type}/${prevPage?.fields?.slug}`)} >{prevPage === undefined ? "No more stories" : prevPage?.fields?.headline}</Button>
             </Stack>
         </Container>
 

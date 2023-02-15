@@ -28,6 +28,7 @@ type Submission = {
     setSubmitted: (submitted: boolean) => void;
 }
 
+
 export const createSubmission = async (props: Submission) => {
     const { url, method, data, setSubmitting, setSubmitted } = props;
 
