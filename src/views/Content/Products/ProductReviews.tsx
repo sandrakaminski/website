@@ -147,15 +147,10 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
         });
     };
 
-    type EventTarget = {
-        target: {
-            files?: any;
-            name?: any;
-        };
-    }
-    const handleFileRead = async (event: EventTarget) => {
+
+    const handleFileRead = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name } = event.target
-        const img = event.target.files[0]
+        const img = event.target.files?.[0] as Blob 
 
         const base64 = await convertBase64(img);
         setFields((prev) => {
@@ -215,7 +210,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
                         </Stack>
                         <TextField name="name" onChange={handleChange} label="Full Name" />
                         <TextField name="review" onChange={handleChange} label="Review" multiline rows={4} />
-                        <MediaUploader name={'media'} onChange={handleFileRead} title={fields.media ? "Change file" : "Upload media"} />
+                        <MediaUploader name={'media'} onChange={(img: React.ChangeEvent<HTMLInputElement>) => handleFileRead(img)} title={fields.media ? "Change file" : "Upload media"} />
                         {fields.media &&
                             <>
                                 <Avatar src={fields.media} sx={{ width: 100, height: 100 }} variant="square" />
