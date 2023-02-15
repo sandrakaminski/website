@@ -23,12 +23,6 @@ export type ContentEntryProps<T> = {
     sys?: Sys;
 }
 
-type Author = Entry<{
-    name: string;
-    slug: string;
-}>
-
-
 // image banner
 export type ImageBannerType = {
     images: Asset[];
@@ -103,7 +97,10 @@ export type ProductTypes = {
 // article 
 export type ArticleType = {
     headline: string;
-    author: Author;
+    author: Entry<{
+        name: string;
+        slug: string;
+    }>;
     name: string
     body: string;
     date: string;

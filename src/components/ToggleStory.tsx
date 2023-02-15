@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import { useQuery } from '@tanstack/react-query';
+import { Entry } from "contentful";
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { fetchContent } from '@/views/Content/api';
@@ -14,19 +15,15 @@ type ToggleStoryProps = {
     pageID: string;
 }
 
-type PageToggle = {
-    sys: {
-        id: string;
-    };
-    fields: {
-        references: PageToggle[];
-        slug: string;
-        headline: string;
-    };
-}
-
 type Response = {
-    data: { items: Array<PageToggle> };
+    data: {
+        items: Entry<{
+            references: Entry<{
+                headline: string;
+                slug: string;
+            }>[]
+        }>[]
+    };
 };
 
 const ToggleStory = (props: ToggleStoryProps) => {
@@ -35,7 +32,7 @@ const ToggleStory = (props: ToggleStoryProps) => {
     const navigate = useNavigate();
     const res = useQuery(['content', "assembly", type], fetchContent);
 
-    const arr: Array<PageToggle> = (res as Response)?.data?.items[0]?.fields?.references;
+    const arr = (res as Response)?.data?.items[0]?.fields?.references;
     const currentPage = arr?.filter((item) => item.sys.id === pageID)[0];
     const index = arr?.indexOf(currentPage);
 
