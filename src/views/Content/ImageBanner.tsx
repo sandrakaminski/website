@@ -13,7 +13,7 @@ const ImageBanner = (props: ContentEntryProps<ImageBannerType>) => {
         <ImageList gap={contentEntry?.fields.spacing} cols={3}>
             {contentEntry?.fields.images.map((img: Asset, index: number) =>
                 <ImageListItem key={index}>
-                    <img src={img.fields.file.url} alt={img.fields.title} />
+                    <img id="image" src={img.fields.file.url} alt={img.fields.title} />
                 </ImageListItem>
             )}
         </ImageList>
