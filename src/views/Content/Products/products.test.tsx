@@ -1,7 +1,7 @@
 import React from "react";
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { render } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { Entry } from "contentful";
 import { BrowserRouter as Router } from "react-router-dom";
 import { describe, test, expect } from 'vitest'
@@ -57,7 +57,7 @@ const TestProductComponent = (props: ProductProps) => {
 }
 
 describe("<Products />", () => {
-    test("renders summary view correctly", () => {
+    test("renders summary view correctly", async () => {
         const wrapper = render(<TestProductComponent contentEntry={mockProduct} />);
         expect(wrapper).toBeTruthy();
 
@@ -67,6 +67,8 @@ describe("<Products />", () => {
         const featureImage = wrapper.container.querySelector("#featureImage")?.getAttribute("src");
         const soldOut = wrapper.container.querySelector("#soldOut")?.textContent;
 
+        const navigate = screen.findByText("Test Product");
+        fireEvent.click(await navigate)
 
         expect(name).toBe("Test Product");
         expect(price).toBe("$10.00 NZD");
