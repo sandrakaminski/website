@@ -39,7 +39,7 @@ const Detail = (props: ContentEntryProps<ArticleType>) => {
             {contentEntry &&
                 <>
                     <Stack sx={{ my: 4 }} spacing={2} alignItems="center">
-                        <Typography sx={{ my: 2, maxWidth: "md" }} variant="h1" align="center" >
+                        <Typography id="headline" sx={{ my: 2, maxWidth: "md" }} variant="h1" align="center" >
                             {contentEntry.fields.headline}
                         </Typography>
                         <Stack
@@ -58,11 +58,11 @@ const Detail = (props: ContentEntryProps<ArticleType>) => {
                         </Stack>
                         <Box maxWidth={800} >
                             <LoadingImage
+                                id="coverImage"
                                 skeletonheight={500}
                                 sx={{ width: '100%', height: 'auto', py: 4 }}
                                 src={contentEntry?.fields.coverImage.fields.file.url}
-                                alt={contentEntry.fields.coverImage.fields.title}
-                            />
+                                alt={contentEntry.fields.coverImage.fields.title} />
                         </Box>
                         <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
                         <Comments contentEntry={contentEntry} />

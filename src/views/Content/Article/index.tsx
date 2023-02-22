@@ -6,7 +6,7 @@ import Detail from './Detail';
 import Summary from './Summary';
 import type { ArticleType } from '@/types'
 
-type ArticleTypes = {
+export type ArticleTypes = {
     contentEntry: Entry<ArticleType>;
     detail?: boolean;
 }

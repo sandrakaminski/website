@@ -10,13 +10,11 @@ export const emailValid = (state: ValidEmail) => {
     if (!state.email) {
         return false;
     }
-
     for (const err in state.errors) {
         if (state.errors[err]) {
             return false;
         }
     }
-
     return true;
 };
 
