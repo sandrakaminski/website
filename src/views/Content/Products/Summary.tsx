@@ -27,22 +27,23 @@ const Summary = (props: ContentEntryProps<ProductTypes>) => {
 
     return (
         <>
-            <CardActionArea onClick={() => handleClick()} >
+            <CardActionArea id="productLink" onClick={() => handleClick()} >
                 <SoldOutBanner soldOut={!contentEntry.fields.inStock} />
                 <LoadingImage
+                    id="featureImage"
                     card="true"
                     src={contentEntry?.fields.featureImage.fields.file.url}
                     alt={contentEntry.fields.featureImage.fields.title} />
 
                 <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1} >
-                    <Typography variant="h6" >{`${contentEntry.fields.name}`}</Typography>
+                    <Typography id="productName" variant="h6" >{`${contentEntry.fields.name}`}</Typography>
                     <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
                         {contentEntry.fields.oldPrice &&
-                            <Typography color="grayText" sx={{ textDecoration: 'line-through' }} variant="body1" >
+                            <Typography id="oldPrice" color="grayText" sx={{ textDecoration: 'line-through' }} variant="body1" >
                                 ${contentEntry.fields.oldPrice.toFixed(2)}
                             </Typography>
                         }
-                        <Typography color="grayText" variant="body1" >
+                        <Typography id="price" color="grayText" variant="body1" >
                             ${contentEntry.fields.price.toFixed(2)} NZD
                         </Typography>
                     </Stack>
@@ -64,7 +65,7 @@ const SoldOutBanner = (props: SoldOutType) => {
         <>
             {soldOut &&
                 <Box sx={{ p: 4, background: 'rgba(255,255,255,.80)', position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <Typography variant="subtitle1">SOLD OUT</Typography>
+                    <Typography id="soldOut" variant="subtitle1">SOLD OUT</Typography>
                 </Box>
             }
         </>

@@ -6,12 +6,12 @@ import Detail from './Detail';
 import Summary from './Summary';
 import { ProductTypes } from '@/types';
 
-type BlockProps = {
+export type ProductProps = {
     contentEntry: Entry<ProductTypes>;
     detail?: boolean;
 }
 
-const Products = (props: BlockProps) => {
+const Products = (props: ProductProps) => {
     const { contentEntry, detail } = props;
     return (
         <>

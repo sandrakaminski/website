@@ -94,7 +94,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
         }
         return data;
     }
-    useQuery([reviews, contentEntry.sys.id], handleGet, { enabled: true })
+    useQuery([reviews], handleGet, { enabled: true })
 
     const handleOpen = () => {
         setOpenReviews(true)
@@ -124,7 +124,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
         }
     }, [submitted])
 
-    useQuery([reviews, contentEntry.sys.id], handleGet, {
+    useQuery([reviews], handleGet, {
         enabled: submitted
     })
 
@@ -162,7 +162,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
 
     return (
         <Stack spacing={1} direction="row">
-            <Link  onClick={handleOpen} underline="hover" sx={{ cursor: 'pointer' }} variant="body1">
+            <Link onClick={handleOpen} underline="hover" sx={{ cursor: 'pointer' }} variant="body1">
                 Read Reviews
             </Link>
             <Dialog fullWidth maxWidth={fullImg !== "" ? "xl" : "sm"} open={openReviews} onClose={() => setOpenReviews(false)} >

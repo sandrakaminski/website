@@ -75,7 +75,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>) => {
                 <Grid xs={12} md={6} >
                     <Heading contentEntry={contentEntry} sx={{ display: { xs: 'none', md: 'flex' } }} />
                     <Stack sx={{ my: 2 }} alignItems="center">
-                        <Button sx={{ mb: 2 }} size="large" disabled={!contentEntry.fields.inStock} onClick={handleCart} startIcon={<ShoppingCartOutlinedIcon />} variant="contained">
+                        <Button id="addToCart" sx={{ mb: 2 }} size="large" disabled={!contentEntry.fields.inStock} onClick={handleCart} startIcon={<ShoppingCartOutlinedIcon />} variant="contained">
                             {!contentEntry.fields.inStock ? "Sold out" : "Add to Cart"}
                         </Button>
                         <ProductReviews contentEntry={contentEntry} />
@@ -107,16 +107,16 @@ const Heading = (props: HeadingProps) => {
 
     return (
         <Stack sx={{ ...sx }} alignItems="center" spacing={2}>
-            <Typography variant="h2" align="center" sx={{ pt: 5 }}>
+            <Typography id="productName" variant="h2" align="center" sx={{ pt: 5 }}>
                 {contentEntry.fields.name}
             </Typography>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
                 {contentEntry.fields.oldPrice &&
-                    <Typography color="grayText" sx={{ textDecoration: 'line-through' }} variant="body1" >
+                    <Typography id="oldPrice" color="grayText" sx={{ textDecoration: 'line-through' }} variant="body1" >
                         ${contentEntry.fields.oldPrice.toFixed(2)}
                     </Typography>
                 }
-                <Stack spacing={1} direction="row" alignItems="flex-end">
+                <Stack id="price" spacing={1} direction="row" alignItems="flex-end">
                     <Typography variant="h4" >
                         ${contentEntry.fields.price.toFixed(2)}
                     </Typography>
@@ -153,13 +153,17 @@ const Body = (props: ContentEntryProps<ProductTypes>) => {
         }
         return detect.length === preview.length
     }
-    useQuery([detect], detectLength)
+    useQuery([detect.length === preview.length], detectLength)
+
+    const formatMd = (text: string) => {
+        return <ReactMarkdown>{text}</ReactMarkdown>
+    }
 
     return (
         <>
-            <ReactMarkdown>
-                {showMore === preview && !hidden ? `${showMore}...` : showMore}
-            </ReactMarkdown>
+            <Typography id="description" paragraph>
+                {formatMd(showMore === preview && !hidden ? `${showMore}...` : showMore)}
+            </Typography>
             {!hidden && showMore === preview ?
                 <Link sx={{ cursor: 'pointer' }} onClick={handleShowMore} >
                     Read more
@@ -235,7 +239,8 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
                     }
                     {contentEntry.fields.productFiles.slice(offset, count).map((img: Asset, index: number) =>
                         <LoadingAvatar
-                            key={img.sys.id}
+                            id="productFiles"
+                            key={index}
                             src={img.fields.file.url}
                             image={image}
                             alt={img.fields.title}
@@ -261,6 +266,7 @@ type loadingAvatarProps = {
     onClick: () => void;
     image: string;
     alt: string;
+    id: string
 }
 
 const LoadingAvatar = (props: loadingAvatarProps) => {
@@ -269,8 +275,11 @@ const LoadingAvatar = (props: loadingAvatarProps) => {
     const [load, setLoad] = useState<boolean>(true);
     const avatarSize = { width: 50, height: 80 };
 
-    const loadSrc = () => imageSrc({ setLoad, src })
-    useQuery([src, image,], loadSrc)
+    const loadSrc = () => {
+        imageSrc({ setLoad, src })
+        return src
+    }
+    useQuery([src, image], loadSrc)
 
     return (
         <>

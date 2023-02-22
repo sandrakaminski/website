@@ -14,7 +14,7 @@ const mockArticle = {
         coverImage: {
             fields: {
                 file: {
-                    url: "https:/image.url",
+                    url: "https://image.url",
                 }
             }
         },
@@ -61,7 +61,7 @@ describe("<Article />", () => {
         expect(screen.queryAllByTestId("coverImage")).toBeTruthy();
 
         expect(headline).toBe("Test Headline");
-        expect(coverImg).toBe("https:/image.url");
+        expect(coverImg).toBe("https://image.url");
         expect(date).toBe(" 1 August 2021");
         expect(author).toBe("Test Author");
 
@@ -79,7 +79,7 @@ describe("<Article />", () => {
         const body = wrapper.container.querySelector("#body")?.textContent;
 
         expect(headline).toBe("Test Headline");
-        expect(coverImg).toBe("https:/image.url");
+        expect(coverImg).toBe("https://image.url");
         expect(date).toBe(" 1 August 2021");
         expect(author).toBe("Test Author");
         expect(body).toBe("Test body to check it's working");
