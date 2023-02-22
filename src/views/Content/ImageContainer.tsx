@@ -19,6 +19,7 @@ const ImageContainer = (props: ContentEntryProps<ImageContainerProps>) => {
         <ImageList gap={8} >
             {contentEntry?.fields.blocks.map((img: ImageItem, index: number) =>
                 <ImageListItem
+                    id="imageContainer"
                     rows={img.fields.imageRows}
                     component={CardActionArea}
                     onClick={() => navigate(img.fields.slug)}
@@ -52,8 +53,8 @@ const FloatingText = (props: FloatingTextProps) => {
         <>
             {contentEntry &&
                 <Box sx={{ height: '100%', width: '100%', background: 'rgba(0,0,0,0.10)', position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <Typography variant="h2" gutterBottom sx={{ color: 'background.paper' }}>{contentEntry.fields.title}</Typography>
-                    <Typography variant="body1" sx={{ display: { xs: 'none', md: 'flex' }, color: 'background.paper' }}>{contentEntry.fields.subheader}</Typography>
+                    <Typography id="title" variant="h2" gutterBottom sx={{ color: 'background.paper' }}>{contentEntry.fields.title}</Typography>
+                    <Typography id="subheader" variant="body1" sx={{ display: { xs: 'none', md: 'flex' }, color: 'background.paper' }}>{contentEntry.fields.subheader}</Typography>
                 </Box>
             }
         </>

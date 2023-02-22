@@ -56,3 +56,9 @@ netlify init
 ```
 
 Netlify configuration can be found in `Library/Preferences/netlify/config.json`
+
+## Unit testing 
+
+This project uses Vitest to manage unit testing. Each content type has a unit test associated with it.
+
+To run the tests enter `npm run test` in the command terminal

@@ -59,7 +59,7 @@ describe("<Article />", () => {
         const author = wrapper.container.querySelector("#author")?.textContent;
 
         expect(screen.queryAllByTestId("coverImage")).toBeTruthy();
-
+        
         expect(headline).toBe("Test Headline");
         expect(coverImg).toBe("https://image.url");
         expect(date).toBe(" 1 August 2021");
