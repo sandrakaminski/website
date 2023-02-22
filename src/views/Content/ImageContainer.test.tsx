@@ -21,7 +21,7 @@ const mockImageBanner = {
             {
                 fields: {
                     file: {
-                        url: "https://image.url",
+                        url: "https://image2.url",
                     },
                 }
             }
@@ -30,7 +30,6 @@ const mockImageBanner = {
 } as Entry<ImageBannerType>;
 
 const TestImageBannerComponent = (props: ContentEntryProps<ImageBannerType>) => {
-
     return (
         <Router>
             <ImageBanner {...props} />
@@ -38,10 +37,8 @@ const TestImageBannerComponent = (props: ContentEntryProps<ImageBannerType>) => 
     )
 }
 
-
 describe("<ImageBanner />", () => {
     test("renders correctly", () => {
-
         const wrapper = render(<TestImageBannerComponent contentEntry={mockImageBanner} />);
         expect(wrapper).toBeTruthy();
 
@@ -50,6 +47,5 @@ describe("<ImageBanner />", () => {
 
         const imgArr = wrapper.container.querySelectorAll("#image");
         expect(imgArr.length).toBe(2);
-
     })
 })
