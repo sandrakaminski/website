@@ -1,7 +1,7 @@
 import React from "react";
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { Entry } from "contentful";
 import { BrowserRouter as Router } from "react-router-dom";
 import { describe, test, expect } from 'vitest'
