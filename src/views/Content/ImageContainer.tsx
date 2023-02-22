@@ -25,6 +25,7 @@ const ImageContainer = (props: ContentEntryProps<ImageContainerProps>) => {
                     key={index}>
                     <FloatingText contentEntry={img} />
                     <LoadingImage
+                        id="image"
                         sx={{ minHeight: { xs: '100%', sm: '500' } }}
                         skeletonheight={500}
                         src={img.fields.image.fields.file.url}
