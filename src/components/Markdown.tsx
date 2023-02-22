@@ -34,7 +34,7 @@ export default Markdown;
 
 const TextElement = ({ ...props }) => {
     return (
-        <Container component={Typography} maxWidth={false} sx={{ maxWidth: 800 }} {...props}>
+        <Container id="body" component={Typography} maxWidth={false} sx={{ maxWidth: 800 }} {...props}>
             {props.children}
         </Container>
     )

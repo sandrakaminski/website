@@ -162,7 +162,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
 
     return (
         <Stack spacing={1} direction="row">
-            <Link onClick={handleOpen} underline="hover" sx={{ cursor: 'pointer' }} variant="body1">
+            <Link  onClick={handleOpen} underline="hover" sx={{ cursor: 'pointer' }} variant="body1">
                 Read Reviews
             </Link>
             <Dialog fullWidth maxWidth={fullImg !== "" ? "xl" : "sm"} open={openReviews} onClose={() => setOpenReviews(false)} >

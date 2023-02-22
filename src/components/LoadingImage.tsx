@@ -14,7 +14,7 @@ type LoadingImageProps = {
     card?: string;
     sx?: SystemStyleObject<Theme>
     width?: number | string;
-    id: string
+    id?: string
 }
 
 export const LoadingImage = (props: LoadingImageProps) => {

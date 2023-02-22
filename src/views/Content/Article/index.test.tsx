@@ -1,12 +1,12 @@
 import React from "react";
 
-import { render, screen, } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { render, screen } from '@testing-library/react'
 import { Entry } from "contentful";
 import { BrowserRouter as Router } from "react-router-dom";
 import { describe, test, expect } from 'vitest'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-import Article from ".";
+import Article, { ArticleTypes } from ".";
 import { ArticleType } from "@/types";
 
 const mockArticle = {
@@ -20,53 +20,69 @@ const mockArticle = {
         },
         headline: "Test Headline",
         slug: "test-headline",
-        body: "body text",
+        body: "Test body to check it's working",
         author: {
             fields: {
                 name: "Test Author",
                 slug: "test-author",
             }
         },
+        date: "2021-08-01",
     },
     sys: {
         id: "1234556"
     }
 } as Entry<ArticleType>;
 
+const TestArticleComponent = (props: ArticleTypes) => {
+    const queryClient = new QueryClient();
+
+    return (
+        <Router>
+            <QueryClientProvider client={queryClient}>
+                <Article {...props} />
+            </QueryClientProvider>
+        </Router>
+    )
+}
+
 
 describe("<Article />", () => {
     test("renders summary view correctly", () => {
-        const queryClient = new QueryClient();
 
-        render(
-            <Router>
-                <QueryClientProvider client={queryClient}>
-                    <Article contentEntry={mockArticle} />
-                </QueryClientProvider>
-            </Router>
-        );
+        const wrapper = render(<TestArticleComponent contentEntry={mockArticle} />);
+        expect(wrapper).toBeTruthy();
+
+        const headline = wrapper.container.querySelector("#headline")?.textContent;
+        const coverImg = wrapper.container.querySelector("#coverImage")?.getAttribute("src");
+        const date = wrapper.container.querySelector("#date")?.textContent;
+        const author = wrapper.container.querySelector("#author")?.textContent;
 
         expect(screen.queryAllByTestId("coverImage")).toBeTruthy();
-        expect(screen.queryAllByTestId("headline")).toBeTruthy();
-        expect(screen.queryAllByTestId("date")).toBeTruthy();
-        expect(screen.queryAllByTestId("author")).toBeTruthy();
+
+        expect(headline).toBe("Test Headline");
+        expect(coverImg).toBe("https:/image.url");
+        expect(date).toBe(" 1 August 2021");
+        expect(author).toBe("Test Author");
 
     });
 
     test("renders detail view correctly", () => {
-        const queryClient = new QueryClient();
 
-        render(
-            <Router>
-                <QueryClientProvider client={queryClient}>
-                    <Article detail={true} contentEntry={mockArticle} />
-                </QueryClientProvider>
-            </Router>
-        );
-        expect(screen.queryAllByTestId("coverImage")).toBeTruthy();
-        expect(screen.queryAllByTestId("headline")).toBeTruthy();
+        const wrapper = render(<TestArticleComponent detail={true} contentEntry={mockArticle} />);
+        expect(wrapper).toBeTruthy();
 
+        const headline = wrapper.container.querySelector("#headline")?.textContent;
+        const coverImg = wrapper.container.querySelector("#coverImage")?.getAttribute("src");
+        const date = wrapper.container.querySelector("#date")?.textContent;
+        const author = wrapper.container.querySelector("#author")?.textContent;
+        const body = wrapper.container.querySelector("#body")?.textContent;
 
+        expect(headline).toBe("Test Headline");
+        expect(coverImg).toBe("https:/image.url");
+        expect(date).toBe(" 1 August 2021");
+        expect(author).toBe("Test Author");
+        expect(body).toBe("Test body to check it's working");
 
     });
 })

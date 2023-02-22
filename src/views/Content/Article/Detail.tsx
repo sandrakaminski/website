@@ -48,11 +48,11 @@ const Detail = (props: ContentEntryProps<ArticleType>) => {
                             justifyContent="space-between"
                             alignItems="center"
                             spacing={2} >
-                            <Typography variant="body1"  >
+                            <Typography id="date" variant="body1"  >
                                 <DateFormatter dateString={contentEntry.fields.date} />
                             </Typography>
                             <FiberManualRecordIcon sx={{ height: 2.5, width: 2.5 }} />
-                            <Link underline="hover" sx={{ cursor: 'pointer' }} onClick={() => handleClick()} variant="body1">
+                            <Link id="author" underline="hover" sx={{ cursor: 'pointer' }} onClick={() => handleClick()} variant="body1">
                                 {contentEntry.fields.author.fields.name}
                             </Link>
                         </Stack>
@@ -64,7 +64,9 @@ const Detail = (props: ContentEntryProps<ArticleType>) => {
                                 src={contentEntry?.fields.coverImage.fields.file.url}
                                 alt={contentEntry.fields.coverImage.fields.title} />
                         </Box>
-                        <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>{contentEntry.fields.body}</ReactMarkdown>
+                        <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>
+                            {contentEntry.fields.body}
+                        </ReactMarkdown>
                         <Comments contentEntry={contentEntry} />
                         <ToggleStory pageID={contentEntry.sys.id} />
                     </Stack>

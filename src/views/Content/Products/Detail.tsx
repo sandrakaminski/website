@@ -63,6 +63,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>) => {
                         <ThumbnailCarousel contentEntry={contentEntry} image={image} handleSetImage={handleSetImage} />
                         <CardActionArea sx={{ backgroundColor: 'gray.100' }} onClick={() => handleOpen()}>
                             <LoadingImage
+                                id="featureImage"
                                 skeletonheight={"90vh"}
                                 sx={{ maxHeight: '90vh', width: '100%', objectFit: 'scale-down' }}
                                 src={image}
