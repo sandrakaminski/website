@@ -4,6 +4,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
 import Dialog from '@mui/material/Dialog';
@@ -161,9 +162,9 @@ const Body = (props: ContentEntryProps<ProductTypes>) => {
 
     return (
         <>
-            <Typography id="description" paragraph>
+            <Box id="description" >
                 {formatMd(showMore === preview && !hidden ? `${showMore}...` : showMore)}
-            </Typography>
+            </Box>
             {!hidden && showMore === preview ?
                 <Link sx={{ cursor: 'pointer' }} onClick={handleShowMore} >
                     Read more

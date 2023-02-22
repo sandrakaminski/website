@@ -21,7 +21,7 @@ const mockImageBanner = {
             {
                 fields: {
                     file: {
-                        url: "https://image.url",
+                        url: "https://image2.url",
                     },
                 }
             }
