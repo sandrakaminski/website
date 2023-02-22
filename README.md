@@ -20,7 +20,7 @@ npm install netlify-cli -g
 netlify login
 ```
 
-Once configured, run the web app using `yarn ndev` command instead of `yarn dev`:
+Once configured, run the web app using `npm run ndev` command instead of `npm run dev`:
 
 ```bash
 npm run ndev
@@ -56,9 +56,3 @@ netlify init
 ```
 
 Netlify configuration can be found in `Library/Preferences/netlify/config.json`
-
-## Unit testing 
-
-This project uses Vitest to manage unit testing. Each content type has a unit test associated with it.
-
-To run the tests enter `npm run test` in the command terminal
