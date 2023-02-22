@@ -20,7 +20,7 @@ npm install netlify-cli -g
 netlify login
 ```
 
-Once configured, run the web app using `yarn ndev` command instead of `yarn dev`:
+Once configured, run the web app using `npm run ndev` command instead of `npm run dev`:
 
 ```bash
 npm run ndev
