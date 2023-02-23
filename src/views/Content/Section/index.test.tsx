@@ -1,7 +1,7 @@
 import React from "react";
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { Entry } from "contentful";
 import { BrowserRouter as Router } from "react-router-dom";
 import { describe, test, expect } from 'vitest'
@@ -74,7 +74,7 @@ const TestSectionComponent = (props: ContentEntryProps<Content>): React.ReactEle
 };
 
 describe("<Section />", () => {
-    test("Center Section renders correctly", () => {
+    test("Center Section renders correctly", async () => {
         const wrapper = render(<TestSectionComponent contentEntry={mockSectionCenter} />);
         expect(wrapper).toBeTruthy();
 
@@ -84,10 +84,15 @@ describe("<Section />", () => {
         const ctaSlug = wrapper.container.querySelector("#sectionCta")?.getAttribute("href");
         const sectionBody = wrapper.container.querySelector("#sectionBody")?.textContent;
 
+        const navigate = screen.findByText("Test section ctaLabel");
+        expect(navigate).toBeTruthy();
+        fireEvent.click(await navigate)
+
         expect(image).toBe("https://image.url");
         expect(healine).toBe("Test section headline");
         expect(ctaLabel).toBe("Test section ctaLabel");
         expect(ctaSlug).toBe("test-section-cta-slug");
+
         expect(sectionBody).toBe("Test section body to see that it's working");
     });
 
