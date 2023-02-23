@@ -23,6 +23,7 @@ const Detail = (props: ContentEntryProps<ProfileType>) => {
                 <Stack sx={{ my: 4 }} spacing={2} justifyContent="space-evenly" alignItems="center">
                     <Box sx={{ mt: 4 }}>
                         <LoadingImage
+                            id="profileImage"
                             width={500}
                             skeletonheight={500}
                             sx={{ width: '100%', height: 'auto' }}
@@ -30,7 +31,7 @@ const Detail = (props: ContentEntryProps<ProfileType>) => {
                             alt={contentEntry.fields.image.fields.title}
                         />
                     </Box>
-                    <Typography variant="h3">
+                    <Typography id="title" variant="h3">
                         {contentEntry.fields.title}
                     </Typography>
                     <Container maxWidth="sm">
@@ -39,11 +40,12 @@ const Detail = (props: ContentEntryProps<ProfileType>) => {
                             {contentEntry.fields.otherImages.map((image: Asset, index: number) =>
                                 <Box key={index} >
                                     <LoadingImage
+                                        id="otherImages"
                                         sx={{ height: { sm: 300 } }}
                                         src={image.fields.file.url}
                                         alt={image.fields.title}
                                     />
-                                    <Typography color="grayText" sx={{ mt: 2 }} variant="caption" >
+                                    <Typography id="otherImgDescription" color="grayText" sx={{ mt: 2 }} variant="caption" >
                                         {image.fields.description}
                                     </Typography>
                                 </Box>

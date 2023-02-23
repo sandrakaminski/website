@@ -17,6 +17,7 @@ export const Center = (props: ContentEntryProps<Content>) => {
         <Stack alignItems="center" spacing={2} >
             {contentEntry?.fields.image?.fields.file.url &&
                 <LoadingImage
+                    id="sectionImg"
                     skeletonheight={500}
                     sx={{ width: '100%', height: 'auto' }}
                     src={contentEntry.fields.image.fields.file.url}
@@ -24,7 +25,7 @@ export const Center = (props: ContentEntryProps<Content>) => {
                 />
             }
             {contentEntry?.fields.headline &&
-                <Typography align="center" variant="h3" sx={{ pt: { xs: 2, md: 4 }, my: 2 }}>
+                <Typography id="sectionHeadline" align="center" variant="h3" sx={{ pt: { xs: 2, md: 4 }, my: 2 }}>
                     {contentEntry.fields.headline}
                 </Typography>
             }
@@ -40,7 +41,7 @@ export const Center = (props: ContentEntryProps<Content>) => {
                 {contentEntry?.fields.body}
             </ReactMarkdown>
             {contentEntry?.fields.ctaLabel &&
-                <Button href={contentEntry.fields.ctaSlug} variant="contained" sx={{ mt: 4, mb: 4 }}>
+                <Button id="sectionCta" href={contentEntry.fields.ctaSlug} variant="contained" sx={{ mt: 4, mb: 4 }}>
                     {contentEntry.fields.ctaLabel}
                 </Button>
             }

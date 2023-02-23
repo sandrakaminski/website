@@ -22,16 +22,17 @@ const Summary = (props: ContentEntryProps<ProfileType>) => {
     return (
         <Card>
             {contentEntry &&
-                <CardActionArea onClick={() => navigate(`${pathname}/${contentEntry.fields.slug}`)}>
+                <CardActionArea id="profileNav" onClick={() => navigate(`${pathname}/${contentEntry.fields.slug}`)}>
                     <LoadingImage
+                        id="profileImage"
                         card="true"
                         src={contentEntry?.fields.image.fields.file.url}
                         alt={contentEntry.fields.image.fields.title} />
                     <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1}>
-                        <Typography variant="subtitle1" >
+                        <Typography id="profileName" variant="subtitle1" >
                             {contentEntry.fields.name}
                         </Typography>
-                        <Typography variant="body1" >
+                        <Typography id="profileBody" variant="body1" >
                             {txt}
                         </Typography>
                     </Stack>

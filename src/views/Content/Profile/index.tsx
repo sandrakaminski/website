@@ -8,7 +8,7 @@ import Detail from './Detail';
 import Summary from './Summary';
 import type { ProfileType } from '@/types';
 
-type BlockProps = {
+export type BlockProps = {
     contentEntry: Entry<ProfileType>;
     detail?: boolean;
 }

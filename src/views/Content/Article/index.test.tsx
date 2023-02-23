@@ -1,7 +1,7 @@
 import React from "react";
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { Entry } from "contentful";
 import { BrowserRouter as Router } from "react-router-dom";
 import { describe, test, expect } from 'vitest'
@@ -34,7 +34,7 @@ const mockArticle = {
     }
 } as Entry<ArticleType>;
 
-const TestArticleComponent = (props: ArticleTypes) => {
+const TestArticleComponent = (props: ArticleTypes): React.ReactElement => {
     const queryClient = new QueryClient();
 
     return (
@@ -48,7 +48,7 @@ const TestArticleComponent = (props: ArticleTypes) => {
 
 
 describe("<Article />", () => {
-    test("renders summary view correctly", () => {
+    test("renders summary view correctly", async () => {
 
         const wrapper = render(<TestArticleComponent contentEntry={mockArticle} />);
         expect(wrapper).toBeTruthy();
@@ -57,9 +57,11 @@ describe("<Article />", () => {
         const coverImg = wrapper.container.querySelector("#coverImage")?.getAttribute("src");
         const date = wrapper.container.querySelector("#date")?.textContent;
         const author = wrapper.container.querySelector("#author")?.textContent;
+        const navigate = screen.findByText("Test Headline");
+        fireEvent.click(await navigate)
 
         expect(screen.queryAllByTestId("coverImage")).toBeTruthy();
-        
+
         expect(headline).toBe("Test Headline");
         expect(coverImg).toBe("https://image.url");
         expect(date).toBe(" 1 August 2021");

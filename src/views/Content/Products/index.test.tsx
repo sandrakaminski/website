@@ -44,7 +44,7 @@ const mockProduct = {
     }
 } as Entry<ProductTypes>;
 
-const TestProductComponent = (props: ProductProps) => {
+const TestProductComponent = (props: ProductProps): React.ReactElement => {
     const queryClient = new QueryClient();
 
     return (

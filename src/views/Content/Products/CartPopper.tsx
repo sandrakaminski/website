@@ -18,7 +18,7 @@ type CartPopperProps = {
     clickEvent: boolean;
 }
 
-const CartPopper = (props: CartPopperProps) => {
+const CartPopper = (props: CartPopperProps): React.ReactElement => {
     const { clickEvent } = props;
 
     const { cart, amount } = useCartContext();

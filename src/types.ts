@@ -108,6 +108,7 @@ export type ArticleType = {
     coverImage: Asset
 }
 
+// works in the scope of the cartProvider
 export type ProductItems = {
     inStock: boolean;
     slug: string;
