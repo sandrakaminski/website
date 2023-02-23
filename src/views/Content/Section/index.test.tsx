@@ -45,6 +45,15 @@ const mockSectionRight = {
     }
 } as Entry<Content>;
 
+const mockSectionLeft = {
+    fields: {
+        sectionType: directions[1],
+        image: repeatFields.image,
+        headline: repeatFields.headline,
+        body: repeatFields.body
+    }
+} as Entry<Content>;
+
 const TestSectionComponent = (props: ContentEntryProps<Content>): React.ReactElement => {
     const queryClient = new QueryClient();
 
@@ -87,4 +96,18 @@ describe("<Section />", () => {
         expect(healine).toBe("Test section headline");
         expect(sectionBody).toBe("Test section body to see that it's working");
     });
+
+    test("Left Section renders correctly", () => {
+        const wrapper = render(<TestSectionComponent contentEntry={mockSectionLeft} />);
+        expect(wrapper).toBeTruthy();
+
+        const image = wrapper.container.querySelector("#sectionImg")?.getAttribute("src");
+        const healine = wrapper.container.querySelector("#sectionHeadline")?.textContent;
+        const sectionBody = wrapper.container.querySelector("#sectionBody")?.textContent;
+
+        expect(image).toBe("https://image.url");
+        expect(healine).toBe("Test section headline");
+        expect(sectionBody).toBe("Test section body to see that it's working");
+    });
+
 })

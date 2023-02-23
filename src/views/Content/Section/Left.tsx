@@ -10,7 +10,7 @@ import LoadingImage from '@/components/LoadingImage';
 import { SectionMarkDown } from '@/components/Markdown';
 import type { Content, ContentEntryProps, ResourceType } from '@/types';
 
-export const Left = (props: ContentEntryProps<Content>) => {
+export const Left = (props: ContentEntryProps<Content>): React.ReactElement => {
     const { contentEntry } = props;
 
     return (
@@ -20,6 +20,7 @@ export const Left = (props: ContentEntryProps<Content>) => {
                     <Grid xs={12} sm={6} >
                         {contentEntry.fields.image?.fields.file.url &&
                             <LoadingImage
+                                id="sectionImg"
                                 skeletonheight={500}
                                 sx={{ width: "100%", height: 'auto' }}
                                 src={contentEntry.fields.image.fields.file.url}
@@ -28,7 +29,7 @@ export const Left = (props: ContentEntryProps<Content>) => {
                         }
                     </Grid>
                     <Grid xs={12} sm={6} >
-                        <Typography align="center" variant="h2" >
+                        <Typography id="sectionHeadline" align="center" variant="h2" >
                             {contentEntry.fields.headline}
                         </Typography>
                         {contentEntry.fields.resources?.map((item: ResourceType, index: number) => (
