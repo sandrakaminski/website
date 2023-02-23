@@ -7,7 +7,7 @@ import { Asset } from 'contentful';
 
 import type { ResourceType } from '@/types';
 
-type ResourceProps = {
+export type ResourceProps = {
     resource: ResourceType;
 }
 
@@ -20,7 +20,7 @@ export const Resource = (props: ResourceProps) => {
                 <Grid container direction="row" justifyContent="center" spacing={0.5} sx={{ px: 4 }}>
                     {resource.fields.files?.map((file: Asset, index: number) => (
                         <Grid key={index} >
-                            <Link sx={{ textUnderlineOffset: '6px' }} href={`${file.fields.file.url}`} target="_blank">
+                            <Link id="resourceItem" sx={{ textUnderlineOffset: '6px' }} href={`${file.fields.file.url}`} target="_blank">
                                 {file.fields.title}
                             </Link>
                             {resource.fields.files?.length - 1 !== index && ","}
@@ -30,7 +30,7 @@ export const Resource = (props: ResourceProps) => {
                 :
                 <Stack spacing={1}>
                     {resource?.fields.files?.map((file: Asset, index: number) =>
-                        <Link key={index} href={`${file.fields.file.url}`} target="_blank" align="center" sx={{ textUnderlineOffset: '6px' }}>
+                        <Link id="resourceItem" key={index} href={`${file.fields.file.url}`} target="_blank" align="center" sx={{ textUnderlineOffset: '6px' }}>
                             {file.fields.title}
                         </Link>
                     )}

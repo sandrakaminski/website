@@ -13,11 +13,11 @@ export const Column = (props: ContentEntryProps<Content>) => {
         <>
             {contentEntry &&
                 <>
-                    <Typography align="center" gutterBottom variant="h2">
+                    <Typography id="sectionHeadline" align="center" gutterBottom variant="h2">
                         {contentEntry.fields.headline}
                     </Typography>
                     <Grid container>
-                        {contentEntry.fields.resources.map((item: ResourceType, index: number) => (
+                        {contentEntry.fields.resources?.map((item: ResourceType, index: number) => (
                             <Grid key={index} xs={12} md={6} >
                                 <Typography align="center" variant="h3" sx={{ pt: 4 }}>
                                     {item.fields.headline}

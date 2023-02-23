@@ -47,10 +47,17 @@ const mockSectionRight = {
 
 const mockSectionLeft = {
     fields: {
-        sectionType: directions[1],
+        sectionType: directions[2],
         image: repeatFields.image,
         headline: repeatFields.headline,
         body: repeatFields.body
+    }
+} as Entry<Content>;
+
+const mockSectionColumn = {
+    fields: {
+        sectionType: directions[3],
+        headline: repeatFields.headline,
     }
 } as Entry<Content>;
 
@@ -108,6 +115,14 @@ describe("<Section />", () => {
         expect(image).toBe("https://image.url");
         expect(healine).toBe("Test section headline");
         expect(sectionBody).toBe("Test section body to see that it's working");
+    });
+
+    test("Column Section renders correctly", () => {
+        const wrapper = render(<TestSectionComponent contentEntry={mockSectionColumn} />);
+        expect(wrapper).toBeTruthy();
+
+        const healine = wrapper.container.querySelector("#sectionHeadline")?.textContent;
+        expect(healine).toBe("Test section headline");
     });
 
 })
