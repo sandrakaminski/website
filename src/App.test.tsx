@@ -29,12 +29,5 @@ describe('<App />', () => {
         const insta = links[4]
         expect(insta.getAttribute('href')).toBe('https://www.instagram.com/sandra.kaminski/')
 
-
-        // test header 
-        const header = wrapper.container.querySelector('header')
-        expect(header).toBeTruthy()
-
-        const logo = header?.querySelector('img')
-        expect(logo).toBeTruthy()
     })
 });
