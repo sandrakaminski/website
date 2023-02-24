@@ -33,100 +33,103 @@ const init: State = {
 }
 const cartContext: React.Context<any> = createContext(init);
 
-const reducer = (state: State, action: Action) => {
-    // Clear Cart
-    if (action.type === "CLEAR") {
-        return { ...state, cart: [] };
-    }
+const reducer = (state: State, action: Action): State => {
+    switch (action.type) {
+        // Clear Cart
+        case "CLEAR": {
+            return { ...state, cart: [] };
+        }
 
-    //Remove items from Cart
-    if (action.type === "REMOVE") {
-        const tempCart = state.cart.filter((item: CartItem) => item.id !== action.payload);
-        return { ...state, cart: tempCart };
-    }
-
-    //Add to cart
-    if (action.type === "CART") {
-        const { id, amount, product }: any = action.payload;
-        const tempItem = state.cart.find((i: CartItem) => i.id === id);
-
-        if (tempItem) {
-            const tempCart = state.cart.map((cartItem: CartItem) => {
-                if (cartItem.id !== id) {
-                    return cartItem;
-                }
-                let newAmount = cartItem.amount + amount;
-                if (newAmount > cartItem.max) {
-                    newAmount = cartItem.max;
-                }
-                return { ...cartItem, amount: newAmount };
-            });
-
+        //Remove items from Cart
+        case "REMOVE": {
+            const tempCart = state.cart.filter((item: CartItem) => item.id !== action.payload);
             return { ...state, cart: tempCart };
         }
-        const newItem = {
-            id: id,
-            inStock: product.inStock,
-            slug: product.slug,
-            name: product.name,
-            amount,
-            category: product.category,
-            image: product.featureImage,
-            price: product.price,
-            max: product.stock,
-            nzShippingOnly: product.nzShippingOnly
-        };
-        return { ...state, cart: [...state.cart, newItem] };
-    }
 
-    //Increase amount of items
-    if (action.type === "INC") {
-        const tempCart = state.cart.map((item: CartItem) => {
-            if (item.id !== action.payload) {
-                return item
+        //Add to cart
+        case "CART": {
+            const { id, amount, product }: any = action.payload;
+            const tempItem = state.cart.find((i: CartItem) => i.id === id);
+
+            if (tempItem) {
+                const tempCart = state.cart.map((cartItem: CartItem) => {
+                    if (cartItem.id !== id) {
+                        return cartItem;
+                    }
+                    let newAmount = cartItem.amount + amount;
+                    if (newAmount > cartItem.max) {
+                        newAmount = cartItem.max;
+                    }
+                    return { ...cartItem, amount: newAmount };
+                });
+
+                return { ...state, cart: tempCart };
             }
-            const newAmount = item.amount + 1;
-            return { ...item, amount: newAmount };
-        });
-        return { ...state, cart: tempCart };
+            const newItem = {
+                id: id,
+                inStock: product.inStock,
+                slug: product.slug,
+                name: product.name,
+                amount,
+                category: product.category,
+                image: product.featureImage,
+                price: product.price,
+                max: product.stock,
+                nzShippingOnly: product.nzShippingOnly
+            };
+            return { ...state, cart: [...state.cart, newItem] };
+        }
+
+        //Increase amount of items
+        case "INC": {
+            const tempCart = state.cart.map((item: CartItem) => {
+                if (item.id !== action.payload) {
+                    return item
+                }
+                const newAmount = item.amount + 1;
+                return { ...item, amount: newAmount };
+            });
+            return { ...state, cart: tempCart };
+        }
+
+        //Decrease amount of items
+        case "DEC": {
+            const tempCart = state.cart.map((item: CartItem) => {
+                if (item.id !== action.payload) {
+                    return item
+                }
+                const remainder = item.amount.slice(0, -1);
+                return { ...item, amount: remainder };
+
+            });
+            return { ...state, cart: tempCart };
+        }
+
+        //Calculate total amount of items in Cart
+        case "GET_TOTALS": {
+            let { total, amount }: State = state.cart.reduce(
+                (cartTotal: any, cartItem: any) => {
+                    const { price, amount } = cartItem;
+                    const itemTotal = price * amount.length || 0;
+                    cartTotal.total += itemTotal
+                    cartTotal.amount += amount;
+
+                    return cartTotal;
+                },
+                {
+                    total: 0,
+                    amount: 0,
+                }
+            );
+            amount = amount.length || 0;
+            total = parseFloat(total.toFixed(2));
+
+            return { ...state, total, amount };
+        }
+        default:
+            throw new Error(`No Matching "${action.type}" - action type`);
     }
-
-    //Decrease amount of items
-    if (action.type === "DEC") {
-        const tempCart = state.cart.map((item: CartItem) => {
-            if (item.id !== action.payload) {
-                return item
-            }
-            const remainder = item.amount.slice(0, -1);
-            return { ...item, amount: remainder };
-
-        });
-        return { ...state, cart: tempCart };
-    }
-
-    //Calculate total amount of items in Cart
-    if (action.type === "GET_TOTALS") {
-        let { total, amount }: State = state.cart.reduce(
-            (cartTotal: any, cartItem: any) => {
-                const { price, amount } = cartItem;
-                const itemTotal = price * amount.length || 0;
-                cartTotal.total += itemTotal
-                cartTotal.amount += amount;
-
-                return cartTotal;
-            },
-            {
-                total: 0,
-                amount: 0,
-            }
-        );
-        amount = amount.length || 0;
-        total = parseFloat(total.toFixed(2));
-
-        return { ...state, total, amount };
-    }
-    return state || init;
-};
+}
 
 //Store cart data in local storage
 const getLocalStorage = () => {
