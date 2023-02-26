@@ -28,14 +28,8 @@ const CartPopper = (props: CartPopperProps): React.ReactElement => {
 
     const openMsg = () => {
         if (clickEvent) {
-            if (cart?.length === 1 || amountTotal === 1) {
-                setOpen(true)
-            }
-            if (cart?.length === 0 || amountTotal === 0) {
-                setOpen(false)
-            }
-            if (cart?.length > 1 || amountTotal > 1) {
-                setOpen(false)
+            if (amountTotal === 0) {
+                setOpen(true);
             }
         }
         return clickEvent
