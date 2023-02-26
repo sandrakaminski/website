@@ -2,6 +2,7 @@
 import React, { useReducer, createContext, useContext } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import cloneDeep from 'lodash.clonedeep';
 
 type CartItem = {
     id: string;
@@ -37,17 +38,26 @@ const reducer = (state: State, action: Action): State => {
     switch (action.type) {
         // Clear Cart
         case "CLEAR": {
-            return { ...state, cart: [] };
+            const newState = cloneDeep(state);
+            newState.cart = [];
+            newState.amount = 0;
+            newState.total = 0;
+            return newState;
         }
 
         //Remove items from Cart
         case "REMOVE": {
+            const newState = cloneDeep(state);
             const tempCart = state.cart.filter((item: CartItem) => item.id !== action.payload);
-            return { ...state, cart: tempCart };
+            newState.cart = tempCart;
+            newState.amount = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount, 0);
+            newState.total = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount * parseFloat(item.price), 0);
+            return newState;
         }
 
         //Add to cart
         case "CART": {
+            const newState = cloneDeep(state);
             const { id, amount, product }: any = action.payload;
             const tempItem = state.cart.find((i: CartItem) => i.id === id);
 
@@ -77,11 +87,15 @@ const reducer = (state: State, action: Action): State => {
                 max: product.stock,
                 nzShippingOnly: product.nzShippingOnly
             };
-            return { ...state, cart: [...state.cart, newItem] };
+            newState.cart = [...state.cart, newItem];
+            newState.amount = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount, 0);
+            newState.total = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount * parseFloat(item.price), 0);
+            return newState;
         }
 
         //Increase amount of items
         case "INC": {
+            const newState = cloneDeep(state);
             const tempCart = state.cart.map((item: CartItem) => {
                 if (item.id !== action.payload) {
                     return item
@@ -89,11 +103,16 @@ const reducer = (state: State, action: Action): State => {
                 const newAmount = item.amount + 1;
                 return { ...item, amount: newAmount };
             });
-            return { ...state, cart: tempCart };
+
+            newState.cart = tempCart;
+            newState.amount = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount, 0);
+            newState.total = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount * parseFloat(item.price), 0);
+            return newState;
         }
 
         //Decrease amount of items
         case "DEC": {
+            const newState = cloneDeep(state);
             const tempCart = state.cart.map((item: CartItem) => {
                 if (item.id !== action.payload) {
                     return item
@@ -102,11 +121,16 @@ const reducer = (state: State, action: Action): State => {
                 return { ...item, amount: remainder };
 
             });
-            return { ...state, cart: tempCart };
+
+            newState.cart = tempCart;
+            newState.amount = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount.length, 0);
+            newState.total = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount.length * parseFloat(item.price), 0);
+            return newState;
         }
 
         //Calculate total amount of items in Cart
         case "GET_TOTALS": {
+            const newState = cloneDeep(state);
             let { total, amount }: State = state.cart.reduce(
                 (cartTotal: any, cartItem: any) => {
                     const { price, amount } = cartItem;
@@ -124,7 +148,10 @@ const reducer = (state: State, action: Action): State => {
             amount = amount.length || 0;
             total = parseFloat(total.toFixed(2));
 
-            return { ...state, total, amount };
+            newState.total = total;
+            newState.amount = amount;
+
+            return newState;
         }
         default:
             throw new Error(`No Matching "${action.type}" - action type`);
@@ -190,7 +217,7 @@ const CartProvider = ({ children }: CartProviderProps) => {
         localStorage.setItem("cart", JSON.stringify(state.cart));
         return [state.cart]
     }
-    useQuery([state.cart], getTotal)
+    useQuery([state.cart], getTotal, { refetchOnWindowFocus: false });
 
     return (
         <cartContext.Provider value={{ ...state, addToCart, clear, decrease, increase, remove }}>
