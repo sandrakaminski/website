@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import LoadingImage from '@/components/LoadingImage';
 import type { ImageContainerProps, ContentEntryProps, ImageItem } from '@/types';
 
-const ImageContainer = (props: ContentEntryProps<ImageContainerProps>) => {
+const ImageContainer = (props: ContentEntryProps<ImageContainerProps>): React.ReactElement => {
     const { contentEntry } = props;
     const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ type FloatingTextProps = {
     }>
 };
 
-const FloatingText = (props: FloatingTextProps) => {
+const FloatingText = (props: FloatingTextProps): React.ReactElement => {
     const { contentEntry } = props;
 
     return (

@@ -27,7 +27,7 @@ type DropdownProps = {
     loading?: boolean;
 }
 
-export const CountryDropdown = (props: DropdownProps) => {
+export const CountryDropdown = (props: DropdownProps): React.ReactElement => {
     const { setCountry, value, label, id, disabled, loading } = props;
 
     const { countriesList } = useCartHooks();
@@ -77,7 +77,7 @@ type CartItem = {
     item: number;
 }
 
-export const CartItemPrice = (props: CartItem) => {
+export const CartItemPrice = (props: CartItem): React.ReactElement => {
     const { country, item, } = props;
 
     const { currencyTypes, symbols } = useCartHooks();
@@ -110,7 +110,7 @@ export const CartItemPrice = (props: CartItem) => {
 }
 
 // displays the approximate costs 
-export const CurrencyExchange = (props: CurrencyExchProps) => {
+export const CurrencyExchange = (props: CurrencyExchProps): React.ReactElement => {
     const { country, shippingCosts, setAmount, amount, setDisable } = props;
     const { total } = useCartContext();
     const [loading, setLoading] = useState<boolean>(true);
@@ -169,7 +169,7 @@ export const CurrencyExchange = (props: CurrencyExchProps) => {
     )
 }
 
-// used for non jsx elements
+
 export const useCartHooks = () => {
     type Init = {
         [key: string]: {
@@ -191,10 +191,10 @@ export const useCartHooks = () => {
         TW: { name: "Taiwan", code: 8 },
         GB: { name: "United Kingdom", code: 9 },
         US: { name: "United States", code: 10 },
-    }
+    } as const;
 
     // standard shipping costs for each country
-    const shippingCosts = (country: string) => {
+    const shippingCosts = (country: string): number => {
         if (country === "AU") return (44.92);
         if (country === "CA") return (46.92);
         if (country === "CL") return (31);
@@ -210,13 +210,13 @@ export const useCartHooks = () => {
     }
 
     // custom shipping price for paper products
-    const paperProductShipping = (country: string) => {
+    const paperProductShipping = (country: string): number => {
         if (country === "NZ") return (5.95);
         return 5.95;
     }
 
     // currency symbols
-    const symbols = (country: string) => {
+    const symbols = (country: string): string => {
         if (country === "AU") return ("$");
         if (country === "CA") return ("$");
         if (country === "CL") return ("$");
@@ -232,7 +232,7 @@ export const useCartHooks = () => {
     }
 
     // set currency of country
-    const currencyTypes = (country: string) => {
+    const currencyTypes = (country: string): string => {
         if (country === "AU") return ("AUD");
         if (country === "CA") return ("CAD");
         if (country === "CL") return ("CLP");
@@ -248,7 +248,7 @@ export const useCartHooks = () => {
     }
 
     // exact tax rate for each country
-    const vat = (country: string) => {
+    const vat = (country: string): number => {
         if (country === "AU") return (0);
         if (country === "CA") return (0.05);
         if (country === "CL") return (0.19);
@@ -269,7 +269,7 @@ export const useCartHooks = () => {
     }
 
     // float to int conversion for Japan and Chile
-    const handleJapanChileShipping = (props: AmountProps) => {
+    const handleJapanChileShipping = (props: AmountProps): string | number => {
         const { country, amount } = props
 
         let shipping;
@@ -293,7 +293,7 @@ export const useCartHooks = () => {
     }
 
     // reduces shipping fee for paper products if there is no book in the cart
-    const shippingFee = (props: ShippingFeeProps) => {
+    const shippingFee = (props: ShippingFeeProps): number => {
         const { country, category } = props;
 
         const PaperProductShipping = paperProductShipping(country);
@@ -318,7 +318,7 @@ export const useCartHooks = () => {
     }
 
     // removes paper products from shipping fee if there is a book in the cart
-    const checkProductType = (props: CheckProductTypeProps) => {
+    const checkProductType = (props: CheckProductTypeProps): number => {
         const { cart, category } = props
 
         let quantity

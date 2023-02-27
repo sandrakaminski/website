@@ -11,7 +11,7 @@ type TrackerProps = {
     }
 }
 
-const Tracker = ((props: TrackerProps) => {
+const Tracker = ((props: TrackerProps): React.ReactElement => {
     const { children } = props;
     const { pathname } = useLocation();
 

@@ -6,7 +6,7 @@ type ValidEmail = {
 }
 
 // checks if the email entered is a valid email
-export const emailValid = (state: ValidEmail) => {
+export const emailValid = (state: ValidEmail): boolean => {
     if (!state.email) {
         return false;
     }
@@ -26,8 +26,7 @@ type Submission = {
     setSubmitted: (submitted: boolean) => void;
 }
 
-
-export const createSubmission = async (props: Submission) => {
+export const createSubmission = async (props: Submission): Promise<void> => {
     const { url, method, data, setSubmitting, setSubmitted } = props;
 
     try {
@@ -56,7 +55,7 @@ type ImgSrc = {
     src: string;
 }
 
-export const imageSrc = (props: ImgSrc) => {
+export const imageSrc = (props: ImgSrc): string => {
     const { setLoad, src } = props;
     setLoad(true);
     const imageToLoad = new Image();

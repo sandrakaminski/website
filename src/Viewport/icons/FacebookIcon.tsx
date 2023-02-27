@@ -2,7 +2,7 @@ import React from "react";
 
 import { SvgIcon } from "@mui/material";
 
-const FacebookIcon: React.FC = () => {
+const FacebookIcon = (): React.ReactElement => {
     return (
         <SvgIcon sx={{ fontSize: 20 }} viewBox="0 0 310 310">
             <g id="XMLID_834_">

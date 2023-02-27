@@ -6,7 +6,7 @@ import { Asset } from "contentful";
 
 import type { ContentEntryProps, ImageBannerType } from '@/types';
 
-const ImageBanner = (props: ContentEntryProps<ImageBannerType>) => {
+const ImageBanner = (props: ContentEntryProps<ImageBannerType>): React.ReactElement => {
     const { contentEntry } = props;
 
     return (

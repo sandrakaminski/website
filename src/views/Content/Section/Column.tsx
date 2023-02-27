@@ -6,7 +6,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Resource from './Resource';
 import type { Content, ContentEntryProps, ResourceType } from '@/types';
 
-export const Column = (props: ContentEntryProps<Content>) => {
+export const Column = (props: ContentEntryProps<Content>): React.ReactElement => {
     const { contentEntry } = props;
 
     return (

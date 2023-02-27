@@ -1,4 +1,4 @@
-import React, { FC, lazy, Suspense } from 'react'
+import React, { lazy, Suspense } from 'react'
 
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
@@ -17,7 +17,7 @@ const PaymentSuccess = lazy(() => import('@/views/PaymentSuccess'));
 
 const queryClient = new QueryClient();
 
-export const App: FC = () => {
+export const App = (): React.ReactElement => {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />

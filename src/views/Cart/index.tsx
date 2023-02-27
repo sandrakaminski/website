@@ -38,7 +38,7 @@ type Prices = {
     total: number;
 }
 
-const Cart = () => {
+const Cart = (): React.ReactElement => {
     const navigate = useNavigate();
     const { countriesList, currencyTypes, shippingFee, checkProductType, handleJapanChileShipping } = useCartHooks();
     const { cart, clear, decrease, increase, remove } = useCartContext();
@@ -197,7 +197,7 @@ type CartItemProps = {
     country: string;
 }
 
-const CartItem = (props: CartItemProps) => {
+const CartItem = (props: CartItemProps): React.ReactElement => {
     const { item, remove, country } = props;
     const navigate = useNavigate();
 
@@ -237,7 +237,7 @@ type AmountButtonsProps = {
     }
 }
 
-const AmountButtons = (props: AmountButtonsProps) => {
+const AmountButtons = (props: AmountButtonsProps): React.ReactElement => {
     const { decrease, increase, amount, remove } = props;
 
     const changeAmount = () => {

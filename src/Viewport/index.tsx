@@ -9,7 +9,7 @@ type ViewportProps = {
     children: React.ReactNode;
 }
 
-const Viewport = ({ children }: ViewportProps) => {
+const Viewport = ({ children }: ViewportProps): React.ReactElement => {
     return (
         <>
             <Header />

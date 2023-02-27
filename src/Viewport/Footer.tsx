@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import FacebookIcon from './icons/FacebookIcon';
 import TumblrIcon from './icons/TumblrIcon';
 
-const Footer = () => {
+const Footer = (): React.ReactElement => {
     const date = new Date().getFullYear();
 
     return (

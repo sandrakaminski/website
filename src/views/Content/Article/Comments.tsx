@@ -61,7 +61,7 @@ type CommentsProps = {
     data: SingleCommentProps[]
 }
 
-const Comments = (props: ContentEntryProps<ArticleType>) => {
+const Comments = (props: ContentEntryProps<ArticleType>): React.ReactElement => {
     const { contentEntry } = props;
 
     const { type } = useParams();

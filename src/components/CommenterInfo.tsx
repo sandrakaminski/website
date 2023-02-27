@@ -14,7 +14,7 @@ type CommenterInfoProps = {
     date: number;
 }
 
-const CommenterInfo = (props: CommenterInfoProps) => {
+const CommenterInfo = (props: CommenterInfoProps): React.ReactElement => {
     const { name, date } = props;
 
     return (

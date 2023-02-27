@@ -17,7 +17,7 @@ type LoadingImageProps = {
     id?: string
 }
 
-export const LoadingImage = (props: LoadingImageProps) => {
+export const LoadingImage = (props: LoadingImageProps): React.ReactElement => {
     const { src, skeletonheight, card, sx } = props;
     const [load, setLoad] = useState<boolean>(true);
 

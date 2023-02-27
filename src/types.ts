@@ -1,6 +1,5 @@
 import { Asset, Entry, Sys } from "contentful";
 
-
 export type MenuEntry = {
     references: Entry<MenuItemEntry>[]
 };

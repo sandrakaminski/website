@@ -52,7 +52,7 @@ const init = {
     errors: {}
 };
 
-const Contact = () => {
+const Contact = (): React.ReactElement => {
     const { slug } = useParams();
 
     const [state, dispatch] = useReducer(reducer, init);

@@ -1,5 +1,6 @@
 import React, { useState, useReducer, useEffect } from 'react';
 
+
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
@@ -62,7 +63,7 @@ const reducer = (state: State, action: Action): State => {
     }
 }
 
-const ProductReviews = (props: ContentEntryProps<ProductTypes>) => {
+const ProductReviews = (props: ContentEntryProps<ProductTypes>): React.ReactElement => {
     const { contentEntry } = props;
     const [openReviews, setOpenReviews] = useState<boolean>(false);
     const [writeReview, setWriteReview] = useState<boolean>(false);

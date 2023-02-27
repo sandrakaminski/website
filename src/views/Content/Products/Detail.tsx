@@ -28,7 +28,7 @@ import { imageSrc } from '@/functions';
 import type { ProductTypes, ContentEntryProps } from '@/types';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
-const Detail = (props: ContentEntryProps<ProductTypes>) => {
+const Detail = (props: ContentEntryProps<ProductTypes>): React.ReactElement => {
     const { contentEntry } = props;
     const { addToCart } = useCartContext();
     const [open, setOpen] = useState<boolean>(false);
@@ -130,7 +130,7 @@ const Heading = (props: HeadingProps) => {
     )
 }
 
-const Body = (props: ContentEntryProps<ProductTypes>) => {
+const Body = (props: ContentEntryProps<ProductTypes>): React.ReactElement => {
     const { contentEntry } = props;
 
     const sentences = contentEntry.fields.description.split('.');
@@ -270,7 +270,7 @@ type loadingAvatarProps = {
     id: string
 }
 
-const LoadingAvatar = (props: loadingAvatarProps) => {
+const LoadingAvatar = (props: loadingAvatarProps): React.ReactElement => {
     const { src, image } = props;
 
     const [load, setLoad] = useState<boolean>(true);

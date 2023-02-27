@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useCartContext } from "@/views/Cart/cartProvider";
 
-const PaymentSuccess: React.FC = () => {
+const PaymentSuccess = (): React.ReactElement => {
     const navigate = useNavigate();
     const { clear, cart } = useCartContext();
 

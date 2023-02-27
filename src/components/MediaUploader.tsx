@@ -12,7 +12,7 @@ type MediaUploaderProps = {
     variant?: 'text' | 'outlined' | 'contained';
 }
 
-const MediaUploader = (props: MediaUploaderProps) => {
+const MediaUploader = (props: MediaUploaderProps): React.ReactElement => {
     const { title, variant } = props;
 
 

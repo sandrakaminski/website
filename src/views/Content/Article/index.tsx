@@ -11,7 +11,7 @@ export type ArticleTypes = {
     detail?: boolean;
 }
 
-const Article = (props: ArticleTypes) => {
+const Article = (props: ArticleTypes): React.ReactElement => {
     const { contentEntry, detail } = props;
 
     return (

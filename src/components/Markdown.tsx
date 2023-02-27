@@ -32,7 +32,7 @@ export const SectionMarkDown = {
 export default Markdown;
 
 
-const TextElement = ({ ...props }) => {
+const TextElement = ({ ...props }): React.ReactElement => {
     return (
         <Container id="body" component={Typography} maxWidth={false} sx={{ maxWidth: 800 }} {...props}>
             {props.children}
@@ -40,7 +40,7 @@ const TextElement = ({ ...props }) => {
     )
 }
 
-const Underline = ({ ...props }) => {
+const Underline = ({ ...props }): React.ReactElement => {
     return (
         <Container maxWidth={false} sx={{ maxWidth: 800 }} >
             <Divider sx={{ width: '100%' }} {...props} />

@@ -29,7 +29,7 @@ const mockImageBanner = {
     }
 } as Entry<ImageBannerType>;
 
-const TestImageBannerComponent = (props: ContentEntryProps<ImageBannerType>) => {
+const TestImageBannerComponent = (props: ContentEntryProps<ImageBannerType>): React.ReactElement => {
 
     return (
         <Router>

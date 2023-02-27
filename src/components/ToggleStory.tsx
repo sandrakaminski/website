@@ -26,8 +26,8 @@ type Response = {
     };
 };
 
-const ToggleStory = (props: ToggleStoryProps) => {
-    const { pageID } = props
+const ToggleStory = (props: ToggleStoryProps): React.ReactElement => {
+    const { pageID } = props; 
     const { type } = useParams();
     const navigate = useNavigate();
     const res = useQuery(['content', "assembly", type], fetchContent);

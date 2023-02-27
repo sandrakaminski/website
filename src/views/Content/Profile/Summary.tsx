@@ -9,7 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import LoadingImage from "@/components/LoadingImage";
 import type { ProfileType, ContentEntryProps } from '@/types';
 
-const Summary = (props: ContentEntryProps<ProfileType>) => {
+const Summary = (props: ContentEntryProps<ProfileType>): React.ReactElement => {
     const { contentEntry } = props;
     const navigate = useNavigate();
     const { pathname } = useLocation();
