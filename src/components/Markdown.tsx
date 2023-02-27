@@ -7,8 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 
 type Img = {
-    alt: string;
-    src: string;
+   [key: string]: string;
 }
 
 export const Markdown: Record<string, unknown> = {

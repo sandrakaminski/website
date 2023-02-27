@@ -19,7 +19,6 @@ const MediaUploader = (props: MediaUploaderProps): React.ReactElement => {
     return (
         <Box>
             <input
-
                 {...props}
                 accept="image/png, image/jpeg"
                 style={{ display: 'none', }}

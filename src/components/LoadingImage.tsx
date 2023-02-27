@@ -29,7 +29,7 @@ export const LoadingImage = (props: LoadingImageProps): React.ReactElement => {
         imageCard = false
     }
 
-    const loadSrc = () => imageSrc({ setLoad, src })
+    const loadSrc = (): string => imageSrc({ setLoad, src })
     useQuery([src], loadSrc)
 
     const cardSize = { height: { xs: '100%', sm: '60vw', md: '36vw', xl: `calc(${700} - 50%)` }, width: '100%' };

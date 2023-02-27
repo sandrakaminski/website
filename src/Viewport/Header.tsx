@@ -76,7 +76,7 @@ const Header = (): React.ReactElement => {
                             </Menu>
                         </Box>
                         <IconButton color="inherit" onClick={() => handleNavigate('cart')}>
-                            <Badge badgeContent={amount && amount - 1 > 0 ? amount - 1 : 0} color="info">
+                            <Badge badgeContent={amount - 1 > 0 ? amount - 1 : 0} color="info">
                                 <ShoppingCartOutlinedIcon />
                             </Badge>
                         </IconButton>

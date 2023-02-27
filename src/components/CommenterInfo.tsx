@@ -31,7 +31,7 @@ const CommenterInfo = (props: CommenterInfoProps): React.ReactElement => {
 }
 export default CommenterInfo;
 
-export const CommentSkeleton = () => {
+export const CommentSkeleton = (): React.ReactElement => {
     return (
         <Box>
             <Stack direction="row" alignItems="center" spacing={2} >
