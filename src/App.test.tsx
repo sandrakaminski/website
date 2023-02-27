@@ -6,7 +6,7 @@ import { describe, test, expect } from 'vitest';
 import App from './App';
 
 describe('<App />', () => {
-    test('Footer links', () => {
+    test('Footer content to render correctly', () => {
         const wrapper = render(<App />)
         expect(wrapper).toBeTruthy()
 
@@ -28,6 +28,15 @@ describe('<App />', () => {
 
         const insta = links[4]
         expect(insta.getAttribute('href')).toBe('https://www.instagram.com/sandra.kaminski/')
+
+        const text = wrapper.container.querySelectorAll('p')
+        expect(text.length).toBe(2)
+
+        const copyRight = text[0]
+        expect(copyRight.textContent).toBe(`All content © copyright ${new Date().getFullYear()} ${import.meta.env.VITE_APP_NAME}.`)
+
+        const rightsReserved = text[1]
+        expect(rightsReserved.textContent).toBe('All rights reserved.')
 
     })
 });
