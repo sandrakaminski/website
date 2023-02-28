@@ -4,7 +4,7 @@ This project is an ecommerce site using Contentful for contentEntry management, 
 
 The shopping cart and add to cart function is organised in a context provider, using localstorage to hold the state, the information is taken from the Products entry in contentEntryful, and the product ID is matched with stripe products to charge the client accordingly in the payment netlify function. 
 
-Comments on articles, and reviews on shop items are serverside CRUD functions using mongoDB to hold the info. They can also be founf on the netlify functions directory. 
+Comments on articles, and reviews on shop items are serverside CRUD functions using mongoDB to hold the info. They can also be found on the netlify functions directory. 
 
 ## Getting started: 
 - Run `npm install` to install all dependencies
