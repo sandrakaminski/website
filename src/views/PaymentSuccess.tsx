@@ -13,7 +13,7 @@ const PaymentSuccess = (): React.ReactElement => {
     const navigate = useNavigate();
     const { clear, cart } = useCartContext();
 
-    useQuery([cart?.length > 0], clear)
+    useQuery([cart?.length > 0], clear); 
 
     return (
         <Stack spacing={2} sx={{ my: 10 }} alignItems="center" justifyContent="center">

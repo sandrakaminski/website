@@ -32,7 +32,7 @@ const init: State = {
     amount: 0,
     total: 0
 }
-const cartContext: React.Context<any> = createContext(init);
+export const cartContext: React.Context<any> = createContext(init);
 
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
@@ -178,7 +178,7 @@ type CartProviderProps = {
     children: React.ReactNode
 }
 
-const CartProvider = ({ children }: CartProviderProps) => {
+export const CartProvider = ({ children }: CartProviderProps): React.ReactElement => {
     const [state, dispatch] = useReducer(reducer, initialState && initialState);
 
     // add to cart
@@ -229,5 +229,3 @@ const CartProvider = ({ children }: CartProviderProps) => {
 export const useCartContext = () => {
     return useContext(cartContext);
 };
-
-export { cartContext, CartProvider };
