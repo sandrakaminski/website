@@ -18,7 +18,7 @@ const PaymentSuccess = (): React.ReactElement => {
         if (document.referrer.includes("https://checkout.stripe.com/")) {
             ReactGA.event({
                 category: 'About',
-                action: `New purchase has been made`,
+                action: `New purchase has been completed`,
                 label: "New Purchase made"
             });
             clear();
@@ -26,9 +26,9 @@ const PaymentSuccess = (): React.ReactElement => {
         else {
             navigate("/shop");
         }
-        return null
+        return document.referrer
     }
-    useQuery([], getHistory);
+    useQuery([document.referrer], getHistory);
 
     return (
         <Stack spacing={2} sx={{ my: 10 }} alignItems="center" justifyContent="center">
