@@ -15,7 +15,7 @@ const PaymentSuccess = (): React.ReactElement => {
     const { clear } = useCartContext();
 
     const getHistory = () => {
-        if (!document.referrer.includes("https://checkout.stripe.com/")) {
+        if (document.referrer.includes("https://checkout.stripe.com/")) {
             ReactGA.event({
                 category: 'About',
                 action: `New purchase has been made`,
