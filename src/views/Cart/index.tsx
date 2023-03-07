@@ -120,6 +120,7 @@ const Cart = (): React.ReactElement => {
 
     const handlePurchase = async () => {
         setProcessing(true);
+
         ReactGA.event({
             category: 'Purchase',
             action: `New checkout session for person from ${country}`,

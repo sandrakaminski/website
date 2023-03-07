@@ -171,7 +171,7 @@ const getLocalStorage = () => {
 const initialState: State = {
     cart: getLocalStorage(),
     amount: 0,
-    total: 0,
+    total: 0
 };
 
 type CartProviderProps = {
@@ -182,7 +182,7 @@ export const CartProvider = ({ children }: CartProviderProps): React.ReactElemen
     const [state, dispatch] = useReducer(reducer, initialState && initialState);
 
     // add to cart
-    const addToCart: (id: number, amount: number, product: CartItem) => void = (id: number, amount: number, product: CartItem) => {
+    const addToCart = (id: number, amount: number, product: CartItem) => {
         dispatch({ type: "CART", payload: { id, amount, product } });
     };
 
