@@ -20,6 +20,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios"
+import { useFlags } from 'launchdarkly-react-client-sdk';
 import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 
@@ -53,6 +54,7 @@ const Cart = (): React.ReactElement => {
         total: 0
     });
 
+    const { pricingExperimentUsa } = useFlags();
     const category = cart.map((item: ProductItems) => item.category);
     const quantity = checkProductType({ cart, category });
     const shippingTotal = shippingFee({ country, category }) * quantity;
@@ -90,21 +92,28 @@ const Cart = (): React.ReactElement => {
             setNzOnly(true);
         }
         else {
-            const memorisedCountry: string = localStorage.getItem("country") || "";
+            const memorisedCountry = localStorage.getItem("country") || "";
             setNzOnly(false);
             if (memorisedCountry === "") {
                 getData();
-            }
-            else {
+            } else {
                 setCountry(memorisedCountry);
                 setLoading(false);
             }
         }
         return [cart, country]
     };
-    useQuery([cart, country], trigger, {
-        refetchOnWindowFocus: false,
-    })
+    useQuery([cart, country], trigger)
+
+    const americanExperiment = (id: string) => {
+        if (country === "US" && pricingExperimentUsa) {
+            return "prod_NUt0NrcilXQgsv"
+        }
+        else {
+            return id
+        }
+    }
+
 
     const data = {
         country: country,
@@ -112,7 +121,7 @@ const Cart = (): React.ReactElement => {
         shipping: parseInt(handleJapanChileShipping({ country, amount }) as string),
         orderItems: cart?.map((item: OrderItems) => {
             return {
-                productId: item.id,
+                productId: americanExperiment(item.id),
                 quantity: item.amount.length
             }
         })
@@ -139,6 +148,7 @@ const Cart = (): React.ReactElement => {
             setProcessing(false);
         }
     }
+
 
     return (
         <Box sx={{ my: 4 }}>
@@ -175,7 +185,7 @@ const Cart = (): React.ReactElement => {
                     </Grid>
                     <Grid xs={12} md={4} >
                         <Stack component={Card} sx={{ height: '100%', p: 2 }} direction="column" justifyContent="space-between" spacing={1} >
-                            <CurrencyExchange setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
+                            <CurrencyExchange quantity={quantity} setDisable={setDisable} setAmount={setAmount} amount={amount} shippingCosts={shippingTotal} country={country} />
                             <ButtonGroup size="small">
                                 <CountryDropdown loading={loading} disabled={nzOnly} label={"Country"} id={"country"} value={country} setCountry={handleSetCountry} />
                                 <LoadingButton size="small" sx={{ width: 200, ml: 1 }} disabled={disable} variant="contained" loading={processing} onClick={handlePurchase}>Buy now</LoadingButton>
@@ -215,7 +225,7 @@ const CartItem = (props: CartItemProps): React.ReactElement => {
                 <Avatar sx={{ height: 55, width: 55 }} variant="square" alt={item.name} src={item.image.fields.file.url} />
                 <Box sx={{ ml: 2 }}>
                     <Typography variant="subtitle1">{item.name}</Typography>
-                    <CartItemPrice item={item.price} country={country} />
+                    <CartItemPrice item={item} country={country} />
                 </Box>
             </Grid>
             <Grid container direction="row" justifyContent={{ xs: 'space-between', sm: "flex-end" }} alignItems="center" spacing={4}>

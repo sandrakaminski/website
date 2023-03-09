@@ -8,6 +8,8 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import { useQuery } from '@tanstack/react-query';
+import { useFlags } from 'launchdarkly-react-client-sdk';
+import ReactGA from 'react-ga4';
 
 import { ProductItems } from "@/types";
 import { useCartContext } from "@/views/Cart/cartProvider";
@@ -62,9 +64,10 @@ export const CountryDropdown = (props: DropdownProps): React.ReactElement => {
 }
 
 type CurrencyExchProps = {
+    quantity: number;
     country: string;
     shippingCosts: number;
-    setAmount: (amount: Amount) => typeof amount | void;
+    setAmount: (amount: Amount) => void
     amount: Amount;
     setDisable: (disable: boolean) => typeof disable | void;
 }
@@ -74,14 +77,20 @@ const init = "NZD";
 
 type CartItem = {
     country: string;
-    item: number;
+    item: {
+        price: number;
+        name: string
+    };
+    flags?: {
+        [key: string]: boolean;
+    }
 }
 
 export const CartItemPrice = (props: CartItem): React.ReactElement => {
-    const { country, item, } = props;
+    const { country, item } = props;
 
     const { currencyTypes, symbols } = useCartHooks();
-
+    const { pricingExperimentUsa } = useFlags();
     const currency = currencyTypes(init);
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
@@ -89,10 +98,10 @@ export const CartItemPrice = (props: CartItem): React.ReactElement => {
     const [price, setPrice] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const handleSetCurrency = async () => {
-        setLoading(true)
+    // fetches the original price and converts it to the new currency
+    const getPrices = async () => {
         try {
-            const response = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${item}`);
+            const response = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${item.price}`);
             const data = await response.json();
             setPrice(data?.rates[newCurrency])
             setLoading(false)
@@ -100,9 +109,18 @@ export const CartItemPrice = (props: CartItem): React.ReactElement => {
         catch {
             setLoading(false)
         }
-        return [currency, newCurrency, item]
+    }
+
+    const handleSetCurrency = () => {
+        setLoading(true);
+        const name = item.name;
+
+        // pricing experiment for american customers
+        setAmericanPricing({ name, country, setPrice, setLoading, getPrices, pricingExperimentUsa });
+
+        return [currency, newCurrency, item.price]
     };
-    useQuery([currency, newCurrency, item], handleSetCurrency)
+    useQuery([currency, newCurrency, item.price, location.reload], handleSetCurrency,)
 
     return (
         <Typography>{loading ? <Skeleton /> : `${symbol}${price.toFixed(2)} ${newCurrency}`}</Typography>
@@ -111,12 +129,12 @@ export const CartItemPrice = (props: CartItem): React.ReactElement => {
 
 // displays the approximate costs 
 export const CurrencyExchange = (props: CurrencyExchProps): React.ReactElement => {
-    const { country, shippingCosts, setAmount, amount, setDisable } = props;
+    const { country, shippingCosts, setAmount, amount, setDisable, quantity } = props;
     const { total } = useCartContext();
+    const { pricingExperimentUsa } = useFlags();
     const [loading, setLoading] = useState<boolean>(true);
 
     const { currencyTypes, symbols, vat } = useCartHooks();
-
     const currency = currencyTypes(init);
     const vatCosts = vat(country);
     const newCurrency = currencyTypes(country);
@@ -125,39 +143,52 @@ export const CurrencyExchange = (props: CurrencyExchProps): React.ReactElement =
     const totalCost = total + shippingCosts;
     const vatTotal = vatCosts * amount.total;
     const totalCosts = totalCost.toFixed(2).toString();
-
     const handleSetCurrency = async () => {
-        setLoading(true)
-        const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
-        const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
-        const total = await respTotal.json();
-        const shipping = await respShipping.json();
+        try {
+            const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
+            const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
+            const total = await respTotal.json();
+            const shipping = await respShipping.json();
 
-        if (respShipping.ok || respTotal.ok) {
-            setAmount({ total: total?.rates[newCurrency], shipping: shipping?.rates[newCurrency], currency: newCurrency });
+            if (pricingExperimentUsa && country === 'US') {
+                const shippingFee = 5 * quantity;
+                setAmount({ total: 59.95 * quantity + shippingFee, shipping: shippingFee })
+                setLoading(false)
+            }
+            else {
+                setAmount({ total: total?.rates[newCurrency], shipping: shipping?.rates[newCurrency], currency: newCurrency });
+                setLoading(false)
+                ReactGA.event({
+                    category: 'Pricing Experiment',
+                    action: 'American Pricing experiment',
+                    label: 'Original American Pricing'
+                });
+            }
+        }
+        catch {
             setLoading(false)
         }
-
-        return [currency, newCurrency, totalCosts, shippingCosts, setAmount, setDisable]
     }
-    const loadRate = useQuery([currency, newCurrency, totalCosts, shippingCosts, setAmount, setDisable], handleSetCurrency, {
-        refetchOnWindowFocus: true,
-    });
 
+    const handlePricing = () => {
+        setLoading(true);
+        handleSetCurrency()
+        return [currency, country, newCurrency, totalCosts, setAmount, setDisable, location.reload]
+    }
+
+    const loadRate = useQuery([currency, country, newCurrency, totalCosts, setAmount, setDisable, location.reload], handlePricing, {
+        refetchOnWindowFocus: true
+    });
 
     const checkState = () => {
         if (loadRate.isLoading) {
-            setDisable(true)
+            setDisable(true);
         }
-        else {
-            setDisable(false)
-        }
+        setDisable(false);
         return [loadRate.isLoading, setDisable]
     }
-    useQuery([loadRate.isLoading, setDisable], checkState, {
-        refetchOnWindowFocus: true,
-    })
 
+    useQuery([loadRate.isLoading, setDisable], checkState)
 
     return (
         <Box>
@@ -191,7 +222,7 @@ export const useCartHooks = () => {
         TW: { name: "Taiwan", code: 8 },
         GB: { name: "United Kingdom", code: 9 },
         US: { name: "United States", code: 10 },
-    } as const;
+    }
 
     // standard shipping costs for each country
     const shippingCosts = (country: string): number => {
@@ -206,7 +237,7 @@ export const useCartHooks = () => {
         if (country === "TW") return (13);
         if (country === "GB") return (32.92);
         if (country === "US") return (37.92);
-        return 11;
+        return 11
     }
 
     // custom shipping price for paper products
@@ -270,7 +301,7 @@ export const useCartHooks = () => {
 
     // float to int conversion for Japan and Chile
     const handleJapanChileShipping = (props: AmountProps): string | number => {
-        const { country, amount } = props
+        const { country, amount } = props;
 
         let shipping;
         if (!amount.shipping) {
@@ -332,4 +363,32 @@ export const useCartHooks = () => {
     }
 
     return { countriesList, shippingCosts, symbols, currencyTypes, vat, paperProductShipping, handleJapanChileShipping, shippingFee, checkProductType }
+}
+
+// pricing experiment for american customers
+type AmericanPricing = {
+    name: string;
+    country: string;
+    setPrice: (price: number) => void;
+    setLoading: (loading: boolean) => void;
+    getPrices: () => void;
+    pricingExperimentUsa: boolean;
+}
+
+
+const setAmericanPricing = (props: AmericanPricing) => {
+    const { name, country, setPrice, setLoading, getPrices, pricingExperimentUsa } = props;
+
+    if (name === "DREAMING IN PETALS" && country === "US" && pricingExperimentUsa) {
+        setPrice(59.95);
+        setLoading(false);
+        ReactGA.event({
+            category: 'Pricing Experiment',
+            action: 'American Pricing experiment',
+            label: 'New American Pricing'
+        });
+    }
+    else {
+        getPrices();
+    }
 }

@@ -5,6 +5,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+
 import { Outline } from '@/components/Outline';
 import { theme } from '@/theme';
 import Tracker from '@/Tracker';
@@ -16,6 +17,7 @@ const Cart = lazy(() => import('@/views/Cart'));
 const PaymentSuccess = lazy(() => import('@/views/PaymentSuccess'));
 
 const queryClient = new QueryClient();
+
 
 const App = (): React.ReactElement => {
     return (

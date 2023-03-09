@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { withLDConsumer } from 'launchdarkly-react-client-sdk';
 import ReactGA from 'react-ga4';
 import { useLocation } from 'react-router-dom';
 
@@ -31,11 +30,3 @@ const Tracker = ((props: TrackerProps): React.ReactElement => {
     return <>{children}</>
 });
 export default Tracker;
-
-
-// launchdarkly 
-export const FeatureFlagger = withLDConsumer()((props: TrackerProps) => {
-    const { flags, children } = props;
-
-    return (flags?.shopExperiment ? <>{children}</> : null);
-})

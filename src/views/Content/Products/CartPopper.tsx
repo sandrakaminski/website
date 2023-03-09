@@ -11,7 +11,6 @@ import { useQuery } from "@tanstack/react-query";
 import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 
-// import { FeatureFlagger } from '@/Tracker';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 type CartPopperProps = {
