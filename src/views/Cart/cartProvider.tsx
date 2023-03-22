@@ -187,22 +187,22 @@ export const CartProvider = ({ children }: CartProviderProps): React.ReactElemen
     };
 
     // remove
-    const remove: (id: number) => void = (id: number) => {
+    const remove = (id: number) => {
         dispatch({ type: "REMOVE", payload: id });
     };
 
     // increase
-    const increase: (id: number) => void = (id: number) => {
+    const increase = (id: number) => {
         dispatch({ type: "INC", payload: id });
     };
 
     // decrease
-    const decrease: (id: number) => void = (id: number) => {
+    const decrease = (id: number) => {
         dispatch({ type: "DEC", payload: id });
     };
 
     // clear
-    const clear: () => void = () => {
+    const clear = () => {
         dispatch({
             type: "CLEAR",
             payload: undefined
