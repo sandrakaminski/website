@@ -14,6 +14,7 @@ type CartItem = {
     price: string;
     max: number;
     nzShippingOnly: boolean;
+    category: string;
 }
 
 type State = {
@@ -25,13 +26,14 @@ type State = {
 type Action = {
     type: string;
     payload: any;
-}
+};
 
 const init: State = {
     cart: [],
     amount: 0,
     total: 0
-}
+};
+
 export const cartContext: React.Context<any> = createContext(init);
 
 const reducer = (state: State, action: Action): State => {
@@ -75,7 +77,7 @@ const reducer = (state: State, action: Action): State => {
 
                 return { ...state, cart: tempCart };
             }
-            const newItem = {
+            const newItem: CartItem = {
                 id: id,
                 inStock: product.inStock,
                 slug: product.slug,
@@ -175,41 +177,41 @@ const initialState: State = {
 };
 
 type CartProviderProps = {
-    children: React.ReactNode
+    children: React.ReactNode;
 }
 
-export const CartProvider = ({ children }: CartProviderProps): React.ReactElement => {
+export const CartProvider = ({ children }: CartProviderProps): JSX.Element => {
     const [state, dispatch] = useReducer(reducer, initialState && initialState);
 
     // add to cart
-    const addToCart = (id: number, amount: number, product: CartItem) => {
+    const addToCart = (id: number, amount: number, product: CartItem): void => {
         dispatch({ type: "CART", payload: { id, amount, product } });
     };
 
     // remove
-    const remove = (id: number) => {
+    const remove = (id: number): void => {
         dispatch({ type: "REMOVE", payload: id });
     };
 
     // increase
-    const increase = (id: number) => {
+    const increase = (id: number): void => {
         dispatch({ type: "INC", payload: id });
     };
 
     // decrease
-    const decrease = (id: number) => {
+    const decrease = (id: number): void => {
         dispatch({ type: "DEC", payload: id });
     };
 
     // clear
-    const clear = () => {
+    const clear = (): void => {
         dispatch({
             type: "CLEAR",
             payload: undefined
         });
     };
 
-    const getTotal = () => {
+    const getTotal = (): CartItem[][] => {
         dispatch({
             type: "GET_TOTALS",
             payload: undefined

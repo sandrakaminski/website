@@ -10,7 +10,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import LoadingImage from '@/components/LoadingImage';
 import type { ProductTypes, ContentEntryProps } from '@/types';
 
-const Summary = (props: ContentEntryProps<ProductTypes>): React.ReactElement => {
+const Summary = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
     const { contentEntry } = props;
     const navigate = useNavigate();
     const { pathname } = useLocation();
@@ -58,7 +58,7 @@ type SoldOutType = {
     soldOut: boolean
 }
 
-const SoldOutBanner = (props: SoldOutType): React.ReactElement => {
+const SoldOutBanner = (props: SoldOutType): JSX.Element => {
     const { soldOut } = props;
 
     return (

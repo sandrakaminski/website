@@ -11,7 +11,7 @@ export type ResourceProps = {
     resource: ResourceType;
 }
 
-export const Resource = (props: ResourceProps): React.ReactElement => {
+export const Resource = (props: ResourceProps): JSX.Element => {
     const { resource } = props;
 
     return (

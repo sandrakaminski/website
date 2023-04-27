@@ -28,14 +28,14 @@ import { imageSrc } from '@/functions';
 import type { ProductTypes, ContentEntryProps } from '@/types';
 import { useCartContext } from "@/views/Cart/cartProvider";
 
-const Detail = (props: ContentEntryProps<ProductTypes>): React.ReactElement => {
+const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
     const { contentEntry } = props;
     const { addToCart } = useCartContext();
     const [open, setOpen] = useState<boolean>(false);
     const [clickEvent, setClickEvent] = useState<boolean>(false);
     const [image, setImage] = useState<string>(contentEntry.fields.featureImage.fields.file.url);
 
-    const handleCart = () => {
+    const handleCart = (): void => {
         setClickEvent(true);
         addToCart(contentEntry.fields.productId, '1', contentEntry.fields)
         ReactGA.event({
@@ -45,11 +45,11 @@ const Detail = (props: ContentEntryProps<ProductTypes>): React.ReactElement => {
         });
     }
 
-    const handleSetImage = (img: Asset) => {
+    const handleSetImage = (img: Asset): void => {
         setImage(img.fields.file.url)
     }
 
-    const handleOpen = () => {
+    const handleOpen = (): void => {
         setOpen(true)
     }
 
@@ -130,7 +130,7 @@ const Heading = (props: HeadingProps) => {
     )
 }
 
-const Body = (props: ContentEntryProps<ProductTypes>): React.ReactElement => {
+const Body = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
     const { contentEntry } = props;
 
     const sentences = contentEntry.fields.description.split('.');
@@ -270,7 +270,7 @@ type loadingAvatarProps = {
     id: string
 }
 
-const LoadingAvatar = (props: loadingAvatarProps): React.ReactElement => {
+const LoadingAvatar = (props: loadingAvatarProps): JSX.Element => {
     const { src, image } = props;
 
     const [load, setLoad] = useState<boolean>(true);

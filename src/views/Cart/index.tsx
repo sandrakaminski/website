@@ -29,17 +29,18 @@ import { CartSkeleton } from "@/components/Outline";
 import { ProductItems } from "@/types";
 import { useCartContext } from "@/views/Cart/cartProvider";
 
+type PriceKey = "shipping" | "total";
+
 type OrderItems = {
     id: string;
     amount: number[];
 }
 
 type Prices = {
-    shipping: number extends number ? number : string;
-    total: number;
+    [key in PriceKey]: number;
 }
 
-const Cart = (): React.ReactElement => {
+const Cart = (): JSX.Element => {
     const navigate = useNavigate();
     const { countriesList, currencyTypes, shippingFee, checkProductType, handleJapanChileShipping } = useCartHooks();
     const { cart, clear, decrease, increase, remove } = useCartContext();
@@ -60,12 +61,12 @@ const Cart = (): React.ReactElement => {
     const shippingTotal = shippingFee({ country, category }) * quantity;
     const currency = currencyTypes(country).toLowerCase();
 
-    const handleSetCountry = (val: string) => {
+    const handleSetCountry = (val: string): void => {
         localStorage.setItem("country", val);
         setCountry(val);
     }
 
-    const getData = async () => {
+    const getData = async (): Promise<void> => {
         try {
             const res = await axios.get('http://geolocation-db.com/json/');
             const { country_code } = res.data;
@@ -105,7 +106,7 @@ const Cart = (): React.ReactElement => {
     };
     useQuery([cart, country], trigger)
 
-    const americanExperiment = (id: string) => {
+    const americanExperiment = (id: string): string => {
         if (country === "US" && pricingExperimentUsa) {
             return "prod_NUt0NrcilXQgsv"
         }
@@ -113,7 +114,6 @@ const Cart = (): React.ReactElement => {
             return id
         }
     }
-
 
     const data = {
         country: country,
@@ -127,7 +127,7 @@ const Cart = (): React.ReactElement => {
         })
     }
 
-    const handlePurchase = async () => {
+    const handlePurchase = async (): Promise<void> => {
         setProcessing(true);
 
         ReactGA.event({
@@ -148,7 +148,6 @@ const Cart = (): React.ReactElement => {
             setProcessing(false);
         }
     }
-
 
     return (
         <Box sx={{ my: 4 }}>
@@ -208,11 +207,11 @@ type CartItemProps = {
     country: string;
 }
 
-const CartItem = (props: CartItemProps): React.ReactElement => {
+const CartItem = (props: CartItemProps): JSX.Element => {
     const { item, remove, country } = props;
     const navigate = useNavigate();
 
-    const inStock = () => {
+    const inStock = (): boolean => {
         item.inStock === true ? "In stock" : "Out of stock";
         return item.inStock;
     }
@@ -239,19 +238,19 @@ const CartItem = (props: CartItemProps): React.ReactElement => {
 }
 
 type AmountButtonsProps = {
-    increase: (id: string) => void
+    increase: (id: string) => void;
     decrease: (id: string) => void;
     remove: (id: string) => void;
     amount: {
-        amount: number[]
-        id: string
+        amount: number[];
+        id: string;
     }
 }
 
-const AmountButtons = (props: AmountButtonsProps): React.ReactElement => {
+const AmountButtons = (props: AmountButtonsProps): JSX.Element => {
     const { decrease, increase, amount, remove } = props;
 
-    const changeAmount = () => {
+    const changeAmount = (): number => {
         if (amount?.amount.length === undefined || amount?.amount.length === 0) {
             remove(amount.id);
         }

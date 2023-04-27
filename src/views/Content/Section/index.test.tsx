@@ -61,7 +61,7 @@ const mockSectionColumn = {
     }
 } as Entry<Content>;
 
-const TestSectionComponent = (props: ContentEntryProps<Content>): React.ReactElement => {
+const TestSectionComponent = (props: ContentEntryProps<Content>): JSX.Element => {
     const queryClient = new QueryClient();
 
     return (

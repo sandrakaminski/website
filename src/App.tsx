@@ -18,8 +18,7 @@ const PaymentSuccess = lazy(() => import('@/views/PaymentSuccess'));
 
 const queryClient = new QueryClient();
 
-
-const App = (): React.ReactElement => {
+const App = (): JSX.Element => {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />

@@ -13,7 +13,7 @@ export type BlockProps = {
     detail?: boolean;
 }
 
-const Profile = (props: BlockProps): React.ReactElement => {
+const Profile = (props: BlockProps): JSX.Element => {
     const { contentEntry, detail } = props;
     const navigate = useNavigate();
 

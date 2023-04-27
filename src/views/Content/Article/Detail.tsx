@@ -19,7 +19,7 @@ import Trail from '@/components/Trail';
 import type { ArticleType, ContentEntryProps } from '@/types';
 
 
-const Detail = (props: ContentEntryProps<ArticleType>): React.ReactElement => {
+const Detail = (props: ContentEntryProps<ArticleType>): JSX.Element => {
     const { contentEntry } = props;
     const navigate = useNavigate();
 

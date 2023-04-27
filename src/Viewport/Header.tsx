@@ -21,7 +21,7 @@ import type { MenuEntry, MenuItemEntry } from '@/types';
 import { useCartContext } from "@/views/Cart/cartProvider";
 import { fetchContent } from "@/views/Content/api";
 
-const Header = (): React.ReactElement => {
+const Header = (): JSX.Element => {
     const res = useQuery(['menu', 'assembly', 'site-root', 1], fetchContent);
     const menuEntry = res.data as EntryCollection<MenuEntry>
     const allItems = menuEntry?.items[0].fields.references as Entry<MenuItemEntry>[]
@@ -32,10 +32,10 @@ const Header = (): React.ReactElement => {
     const navigate = useNavigate();
     const { amount } = useCartContext();
 
-    const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    const handleClick = (e: React.MouseEvent<HTMLElement>): void => {
         setAnchorEl(e.currentTarget);
     };
-    const handleClose = () => {
+    const handleClose = (): void => {
         setAnchorEl(null);
 
     };

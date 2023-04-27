@@ -46,7 +46,7 @@ const mockImageBanner = {
     }
 } as Entry<ImageContainerProps>;
 
-const TestImageBannerComponent = (props: ContentEntryProps<ImageContainerProps>): React.ReactElement => {
+const TestImageBannerComponent = (props: ContentEntryProps<ImageContainerProps>): JSX.Element => {
     return (
         <QueryClientProvider client={new QueryClient()}>
             <Router>

@@ -35,7 +35,7 @@ const blocks: Record<string, React.FC<ContentEntryProps<any>>> = {
 type ContentProps = {
     preview?: boolean
 }
-export const Content = (props: ContentProps): React.ReactElement => {
+export const Content = (props: ContentProps): JSX.Element => {
     const { preview } = props;
 
     let { type, slug, } = useParams();
@@ -103,7 +103,7 @@ const DetailedLayout = (props: ContentEntryProps<AnyEntry>) => {
     )
 }
 
-const DefaultLayout = (props: ContentEntryProps<AnyEntry>): React.ReactElement => {
+const DefaultLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
     const { contentEntry } = props;
 
     const content = (contentEntry as Entry<AssemblyEntry>)
@@ -123,7 +123,7 @@ const DefaultLayout = (props: ContentEntryProps<AnyEntry>): React.ReactElement =
     )
 }
 
-const GridLayout = (props: ContentEntryProps<AnyEntry>): React.ReactElement => {
+const GridLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
     const { contentEntry } = props;
 
     const content = (contentEntry as Entry<AssemblyEntry>)

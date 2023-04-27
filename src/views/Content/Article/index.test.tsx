@@ -34,7 +34,7 @@ const mockArticle = {
     }
 } as Entry<ArticleType>;
 
-const TestArticleComponent = (props: ArticleTypes): React.ReactElement => {
+const TestArticleComponent = (props: ArticleTypes): JSX.Element => {
     const queryClient = new QueryClient();
 
     return (

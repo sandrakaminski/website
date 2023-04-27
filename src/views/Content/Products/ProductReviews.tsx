@@ -63,7 +63,7 @@ const reducer = (state: State, action: Action): State => {
     }
 }
 
-const ProductReviews = (props: ContentEntryProps<ProductTypes>): React.ReactElement => {
+const ProductReviews = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
     const { contentEntry } = props;
     const [openReviews, setOpenReviews] = useState<boolean>(false);
     const [writeReview, setWriteReview] = useState<boolean>(false);
@@ -97,16 +97,15 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>): React.ReactElem
     }
     useQuery([reviews], handleGet, { enabled: true })
 
-    const handleOpen = () => {
+    const handleOpen = (): void => {
         setOpenReviews(true)
     }
 
-    const handleFullImg = (img: string) => {
+    const handleFullImg = (img: string): void => {
         setFullImg(img)
     }
 
-
-    const handleSubmit = () => {
+    const handleSubmit = (): void => {
         setSubmitting(true);
         const data = {
             rating: starFilled,

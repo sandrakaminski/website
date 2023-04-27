@@ -9,7 +9,7 @@ interface TrailProps {
     current: string;
 }
 
-export const Trail = (props: TrailProps): React.ReactElement => {
+export const Trail = (props: TrailProps): JSX.Element => {
     const { current } = props;
     const navigate = useNavigate();
     const { type } = useParams();

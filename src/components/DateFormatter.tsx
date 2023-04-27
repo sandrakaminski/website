@@ -4,7 +4,7 @@ type DateString = {
     dateString: string;
 }
 
-export const DateFormatter = (props: DateString): React.ReactElement => {
+export const DateFormatter = (props: DateString): JSX.Element => {
     const { dateString } = props;
     const d = new Date(dateString);
     const year = d.getFullYear();
@@ -26,7 +26,7 @@ type DateType = {
 }
 
 // converts epoch to 'time ago' format
-export const Time = ({ date }: DateType): React.ReactElement => {
+export const Time = ({ date }: DateType): JSX.Element => {
     const now = new Date();
     const dateParser = new Date(date * 1000);
 

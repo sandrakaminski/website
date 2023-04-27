@@ -29,7 +29,7 @@ type DropdownProps = {
     loading?: boolean;
 }
 
-export const CountryDropdown = (props: DropdownProps): React.ReactElement => {
+export const CountryDropdown = (props: DropdownProps): JSX.Element => {
     const { setCountry, value, label, id, disabled, loading } = props;
 
     const { countriesList } = useCartHooks();
@@ -86,7 +86,7 @@ type CartItem = {
     }
 }
 
-export const CartItemPrice = (props: CartItem): React.ReactElement => {
+export const CartItemPrice = (props: CartItem): JSX.Element => {
     const { country, item } = props;
 
     const { currencyTypes, symbols } = useCartHooks();
@@ -99,7 +99,7 @@ export const CartItemPrice = (props: CartItem): React.ReactElement => {
     const [loading, setLoading] = useState<boolean>(true);
 
     // fetches the original price and converts it to the new currency
-    const getPrices = async () => {
+    const getPrices = async (): Promise<void> => {
         try {
             const response = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${item.price}`);
             const data = await response.json();
@@ -111,7 +111,7 @@ export const CartItemPrice = (props: CartItem): React.ReactElement => {
         }
     }
 
-    const handleSetCurrency = () => {
+    const handleSetCurrency = (): Array<string | number> => {
         setLoading(true);
         const name = item.name;
 
@@ -128,7 +128,7 @@ export const CartItemPrice = (props: CartItem): React.ReactElement => {
 }
 
 // displays the approximate costs 
-export const CurrencyExchange = (props: CurrencyExchProps): React.ReactElement => {
+export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
     const { country, shippingCosts, setAmount, amount, setDisable, quantity } = props;
     const { total } = useCartContext();
     const { pricingExperimentUsa } = useFlags();
@@ -143,7 +143,8 @@ export const CurrencyExchange = (props: CurrencyExchProps): React.ReactElement =
     const totalCost = total + shippingCosts;
     const vatTotal = vatCosts * amount.total;
     const totalCosts = totalCost.toFixed(2).toString();
-    const handleSetCurrency = async () => {
+
+    const handleSetCurrency = async (): Promise<void> => {
         try {
             const respTotal = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`);
             const respShipping = await fetch(`${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`);
@@ -178,9 +179,9 @@ export const CurrencyExchange = (props: CurrencyExchProps): React.ReactElement =
 
     const loadRate = useQuery([currency, country, newCurrency, totalCosts, setAmount, setDisable, location.reload], handlePricing, {
         refetchOnWindowFocus: true
-    });
+    })
 
-    const checkState = () => {
+    const checkState = (): Array<boolean | ((disable: boolean) => boolean | void)> => {
         if (loadRate.isLoading) {
             setDisable(true);
         }
@@ -199,6 +200,7 @@ export const CurrencyExchange = (props: CurrencyExchProps): React.ReactElement =
         </Box>
     )
 }
+
 
 
 export const useCartHooks = () => {
@@ -375,8 +377,7 @@ type AmericanPricing = {
     pricingExperimentUsa: boolean;
 }
 
-
-const setAmericanPricing = (props: AmericanPricing) => {
+const setAmericanPricing = (props: AmericanPricing): void => {
     const { name, country, setPrice, setLoading, getPrices, pricingExperimentUsa } = props;
 
     if (name === "DREAMING IN PETALS" && country === "US" && pricingExperimentUsa) {

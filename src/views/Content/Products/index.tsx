@@ -11,7 +11,7 @@ export type ProductProps = {
     detail?: boolean;
 }
 
-const Products = (props: ProductProps): React.ReactElement => {
+const Products = (props: ProductProps): JSX.Element => {
     const { contentEntry, detail } = props;
     return (
         <>

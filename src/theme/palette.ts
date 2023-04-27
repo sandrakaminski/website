@@ -1,4 +1,6 @@
-export const palette: object = {
+import { PaletteOptions } from "@mui/material";
+
+export const palette: PaletteOptions = {
     primary: {
         main: '#212121',
     },
@@ -18,7 +20,7 @@ export const palette: object = {
     success: {
         main: '#52B788',
     },
-    gray: {
+    grey: {
         100: '#F5F5F5',
     }
 };

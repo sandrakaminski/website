@@ -47,6 +47,7 @@ export const createSubmission = async (props: Submission): Promise<void> => {
     }
     catch (error) {
         console.error(error);
+        setSubmitting(false);
     }
 }
 

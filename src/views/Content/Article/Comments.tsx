@@ -10,7 +10,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useQuery } from '@tanstack/react-query';
-import {  useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import CommenterInfo, { CommentSkeleton } from '@/components/CommenterInfo';
 import { createSubmission } from '@/functions';
@@ -61,7 +61,7 @@ type CommentsProps = {
     data: SingleCommentProps[]
 }
 
-const Comments = (props: ContentEntryProps<ArticleType>): React.ReactElement => {
+const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
     const { contentEntry } = props;
 
     const { type } = useParams();

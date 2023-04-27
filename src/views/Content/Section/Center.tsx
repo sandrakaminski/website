@@ -10,7 +10,7 @@ import LoadingImage from '@/components/LoadingImage';
 import { SectionMarkDown } from '@/components/Markdown';
 import type { Content, ContentEntryProps } from '@/types';
 
-export const Center = (props: ContentEntryProps<Content>): React.ReactElement => {
+export const Center = (props: ContentEntryProps<Content>): JSX.Element => {
     const { contentEntry } = props;
 
     return (

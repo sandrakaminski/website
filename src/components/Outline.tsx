@@ -11,7 +11,7 @@ type LoadingStateProps = {
     type: string;
 }
 
-const LoadingState = (props: LoadingStateProps): React.ReactElement => {
+const LoadingState = (props: LoadingStateProps): JSX.Element => {
     const { contentEntry, children, type } = props;
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -31,7 +31,7 @@ const LoadingState = (props: LoadingStateProps): React.ReactElement => {
 }
 export default LoadingState;
 
-const GridOutline = (): React.ReactElement => {
+const GridOutline = (): JSX.Element => {
     return (
         <Box>
             <Stack spacing={2}>
@@ -45,7 +45,7 @@ const GridOutline = (): React.ReactElement => {
     )
 }
 
-export const Outline = (): React.ReactElement => {
+export const Outline = (): JSX.Element => {
     return (
         <>
             <Stack justifyContent="center" alignItems="center" sx={{ pt: 10 }}>
@@ -61,7 +61,7 @@ export const Outline = (): React.ReactElement => {
     )
 }
 
-export const CartSkeleton = (): React.ReactElement => {
+export const CartSkeleton = (): JSX.Element => {
     return (
         <Stack spacing={2}>
             <Stack direction="row" alignItems="center" spacing={2}>

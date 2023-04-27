@@ -14,7 +14,7 @@ type CommenterInfoProps = {
     date: number;
 }
 
-const CommenterInfo = (props: CommenterInfoProps): React.ReactElement => {
+const CommenterInfo = (props: CommenterInfoProps): JSX.Element => {
     const { name, date } = props;
 
     return (
@@ -31,7 +31,7 @@ const CommenterInfo = (props: CommenterInfoProps): React.ReactElement => {
 }
 export default CommenterInfo;
 
-export const CommentSkeleton = (): React.ReactElement => {
+export const CommentSkeleton = (): JSX.Element => {
     return (
         <Box>
             <Stack direction="row" alignItems="center" spacing={2} >

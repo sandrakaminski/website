@@ -17,7 +17,7 @@ type CartPopperProps = {
     clickEvent: boolean;
 }
 
-const CartPopper = (props: CartPopperProps): React.ReactElement => {
+const CartPopper = (props: CartPopperProps): JSX.Element => {
     const { clickEvent } = props;
 
     const { cart, amount } = useCartContext();
@@ -25,7 +25,7 @@ const CartPopper = (props: CartPopperProps): React.ReactElement => {
     const [open, setOpen] = useState<boolean>(false);
     const amountTotal = amount - 1;
 
-    const openMsg = () => {
+    const openMsg = (): boolean => {
         if (clickEvent) {
             if (amountTotal === 0) {
                 setOpen(true);
@@ -35,11 +35,11 @@ const CartPopper = (props: CartPopperProps): React.ReactElement => {
     }
     useQuery([clickEvent], openMsg)
 
-    const handleClose = () => {
+    const handleClose = (): void => {
         setOpen(false);
     };
 
-    const handleContinue = () => {
+    const handleContinue = (): void => {
         navigate('/shop');
         handleClose();
         ReactGA.event({
@@ -48,7 +48,7 @@ const CartPopper = (props: CartPopperProps): React.ReactElement => {
         });
     }
 
-    const handleCheckout = () => {
+    const handleCheckout = (): void => {
         navigate('/cart');
         handleClose();
         ReactGA.event({

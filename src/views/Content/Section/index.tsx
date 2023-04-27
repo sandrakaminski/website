@@ -6,7 +6,7 @@ import Left from './Left';
 import Right from './Right';
 import type { Content, ContentEntryProps } from '@/types';
 
-export const Section = (props: ContentEntryProps<Content>): React.ReactElement => {
+export const Section = (props: ContentEntryProps<Content>): JSX.Element => {
     const { contentEntry } = props;
 
     switch (contentEntry?.fields.sectionType) {

@@ -13,7 +13,7 @@ import { Markdown } from '@/components/Markdown';
 // import Trail from '@/components/Trail';
 import type { ProfileType, ContentEntryProps } from '@/types';
 
-const Detail = (props: ContentEntryProps<ProfileType>): React.ReactElement => {
+const Detail = (props: ContentEntryProps<ProfileType>): JSX.Element => {
     const { contentEntry } = props;
 
     return (

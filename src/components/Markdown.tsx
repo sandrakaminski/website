@@ -7,7 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 
 type Img = {
-   [key: string]: string;
+    [key: string]: string;
 }
 
 export const Markdown: Record<string, unknown> = {
@@ -31,7 +31,7 @@ export const SectionMarkDown = {
 export default Markdown;
 
 
-const TextElement = ({ ...props }): React.ReactElement => {
+const TextElement = ({ ...props }): JSX.Element => {
     return (
         <Container id="body" component={Typography} maxWidth={false} sx={{ maxWidth: 800 }} {...props}>
             {props.children}
@@ -39,7 +39,7 @@ const TextElement = ({ ...props }): React.ReactElement => {
     )
 }
 
-const Underline = ({ ...props }): React.ReactElement => {
+const Underline = ({ ...props }): JSX.Element => {
     return (
         <Container maxWidth={false} sx={{ maxWidth: 800 }} >
             <Divider sx={{ width: '100%' }} {...props} />

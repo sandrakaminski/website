@@ -12,7 +12,7 @@ type AlertProps = {
     }
 }
 
-const Notifier = (props: AlertProps): React.ReactElement => {
+const Notifier = (props: AlertProps): JSX.Element => {
     const { message } = props;
 
     return (

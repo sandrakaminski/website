@@ -2,7 +2,7 @@ import React from "react";
 
 import { SvgIcon } from "@mui/material";
 
-const TumblrIcon = (): React.ReactElement => {
+const TumblrIcon = (): JSX.Element => {
     return (
         <SvgIcon sx={{ fontSize: 20 }} viewBox="0 0 310 310" >
             <g id="XMLID_828_">

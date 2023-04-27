@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useCartContext } from "@/views/Cart/cartProvider";
 
-const PaymentSuccess = (): React.ReactElement => {
+const PaymentSuccess = (): JSX.Element => {
     const navigate = useNavigate();
     const { clear } = useCartContext();
 
