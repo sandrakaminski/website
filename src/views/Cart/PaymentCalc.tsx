@@ -116,8 +116,15 @@ export const CartItemPrice = (props: CartItem): JSX.Element => {
         const name = item.name;
 
         // pricing experiment for american customers
-        setAmericanPricing({ name, country, setPrice, setLoading, getPrices, pricingExperimentUsa });
-
+        if (country === "AU") {
+            setAusPricing({ name, setPrice, setLoading });
+        }
+        if (country === "US") {
+            setAmericanPricing({ name, setPrice, setLoading, getPrices, pricingExperimentUsa });
+        }
+        if (country !== "AU" && country !== "US") {
+            getPrices();
+        }
         return [currency, newCurrency, item.price]
     };
     useQuery([currency, newCurrency, item.price, location.reload], handleSetCurrency,)
@@ -151,17 +158,21 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
             const total = await respTotal.json();
             const shipping = await respShipping.json();
 
-            if (pricingExperimentUsa && country === 'US') {
+            if (country === 'US' && pricingExperimentUsa) {
                 const shippingFee = 5 * quantity;
                 setAmount({ total: 59.95 * quantity + shippingFee, shipping: shippingFee })
                 setLoading(false)
+            }
+            if (country === 'AU') {
+                const shippingFee = 20 * quantity;
+                setAmount({ total: 69.99 * quantity + shippingFee, shipping: shippingFee })
             }
             else {
                 setAmount({ total: total?.rates[newCurrency], shipping: shipping?.rates[newCurrency], currency: newCurrency });
                 setLoading(false)
                 ReactGA.event({
                     category: 'Pricing Experiment',
-                    action: 'American Pricing experiment',
+                    action: 'American Pricing experiment false',
                     label: 'Original American Pricing'
                 });
             }
@@ -370,7 +381,6 @@ export const useCartHooks = () => {
 // pricing experiment for american customers
 type AmericanPricing = {
     name: string;
-    country: string;
     setPrice: (price: number) => void;
     setLoading: (loading: boolean) => void;
     getPrices: () => void;
@@ -378,18 +388,32 @@ type AmericanPricing = {
 }
 
 const setAmericanPricing = (props: AmericanPricing): void => {
-    const { name, country, setPrice, setLoading, getPrices, pricingExperimentUsa } = props;
+    const { name, setPrice, setLoading, getPrices, pricingExperimentUsa } = props;
 
-    if (name === "DREAMING IN PETALS" && country === "US" && pricingExperimentUsa) {
+    if (name === "DREAMING IN PETALS" && pricingExperimentUsa) {
         setPrice(59.95);
         setLoading(false);
         ReactGA.event({
             category: 'Pricing Experiment',
-            action: 'American Pricing experiment',
+            action: 'American Pricing experiment true',
             label: 'New American Pricing'
         });
     }
     else {
         getPrices();
+    }
+}
+
+type AusPricing = {
+    name: string;
+    setPrice: (price: number) => void;
+    setLoading: (loading: boolean) => void;
+}
+
+const setAusPricing = (props: AusPricing): void => {
+    const { name, setPrice, setLoading } = props;
+    if (name === "DREAMING IN PETALS") {
+        setPrice(69.99);
+        setLoading(false);
     }
 }
