@@ -1,21 +1,24 @@
 import { QueryFunctionContext } from "@tanstack/react-query";
 import { createClient, ContentfulClientApi, EntryCollection } from 'contentful';
 
-const client: ContentfulClientApi = createClient({
-    space: import.meta.env.VITE_SPACE_ID,
-    environment: import.meta.env.VITE_ENVIRONMENT,
-    accessToken: import.meta.env.VITE_DELIVERY_TOKEN,
-    host: 'cdn.contentful.com',
-    removeUnresolved: true
-})
+const createContentfulClient = (accessToken: string, host: string): ContentfulClientApi => {
+    return createClient({
+        space: import.meta.env.VITE_SPACE_ID,
+        environment: import.meta.env.VITE_ENVIRONMENT,
+        accessToken,
+        host,
+    });
+};
 
-const preview: ContentfulClientApi = createClient({
-    space: import.meta.env.VITE_SPACE_ID,
-    environment: import.meta.env.VITE_ENVIRONMENT,
-    accessToken: import.meta.env.VITE_PREVIEW_TOKEN,
-    host: 'preview.contentful.com',
-    // removeUnresolved: true
-})
+const client = createContentfulClient(
+    import.meta.env.VITE_DELIVERY_TOKEN,
+    "cdn.contentful.com"
+);
+
+const preview = createContentfulClient(
+    import.meta.env.VITE_PREVIEW_TOKEN,
+    "preview.contentful.com"
+);
 
 export const fetchContent = async ({ queryKey }: QueryFunctionContext): Promise<EntryCollection<unknown>> => {
     const [name, type, slug, include] = queryKey;
