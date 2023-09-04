@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useReducer, createContext, useContext } from "react";
+import React, { useReducer, createContext, useContext, JSX } from "react";
 
 import { useQuery } from "@tanstack/react-query";
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from "lodash.clonedeep";
 
 type CartItem = {
     id: string;
@@ -15,13 +15,13 @@ type CartItem = {
     max: number;
     nzShippingOnly: boolean;
     category: string;
-}
+};
 
 type State = {
     cart: CartItem[];
     amount: number[] | any;
     total: number;
-}
+};
 
 type Action = {
     type: string;
@@ -31,7 +31,7 @@ type Action = {
 const init: State = {
     cart: [],
     amount: 0,
-    total: 0
+    total: 0,
 };
 
 export const cartContext: React.Context<any> = createContext(init);
@@ -50,10 +50,19 @@ const reducer = (state: State, action: Action): State => {
         //Remove items from Cart
         case "REMOVE": {
             const newState = cloneDeep(state);
-            const tempCart = state.cart.filter((item: CartItem) => item.id !== action.payload);
+            const tempCart = state.cart.filter(
+                (item: CartItem) => item.id !== action.payload
+            );
             newState.cart = tempCart;
-            newState.amount = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount, 0);
-            newState.total = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount * parseFloat(item.price), 0);
+            newState.amount = newState.cart.reduce(
+                (acc: number, item: CartItem) => acc + item.amount,
+                0
+            );
+            newState.total = newState.cart.reduce(
+                (acc: number, item: CartItem) =>
+                    acc + item.amount * parseFloat(item.price),
+                0
+            );
             return newState;
         }
 
@@ -87,11 +96,18 @@ const reducer = (state: State, action: Action): State => {
                 image: product.featureImage,
                 price: product.price,
                 max: product.stock,
-                nzShippingOnly: product.nzShippingOnly
+                nzShippingOnly: product.nzShippingOnly,
             };
             newState.cart = [...state.cart, newItem];
-            newState.amount = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount, 0);
-            newState.total = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount * parseFloat(item.price), 0);
+            newState.amount = newState.cart.reduce(
+                (acc: number, item: CartItem) => acc + item.amount,
+                0
+            );
+            newState.total = newState.cart.reduce(
+                (acc: number, item: CartItem) =>
+                    acc + item.amount * parseFloat(item.price),
+                0
+            );
             return newState;
         }
 
@@ -100,15 +116,22 @@ const reducer = (state: State, action: Action): State => {
             const newState = cloneDeep(state);
             const tempCart = state.cart.map((item: CartItem) => {
                 if (item.id !== action.payload) {
-                    return item
+                    return item;
                 }
                 const newAmount = item.amount + 1;
                 return { ...item, amount: newAmount };
             });
 
             newState.cart = tempCart;
-            newState.amount = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount, 0);
-            newState.total = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount * parseFloat(item.price), 0);
+            newState.amount = newState.cart.reduce(
+                (acc: number, item: CartItem) => acc + item.amount,
+                0
+            );
+            newState.total = newState.cart.reduce(
+                (acc: number, item: CartItem) =>
+                    acc + item.amount * parseFloat(item.price),
+                0
+            );
             return newState;
         }
 
@@ -117,16 +140,22 @@ const reducer = (state: State, action: Action): State => {
             const newState = cloneDeep(state);
             const tempCart = state.cart.map((item: CartItem) => {
                 if (item.id !== action.payload) {
-                    return item
+                    return item;
                 }
                 const remainder = item.amount.slice(0, -1);
                 return { ...item, amount: remainder };
-
             });
 
             newState.cart = tempCart;
-            newState.amount = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount.length, 0);
-            newState.total = newState.cart.reduce((acc: number, item: CartItem) => acc + item.amount.length * parseFloat(item.price), 0);
+            newState.amount = newState.cart.reduce(
+                (acc: number, item: CartItem) => acc + item.amount.length,
+                0
+            );
+            newState.total = newState.cart.reduce(
+                (acc: number, item: CartItem) =>
+                    acc + item.amount.length * parseFloat(item.price),
+                0
+            );
             return newState;
         }
 
@@ -137,7 +166,7 @@ const reducer = (state: State, action: Action): State => {
                 (cartTotal: any, cartItem: any) => {
                     const { price, amount } = cartItem;
                     const itemTotal = price * amount.length || 0;
-                    cartTotal.total += itemTotal
+                    cartTotal.total += itemTotal;
                     cartTotal.amount += amount;
 
                     return cartTotal;
@@ -152,13 +181,13 @@ const reducer = (state: State, action: Action): State => {
 
             newState.total = total;
             newState.amount = amount;
-
+            
             return newState;
         }
         default:
             throw new Error(`No Matching "${action.type}" - action type`);
     }
-}
+};
 
 //Store cart data in local storage
 const getLocalStorage = () => {
@@ -173,12 +202,12 @@ const getLocalStorage = () => {
 const initialState: State = {
     cart: getLocalStorage(),
     amount: 0,
-    total: 0
+    total: 0,
 };
 
 type CartProviderProps = {
     children: React.ReactNode;
-}
+};
 
 export const CartProvider = ({ children }: CartProviderProps): JSX.Element => {
     const [state, dispatch] = useReducer(reducer, initialState && initialState);
@@ -207,22 +236,23 @@ export const CartProvider = ({ children }: CartProviderProps): JSX.Element => {
     const clear = (): void => {
         dispatch({
             type: "CLEAR",
-            payload: undefined
+            payload: undefined,
         });
     };
 
     const getTotal = (): CartItem[][] => {
         dispatch({
             type: "GET_TOTALS",
-            payload: undefined
+            payload: undefined,
         });
         localStorage.setItem("cart", JSON.stringify(state.cart));
-        return [state.cart]
-    }
+        return [state.cart];
+    };
     useQuery([state.cart], getTotal, { refetchOnWindowFocus: false });
 
     return (
-        <cartContext.Provider value={{ ...state, addToCart, clear, decrease, increase, remove }}>
+        <cartContext.Provider
+            value={{ ...state, addToCart, clear, decrease, increase, remove }}>
             {children}
         </cartContext.Provider>
     );

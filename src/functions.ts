@@ -31,7 +31,7 @@ export const createSubmission = async (props: Submission): Promise<void> => {
 
     try {
         const resp = await fetch(url, {
-            method: method ? method : 'POST',
+            method: method ?? 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
