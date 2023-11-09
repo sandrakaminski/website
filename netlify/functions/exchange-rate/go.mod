@@ -1,4 +1,4 @@
-module github.com/Sandra-Kaminski-Limited/website/functions/exchangeRate
+module github.com/Sandra-Kaminski-Limited/website/functions/exchange-rate
 
 go 1.21.1
 
