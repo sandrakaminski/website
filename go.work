@@ -2,7 +2,7 @@ go 1.20
 
 use (
 	./netlify/functions/comments
-	./netlify/functions/exchangeRate
+	./netlify/functions/exchange-rate
 	./netlify/functions/payment
 	./netlify/functions/registration
 	./netlify/functions/reviews
