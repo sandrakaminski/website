@@ -155,7 +155,7 @@ const ProductReviews = (props: ContentEntryProps<ProductTypes>): JSX.Element => 
         const base64 = await convertBase64(img);
         setFields((prev) => {
             prev[name] = base64 as string
-            prev["title"] = img.name as string
+            prev["title"] = "file"
             return { ...prev };
         });
     };
