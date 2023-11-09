@@ -147,7 +147,7 @@ func (s *Store) Create(r events.APIGatewayProxyRequest) (*events.APIGatewayProxy
 
 	rspByt, err := json.Marshal(coms)
 	if err != nil {
-		return nil, fmt.Errorf("error marshaling payment link: %w", err)
+		return nil, fmt.Errorf("error marshaling comment: %w", err)
 	}
 
 	// alert
@@ -177,7 +177,7 @@ func (s *Store) Query(r events.APIGatewayProxyRequest) (*events.APIGatewayProxyR
 
 	rspByt, err := json.Marshal(pg)
 	if err != nil {
-		return nil, fmt.Errorf("error marshaling payment link: %w", err)
+		return nil, fmt.Errorf("error marshalling page: %w", err)
 	}
 
 	return &events.APIGatewayProxyResponse{

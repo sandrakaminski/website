@@ -80,7 +80,7 @@ type CurrencyExchProps = {
     setDisable: (disable: boolean) => typeof disable | void;
 };
 
-const BASE_URL = "https://api.exchangerate.host/latest";
+// const BASE_URL = "https://api.exchangerate.host/latest";
 const init = "NZD";
 
 type CartItem = {
@@ -97,7 +97,7 @@ type CartItem = {
 export const CartItemPrice = (props: CartItem): JSX.Element => {
     const { country, item } = props;
 
-    const { currencyTypes, symbols } = useCartHooks();
+    const { currencyTypes, symbols, exchangeRate } = useCartHooks();
     const currency = currencyTypes(init);
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
@@ -106,17 +106,10 @@ export const CartItemPrice = (props: CartItem): JSX.Element => {
     const [loading, setLoading] = useState<boolean>(true);
 
     // fetches the original price and converts it to the new currency
-    const getPrices = async (): Promise<void> => {
-        try {
-            const response = await fetch(
-                `${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${item.price}`
-            );
-            const data = await response.json();
-            setPrice(data?.rates[newCurrency]);
-            setLoading(false);
-        } catch {
-            setLoading(false);
-        }
+    const getPrices =  () => {
+        const res = exchangeRate(newCurrency, item.price)
+        setPrice(res)
+        setLoading(false);
     };
 
     const handleSetCurrency = (): Array<string | number> => {
@@ -147,7 +140,7 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
     const { total } = useCartContext();
     const [loading, setLoading] = useState<boolean>(true);
 
-    const { currencyTypes, symbols, vat } = useCartHooks();
+    const { currencyTypes, symbols, vat, exchangeRate } = useCartHooks();
     const currency = currencyTypes(init);
     const vatCosts = vat(country);
     const newCurrency = currencyTypes(country);
@@ -157,26 +150,34 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
     const vatTotal = vatCosts * amount.total;
     const totalCosts = totalCost.toFixed(2).toString();
 
-    const handleSetCurrency = async (): Promise<void> => {
-        try {
-            const respTotal = await fetch(
-                `${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`
-            );
-            const respShipping = await fetch(
-                `${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`
-            );
-            const total = await respTotal.json();
-            const shipping = await respShipping.json();
+    const handleSetCurrency = () => {
+        const shipping = exchangeRate(newCurrency, shippingCosts);
+        const newTotal =  exchangeRate(newCurrency, totalCosts);
+        setAmount({
+            total: newTotal,
+            shipping: shipping,
+            currency: newCurrency,
+        });
+        setLoading(false);
+        // try {
+        //     const respTotal = await fetch(
+        //         `${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`
+        //     );
+        //     const respShipping = await fetch(
+        //         `${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`
+        //     );
+        //     const total = await respTotal.json();
+        //     const shipping = await respShipping.json();
 
-            setAmount({
-                total: total?.rates[newCurrency],
-                shipping: shipping?.rates[newCurrency],
-                currency: newCurrency,
-            });
-            setLoading(false);
-        } catch {
-            setLoading(false);
-        }
+        //     setAmount({
+        //         total: total?.rates[newCurrency],
+        //         shipping: shipping?.rates[newCurrency],
+        //         currency: newCurrency,
+        //     });
+        //     setLoading(false);
+        // } catch {
+        //     setLoading(false);
+        // }
     };
 
     const handlePricing = () => {
@@ -209,9 +210,7 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
         }
     );
 
-    const checkState = (): Array<
-        boolean | ((disable: boolean) => boolean | void)
-    > => {
+    const checkState = (): Array< boolean | ((disable: boolean) => boolean | void)> => {
         if (loadRate.isLoading) {
             setDisable(true);
         }
@@ -349,6 +348,20 @@ export const useCartHooks = () => {
         return 0.15;
     };
 
+    const exchangeRate = (country: string, price: number): number => {
+        if (country === "AUD") return 0.92 * price;
+        if (country === "CAD") return 0.82 * price;
+        if (country === "CLP") return 532.98 * price;
+        if (country === "EUR") return 0.55 * price;
+        if (country === "JPY") return 89.50 * price;
+        if (country === "NZD") return 1 * price;
+        if (country === "NOK") return 6.62 * price;
+        if (country === "TWD") return 19.13 * price;
+        if (country === "GBP") return 0.48 * price;
+        if (country === "USD") return 0.59 * price;
+        return 1 * price;
+    };
+
     type AmountProps = {
         country: string;
         amount: Amount;
@@ -432,5 +445,6 @@ export const useCartHooks = () => {
         handleJapanChileShipping,
         shippingFee,
         checkProductType,
+        exchangeRate
     };
 };
