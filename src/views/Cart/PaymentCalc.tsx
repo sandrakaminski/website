@@ -102,7 +102,7 @@ export const CartItemPrice = (props: CartItem): JSX.Element => {
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
 
-    const [price, setPrice] = useState<number>(0);
+    const [price, setPrice] = useState<number>(item.price);
     const [loading, setLoading] = useState<boolean>(true);
 
     // fetches the original price and converts it to the new currency
