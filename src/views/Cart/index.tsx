@@ -305,7 +305,7 @@ const CartItem = (props: CartItemProps): JSX.Element => {
                 />
                 <Box sx={{ ml: 2 }}>
                     <Typography variant="subtitle1">{item.name}</Typography>
-                    <CartItemPrice item={item} country={country} />
+                    <CartItemPrice itemPrice={item.price} country={country} />
                 </Box>
             </Grid>
             <Grid

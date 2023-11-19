@@ -1,4 +1,4 @@
-import { useState, JSX } from "react";
+import { useState, JSX, useEffect } from "react";
 
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
@@ -80,48 +80,29 @@ type CurrencyExchProps = {
     setDisable: (disable: boolean) => typeof disable | void;
 };
 
-// const BASE_URL = "https://api.exchangerate.host/latest";
 const init = "NZD";
 
-type CartItem = {
+type ICartItemPrice = {
     country: string;
-    item: {
-        price: number;
-        name: string;
-    };
-    flags?: {
-        [key: string]: boolean;
-    };
-};
+    itemPrice: number;
+}
 
-export const CartItemPrice = (props: CartItem): JSX.Element => {
-    const { country, item } = props;
+export const CartItemPrice = (props: ICartItemPrice): JSX.Element => {
+    const { country, itemPrice } = props;
 
     const { currencyTypes, symbols, exchangeRate } = useCartHooks();
-    const currency = currencyTypes(init);
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
 
-    const [price, setPrice] = useState<number>(item.price);
+    const [price, setPrice] = useState<number>(itemPrice);
     const [loading, setLoading] = useState<boolean>(true);
 
     // fetches the original price and converts it to the new currency
-    const getPrices =  () => {
-        const res = exchangeRate(newCurrency, item.price)
+    useEffect(() => {
+        const res = exchangeRate(newCurrency, itemPrice)
         setPrice(res)
         setLoading(false);
-    };
-
-    const handleSetCurrency = (): Array<string | number> => {
-        setLoading(true);
-
-        getPrices();
-        return [currency, newCurrency, item.price];
-    };
-    useQuery(
-        [currency, newCurrency, item.price, location.reload],
-        handleSetCurrency
-    );
+    }, [country, itemPrice, exchangeRate, newCurrency]);
 
     return (
         <Typography>
@@ -398,16 +379,19 @@ export const useCartHooks = () => {
         const shippingCost = shippingCosts(country);
 
         let shippingFee: number | undefined;
-        if (category.join(" ") === "Paper Products") {
+        if (category.includes("Paper Products")) {
             shippingFee = PaperProductShipping;
-        } else if (
-            (category.includes("Paper Products"), category.includes("Book"))
-        ) {
-            shippingFee = shippingCost;
-        } else {
+        }
+        if (category.includes("Book")) {
             shippingFee = shippingCost;
         }
-        return shippingFee as number;
+        if (category.includes("Paper Products") && category.includes("Book")) {
+            shippingFee = shippingCost;
+        }
+        else {
+            shippingCost
+        }
+        return Number(shippingFee);
     };
 
     type CheckProductTypeProps = {
