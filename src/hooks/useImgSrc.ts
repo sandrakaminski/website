@@ -1,6 +1,4 @@
-import { useState } from "react";
-
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 type LoadResp = {
     load: boolean;
@@ -22,10 +20,9 @@ export const useImageSrc = (src: string): LoadResp => {
         return src;
     };
 
-    useQuery({
-        queryKey: ["imageSrc", src],
-        queryFn: () => imageSrc(setLoad, src),
-    })
+    useEffect(() => {
+        imageSrc(setLoad, src);
+    }, [setLoad, src]);
 
     return { load };
 };
