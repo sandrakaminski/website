@@ -1,4 +1,4 @@
-import React from 'react';
+import { JSX } from "react";
 
 import Center from './Center';
 import Column from './Column';

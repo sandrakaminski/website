@@ -181,7 +181,7 @@ const reducer = (state: State, action: Action): State => {
 
             newState.total = total;
             newState.amount = amount;
-            
+
             return newState;
         }
         default:
@@ -248,7 +248,11 @@ export const CartProvider = ({ children }: CartProviderProps): JSX.Element => {
         localStorage.setItem("cart", JSON.stringify(state.cart));
         return [state.cart];
     };
-    useQuery([state.cart], getTotal, { refetchOnWindowFocus: false });
+    useQuery({
+        queryKey: [state.cart],
+        queryFn: getTotal,
+        refetchOnWindowFocus: false,
+    });
 
     return (
         <cartContext.Provider

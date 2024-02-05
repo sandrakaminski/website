@@ -1,4 +1,4 @@
-import React from 'react';
+import { JSX } from "react";
 
 import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';

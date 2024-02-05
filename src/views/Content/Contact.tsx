@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, JSX } from "react";
 
 import DoneIcon from '@mui/icons-material/Done';
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useParams } from 'react-router-dom';
 
-import { emailValid, createSubmission } from '@/functions';
+import { useEmailValidate, createSubmission } from '@/hooks';
 
 const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
 
@@ -28,7 +28,7 @@ type Action = {
 }
 
 const reducer = (state: State, action: Action): State => {
-    let error
+    let error; 
 
     switch (action.type) {
         case 'firstName':
@@ -58,7 +58,7 @@ const Contact = (): JSX.Element => {
     const [state, dispatch] = useReducer(reducer, init);
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
-    const formCheck = emailValid(state);
+    const formCheck = useEmailValidate(state);
 
     const handleSubmit = () => {
         setSubmitting(true);

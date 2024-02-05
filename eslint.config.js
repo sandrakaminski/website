@@ -1,3 +1,4 @@
+import eslint from "@eslint/js";
 import typescript from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import es6Import from "eslint-plugin-import";
@@ -5,7 +6,6 @@ import jsxA11y from "eslint-plugin-jsx-a11y";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
-import eslint from "@eslint/js";
 
 // To use eslint flat config:
 //   1. Set "type": "module" in package.json

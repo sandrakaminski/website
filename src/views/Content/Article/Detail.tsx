@@ -1,45 +1,49 @@
-import React from 'react';
+import { JSX } from "react";
 
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import ReactGA from 'react-ga4';
-import ReactMarkdown from 'react-markdown';
-import { useNavigate } from 'react-router-dom';
-import gfm from 'remark-gfm';
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import ReactGA from "react-ga4";
+import ReactMarkdown from "react-markdown";
+import { useNavigate } from "react-router-dom";
+import gfm from "remark-gfm";
 
-import Comments from './Comments';
+import Comments from "./Comments";
 import DateFormatter from "@/components/DateFormatter";
-import LoadingImage from '@/components/LoadingImage';
-import Markdown from '@/components/Markdown';
-import ToggleStory from '@/components/ToggleStory';
-import Trail from '@/components/Trail';
-import type { ArticleType, ContentEntryProps } from '@/types';
-
+import LoadingImage from "@/components/LoadingImage";
+import Markdown from "@/components/Markdown";
+import ToggleStory from "@/components/ToggleStory";
+import Trail from "@/components/Trail";
+import type { ArticleType, ContentEntryProps } from "@/types";
 
 const Detail = (props: ContentEntryProps<ArticleType>): JSX.Element => {
     const { contentEntry } = props;
     const navigate = useNavigate();
 
-
     const handleClick = () => {
-        navigate(`/about/${contentEntry.fields.author.fields.slug}`, { state: { data: 'about' } })
-        ReactGA.event({
-            category: 'About',
-            action: `Read more about ${contentEntry.fields.headline}`,
-            label: contentEntry.fields.headline
+        navigate(`/about/${contentEntry.fields.author.fields.slug}`, {
+            state: { data: "about" },
         });
-    }
+        ReactGA.event({
+            category: "About",
+            action: `Read more about ${contentEntry.fields.headline}`,
+            label: contentEntry.fields.headline,
+        });
+    };
 
     return (
         <>
             <Trail current={contentEntry?.fields.headline} />
-            {contentEntry &&
+            {contentEntry && (
                 <>
                     <Stack sx={{ my: 4 }} spacing={2} alignItems="center">
-                        <Typography id="headline" sx={{ my: 2, maxWidth: "md" }} variant="h1" align="center" >
+                        <Typography
+                            id="headline"
+                            sx={{ my: 2, maxWidth: "md" }}
+                            variant="h1"
+                            align="center">
                             {contentEntry.fields.headline}
                         </Typography>
                         <Stack
@@ -47,33 +51,49 @@ const Detail = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                             direction="row"
                             justifyContent="space-between"
                             alignItems="center"
-                            spacing={2} >
-                            <Typography id="date" variant="body1"  >
-                                <DateFormatter dateString={contentEntry.fields.date} />
+                            spacing={2}>
+                            <Typography id="date" variant="body1">
+                                <DateFormatter
+                                    dateString={contentEntry.fields.date}
+                                />
                             </Typography>
-                            <FiberManualRecordIcon sx={{ height: 2.5, width: 2.5 }} />
-                            <Link id="author" underline="hover" sx={{ cursor: 'pointer' }} onClick={() => handleClick()} variant="body1">
+                            <FiberManualRecordIcon
+                                sx={{ height: 2.5, width: 2.5 }}
+                            />
+                            <Link
+                                id="author"
+                                underline="hover"
+                                sx={{ cursor: "pointer" }}
+                                onClick={() => handleClick()}
+                                variant="body1">
                                 {contentEntry.fields.author.fields.name}
                             </Link>
                         </Stack>
-                        <Box maxWidth={800} >
+                        <Box maxWidth={800}>
                             <LoadingImage
                                 id="coverImage"
                                 skeletonheight={500}
-                                sx={{ width: '100%', height: 'auto', py: 4 }}
-                                src={contentEntry?.fields.coverImage.fields.file.url}
-                                alt={contentEntry.fields.coverImage.fields.title} />
+                                sx={{ width: "100%", height: "auto", py: 4 }}
+                                src={
+                                    contentEntry?.fields.coverImage.fields.file
+                                        .url
+                                }
+                                alt={
+                                    contentEntry.fields.coverImage.fields.title
+                                }
+                            />
                         </Box>
-                        <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>
+                        <ReactMarkdown
+                            remarkPlugins={[gfm]}
+                            components={Markdown}>
                             {contentEntry.fields.body}
                         </ReactMarkdown>
                         <Comments contentEntry={contentEntry} />
                         <ToggleStory pageID={contentEntry.sys.id} />
                     </Stack>
-
                 </>
-            }
+            )}
         </>
-    )
-}
+    );
+};
 export default Detail;

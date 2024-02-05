@@ -85,7 +85,7 @@ const init = "NZD";
 type ICartItemPrice = {
     country: string;
     itemPrice: number;
-}
+};
 
 export const CartItemPrice = (props: ICartItemPrice): JSX.Element => {
     const { country, itemPrice } = props;
@@ -99,8 +99,8 @@ export const CartItemPrice = (props: ICartItemPrice): JSX.Element => {
 
     // fetches the original price and converts it to the new currency
     useEffect(() => {
-        const res = exchangeRate(newCurrency, itemPrice)
-        setPrice(res)
+        const res = exchangeRate(newCurrency, itemPrice);
+        setPrice(res);
         setLoading(false);
     }, [country, itemPrice, exchangeRate, newCurrency]);
 
@@ -133,7 +133,7 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
 
     const handleSetCurrency = () => {
         const shipping = exchangeRate(newCurrency, shippingCosts);
-        const newTotal =  exchangeRate(newCurrency, totalCosts);
+        const newTotal = exchangeRate(newCurrency, totalCosts);
         setAmount({
             total: newTotal,
             shipping: shipping,
@@ -175,8 +175,8 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
         ];
     };
 
-    const loadRate = useQuery(
-        [
+    const loadRate = useQuery({
+        queryKey: [
             currency,
             country,
             newCurrency,
@@ -185,13 +185,13 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
             setDisable,
             location.reload,
         ],
-        handlePricing,
-        {
-            refetchOnWindowFocus: true,
-        }
-    );
+        queryFn: handlePricing,
+        refetchOnWindowFocus: true,
+    });
 
-    const checkState = (): Array< boolean | ((disable: boolean) => boolean | void)> => {
+    const checkState = (): Array<
+        boolean | ((disable: boolean) => boolean | void)
+    > => {
         if (loadRate.isLoading) {
             setDisable(true);
         }
@@ -199,7 +199,10 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
         return [loadRate.isLoading, setDisable];
     };
 
-    useQuery([loadRate.isLoading, setDisable], checkState);
+    useQuery({
+        queryKey: [loadRate.isLoading, setDisable],
+        queryFn: checkState,
+    });
 
     return (
         <Box>
@@ -334,7 +337,7 @@ export const useCartHooks = () => {
         if (country === "CAD") return 0.82 * price;
         if (country === "CLP") return 532.98 * price;
         if (country === "EUR") return 0.55 * price;
-        if (country === "JPY") return 89.50 * price;
+        if (country === "JPY") return 89.5 * price;
         if (country === "NZD") return 1 * price;
         if (country === "NOK") return 6.62 * price;
         if (country === "TWD") return 19.13 * price;
@@ -387,9 +390,8 @@ export const useCartHooks = () => {
         }
         if (category.includes("Paper Products") && category.includes("Book")) {
             shippingFee = shippingCost;
-        }
-        else {
-            shippingCost
+        } else {
+            shippingCost;
         }
         return Number(shippingFee);
     };
@@ -429,6 +431,6 @@ export const useCartHooks = () => {
         handleJapanChileShipping,
         shippingFee,
         checkProductType,
-        exchangeRate
+        exchangeRate,
     };
 };

@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import CardActions from '@mui/material/CardActions';
-import Dialog from '@mui/material/Dialog';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import CardActions from "@mui/material/CardActions";
+import Dialog from "@mui/material/Dialog";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import { useQuery } from "@tanstack/react-query";
-import ReactGA from 'react-ga4';
-import { useNavigate } from 'react-router-dom';
+import ReactGA from "react-ga4";
+import { useNavigate } from "react-router-dom";
 
 import { useCartContext } from "@/views/Cart/cartProvider";
 
 type CartPopperProps = {
     clickEvent: boolean;
-}
+};
 
 const CartPopper = (props: CartPopperProps): JSX.Element => {
     const { clickEvent } = props;
@@ -31,49 +31,62 @@ const CartPopper = (props: CartPopperProps): JSX.Element => {
                 setOpen(true);
             }
         }
-        return clickEvent
-    }
-    useQuery([clickEvent], openMsg)
+        return clickEvent;
+    };
+    useQuery({ queryKey: [clickEvent], queryFn: openMsg });
 
     const handleClose = (): void => {
         setOpen(false);
     };
 
     const handleContinue = (): void => {
-        navigate('/shop');
+        navigate("/shop");
         handleClose();
         ReactGA.event({
-            category: 'Product Detail',
-            action: `Continue shopping`
+            category: "Product Detail",
+            action: `Continue shopping`,
         });
-    }
+    };
 
     const handleCheckout = (): void => {
-        navigate('/cart');
+        navigate("/cart");
         handleClose();
         ReactGA.event({
-            category: 'Product Detail',
-            action: `Quick purchase ${cart[0]?.name}`
+            category: "Product Detail",
+            action: `Quick purchase ${cart[0]?.name}`,
         });
-    }
+    };
 
     return (
         <Dialog onClose={handleClose} open={open}>
             <Box sx={{ p: 2 }}>
                 <Typography variant="h5">You have selected:</Typography>
-                <Stack direction="row" sx={{ mt: 2 }} >
-                    <Avatar sx={{ height: 55, width: 55 }} variant="square" alt={cart[0]?.name} src={cart[0]?.image.fields.file.url} />
+                <Stack direction="row" sx={{ mt: 2 }}>
+                    <Avatar
+                        sx={{ height: 55, width: 55 }}
+                        variant="square"
+                        alt={cart[0]?.name}
+                        src={cart[0]?.image.fields.file.url}
+                    />
                     <Box sx={{ ml: 2 }}>
-                        <Typography variant="subtitle1">{cart[0]?.name}</Typography>
-                        <Typography variant="body1">${cart[0]?.price.toFixed(2)} NZD</Typography>
+                        <Typography variant="subtitle1">
+                            {cart[0]?.name}
+                        </Typography>
+                        <Typography variant="body1">
+                            ${cart[0]?.price.toFixed(2)} NZD
+                        </Typography>
                     </Box>
                 </Stack>
             </Box>
             <CardActions>
-                <Button onClick={handleCheckout} variant="contained">go to cart</Button>
-                <Button onClick={handleContinue} variant="outlined">continue shopping</Button>
+                <Button onClick={handleCheckout} variant="contained">
+                    go to cart
+                </Button>
+                <Button onClick={handleContinue} variant="outlined">
+                    continue shopping
+                </Button>
             </CardActions>
         </Dialog>
-    )
-}
-export default CartPopper; 
+    );
+};
+export default CartPopper;

@@ -3,12 +3,7 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
-type Port = {
-  host: boolean;
-  port: number;
-}
-
-const port: Port = {
+const port = {
   host: true,
   port: 5173
 }
@@ -18,7 +13,7 @@ export default defineConfig({
   plugins: [react()],
   test: {
     globals: true,
-    environment: 'happy-dom'
+    environment: "happy-dom",
   },
   server: port,
   preview: port,

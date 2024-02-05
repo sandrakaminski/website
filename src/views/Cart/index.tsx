@@ -114,7 +114,7 @@ const Cart = (): JSX.Element => {
         }
         return [cart, country];
     };
-    useQuery([cart, country], trigger);
+    useQuery({ queryKey: [cart, country], queryFn: trigger });
 
     const data = {
         country: country,
@@ -284,7 +284,7 @@ const CartItem = (props: CartItemProps): JSX.Element => {
         item.inStock ? "In stock" : "Out of stock";
         return item.inStock;
     };
-    useQuery([item.inStock], inStock);
+    useQuery({ queryKey: [item.inStock], queryFn: inStock });
 
     return (
         <Grid
@@ -348,7 +348,9 @@ const AmountButtons = (props: AmountButtonsProps): JSX.Element => {
         }
         return amount?.amount.length;
     };
-    useQuery([amount, amount?.id], changeAmount, {
+    useQuery({
+        queryKey: [amount, amount?.id],
+        queryFn: changeAmount,
         refetchOnWindowFocus: false,
     });
 
