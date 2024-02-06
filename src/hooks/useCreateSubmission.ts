@@ -17,7 +17,7 @@ export const useCreateSubmission = (props: Submission): RespBody => {
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
 
-    const createSubmission = async () => {
+    const createSubmission = async (): Promise<void> => {
         try {
             setSubmitting(true);
             const resp = await fetch(url, {

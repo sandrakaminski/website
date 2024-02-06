@@ -4,8 +4,8 @@ import { useFetchEntries } from "./useFetchEntries";
 import { useImageSrc } from "./useImgSrc";
 
 export {
-    useImageSrc,
-    useEmailValidate,
     useCreateSubmission,
+    useEmailValidate,
     useFetchEntries,
-}; 
+    useImageSrc,
+};

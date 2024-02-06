@@ -42,6 +42,17 @@ const ToggleStory = (props: ToggleStoryProps): JSX.Element => {
     const prevPage = arr?.[index + 1];
     const nextPage = arr?.[index - 1];
 
+    const getHeadline = (page: { fields: { headline: string } }): string => {
+        const { headline } = page?.fields || "";
+        if (!headline) {
+            return "No more stories";
+        }
+        if (headline.length > 25) {
+            return `${headline.substring(0, 25)}...`;
+        }
+        return headline;
+    };
+
     return (
         <Container sx={{ maxWidth: 800 }} maxWidth={false}>
             <Stack
@@ -54,9 +65,7 @@ const ToggleStory = (props: ToggleStoryProps): JSX.Element => {
                     onClick={() =>
                         navigate(`/${type}/${nextPage?.fields?.slug}`)
                     }>
-                    {nextPage === undefined
-                        ? "No more stories"
-                        : nextPage?.fields?.headline}
+                    {getHeadline(nextPage)}
                 </Button>
                 <Button
                     disabled={prevPage === undefined}
@@ -64,9 +73,7 @@ const ToggleStory = (props: ToggleStoryProps): JSX.Element => {
                     onClick={() =>
                         navigate(`/${type}/${prevPage?.fields?.slug}`)
                     }>
-                    {prevPage === undefined
-                        ? "No more stories"
-                        : prevPage?.fields?.headline}
+                    {getHeadline(prevPage)}
                 </Button>
             </Stack>
         </Container>
