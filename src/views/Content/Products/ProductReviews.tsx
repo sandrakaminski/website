@@ -21,7 +21,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import CommenterInfo, { CommentSkeleton } from "@/components/CommenterInfo";
 import MediaUploader from "@/components/MediaUploader";
-import { createSubmission } from "@/hooks";
+import { useCreateSubmission } from "@/hooks";
 import type { ProductTypes, ContentEntryProps } from "@/types";
 
 type State = {
@@ -69,8 +69,6 @@ const ProductReviews = (
     const [openReviews, setOpenReviews] = useState<boolean>(false);
     const [writeReview, setWriteReview] = useState<boolean>(false);
     const [starFilled, setStarFilled] = useState<number>(0);
-    const [submitting, setSubmitting] = useState<boolean>(false);
-    const [submitted, setSubmitted] = useState<boolean>(false);
     const [state, dispatch] = useReducer(reducer, initialState);
     const [loading, setLoading] = useState<boolean>(true);
     const [reviews, setReviews] = useState<Page>();
@@ -110,18 +108,18 @@ const ProductReviews = (
         setFullImg(img);
     };
 
-    const handleSubmit = (): void => {
-        setSubmitting(true);
-        const data = {
-            rating: starFilled,
-            name: state.name,
-            review: state.review,
-            id: contentEntry.sys.id,
-            media: fields.media,
-        };
-        const url = `/.netlify/functions/reviews`;
-        createSubmission({ url, data, setSubmitting, setSubmitted });
+    const data = {
+        rating: starFilled,
+        name: state.name,
+        review: state.review,
+        id: contentEntry.sys.id,
+        media: fields.media,
     };
+    const url = `/.netlify/functions/reviews`;
+    const { submitting, submitted, createSubmission } = useCreateSubmission({
+        url,
+        data,
+    });
 
     useEffect(() => {
         if (submitted) {
@@ -324,7 +322,7 @@ const ProductReviews = (
                                     state.name === "" ||
                                     starFilled === 0
                                 }
-                                onClick={handleSubmit}
+                                onClick={createSubmission}
                                 variant="contained">
                                 Send Review
                             </LoadingButton>

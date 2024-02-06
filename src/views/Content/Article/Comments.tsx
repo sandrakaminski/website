@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 import CommenterInfo, { CommentSkeleton } from "@/components/CommenterInfo";
-import { createSubmission } from "@/hooks";
+import { useCreateSubmission } from "@/hooks";
 import type { ArticleType, ContentEntryProps } from "@/types";
 
 type State = {
@@ -69,8 +69,7 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         name: "",
         comment: "",
     });
-    const [submitting, setSubmitting] = useState<boolean>(false);
-    const [submitted, setSubmitted] = useState<boolean>(false);
+
     const [comments, setComments] = useState<CommentsProps>();
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -91,18 +90,18 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         queryFn: handleGet,
     });
 
-    const handleSubmit = () => {
-        setSubmitting(true);
-        const data = {
-            page: `${type}/${contentEntry.fields.slug}`,
-            name: state.name,
-            comment: state.comment,
-            id: contentEntry.sys.id,
-            replies: [],
-        };
-        const url = `/.netlify/functions/comments`;
-        createSubmission({ url, data, setSubmitting, setSubmitted });
+    const data = {
+        page: `${type}/${contentEntry.fields.slug}`,
+        name: state.name,
+        comment: state.comment,
+        id: contentEntry.sys.id,
+        replies: [],
     };
+    const url = `/.netlify/functions/comments`;
+    const { submitting, submitted, createSubmission } = useCreateSubmission({
+        url,
+        data,
+    });
 
     useQuery({
         queryKey: [comments, contentEntry.sys.id],
@@ -147,7 +146,7 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                         <LoadingButton
                             disabled={state.name === "" || state.comment === ""}
                             loading={submitting}
-                            onClick={handleSubmit}
+                            onClick={createSubmission}
                             variant="contained"
                             size="large">
                             Post comment...
@@ -186,8 +185,6 @@ const CommentThread = (props: CommentThreadProps) => {
 
     const [replyTo, setReplyTo] = useState<string | null>(null);
     const [replyFields, setReplyFields] = useState<ReplyInit>(init);
-    const [submitting, setSubmitting] = useState<boolean>(false);
-    const [submitted, setSubmitted] = useState<boolean>(false);
 
     const openReply = async (r: string) => {
         setReplyTo(r);
@@ -197,22 +194,23 @@ const CommentThread = (props: CommentThreadProps) => {
         const { name, value } = e.target;
         setReplyFields({ ...replyFields, [name]: value });
     };
-
-    const submitReply = async () => {
-        setSubmitting(true);
-        const data = {
-            commentId: replyTo,
-            replies: [
-                {
-                    name: replyFields.name,
-                    reply: replyFields.reply,
-                },
-            ],
-        };
-        const url = `/.netlify/functions/comments`;
-        const method = "PUT";
-        createSubmission({ url, method, data, setSubmitting, setSubmitted });
+    const data = {
+        commentId: replyTo,
+        replies: [
+            {
+                name: replyFields.name,
+                reply: replyFields.reply,
+            },
+        ],
     };
+    const url = `/.netlify/functions/comments`;
+    const method = "PUT";
+
+    const { submitting, submitted, createSubmission } = useCreateSubmission({
+        url,
+        method,
+        data,
+    });
 
     useQuery({ queryKey: [comments], queryFn: handleGet, enabled: submitted });
 
@@ -286,7 +284,7 @@ const CommentThread = (props: CommentThreadProps) => {
                                             replyFields.reply === ""
                                         }
                                         loading={submitting}
-                                        onClick={() => submitReply()}
+                                        onClick={() => createSubmission()}
                                         variant="contained"
                                         size="small">
                                         Reply{" "}
