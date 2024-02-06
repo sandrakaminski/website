@@ -79,7 +79,7 @@ const Cart = (): JSX.Element => {
         try {
             const res = await axios.get("http://geolocation-db.com/json/");
             const { country_code } = res.data;
-            if (countriesList[country_code] === undefined) {
+            if (!countriesList[country_code]) {
                 handleSetCountry("NZ");
                 setLoading(false);
             }
