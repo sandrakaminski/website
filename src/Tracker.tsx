@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, JSX } from "react";
 
-import ReactGA from 'react-ga4';
-import { useLocation } from 'react-router-dom';
+import ReactGA from "react-ga4";
+import { useLocation } from "react-router-dom";
 
 type TrackerProps = {
     children: React.ReactNode;
     flags?: {
         [key: string]: boolean;
-    }
-}
+    };
+};
 
-const Tracker = ((props: TrackerProps): JSX.Element => {
+const Tracker = (props: TrackerProps): JSX.Element => {
     const { children } = props;
     const { pathname } = useLocation();
 
@@ -18,15 +18,14 @@ const Tracker = ((props: TrackerProps): JSX.Element => {
         const googleAnalytics = () => {
             window.scrollTo(0, 0);
             ReactGA.initialize(import.meta.env.VITE_GA_ID);
-            ReactGA.send(
-                {
-                    hitType: "pageview",
-                    page: pathname,
-                });
-        }
+            ReactGA.send({
+                hitType: "pageview",
+                page: pathname,
+            });
+        };
         googleAnalytics();
     }, [pathname]);
 
-    return <>{children}</>
-});
+    return <>{children}</>;
+};
 export default Tracker;

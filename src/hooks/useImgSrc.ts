@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 type LoadResp = {
     load: boolean;
@@ -7,7 +7,7 @@ type LoadResp = {
 export const useImageSrc = (src: string): LoadResp => {
     const [load, setLoad] = useState<boolean>(true);
 
-    const imageSrc = (setLoad: (load: boolean) => void, src: string): string => {
+    const imageSrc = useCallback((): string => {
         setLoad(true);
         const imageToLoad = new Image();
         imageToLoad.src = src;
@@ -19,11 +19,11 @@ export const useImageSrc = (src: string): LoadResp => {
             return () => { clearTimeout(loaded); };
         };
         return src;
-    };
+    }, [src]);
 
     useEffect(() => {
-        imageSrc(setLoad, src);
-    }, [setLoad, src]);
+        imageSrc();
+    }, [imageSrc, setLoad, src]);
 
     return { load };
 };
