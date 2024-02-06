@@ -1,4 +1,4 @@
-import React, { useReducer, useState, JSX } from "react";
+import React, { useReducer, useState, JSX, useEffect } from "react";
 
 import CheckCircle from "@mui/icons-material/CheckCircle";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 import CommenterInfo, { CommentSkeleton } from "@/components/CommenterInfo";
-import { useCreateSubmission } from "@/hooks";
+import { useCreateSubmission, useFetchEntries } from "@/hooks";
 import type { ArticleType, ContentEntryProps } from "@/types";
 
 type State = {
@@ -70,25 +70,15 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         comment: "",
     });
 
-    const [comments, setComments] = useState<CommentsProps>();
-    const [loading, setLoading] = useState<boolean>(true);
+    const url = `/.netlify/functions/comments`;
+    const { loading, response, handleGet } = useFetchEntries<CommentsProps>(
+        contentEntry.sys.id,
+        url
+    );
 
-    const handleGet = async () => {
-        const q = new URLSearchParams();
-        q.append("searchText", contentEntry.sys.id);
-        const url = `/.netlify/functions/comments?${q.toString()}`;
-        const res = await fetch(url);
-        const data = await res.json();
-        if (res.status === 200) {
-            setLoading(false);
-            setComments(data);
-        }
-        return data;
-    };
-    useQuery({
-        queryKey: [comments, contentEntry.sys.id],
-        queryFn: handleGet,
-    });
+    useEffect(() => {
+        handleGet();
+    }, [contentEntry.sys.id, handleGet]);
 
     const data = {
         page: `${type}/${contentEntry.fields.slug}`,
@@ -97,14 +87,14 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         id: contentEntry.sys.id,
         replies: [],
     };
-    const url = `/.netlify/functions/comments`;
+
     const { submitting, submitted, createSubmission } = useCreateSubmission({
         url,
         data,
     });
 
     useQuery({
-        queryKey: [comments, contentEntry.sys.id],
+        queryKey: [response, contentEntry.sys.id],
         queryFn: handleGet,
         enabled: submitted,
     });
@@ -119,11 +109,11 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
             <Stack sx={{ mt: 10 }} spacing={2}>
                 <Stack alignItems="center" direction="row" spacing={1}>
                     <Typography variant="h1">Comments </Typography>
-                    {comments?.data?.length !== undefined && (
+                    {response?.data?.length !== undefined && (
                         <Chip
                             size="small"
                             color="info"
-                            label={comments?.data?.length}
+                            label={response?.data?.length}
                         />
                     )}
                 </Stack>
@@ -163,7 +153,7 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                 {loading ? (
                     <CommentSkeleton />
                 ) : (
-                    <CommentThread comments={comments} handleGet={handleGet} />
+                    <CommentThread comments={response} handleGet={handleGet} />
                 )}
             </Stack>
         </Container>

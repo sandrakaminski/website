@@ -21,7 +21,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import CommenterInfo, { CommentSkeleton } from "@/components/CommenterInfo";
 import MediaUploader from "@/components/MediaUploader";
-import { useCreateSubmission } from "@/hooks";
+import { useCreateSubmission, useFetchEntries } from "@/hooks";
 import type { ProductTypes, ContentEntryProps } from "@/types";
 
 type State = {
@@ -70,35 +70,24 @@ const ProductReviews = (
     const [writeReview, setWriteReview] = useState<boolean>(false);
     const [starFilled, setStarFilled] = useState<number>(0);
     const [state, dispatch] = useReducer(reducer, initialState);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [reviews, setReviews] = useState<Page>();
     const [fields, setFields] = useState<Action>({
         media: "",
         title: "",
     });
     const [fullImg, setFullImg] = useState<string>("");
-
+    const url = `/.netlify/functions/reviews`;
     const setRating = (rating: number) => {
         setStarFilled(rating);
     };
 
-    const handleGet = async () => {
-        const q = new URLSearchParams();
-        q.append("searchText", contentEntry.sys.id);
-        const url = `/.netlify/functions/reviews?${q.toString()}`;
-        const res = await fetch(url);
-        const data = await res.json();
-        if (res.status === 200) {
-            setLoading(false);
-            setReviews(data);
-        }
-        return data;
-    };
-    useQuery({
-        queryKey: [reviews],
-        queryFn: handleGet,
-        enabled: true,
-    });
+    const { loading, response, handleGet } = useFetchEntries<Page>(
+        contentEntry.sys.id,
+        url
+    );
+
+    useEffect(() => {
+        handleGet();
+    }, [handleGet]);
 
     const handleOpen = (): void => {
         setOpenReviews(true);
@@ -115,7 +104,7 @@ const ProductReviews = (
         id: contentEntry.sys.id,
         media: fields.media,
     };
-    const url = `/.netlify/functions/reviews`;
+
     const { submitting, submitted, createSubmission } = useCreateSubmission({
         url,
         data,
@@ -128,7 +117,7 @@ const ProductReviews = (
     }, [submitted]);
 
     useQuery({
-        queryKey: [reviews],
+        queryKey: [response],
         queryFn: handleGet,
         enabled: submitted,
     });
@@ -188,8 +177,8 @@ const ProductReviews = (
                         <DialogContent>
                             {loading && <CommentSkeleton />}
                             {!loading &&
-                                reviews?.data?.length !== undefined &&
-                                reviews?.data?.map(
+                                response?.data?.length !== undefined &&
+                                response?.data?.map(
                                     (review: Review, index: number) => (
                                         <Box sx={{ my: 2 }} key={index}>
                                             <CommenterInfo
@@ -244,7 +233,7 @@ const ProductReviews = (
                                     )
                                 )}
                             {!loading &&
-                                reviews?.data?.length === undefined && (
+                                response?.data?.length === undefined && (
                                     <Typography>No reviews yet</Typography>
                                 )}
                         </DialogContent>
