@@ -1,4 +1,4 @@
-import React from "react";
+import { JSX } from "react";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
