@@ -1,10 +1,10 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 
 export const useFetchEntries = <T>(id: string, endpoint: string) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [response, setResponse] = useState<T>();
 
-    const handleGet = useCallback(async (): Promise<void> => {
+    const handleGet = async (): Promise<void> => {
         const q = new URLSearchParams();
         q.append("searchText", id);
         const url = `${endpoint}?${q.toString()}`;
@@ -14,8 +14,7 @@ export const useFetchEntries = <T>(id: string, endpoint: string) => {
             setLoading(false);
             setResponse(data);
         }
-    }, [id, endpoint])
-
+    }
 
     return { loading, response, handleGet }
 };
