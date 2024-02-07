@@ -81,7 +81,7 @@ const ProductReviews = (
     };
 
     const { loading, response, handleGet } = useFetchEntries<Page>(
-        contentEntry.sys.id,
+        contentEntry?.sys?.id,
         url
     );
 
@@ -101,7 +101,7 @@ const ProductReviews = (
         rating: starFilled,
         name: state.name,
         review: state.review,
-        id: contentEntry.sys.id,
+        id: contentEntry?.sys?.id,
         media: fields.media,
     };
 

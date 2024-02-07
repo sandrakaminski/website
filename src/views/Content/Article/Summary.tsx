@@ -1,14 +1,14 @@
 import { JSX } from "react";
 
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import CardActionArea from "@mui/material/CardActionArea";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
-import Typography from '@mui/material/Typography';
+import Typography from "@mui/material/Typography";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { dateFormatter } from "unix-date-formatter/date";
 
-import DateFormatter from "@/components/DateFormatter";
-import LoadingImage from '@/components/LoadingImage';
+import LoadingImage from "@/components/LoadingImage";
 import type { ArticleType, ContentEntryProps } from "@/types";
 
 const Summary = (props: ContentEntryProps<ArticleType>): JSX.Element => {
@@ -73,9 +73,7 @@ const Summary = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                                 id="date"
                                 color="grayText"
                                 variant="body1">
-                                <DateFormatter
-                                    dateString={contentEntry.fields.date}
-                                />
+                                {dateFormatter(contentEntry.fields.date)}
                             </Typography>
                             <FiberManualRecordIcon
                                 sx={{

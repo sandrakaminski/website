@@ -84,7 +84,7 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         page: `${type}/${contentEntry.fields.slug}`,
         name: state.name,
         comment: state.comment,
-        id: contentEntry.sys.id,
+        id: contentEntry?.sys?.id,
         replies: [],
     };
 

@@ -9,9 +9,9 @@ import ReactGA from "react-ga4";
 import ReactMarkdown from "react-markdown";
 import { useNavigate } from "react-router-dom";
 import gfm from "remark-gfm";
+import { dateFormatter } from "unix-date-formatter/date";
 
 import Comments from "./Comments";
-import DateFormatter from "@/components/DateFormatter";
 import LoadingImage from "@/components/LoadingImage";
 import Markdown from "@/components/Markdown";
 import ToggleStory from "@/components/ToggleStory";
@@ -53,9 +53,7 @@ const Detail = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                             alignItems="center"
                             spacing={2}>
                             <Typography id="date" variant="body1">
-                                <DateFormatter
-                                    dateString={contentEntry.fields.date}
-                                />
+                                {dateFormatter(contentEntry.fields.date)}
                             </Typography>
                             <FiberManualRecordIcon
                                 sx={{ height: 2.5, width: 2.5 }}

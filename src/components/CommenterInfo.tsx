@@ -6,8 +6,7 @@ import Container from "@mui/material/Container";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-
-import { Time } from "./DateFormatter";
+import { unixFormatter } from "unix-date-formatter/unix";
 
 type CommenterInfoProps = {
     name: string;
@@ -21,9 +20,7 @@ const CommenterInfo = (props: CommenterInfoProps): JSX.Element => {
         <Stack direction="row" alignItems="center" spacing={2}>
             <Avatar />
             <Typography variant="subtitle1">{name}</Typography>
-            <Typography sx={{ pt: 0.25 }}>
-                <Time date={date} />
-            </Typography>
+            <Typography sx={{ pt: 0.25 }}>{unixFormatter(date)}</Typography>
         </Stack>
     );
 };
