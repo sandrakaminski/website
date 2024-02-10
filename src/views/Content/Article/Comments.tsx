@@ -24,6 +24,8 @@ type Action = {
     [key: string]: string;
 };
 
+const url = `/.netlify/functions/comments`;
+
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
         case "name":
@@ -69,7 +71,6 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         comment: "",
     });
 
-    const url = `/.netlify/functions/comments`;
     const { loading, response, handleGet } = useFetchEntries<CommentsProps>(
         contentEntry.sys.id,
         url
@@ -181,7 +182,6 @@ const CommentThread = (props: CommentThreadProps) => {
             },
         ],
     };
-    const url = `/.netlify/functions/comments`;
     const method = "PUT";
 
     const { submitting, submitted, createSubmission } = useCreateSubmission({
