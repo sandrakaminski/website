@@ -9,7 +9,6 @@ import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 import CommenterInfo, { CommentSkeleton } from "@/components/CommenterInfo";
@@ -75,11 +74,6 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         contentEntry.sys.id,
         url
     );
-
-    useEffect(() => {
-        handleGet();
-    }, [contentEntry.sys.id, handleGet]);
-
     const data = {
         page: `${type}/${contentEntry.fields.slug}`,
         name: state.name,
@@ -93,11 +87,9 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         data,
     });
 
-    useQuery({
-        queryKey: [response, contentEntry.sys.id],
-        queryFn: handleGet,
-        enabled: submitted,
-    });
+    useEffect(() => {
+        handleGet();
+    }, [contentEntry.sys.id, handleGet, submitted]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -150,11 +142,8 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                         </Typography>
                     </Stack>
                 )}
-                {loading ? (
-                    <CommentSkeleton />
-                ) : (
-                    <CommentThread comments={response} handleGet={handleGet} />
-                )}
+                {loading && <CommentSkeleton />}
+                {!loading && response && <CommentThread comments={response} />}
             </Stack>
         </Container>
     );
@@ -162,11 +151,10 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
 
 type CommentThreadProps = {
     comments?: CommentsProps;
-    handleGet: () => void;
 };
 
 const CommentThread = (props: CommentThreadProps) => {
-    const { comments, handleGet } = props;
+    const { comments } = props;
 
     const init = {
         name: "",
@@ -201,8 +189,6 @@ const CommentThread = (props: CommentThreadProps) => {
         method,
         data,
     });
-
-    useQuery({ queryKey: [comments], queryFn: handleGet, enabled: submitted });
 
     return (
         <>
