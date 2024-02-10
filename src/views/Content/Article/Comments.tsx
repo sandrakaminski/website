@@ -90,7 +90,7 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
 
     useEffect(() => {
         handleGet();
-    }, [contentEntry.sys.id, handleGet, submitted]);
+    }, [contentEntry.sys.id, handleGet, submitted, contentEntry.fields.slug]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -154,7 +154,7 @@ type CommentThreadProps = {
     comments?: CommentsProps;
 };
 
-const CommentThread = (props: CommentThreadProps) => {
+const CommentThread = (props: CommentThreadProps): JSX.Element => {
     const { comments } = props;
 
     const init = {
@@ -165,7 +165,7 @@ const CommentThread = (props: CommentThreadProps) => {
     const [replyTo, setReplyTo] = useState<string | null>(null);
     const [replyFields, setReplyFields] = useState<ReplyInit>(init);
 
-    const openReply = async (r: string) => {
+    const openReply = (r: string) => {
         setReplyTo(r);
     };
 
@@ -182,8 +182,8 @@ const CommentThread = (props: CommentThreadProps) => {
             },
         ],
     };
-    const method = "PUT";
 
+    const method = "PUT";
     const { submitting, submitted, createSubmission } = useCreateSubmission({
         url,
         method,

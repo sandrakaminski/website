@@ -18,14 +18,14 @@ export const useFetchEntries = <T>(id: string, endpoint: string) => {
                 setLoading(false);
                 setResponse(data);
             } else {
-                throw new Error(data.message);
+                throw new Error(`Error fetching data ${data.message || data.status}`);
             }
         }
         catch (error) {
             console.error(error);
             setLoading(false);
         }
-    }, [id, endpoint, loading]);
+    }, [endpoint, id, loading]);
 
     return { loading, response, handleGet }
 };
