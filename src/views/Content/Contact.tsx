@@ -69,10 +69,11 @@ const Contact = (): JSX.Element => {
     };
 
     const url = `/.netlify/functions/registration`;
-    const { submitting, submitted, createSubmission } = useCreateSubmission({
-        url,
-        data,
-    });
+    const { submitting, error, submitted, createSubmission } =
+        useCreateSubmission({
+            url,
+            data,
+        });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -90,6 +91,7 @@ const Contact = (): JSX.Element => {
                     align="center"
                     variant="h4"
                     sx={{ mt: 6, mb: 2 }}>
+                    {error.state && error.message}
                     {!submitted
                         ? "Sign up to my newsletter for exclusive monthly updates."
                         : "Thank you for signing up!"}

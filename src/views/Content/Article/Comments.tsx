@@ -71,10 +71,8 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         comment: "",
     });
 
-    const { loading, response, handleGet } = useFetchEntries<CommentsProps>(
-        contentEntry.sys.id,
-        url
-    );
+    const { loading, error, response, handleGet } =
+        useFetchEntries<CommentsProps>(contentEntry.sys.id, url);
     const data = {
         page: `${type}/${contentEntry.fields.slug}`,
         name: state.name,
@@ -145,6 +143,11 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                 )}
                 {loading && <CommentSkeleton />}
                 {!loading && response && <CommentThread comments={response} />}
+                {error.state && (
+                    <Typography color="error" variant="subtitle1">
+                        {error.message}
+                    </Typography>
+                )}
             </Stack>
         </Container>
     );
@@ -184,11 +187,12 @@ const CommentThread = (props: CommentThreadProps): JSX.Element => {
     };
 
     const method = "PUT";
-    const { submitting, submitted, createSubmission } = useCreateSubmission({
-        url,
-        method,
-        data,
-    });
+    const { submitting, error, submitted, createSubmission } =
+        useCreateSubmission({
+            url,
+            method,
+            data,
+        });
 
     return (
         <>
@@ -274,6 +278,11 @@ const CommentThread = (props: CommentThreadProps): JSX.Element => {
                                     Reply sent successfully
                                 </Typography>
                             </Stack>
+                        )}
+                        {error.state && (
+                            <Typography color="error">
+                                {error.message}
+                            </Typography>
                         )}
                     </Container>
                     <Divider />

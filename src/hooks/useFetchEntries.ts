@@ -1,8 +1,11 @@
 import { useState, useCallback } from "react";
 
+import { useErrorHandler } from "./useErrorHandler";
+
 export const useFetchEntries = <T>(id: string, endpoint: string) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [response, setResponse] = useState<T>();
+    const { error, handleError } = useErrorHandler();
 
     const handleGet = useCallback(async (): Promise<void> => {
         if (!loading) {
@@ -20,12 +23,11 @@ export const useFetchEntries = <T>(id: string, endpoint: string) => {
             } else {
                 throw new Error(`Error fetching data ${data.message || data.status}`);
             }
-        }
-        catch (error) {
-            console.error(error);
+        } catch (err) {
+            handleError("Cannot fetch entries, try again later.");
             setLoading(false);
         }
-    }, [endpoint, id, loading]);
+    }, [endpoint, handleError, id, loading]);
 
-    return { loading, response, handleGet }
+    return { loading, error, response, handleGet };
 };

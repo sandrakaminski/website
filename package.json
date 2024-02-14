@@ -22,7 +22,6 @@
         "@mui/material": "^5.15.7",
         "@mui/system": "^5.15.8",
         "@tanstack/react-query": "^5.18.1",
-        "axios": "^1.6.7",
         "contentful": "^9.3.0",
         "globals": "^13.24.0",
         "lodash.clonedeep": "^4.5.0",

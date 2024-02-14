@@ -19,7 +19,6 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import ReactGA from "react-ga4";
 import { useNavigate } from "react-router-dom";
 
@@ -27,9 +26,9 @@ import {
     CountryDropdown,
     CurrencyExchange,
     CartItemPrice,
-    useCartHooks,
 } from "./PaymentCalc";
 import { CartSkeleton } from "@/components/Outline";
+import { useCartHooks } from "@/hooks";
 import { ProductItems } from "@/types";
 import { useCartContext } from "@/views/Cart/cartProvider";
 
@@ -77,13 +76,13 @@ const Cart = (): JSX.Element => {
 
     const getData = async (): Promise<void> => {
         try {
-            const res = await axios.get("http://geolocation-db.com/json/");
-            const { country_code } = res.data;
-            if (!countriesList[country_code]) {
+            const res = await fetch("http://geolocation-db.com/json/");
+            const body = await res.json();
+            if (!countriesList[body.country_code]) {
                 handleSetCountry("NZ");
                 setLoading(false);
             }
-            handleSetCountry(country_code);
+            handleSetCountry(body.country_code);
             setLoading(false);
         } catch {
             handleSetCountry("NZ");
@@ -116,12 +115,11 @@ const Cart = (): JSX.Element => {
     };
     useQuery({ queryKey: [cart, country], queryFn: trigger });
 
+    const jpShipping = handleJapanChileShipping({ country, amount });
     const data = {
         country: country,
         currency: currency,
-        shipping: parseInt(
-            handleJapanChileShipping({ country, amount }) as string
-        ),
+        shipping: parseInt(jpShipping),
         orderItems: cart?.map((item: OrderItems) => {
             return {
                 productId: item.id,
