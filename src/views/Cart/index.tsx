@@ -28,7 +28,7 @@ import {
     CartItemPrice,
 } from "./PaymentCalc";
 import { CartSkeleton } from "@/components/Outline";
-import { useCartHooks } from "@/hooks";
+import { useCartHooks, useErrorHandler } from "@/hooks";
 import { ProductItems } from "@/types";
 import { useCartContext } from "@/views/Cart/cartProvider";
 
@@ -53,6 +53,7 @@ const Cart = (): JSX.Element => {
         handleJapanChileShipping,
     } = useCartHooks();
     const { cart, clear, decrease, increase, remove } = useCartContext();
+    const { error, handleError } = useErrorHandler();
 
     const [processing, setProcessing] = useState<boolean>(false);
     const [nzOnly, setNzOnly] = useState<boolean>(false);
@@ -130,21 +131,25 @@ const Cart = (): JSX.Element => {
 
     const handlePurchase = async (): Promise<void> => {
         setProcessing(true);
-
-        ReactGA.event({
-            category: "Purchase",
-            action: `New checkout session for person from ${country}`,
-            label: "Purchase",
-        });
-        const resp = await fetch(`/.netlify/functions/payment`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
-        if (resp.ok) {
-            const { url } = await resp.json();
-            window.location.replace(url);
-        } else {
+        try {
+            ReactGA.event({
+                category: "Purchase",
+                action: `New checkout session for person from ${country}`,
+                label: "Purchase",
+            });
+            const resp = await fetch(`/.netlify/functions/payment`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+            if (resp.ok) {
+                const { url } = await resp.json();
+                window.location.replace(url);
+            } else {
+                setProcessing(false);
+            }
+        } catch (err) {
+            handleError("Error navigating to payment page. Try again later.");
             setProcessing(false);
         }
     };
@@ -256,6 +261,11 @@ const Cart = (): JSX.Element => {
                                     Buy now
                                 </LoadingButton>
                             </ButtonGroup>
+                            {error.state && (
+                                <Typography color="error">
+                                    {error.message}
+                                </Typography>
+                            )}
                         </Stack>
                     </Grid>
                 </Grid>
