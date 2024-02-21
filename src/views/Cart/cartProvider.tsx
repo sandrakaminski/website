@@ -9,7 +9,7 @@ type CartItem = {
     inStock: boolean;
     slug: string;
     name: string;
-    amount: number[] | any;
+    amount: number[];
     image: string;
     price: string;
     max: number;
@@ -19,7 +19,7 @@ type CartItem = {
 
 type State = {
     cart: CartItem[];
-    amount: number[] | any;
+    amount: number;
     total: number;
 };
 
@@ -36,6 +36,42 @@ const init: State = {
 
 export const cartContext: React.Context<any> = createContext(init);
 
+// Change amount of items in Cart (increase / decrease)
+function changeAmount(state: State, action: Action, method: string): State {
+    const newState = cloneDeep(state);
+    const tempCart = state.cart.map((item: CartItem) => {
+        if (item.id !== action.payload) {
+            return item;
+        }
+        const remainder = () => {
+            switch (method) {
+                case "INC":
+                    return item.amount.concat(1);
+                case "DEC":
+                    return item.amount.slice(0, -1);
+                default:
+                    throw new Error(`No Matching "${method}" - method type`);
+            }
+        };
+        const newAmount = remainder();
+        return { ...item, amount: newAmount };
+    });
+
+    newState.cart = tempCart;
+
+    newState.amount = newState.cart.reduce(
+        (acc: number, item: CartItem) => acc + item.amount.length,
+        0
+    );
+    newState.total = newState.cart.reduce(
+        (acc: number, item: CartItem) =>
+            acc + item.amount.length * parseFloat(item.price),
+        0
+    );
+
+    return newState;
+}
+
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
         // Clear Cart
@@ -47,7 +83,7 @@ const reducer = (state: State, action: Action): State => {
             return newState;
         }
 
-        //Remove items from Cart
+        // Remove items from Cart
         case "REMOVE": {
             const newState = cloneDeep(state);
             const tempCart = state.cart.filter(
@@ -55,21 +91,21 @@ const reducer = (state: State, action: Action): State => {
             );
             newState.cart = tempCart;
             newState.amount = newState.cart.reduce(
-                (acc: number, item: CartItem) => acc + item.amount,
+                (acc: number, item: CartItem) => acc + item.amount.length,
                 0
             );
             newState.total = newState.cart.reduce(
                 (acc: number, item: CartItem) =>
-                    acc + item.amount * parseFloat(item.price),
+                    acc + item.amount.length * parseFloat(item.price),
                 0
             );
             return newState;
         }
 
-        //Add to cart
+        // Add to cart
         case "CART": {
             const newState = cloneDeep(state);
-            const { id, amount, product }: any = action.payload;
+            const { id, amount, product } = action.payload;
             const tempItem = state.cart.find((i: CartItem) => i.id === id);
 
             if (tempItem) {
@@ -100,54 +136,6 @@ const reducer = (state: State, action: Action): State => {
             };
             newState.cart = [...state.cart, newItem];
             newState.amount = newState.cart.reduce(
-                (acc: number, item: CartItem) => acc + item.amount,
-                0
-            );
-            newState.total = newState.cart.reduce(
-                (acc: number, item: CartItem) =>
-                    acc + item.amount * parseFloat(item.price),
-                0
-            );
-            return newState;
-        }
-
-        //Increase amount of items
-        case "INC": {
-            const newState = cloneDeep(state);
-            const tempCart = state.cart.map((item: CartItem) => {
-                if (item.id !== action.payload) {
-                    return item;
-                }
-                const newAmount = item.amount + 1;
-                return { ...item, amount: newAmount };
-            });
-
-            newState.cart = tempCart;
-            newState.amount = newState.cart.reduce(
-                (acc: number, item: CartItem) => acc + item.amount,
-                0
-            );
-            newState.total = newState.cart.reduce(
-                (acc: number, item: CartItem) =>
-                    acc + item.amount * parseFloat(item.price),
-                0
-            );
-            return newState;
-        }
-
-        //Decrease amount of items
-        case "DEC": {
-            const newState = cloneDeep(state);
-            const tempCart = state.cart.map((item: CartItem) => {
-                if (item.id !== action.payload) {
-                    return item;
-                }
-                const remainder = item.amount.slice(0, -1);
-                return { ...item, amount: remainder };
-            });
-
-            newState.cart = tempCart;
-            newState.amount = newState.cart.reduce(
                 (acc: number, item: CartItem) => acc + item.amount.length,
                 0
             );
@@ -157,6 +145,16 @@ const reducer = (state: State, action: Action): State => {
                 0
             );
             return newState;
+        }
+
+        //Increase amount of items
+        case "INC": {
+            return changeAmount(state, action, "INC");
+        }
+
+        //Decrease amount of items
+        case "DEC": {
+            return changeAmount(state, action, "DEC");
         }
 
         //Calculate total amount of items in Cart
@@ -176,7 +174,8 @@ const reducer = (state: State, action: Action): State => {
                     amount: 0,
                 }
             );
-            amount = amount.length || 0;
+            const totalAmount = Array.from(String(amount));
+            amount = totalAmount.length || 0;
             total = parseFloat(total.toFixed(2));
 
             newState.total = total;
@@ -194,9 +193,8 @@ const getLocalStorage = () => {
     const cart = localStorage.getItem("cart");
     if (cart) {
         return JSON.parse(cart);
-    } else {
-        return [];
     }
+    return [];
 };
 
 const initialState: State = {
