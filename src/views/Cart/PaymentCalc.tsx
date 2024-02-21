@@ -239,4 +239,3 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
         </Box>
     );
 };
-
