@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import LoadingState from "@/components/Outline";
 import type { MenuEntry, MenuItemEntry } from "@/types";
-import { useCartContext } from "@/views/Cart/cartProvider";
+import { useCartContext } from "@/views/Cart/CartProvider";
 import { fetchContent } from "@/views/Content/api";
 
 const Header = (): JSX.Element => {
@@ -34,7 +34,7 @@ const Header = (): JSX.Element => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const navigate = useNavigate();
-    const { amount } = useCartContext();
+    const { state } = useCartContext();
 
     const handleClick = (e: React.MouseEvent<HTMLElement>): void => {
         setAnchorEl(e.currentTarget);
@@ -109,9 +109,7 @@ const Header = (): JSX.Element => {
                         <IconButton
                             color="inherit"
                             onClick={() => handleNavigate("cart")}>
-                            <Badge
-                                badgeContent={amount - 1 > 0 ? amount - 1 : 0}
-                                color="info">
+                            <Badge badgeContent={state.amount} color="info">
                                 <ShoppingCartOutlinedIcon />
                             </Badge>
                         </IconButton>

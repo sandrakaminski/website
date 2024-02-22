@@ -1,4 +1,4 @@
-import { ProductItems } from "@/types";
+import { ProductTypes } from "@/types";
 
 type Amount = {
     shipping: number;
@@ -232,8 +232,8 @@ export const useCartHooks = () => {
     };
 
     type CheckProductTypeProps = {
-        cart: ProductItems[];
-        category: string;
+        cart: ProductTypes[];
+        category: string[];
     };
 
     // removes paper products from shipping fee if there is a book in the cart
@@ -242,16 +242,9 @@ export const useCartHooks = () => {
 
         let quantity;
         if ((category.includes("Paper Products"), category.includes("Book"))) {
-            quantity = cart
-                .filter(
-                    (item: ProductItems) => item.category !== "Paper Products"
-                )
-                .map((item: ProductItems) => item.amount.length)
-                .reduce((a: number, b: number) => a + b, 0);
+            quantity = cart.filter((item) => item.category !== "Paper Products").map((item) => item.amount).reduce((a, b) => a + b.length, 0);
         } else {
-            quantity = cart
-                .map((item: ProductItems) => item.amount.length)
-                .reduce((a: number, b: number) => a + b, 0);
+            quantity = cart.map((item) => item.amount).reduce((a, b) => a + b.length, 0);
         }
         return quantity;
     };

@@ -4,13 +4,13 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import { useQuery } from "@tanstack/react-query";
 
 import { useCartHooks } from "@/hooks";
-import { useCartContext } from "@/views/Cart/cartProvider";
+import { useCartContext } from "@/views/Cart/CartProvider";
 
 type Amount = {
     shipping: number;
@@ -20,21 +20,16 @@ type Amount = {
 
 type DropdownProps = {
     setCountry: (country: string) => void;
-    value: string;
-    label: string;
     id: string;
     disabled?: boolean;
     loading?: boolean;
 };
 
 export const CountryDropdown = (props: DropdownProps): JSX.Element => {
-    const { setCountry, value, label, id, disabled, loading } = props;
+    const { setCountry, id, disabled, loading } = props;
 
     const { countriesList } = useCartHooks();
-
-    const changeCountry = (e: SelectChangeEvent) => {
-        setCountry(e.target.value);
-    };
+    const value = localStorage.getItem("country") || "";
 
     return (
         <>
@@ -46,12 +41,12 @@ export const CountryDropdown = (props: DropdownProps): JSX.Element => {
                     fullWidth>
                     <InputLabel id={id}>Country</InputLabel>
                     <Select
-                        onChange={changeCountry}
+                        onChange={(e) => setCountry(e.target.value)}
                         value={value}
                         labelId="country"
                         id={id}
                         name={id}
-                        label={label}>
+                        label="Country">
                         {Object.entries(countriesList).map(([k, v]) => (
                             <MenuItem key={v.code} value={k}>
                                 {v.name}
@@ -63,8 +58,8 @@ export const CountryDropdown = (props: DropdownProps): JSX.Element => {
                 <Skeleton
                     sx={{ py: 2.3 }}
                     variant="rounded"
-                    width={"100%"}
-                    height={"100%"}
+                    width="100%"
+                    height="100%"
                 />
             )}
         </>
@@ -118,7 +113,7 @@ export const CartItemPrice = (props: ICartItemPrice): JSX.Element => {
 // displays the approximate costs
 export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
     const { country, shippingCosts, setAmount, amount, setDisable } = props;
-    const { total } = useCartContext();
+    const { state } = useCartContext();
     const [loading, setLoading] = useState<boolean>(true);
 
     const { currencyTypes, symbols, vat, exchangeRate } = useCartHooks();
@@ -127,13 +122,13 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
 
-    const totalCost = total + shippingCosts;
+    const totalCost = state.total + shippingCosts;
     const vatTotal = vatCosts * amount.total;
-    const totalCosts = totalCost.toFixed(2).toString();
+    const totalCosts = totalCost.toFixed(2);
 
     const handleSetCurrency = () => {
         const shipping = exchangeRate(newCurrency, shippingCosts);
-        const newTotal = exchangeRate(newCurrency, totalCosts);
+        const newTotal = exchangeRate(newCurrency, Number(totalCosts));
         setAmount({
             total: newTotal,
             shipping: shipping,
@@ -189,9 +184,10 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
         refetchOnWindowFocus: true,
     });
 
-    const checkState = (): Array<
-        boolean | ((disable: boolean) => boolean | void)
-    > => {
+    const checkState = (): (
+        | boolean
+        | ((disable: boolean) => boolean | void)
+    )[] => {
         if (loadRate.isLoading) {
             setDisable(true);
         }

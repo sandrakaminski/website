@@ -78,20 +78,20 @@ export type ImageItem = Entry<{
     slug: string;
 }>
 
-// product
-export type ProductTypes = {
-    oldPrice: number;
-    name: string;
-    price: number;
-    description: string;
-    featureImage: Asset;
-    slug: string;
-    productId: string;
-    inStock: boolean;
-    productFiles: Asset[]
-    nzShippingOnly: boolean;
-    publishDate: string;
-}
+// // product
+// export type ProductTypes = {
+//     oldPrice: number;
+//     name: string;
+//     price: number;
+//     description: string;
+//     featureImage: Asset;
+//     slug: string;
+//     productId: string;
+//     inStock: boolean;
+//     productFiles: Asset[]
+//     nzShippingOnly: boolean;
+//     publishDate: string;
+// }
 
 // article 
 export type ArticleType = {
@@ -108,14 +108,19 @@ export type ArticleType = {
 }
 
 // works in the scope of the cartProvider
-export type ProductItems = {
+export type ProductTypes = {
     inStock: boolean;
     slug: string;
-    id: string;
+    productId: string;
     name: string;
     price: number;
     amount: number[];
-    image: Asset;
+    featureImage: Asset;
     nzShippingOnly: boolean;
     category: string;
+    max: number;
+    oldPrice: number;
+    description: string;
+    productFiles: Asset[]
+    publishDate: string;
 }

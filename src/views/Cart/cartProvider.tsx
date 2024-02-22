@@ -1,53 +1,51 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useReducer, createContext, useContext, JSX } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 import cloneDeep from "lodash.clonedeep";
 
-type CartItem = {
-    id: string;
-    inStock: boolean;
-    slug: string;
-    name: string;
-    amount: number[];
-    image: string;
-    price: string;
-    max: number;
-    nzShippingOnly: boolean;
-    category: string;
-};
+import { ProductTypes } from "@/types";
 
+enum ActionTypes {
+    CLEAR = "CLEAR",
+    REMOVE = "REMOVE",
+    CART = "CART",
+    INC = "INC",
+    DEC = "DEC",
+    GET_TOTALS = "GET_TOTALS",
+}
 type State = {
-    cart: CartItem[];
+    cart: ProductTypes[];
     amount: number;
     total: number;
 };
 
 type Action = {
-    type: string;
-    payload: any;
+    type: ActionTypes;
+    payload: {
+        id: string;
+        amount: number;
+        product: ProductTypes;
+    };
 };
 
-const init: State = {
-    cart: [],
-    amount: 0,
-    total: 0,
-};
+type CartContextValue = {
+    state: State;
+    dispatch: React.Dispatch<Action>;
+}| undefined;
 
-export const cartContext: React.Context<any> = createContext(init);
+export const CartContext = createContext<CartContextValue>(undefined);
 
 // Change amount of items in Cart (increase / decrease)
-function changeAmount(state: State, action: Action, method: string): State {
-    const newState = cloneDeep(state);
-    const tempCart = state.cart.map((item: CartItem) => {
-        if (item.id !== action.payload) {
+function changeAmount(state: State, id: string, method: string): State {
+    const tempCart = state.cart.map((item) => {
+        if (item.productId !== id) {
             return item;
         }
         const remainder = () => {
             switch (method) {
-                case "INC":
+                case ActionTypes.INC:
                     return item.amount.concat(1);
-                case "DEC":
+                case ActionTypes.DEC:
                     return item.amount.slice(0, -1);
                 default:
                     throw new Error(`No Matching "${method}" - method type`);
@@ -57,130 +55,114 @@ function changeAmount(state: State, action: Action, method: string): State {
         return { ...item, amount: newAmount };
     });
 
-    newState.cart = tempCart;
+    state.cart = tempCart;
 
-    newState.amount = newState.cart.reduce(
-        (acc: number, item: CartItem) => acc + item.amount.length,
+    state.amount = state.cart.reduce(
+        (acc, item) => acc + item.amount.length,
         0
     );
-    newState.total = newState.cart.reduce(
-        (acc: number, item: CartItem) =>
-            acc + item.amount.length * parseFloat(item.price),
+    state.total = state.cart.reduce(
+        (acc, item) => acc + item.amount.length * item.price,
         0
     );
 
-    return newState;
-}
+    return state;
+} 
 
 const reducer = (state: State, action: Action): State => {
+    let newState = cloneDeep(state);
     switch (action.type) {
-        // Clear Cart
-        case "CLEAR": {
-            const newState = cloneDeep(state);
-            newState.cart = [];
-            newState.amount = 0;
-            newState.total = 0;
+        case ActionTypes.CLEAR: {
+            newState = {
+                cart: [],
+                amount: 0,
+                total: 0,
+            };
             return newState;
         }
-
-        // Remove items from Cart
-        case "REMOVE": {
-            const newState = cloneDeep(state);
+        case ActionTypes.REMOVE: {
             const tempCart = state.cart.filter(
-                (item: CartItem) => item.id !== action.payload
+                (item) => item.productId !== action.payload.id
             );
             newState.cart = tempCart;
             newState.amount = newState.cart.reduce(
-                (acc: number, item: CartItem) => acc + item.amount.length,
+                (acc, item) => acc + item.amount.length,
                 0
             );
             newState.total = newState.cart.reduce(
-                (acc: number, item: CartItem) =>
-                    acc + item.amount.length * parseFloat(item.price),
+                (acc, item) => acc + item.amount.length * item.price,
                 0
             );
             return newState;
         }
-
-        // Add to cart
-        case "CART": {
-            const newState = cloneDeep(state);
+        case ActionTypes.CART: {
             const { id, amount, product } = action.payload;
-            const tempItem = state.cart.find((i: CartItem) => i.id === id);
+            const tempItem = state.cart.find((i) => i.productId === id);
 
             if (tempItem) {
-                const tempCart = state.cart.map((cartItem: CartItem) => {
-                    if (cartItem.id !== id) {
+                const tempCart = state.cart.map((cartItem) => {
+                    if (cartItem.productId !== id) {
                         return cartItem;
                     }
-                    let newAmount = cartItem.amount + amount;
-                    if (newAmount > cartItem.max) {
-                        newAmount = cartItem.max;
+                    let newAmount = cartItem.amount.concat(amount);
+                    if (newAmount.length > cartItem.max) {
+                        newAmount = cartItem.amount;
                     }
                     return { ...cartItem, amount: newAmount };
                 });
 
                 return { ...state, cart: tempCart };
             }
-            const newItem: CartItem = {
-                id: id,
+            const newItem = {
+                productId: id,
                 inStock: product.inStock,
                 slug: product.slug,
                 name: product.name,
-                amount,
+                amount: [amount],
                 category: product.category,
-                image: product.featureImage,
+                featureImage: product.featureImage,
                 price: product.price,
-                max: product.stock,
                 nzShippingOnly: product.nzShippingOnly,
+                max: product.max,
+                oldPrice: product.oldPrice,
+                description: product.description,
+                productFiles: product.productFiles,
+                publishDate: product.publishDate,
             };
             newState.cart = [...state.cart, newItem];
             newState.amount = newState.cart.reduce(
-                (acc: number, item: CartItem) => acc + item.amount.length,
+                (acc, item) =>
+                    acc + Array.from(String(item.amount), Number).length,
                 0
             );
             newState.total = newState.cart.reduce(
-                (acc: number, item: CartItem) =>
-                    acc + item.amount.length * parseFloat(item.price),
+                (acc, item) =>
+                    acc +
+                    Array.from(String(item.amount), Number).length * item.price,
                 0
             );
             return newState;
         }
-
-        //Increase amount of items
-        case "INC": {
-            return changeAmount(state, action, "INC");
+        case ActionTypes.INC: {
+            return changeAmount(newState, action.payload.id, ActionTypes.INC);
         }
-
-        //Decrease amount of items
-        case "DEC": {
-            return changeAmount(state, action, "DEC");
+        case ActionTypes.DEC: {
+            return changeAmount(newState, action.payload.id, ActionTypes.DEC);
         }
-
-        //Calculate total amount of items in Cart
-        case "GET_TOTALS": {
-            const newState = cloneDeep(state);
-            let { total, amount }: State = state.cart.reduce(
-                (cartTotal: any, cartItem: any) => {
+        case ActionTypes.GET_TOTALS: {
+            const { total, amount } = state.cart.reduce(
+                (cartTotal, cartItem) => {
                     const { price, amount } = cartItem;
                     const itemTotal = price * amount.length || 0;
                     cartTotal.total += itemTotal;
-                    cartTotal.amount += amount;
+                    cartTotal.amount += amount.length || 0;
 
                     return cartTotal;
                 },
-                {
-                    total: 0,
-                    amount: 0,
-                }
+                { total: 0, amount: 0 }
             );
-            const totalAmount = Array.from(String(amount));
-            amount = totalAmount.length || 0;
-            total = parseFloat(total.toFixed(2));
-
             newState.total = total;
             newState.amount = amount;
-
             return newState;
         }
         default:
@@ -197,7 +179,7 @@ const getLocalStorage = () => {
     return [];
 };
 
-const initialState: State = {
+const initialState = {
     cart: getLocalStorage(),
     amount: 0,
     total: 0,
@@ -207,59 +189,86 @@ type CartProviderProps = {
     children: React.ReactNode;
 };
 
-export const CartProvider = ({ children }: CartProviderProps): JSX.Element => {
-    const [state, dispatch] = useReducer(reducer, initialState && initialState);
+export const useCartContext = () => {
+    const context = useContext(CartContext);
+    if (!context) {
+        throw new Error("useCart must be used within a CartProvider");
+    }
+    const { state, dispatch } = context;
 
     // add to cart
-    const addToCart = (id: number, amount: number, product: CartItem): void => {
-        dispatch({ type: "CART", payload: { id, amount, product } });
+    const addToCart = (
+        id: string,
+        amount: number,
+        product: ProductTypes
+    ): void => {
+        dispatch({ type: ActionTypes.CART, payload: { id, amount, product } });
     };
 
     // remove
-    const remove = (id: number): void => {
-        dispatch({ type: "REMOVE", payload: id });
+    const remove = (id: string): void => {
+        dispatch({
+            type: ActionTypes.REMOVE,
+            payload: { id, amount: 0, product: {} as ProductTypes },
+        });
     };
 
     // increase
-    const increase = (id: number): void => {
-        dispatch({ type: "INC", payload: id });
+    const increase = (id: string): void => {
+        dispatch({
+            type: ActionTypes.INC,
+            payload: { id, amount: 0, product: {} as ProductTypes },
+        });
     };
 
     // decrease
-    const decrease = (id: number): void => {
-        dispatch({ type: "DEC", payload: id });
+    const decrease = (id: string): void => {
+        dispatch({
+            type: ActionTypes.DEC,
+            payload: { id, amount: 0, product: {} as ProductTypes },
+        });
     };
 
     // clear
     const clear = (): void => {
         dispatch({
-            type: "CLEAR",
-            payload: undefined,
+            type: ActionTypes.CLEAR,
+            payload: { id: "", amount: 0, product: {} as ProductTypes },
         });
     };
 
-    const getTotal = (): CartItem[][] => {
+    // get totals
+    const getTotal = (): ProductTypes[][] => {
         dispatch({
-            type: "GET_TOTALS",
-            payload: undefined,
+            type: ActionTypes.GET_TOTALS,
+            payload: { id: "", amount: 0, product: {} as ProductTypes },
         });
         localStorage.setItem("cart", JSON.stringify(state.cart));
         return [state.cart];
     };
+
     useQuery({
         queryKey: [state.cart],
         queryFn: getTotal,
         refetchOnWindowFocus: false,
     });
 
-    return (
-        <cartContext.Provider
-            value={{ ...state, addToCart, clear, decrease, increase, remove }}>
-            {children}
-        </cartContext.Provider>
-    );
+    return {
+        state,
+        addToCart,
+        clear,
+        decrease,
+        increase,
+        remove,
+    };
 };
 
-export const useCartContext = () => {
-    return useContext(cartContext);
+export const CartProvider = ({ children }: CartProviderProps): JSX.Element => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    return (
+        <CartContext.Provider value={{ state, dispatch }}>
+            {children}
+        </CartContext.Provider>
+    );
 };

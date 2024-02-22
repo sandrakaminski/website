@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { useState, JSX, Key } from "react";
+import { useState, JSX } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
@@ -29,15 +29,10 @@ import {
 } from "./PaymentCalc";
 import { CartSkeleton } from "@/components/Outline";
 import { useCartHooks, useErrorHandler } from "@/hooks";
-import { ProductItems } from "@/types";
-import { useCartContext } from "@/views/Cart/cartProvider";
+import { ProductTypes } from "@/types";
+import { useCartContext } from "@/views/Cart/CartProvider";
 
 type PriceKey = "shipping" | "total";
-
-type OrderItems = {
-    id: string;
-    amount: number[];
-};
 
 type Prices = {
     [key in PriceKey]: number;
@@ -52,7 +47,7 @@ const Cart = (): JSX.Element => {
         checkProductType,
         handleJapanChileShipping,
     } = useCartHooks();
-    const { cart, clear, decrease, increase, remove } = useCartContext();
+    const { state, clear, decrease, increase, remove } = useCartContext();
     const { error, handleError } = useErrorHandler();
 
     const [processing, setProcessing] = useState<boolean>(false);
@@ -65,8 +60,11 @@ const Cart = (): JSX.Element => {
         total: 0,
     });
 
-    const category = cart.map((item: ProductItems) => item.category);
-    const quantity = checkProductType({ cart, category });
+    const category = state.cart.map((item) => item.category);
+    const quantity = checkProductType({
+        cart: state.cart,
+        category: category,
+    });
     const shippingTotal = shippingFee({ country, category }) * quantity;
     const currency = currencyTypes(country).toLowerCase();
 
@@ -92,12 +90,10 @@ const Cart = (): JSX.Element => {
     };
 
     const trigger = () => {
-        if (cart.length === 0) {
+        if (state.cart.length === 0) {
             localStorage.removeItem("country");
         } else if (
-            cart
-                ?.map((item: ProductItems) => item.nzShippingOnly)
-                .includes(true)
+            state.cart?.map((item) => item.nzShippingOnly).includes(true)
         ) {
             handleSetCountry("NZ");
             setLoading(false);
@@ -112,18 +108,18 @@ const Cart = (): JSX.Element => {
                 setLoading(false);
             }
         }
-        return [cart, country];
+        return [state.cart, country];
     };
-    useQuery({ queryKey: [cart, country], queryFn: trigger });
+    useQuery({ queryKey: [state.cart, country], queryFn: trigger });
 
     const jpShipping = handleJapanChileShipping({ country, amount });
     const data = {
         country: country,
         currency: currency,
         shipping: parseInt(jpShipping),
-        orderItems: cart?.map((item: OrderItems) => {
+        orderItems: state.cart?.map((item) => {
             return {
-                productId: item.id,
+                productId: item.productId,
                 quantity: item.amount.length,
             };
         }),
@@ -156,7 +152,7 @@ const Cart = (): JSX.Element => {
 
     return (
         <Box sx={{ my: 4 }}>
-            {cart && cart.length === 0 ? (
+            {state.cart && state.cart.length === 0 ? (
                 <Stack
                     sx={{ mt: 10 }}
                     justifyContent="space-between"
@@ -202,21 +198,16 @@ const Cart = (): JSX.Element => {
                                         </Button>
                                     </Stack>
                                     <Stack sx={{ mt: 4 }}>
-                                        {cart?.map(
-                                            (
-                                                item: ProductItems,
-                                                index: Key
-                                            ) => (
-                                                <CartItem
-                                                    country={country}
-                                                    key={Number(index)}
-                                                    item={item}
-                                                    increase={increase}
-                                                    decrease={decrease}
-                                                    remove={remove}
-                                                />
-                                            )
-                                        )}
+                                        {state.cart?.map((item, index) => (
+                                            <CartItem
+                                                country={country}
+                                                key={Number(index)}
+                                                item={item}
+                                                increase={increase}
+                                                decrease={decrease}
+                                                remove={remove}
+                                            />
+                                        ))}
                                         <Typography
                                             variant="caption"
                                             color="grayText">
@@ -246,9 +237,7 @@ const Cart = (): JSX.Element => {
                                 <CountryDropdown
                                     loading={loading}
                                     disabled={nzOnly}
-                                    label={"Country"}
-                                    id={"country"}
-                                    value={country}
+                                    id="country"
                                     setCountry={handleSetCountry}
                                 />
                                 <LoadingButton
@@ -277,7 +266,7 @@ const Cart = (): JSX.Element => {
 export default Cart;
 
 type CartItemProps = {
-    item: ProductItems;
+    item: ProductTypes;
     remove: (id: string) => void;
     increase: (id: string) => void;
     decrease: (id: string) => void;
@@ -309,7 +298,7 @@ const CartItem = (props: CartItemProps): JSX.Element => {
                     sx={{ height: 55, width: 55 }}
                     variant="square"
                     alt={item.name}
-                    src={item.image.fields.file.url}
+                    src={item.featureImage.fields.file.url}
                 />
                 <Box sx={{ ml: 2 }}>
                     <Typography variant="subtitle1">{item.name}</Typography>
@@ -326,7 +315,7 @@ const CartItem = (props: CartItemProps): JSX.Element => {
                 <Button
                     startIcon={<DeleteIcon fontSize="inherit" />}
                     color="error"
-                    onClick={() => remove(item.id)}>
+                    onClick={() => remove(item.productId)}>
                     Remove
                 </Button>
             </Grid>
@@ -340,7 +329,7 @@ type AmountButtonsProps = {
     remove: (id: string) => void;
     amount: {
         amount: number[];
-        id: string;
+        productId: string;
     };
 };
 
@@ -352,23 +341,27 @@ const AmountButtons = (props: AmountButtonsProps): JSX.Element => {
             amount?.amount.length === undefined ||
             amount?.amount.length === 0
         ) {
-            remove(amount.id);
+            remove(amount.productId);
         }
         return amount?.amount.length;
     };
     useQuery({
-        queryKey: [amount, amount?.id],
+        queryKey: [amount, amount?.productId],
         queryFn: changeAmount,
         refetchOnWindowFocus: false,
     });
 
     return (
         <Stack direction="row" justifyContent="center" alignItems="center">
-            <IconButton onClick={() => decrease(amount?.id)} size="small">
+            <IconButton
+                onClick={() => decrease(amount?.productId)}
+                size="small">
                 <RemoveIcon fontSize="inherit" />
             </IconButton>
             <Chip variant="outlined" label={amount?.amount.length} />
-            <IconButton onClick={() => increase(amount?.id)} size="small">
+            <IconButton
+                onClick={() => increase(amount?.productId)}
+                size="small">
                 <AddIcon fontSize="inherit" />
             </IconButton>
         </Stack>

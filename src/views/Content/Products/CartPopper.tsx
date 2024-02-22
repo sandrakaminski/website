@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import ReactGA from "react-ga4";
 import { useNavigate } from "react-router-dom";
 
-import { useCartContext } from "@/views/Cart/cartProvider";
+import { useCartContext } from "@/views/Cart/CartProvider";
 
 type CartPopperProps = {
     clickEvent: boolean;
@@ -20,10 +20,10 @@ type CartPopperProps = {
 const CartPopper = (props: CartPopperProps): JSX.Element => {
     const { clickEvent } = props;
 
-    const { cart, amount } = useCartContext();
+    const { state } = useCartContext();
     const navigate = useNavigate();
     const [open, setOpen] = useState<boolean>(false);
-    const amountTotal = amount - 1;
+    const amountTotal = state.amount - 1;
 
     const openMsg = (): boolean => {
         if (clickEvent) {
@@ -53,7 +53,7 @@ const CartPopper = (props: CartPopperProps): JSX.Element => {
         handleClose();
         ReactGA.event({
             category: "Product Detail",
-            action: `Quick purchase ${cart[0]?.name}`,
+            action: `Quick purchase ${state.cart[0]?.name}`,
         });
     };
 
@@ -65,15 +65,15 @@ const CartPopper = (props: CartPopperProps): JSX.Element => {
                     <Avatar
                         sx={{ height: 55, width: 55 }}
                         variant="square"
-                        alt={cart[0]?.name}
-                        src={cart[0]?.image.fields.file.url}
+                        alt={state.cart[0]?.name}
+                        src={state.cart[0]?.featureImage.fields.file.url}
                     />
                     <Box sx={{ ml: 2 }}>
                         <Typography variant="subtitle1">
-                            {cart[0]?.name}
+                            {state.cart[0]?.name}
                         </Typography>
                         <Typography variant="body1">
-                            ${cart[0]?.price.toFixed(2)} NZD
+                            ${state.cart[0]?.price.toFixed(2)} NZD
                         </Typography>
                     </Box>
                 </Stack>

@@ -26,7 +26,7 @@ import Notifier from "@/components/Notifier";
 import Trail from "@/components/Trail";
 import { useImageSrc } from "@/hooks";
 import type { ProductTypes, ContentEntryProps } from "@/types";
-import { useCartContext } from "@/views/Cart/cartProvider";
+import { useCartContext } from "@/views/Cart/CartProvider";
 
 const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
     const { contentEntry } = props;
@@ -39,7 +39,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
 
     const handleCart = (): void => {
         setClickEvent(true);
-        addToCart(contentEntry.fields.productId, "1", contentEntry.fields);
+        addToCart(contentEntry.fields.productId, 1, contentEntry.fields);
         ReactGA.event({
             category: "Product Detail",
             action: `Add ${contentEntry.fields.name} to cart`,
