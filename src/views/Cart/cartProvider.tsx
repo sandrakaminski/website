@@ -28,15 +28,17 @@ type Action = {
     };
 };
 
-type CartContextValue = {
-    state: State;
-    dispatch: React.Dispatch<Action>;
-}| undefined;
+type CartContextValue =
+    | {
+          state: State;
+          dispatch: React.Dispatch<Action>;
+      }
+    | undefined;
 
 export const CartContext = createContext<CartContextValue>(undefined);
 
 // Change amount of items in Cart (increase / decrease)
-function changeAmount(state: State, id: string, method: string): State {
+function changeAmount(state: State, id: string, method: string): void {
     const tempCart = state.cart.map((item) => {
         if (item.productId !== id) {
             return item;
@@ -65,9 +67,7 @@ function changeAmount(state: State, id: string, method: string): State {
         (acc, item) => acc + item.amount.length * item.price,
         0
     );
-
-    return state;
-} 
+}
 
 const reducer = (state: State, action: Action): State => {
     let newState = cloneDeep(state);
@@ -144,10 +144,12 @@ const reducer = (state: State, action: Action): State => {
             return newState;
         }
         case ActionTypes.INC: {
-            return changeAmount(newState, action.payload.id, ActionTypes.INC);
+            changeAmount(newState, action.payload.id, ActionTypes.INC);
+            return newState;
         }
         case ActionTypes.DEC: {
-            return changeAmount(newState, action.payload.id, ActionTypes.DEC);
+            changeAmount(newState, action.payload.id, ActionTypes.DEC);
+            return newState;
         }
         case ActionTypes.GET_TOTALS: {
             const { total, amount } = state.cart.reduce(
