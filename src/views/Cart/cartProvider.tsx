@@ -13,6 +13,7 @@ enum ActionTypes {
     DEC = "DEC",
     GET_TOTALS = "GET_TOTALS",
 }
+
 type State = {
     cart: ProductTypes[];
     amount: number;
@@ -28,7 +29,7 @@ type Action = {
     };
 };
 
-type CartContextValue = {
+type CartContextValue ={
     state: State;
     dispatch: React.Dispatch<Action>;
 } | undefined;
@@ -170,6 +171,13 @@ const reducer = (state: State, action: Action): State => {
     }
 };
 
+// reset cache after 8 hours
+const resetCart = () => {
+    setTimeout(() => {
+        localStorage.removeItem("cart");
+    }, 8 * 60 * 60 * 1000);
+};
+
 //Store cart data in local storage
 const getLocalStorage = () => {
     const cart = localStorage.getItem("cart");
@@ -265,6 +273,8 @@ export const useCartContext = () => {
 
 export const CartProvider = ({ children }: CartProviderProps): JSX.Element => {
     const [state, dispatch] = useReducer(reducer, initialState);
+
+    resetCart();
 
     return (
         <CartContext.Provider value={{ state, dispatch }}>

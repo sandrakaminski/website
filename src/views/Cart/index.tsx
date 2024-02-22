@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { useState, JSX } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
