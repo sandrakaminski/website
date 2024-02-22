@@ -42,16 +42,22 @@ export const Content = (props: ContentProps): JSX.Element => {
     [type, slug] = [type || "assembly", slug || "home"];
 
     let contentType;
-    if (type === "about") {
-        contentType = "profile";
-    } else if (type === "shop") {
-        contentType = "product";
-    } else if (type === "inspiration") {
-        contentType = "article";
-    } else if (type === "blog") {
-        contentType = "article";
-    } else {
-        contentType = type;
+
+    switch (type) {
+        case "about":
+            contentType = "profile";
+            break;
+        case "shop":
+            contentType = "product";
+            break;
+        case "inspiration":
+            contentType = "article";
+            break;
+        case "blog":
+            contentType = "article";
+            break;
+        default:
+            contentType = type;
     }
 
     const name = preview ? "preview" : "content";
