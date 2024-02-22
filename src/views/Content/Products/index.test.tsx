@@ -8,7 +8,7 @@ import { describe, test, expect } from "vitest";
 
 import Products, { ProductProps } from ".";
 import { ProductTypes } from "@/types";
-import { CartProvider } from "@/views/Cart/CartProvider";
+import { CartProvider } from "@/views/Cart/cartProvider";
 
 const mockProduct = {
     fields: {

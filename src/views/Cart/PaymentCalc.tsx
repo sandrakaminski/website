@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import { useQuery } from "@tanstack/react-query";
 
 import { useCartHooks } from "@/hooks";
-import { useCartContext } from "@/views/Cart/CartProvider";
+import { useCartContext } from "@/views/Cart/cartProvider";
 
 type Amount = {
     shipping: number;

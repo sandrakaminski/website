@@ -28,12 +28,10 @@ type Action = {
     };
 };
 
-type CartContextValue =
-    | {
-          state: State;
-          dispatch: React.Dispatch<Action>;
-      }
-    | undefined;
+type CartContextValue = {
+    state: State;
+    dispatch: React.Dispatch<Action>;
+} | undefined;
 
 export const CartContext = createContext<CartContextValue>(undefined);
 

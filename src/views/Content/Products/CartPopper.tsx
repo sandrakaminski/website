@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import ReactGA from "react-ga4";
 import { useNavigate } from "react-router-dom";
 
-import { useCartContext } from "@/views/Cart/CartProvider";
+import { useCartContext } from "@/views/Cart/cartProvider";
 
 type CartPopperProps = {
     clickEvent: boolean;

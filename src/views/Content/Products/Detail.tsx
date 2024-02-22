@@ -26,7 +26,7 @@ import Notifier from "@/components/Notifier";
 import Trail from "@/components/Trail";
 import { useImageSrc } from "@/hooks";
 import type { ProductTypes, ContentEntryProps } from "@/types";
-import { useCartContext } from "@/views/Cart/CartProvider";
+import { useCartContext } from "@/views/Cart/cartProvider";
 
 const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
     const { contentEntry } = props;

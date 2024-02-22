@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import LoadingState from "@/components/Outline";
 import type { MenuEntry, MenuItemEntry } from "@/types";
-import { useCartContext } from "@/views/Cart/CartProvider";
+import { useCartContext } from "@/views/Cart/cartProvider";
 import { fetchContent } from "@/views/Content/api";
 
 const Header = (): JSX.Element => {

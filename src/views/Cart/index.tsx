@@ -30,7 +30,7 @@ import {
 import { CartSkeleton } from "@/components/Outline";
 import { useCartHooks, useErrorHandler } from "@/hooks";
 import { ProductTypes } from "@/types";
-import { useCartContext } from "@/views/Cart/CartProvider";
+import { useCartContext } from "@/views/Cart/cartProvider";
 
 type PriceKey = "shipping" | "total";
 

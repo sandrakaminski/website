@@ -9,7 +9,7 @@ import { Outline } from "@/components/Outline";
 import { theme } from "@/theme";
 import Tracker from "@/Tracker";
 import Viewport from "@/Viewport";
-import { CartProvider } from "@/views/Cart/CartProvider";
+import { CartProvider } from "@/views/Cart/cartProvider";
 
 const Content = lazy(() => import("@/views/Content"));
 const Cart = lazy(() => import("@/views/Cart"));
