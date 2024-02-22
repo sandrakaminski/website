@@ -75,7 +75,7 @@ const Cart = (): JSX.Element => {
 
     const getData = async (): Promise<void> => {
         try {
-            const res = await fetch("http://geolocation-db.com/json/");
+            const res = await fetch("https://geolocation-db.com/json/");
             const body = await res.json();
             if (!countriesList[body.country_code]) {
                 handleSetCountry("NZ");
