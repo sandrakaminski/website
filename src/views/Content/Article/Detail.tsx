@@ -14,7 +14,6 @@ import { dateFormatter } from "unix-date-formatter/date";
 import Comments from "./Comments";
 import LoadingImage from "@/components/LoadingImage";
 import Markdown from "@/components/Markdown";
-import ToggleStory from "@/components/ToggleStory";
 import Trail from "@/components/Trail";
 import type { ArticleType, ContentEntryProps } from "@/types";
 
@@ -87,7 +86,6 @@ const Detail = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                             {contentEntry.fields.body}
                         </ReactMarkdown>
                         <Comments contentEntry={contentEntry} />
-                        <ToggleStory pageID={contentEntry.sys.id} />
                     </Stack>
                 </>
             )}

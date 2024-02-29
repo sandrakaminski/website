@@ -27,7 +27,12 @@ export const useFetchEntries = <T>(id: string, endpoint: string) => {
             handleError("Cannot fetch entries, try again later.");
             setLoading(false);
         }
-    }, [endpoint, handleError, id, loading]);
+    }, [id, endpoint, loading, handleError]);
 
-    return { loading, error, response, handleGet };
+   const rerender = () => {
+        setLoading(true);
+        handleGet();
+    };
+
+    return { loading, error, response, handleGet, rerender };
 };

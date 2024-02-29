@@ -47,7 +47,6 @@ export type ResourceType = Entry<{
     files: Asset[];
 }>
 
-
 // profile 
 export type ProfileType = {
     slug?: string;
@@ -77,21 +76,6 @@ export type ImageItem = Entry<{
     subheader: string;
     slug: string;
 }>
-
-// // product
-// export type ProductTypes = {
-//     oldPrice: number;
-//     name: string;
-//     price: number;
-//     description: string;
-//     featureImage: Asset;
-//     slug: string;
-//     productId: string;
-//     inStock: boolean;
-//     productFiles: Asset[]
-//     nzShippingOnly: boolean;
-//     publishDate: string;
-// }
 
 // article 
 export type ArticleType = {

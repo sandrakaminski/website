@@ -75,8 +75,6 @@ type CurrencyExchProps = {
     setDisable: (disable: boolean) => typeof disable | void;
 };
 
-const init = "NZD";
-
 type ICartItemPrice = {
     country: string;
     itemPrice: number;
@@ -117,7 +115,7 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
     const [loading, setLoading] = useState<boolean>(true);
 
     const { currencyTypes, symbols, vat, exchangeRate } = useCartHooks();
-    const currency = currencyTypes(init);
+    const currency = currencyTypes("NZD");
     const vatCosts = vat(country);
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);

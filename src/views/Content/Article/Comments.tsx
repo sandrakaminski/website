@@ -1,4 +1,8 @@
-import React, { useReducer, useState, JSX, useEffect } from "react";
+import React, {
+    useReducer,
+    useState,
+    JSX,
+    useEffect } from "react";
 
 import CheckCircle from "@mui/icons-material/CheckCircle";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -12,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
 
 import CommenterInfo, { CommentSkeleton } from "@/components/CommenterInfo";
+import ToggleStory from "@/components/ToggleStory";
 import { useCreateSubmission, useFetchEntries } from "@/hooks";
 import type { ArticleType, ContentEntryProps } from "@/types";
 
@@ -37,18 +42,13 @@ const reducer = (state: State, action: Action): State => {
     }
 };
 
-type SingleCommentProps = {
+type SingleComment = {
     id: string;
     date: number;
     name: string;
     comment: string;
     commentId: string;
     replies: Replies[];
-};
-
-type ReplyInit = {
-    name: string;
-    reply: string;
 };
 
 type Replies = {
@@ -59,7 +59,7 @@ type Replies = {
 };
 
 type CommentsProps = {
-    data: SingleCommentProps[];
+    data: SingleComment[];
 };
 
 const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
@@ -71,8 +71,9 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         comment: "",
     });
 
-    const { loading, error, response, handleGet } =
+    const { loading, error, response, handleGet, rerender } =
         useFetchEntries<CommentsProps>(contentEntry.sys.id, url);
+
     const data = {
         page: `${type}/${contentEntry.fields.slug}`,
         name: state.name,
@@ -100,7 +101,7 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
             <Stack sx={{ mt: 10 }} spacing={2}>
                 <Stack alignItems="center" direction="row" spacing={1}>
                     <Typography variant="h1">Comments </Typography>
-                    {response?.data?.length !== undefined && (
+                    {response?.data?.length && (
                         <Chip
                             size="small"
                             color="info"
@@ -149,6 +150,7 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                     </Typography>
                 )}
             </Stack>
+            <ToggleStory next={() => rerender()} pageID={contentEntry.sys.id} />
         </Container>
     );
 };
@@ -166,11 +168,9 @@ const CommentThread = (props: CommentThreadProps): JSX.Element => {
     };
 
     const [replyTo, setReplyTo] = useState<string | null>(null);
-    const [replyFields, setReplyFields] = useState<ReplyInit>(init);
-
-    const openReply = (r: string) => {
-        setReplyTo(r);
-    };
+    const [replyFields, setReplyFields] = useState<{ [key: string]: string }>(
+        init
+    );
 
     const replyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -196,7 +196,7 @@ const CommentThread = (props: CommentThreadProps): JSX.Element => {
 
     return (
         <>
-            {comments?.data?.map((item: SingleCommentProps, index: number) => (
+            {comments?.data?.map((item, index) => (
                 <Stack key={index}>
                     <Stack
                         direction="row"
@@ -208,7 +208,7 @@ const CommentThread = (props: CommentThreadProps): JSX.Element => {
                             <Link
                                 underline="hover"
                                 sx={{ cursor: "pointer" }}
-                                onClick={() => openReply(item.commentId)}>
+                                onClick={() => setReplyTo(item.commentId)}>
                                 Reply
                             </Link>
                         ) : (
@@ -216,7 +216,7 @@ const CommentThread = (props: CommentThreadProps): JSX.Element => {
                                 color="error"
                                 underline="hover"
                                 sx={{ cursor: "pointer" }}
-                                onClick={() => openReply("")}>
+                                onClick={() => setReplyTo("")}>
                                 Cancel
                             </Link>
                         )}
@@ -225,7 +225,7 @@ const CommentThread = (props: CommentThreadProps): JSX.Element => {
                         <Typography sx={{ mt: 2 }} variant="body1">
                             {item.comment}
                         </Typography>
-                        {item.replies?.map((r: Replies, index: number) => (
+                        {item.replies?.map((r, index) => (
                             <Stack sx={{ py: 2 }} key={index}>
                                 <CommenterInfo name={r.name} date={r?.date} />
                                 <Typography

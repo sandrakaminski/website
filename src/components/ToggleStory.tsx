@@ -3,7 +3,6 @@ import { JSX } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import { useQuery } from "@tanstack/react-query";
 import { Entry } from "contentful";
@@ -13,6 +12,7 @@ import { fetchContent } from "@/views/Content/api";
 
 type ToggleStoryProps = {
     pageID: string;
+    next: () => void;
 };
 
 type Response = {
@@ -27,7 +27,7 @@ type Response = {
 };
 
 const ToggleStory = (props: ToggleStoryProps): JSX.Element => {
-    const { pageID } = props;
+    const { pageID, next } = props;
     const { type } = useParams();
     const navigate = useNavigate();
     const res = useQuery({
@@ -54,29 +54,25 @@ const ToggleStory = (props: ToggleStoryProps): JSX.Element => {
     };
 
     return (
-        <Container sx={{ maxWidth: 800 }} maxWidth={false}>
-            <Stack
-                sx={{ mt: 2 }}
-                direction="row"
-                justifyContent="space-between">
-                <Button
-                    disabled={nextPage === undefined}
-                    startIcon={<ChevronLeftIcon />}
-                    onClick={() =>
-                        navigate(`/${type}/${nextPage?.fields?.slug}`)
-                    }>
-                    {getHeadline(nextPage)}
-                </Button>
-                <Button
-                    disabled={prevPage === undefined}
-                    endIcon={<ChevronRightIcon />}
-                    onClick={() =>
-                        navigate(`/${type}/${prevPage?.fields?.slug}`)
-                    }>
-                    {getHeadline(prevPage)}
-                </Button>
-            </Stack>
-        </Container>
+        <Stack sx={{ mt: 2 }} direction="row" justifyContent="space-between">
+            <Button
+                disabled={!nextPage}
+                startIcon={<ChevronLeftIcon />}
+                onClick={() => {
+                     next(); 
+                    navigate(`/${type}/${nextPage?.fields?.slug}`)}}>
+                {getHeadline(nextPage)}
+            </Button>
+            <Button
+                disabled={!prevPage}
+                endIcon={<ChevronRightIcon />}
+                onClick={() => {
+                    next(); 
+                    navigate(`/${type}/${prevPage?.fields?.slug}`);
+                }}>
+                {getHeadline(prevPage)}
+            </Button>
+        </Stack>
     );
 };
 export default ToggleStory;
