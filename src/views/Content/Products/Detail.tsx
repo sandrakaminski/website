@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, JSX } from "react";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -51,10 +51,6 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
         setImage(img.fields.file.url);
     };
 
-    const handleOpen = (): void => {
-        setOpen(true);
-    };
-
     return (
         <>
             <Trail current={contentEntry.fields.name} />
@@ -76,7 +72,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                         />
                         <CardActionArea
                             sx={{ backgroundColor: "gray.100" }}
-                            onClick={() => handleOpen()}>
+                            onClick={() => setOpen(true)}>
                             <LoadingImage
                                 id="featureImage"
                                 skeletonheight={"90vh"}
@@ -203,7 +199,7 @@ const Body = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
         queryFn: detectLength,
     });
 
-    const formatMd = (text: string) => {
+    const formatMd = (text: string): JSX.Element => {
         return <ReactMarkdown>{text}</ReactMarkdown>;
     };
 
@@ -239,7 +235,7 @@ type ThumbnailCarouselProps = {
     handleSetImage: (img: Asset) => typeof img | void;
 };
 
-const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
+const ThumbnailCarousel = (props: ThumbnailCarouselProps): JSX.Element => {
     const { contentEntry, handleSetImage, image } = props;
 
     const initialCount = 6;
@@ -257,14 +253,14 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps) => {
     };
 
     const carouselScroll = (index: number) => {
-        if (index === 0 && offset === 0) {
-            return;
-        } else if (
-            index === 5 &&
-            count > contentEntry.fields.productFiles.length - 1
+        if (
+            (index === 0 && offset === 0) ||
+            (index === 5 && count > contentEntry.fields.productFiles.length - 1)
         ) {
             return;
-        } else if (index === 0) {
+        }
+
+        if (index === 0) {
             setOffset(offset - 1);
             setCount(count - 1);
         } else if (index === 5) {

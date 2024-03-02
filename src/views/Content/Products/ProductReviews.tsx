@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer, useEffect, JSX } from "react";
 
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import StarIcon from "@mui/icons-material/Star";
@@ -28,9 +28,6 @@ type State = {
     name: string;
     review: string;
 };
-type Action = {
-    [key: string]: string;
-};
 
 type Review = {
     name: string;
@@ -51,7 +48,7 @@ const initialState = {
     review: "",
 };
 
-const reducer = (state: State, action: Action): State => {
+const reducer = (state: State, action: { [key: string]: string }): State => {
     switch (action.type) {
         case "name":
             return { ...state, name: action.value };
@@ -70,7 +67,7 @@ const ProductReviews = (
     const [writeReview, setWriteReview] = useState<boolean>(false);
     const [starFilled, setStarFilled] = useState<number>(0);
     const [state, dispatch] = useReducer(reducer, initialState);
-    const [fields, setFields] = useState<Action>({
+    const [fields, setFields] = useState<{ [key: string]: string }>({
         media: "",
         title: "",
     });

@@ -36,58 +36,51 @@ const Detail = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         <>
             <Trail current={contentEntry?.fields.headline} />
             {contentEntry && (
-                <>
-                    <Stack sx={{ my: 4 }} spacing={2} alignItems="center">
-                        <Typography
-                            id="headline"
-                            sx={{ my: 2, maxWidth: "md" }}
-                            variant="h1"
-                            align="center">
-                            {contentEntry.fields.headline}
+                <Stack sx={{ my: 4 }} spacing={2} alignItems="center">
+                    <Typography
+                        id="headline"
+                        sx={{ my: 2, maxWidth: "md" }}
+                        variant="h1"
+                        align="center">
+                        {contentEntry.fields.headline}
+                    </Typography>
+                    <Stack
+                        sx={{ my: 2 }}
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={2}>
+                        <Typography id="date" variant="body1">
+                            {dateFormatter(contentEntry.fields.date)}
                         </Typography>
-                        <Stack
-                            sx={{ my: 2 }}
-                            direction="row"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            spacing={2}>
-                            <Typography id="date" variant="body1">
-                                {dateFormatter(contentEntry.fields.date)}
-                            </Typography>
-                            <FiberManualRecordIcon
-                                sx={{ height: 2.5, width: 2.5 }}
-                            />
-                            <Link
-                                id="author"
-                                underline="hover"
-                                sx={{ cursor: "pointer" }}
-                                onClick={() => handleClick()}
-                                variant="body1">
-                                {contentEntry.fields.author.fields.name}
-                            </Link>
-                        </Stack>
-                        <Box maxWidth={800}>
-                            <LoadingImage
-                                id="coverImage"
-                                skeletonheight={500}
-                                sx={{ width: "100%", height: "auto", py: 4 }}
-                                src={
-                                    contentEntry?.fields.coverImage.fields.file
-                                        .url
-                                }
-                                alt={
-                                    contentEntry.fields.coverImage.fields.title
-                                }
-                            />
-                        </Box>
-                        <ReactMarkdown
-                            remarkPlugins={[gfm]}
-                            components={Markdown}>
-                            {contentEntry.fields.body}
-                        </ReactMarkdown>
-                        <Comments contentEntry={contentEntry} />
+                        <FiberManualRecordIcon
+                            sx={{ height: 2.5, width: 2.5 }}
+                        />
+                        <Link
+                            id="author"
+                            underline="hover"
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => handleClick()}
+                            variant="body1">
+                            {contentEntry.fields.author.fields.name}
+                        </Link>
                     </Stack>
-                </>
+                    <Box maxWidth={800}>
+                        <LoadingImage
+                            id="coverImage"
+                            skeletonheight={500}
+                            sx={{ width: "100%", height: "auto", py: 4 }}
+                            src={
+                                contentEntry?.fields.coverImage.fields.file.url
+                            }
+                            alt={contentEntry.fields.coverImage.fields.title}
+                        />
+                    </Box>
+                    <ReactMarkdown remarkPlugins={[gfm]} components={Markdown}>
+                        {contentEntry.fields.body}
+                    </ReactMarkdown>
+                    <Comments contentEntry={contentEntry} />
+                </Stack>
             )}
         </>
     );

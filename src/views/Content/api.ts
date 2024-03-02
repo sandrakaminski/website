@@ -1,5 +1,5 @@
 import { QueryFunctionContext } from "@tanstack/react-query";
-import { createClient, ContentfulClientApi, EntryCollection } from 'contentful';
+import { createClient, ContentfulClientApi, EntryCollection } from "contentful";
 
 const createContentfulClient = (accessToken: string, host: string): ContentfulClientApi => {
     return createClient({
@@ -23,7 +23,7 @@ const preview = createContentfulClient(
 export const fetchContent = async ({ queryKey }: QueryFunctionContext): Promise<EntryCollection<unknown>> => {
     const [name, type, slug, include] = queryKey;
 
-    if (name === 'content') {
+    if (name === "content") {
         return await client.getEntries({
             // eslint-disable-next-line camelcase
             content_type: type,
