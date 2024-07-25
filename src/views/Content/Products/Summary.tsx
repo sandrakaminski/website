@@ -107,7 +107,7 @@ const Banner = (props: BannerType): JSX.Element => {
                     {state.newProduct && (
                         <Box
                             sx={{
-                                background: "rgb(64, 64, 41,.80)",
+                                background: "rgb(98, 107, 63,.80)",
                                 ...style,
                             }}>
                             <Typography
