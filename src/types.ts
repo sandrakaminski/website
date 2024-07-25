@@ -94,6 +94,7 @@ export type ArticleType = {
 // works in the scope of the cartProvider
 export type ProductTypes = {
     inStock: boolean;
+    newProduct?: boolean;
     slug: string;
     productId: string;
     name: string;

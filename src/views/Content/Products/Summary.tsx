@@ -30,7 +30,7 @@ const Summary = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
     return (
         <>
             <CardActionArea id="productLink" onClick={() => handleClick()}>
-                <SoldOutBanner soldOut={!contentEntry.fields.inStock} />
+                <Banner state={contentEntry.fields} />
                 <LoadingImage
                     id="featureImage"
                     card="true"
@@ -71,30 +71,54 @@ const Summary = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
 };
 export default Summary;
 
-type SoldOutType = {
-    soldOut: boolean;
+type BannerType = {
+    state: {
+        inStock: boolean;
+        newProduct?: boolean;
+    };
 };
 
-const SoldOutBanner = (props: SoldOutType): JSX.Element => {
-    const { soldOut } = props;
+const Banner = (props: BannerType): JSX.Element => {
+    const { state } = props;
+
+    const style = {
+        p: 4,
+        position: "absolute",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+    };
 
     return (
         <>
-            {soldOut && (
+            {!state.inStock ? (
                 <Box
                     sx={{
-                        p: 4,
                         background: "rgba(255,255,255,.80)",
-                        position: "absolute",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
+                        ...style,
                     }}>
                     <Typography id="soldOut" variant="subtitle1">
                         SOLD OUT
                     </Typography>
                 </Box>
+            ) : (
+                <>
+                    {state.newProduct && (
+                        <Box
+                            sx={{
+                                background: "rgb(64, 64, 41,.80)",
+                                ...style,
+                            }}>
+                            <Typography
+                                id="soldOut"
+                                color="white"
+                                variant="subtitle1">
+                                NEW
+                            </Typography>
+                        </Box>
+                    )}
+                </>
             )}
         </>
     );
