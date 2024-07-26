@@ -20,6 +20,7 @@ export const useFetchEntries = <T>(id: string, endpoint: string) => {
             if (res.status === 200) {
                 setLoading(false);
                 setResponse(data);
+
             } else {
                 throw new Error(`Error fetching data ${data.message || data.status}`);
             }
@@ -27,9 +28,9 @@ export const useFetchEntries = <T>(id: string, endpoint: string) => {
             handleError("Cannot fetch entries, try again later.");
             setLoading(false);
         }
-    }, [id, endpoint, loading, handleError]);
+    }, [loading, id, endpoint, handleError]);
 
-   const rerender = () => {
+    const rerender = () => {
         setLoading(true);
         handleGet();
     };

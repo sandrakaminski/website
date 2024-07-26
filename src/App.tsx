@@ -4,12 +4,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 
 import { Outline } from "@/components/Outline";
 import { theme } from "@/theme";
 import Tracker from "@/Tracker";
 import Viewport from "@/Viewport";
-import { CartProvider } from "@/views/Cart/cartProvider";
 
 const Content = lazy(() => import("@/views/Content"));
 const Cart = lazy(() => import("@/views/Cart"));
@@ -24,7 +24,7 @@ const App = (): JSX.Element => {
             <QueryClientProvider client={queryClient}>
                 <BrowserRouter>
                     <Tracker>
-                        <CartProvider>
+                        <RecoilRoot>
                             <Suspense fallback={<Outline />}>
                                 <Viewport>
                                     <Routes>
@@ -56,7 +56,7 @@ const App = (): JSX.Element => {
                                     </Routes>
                                 </Viewport>
                             </Suspense>
-                        </CartProvider>
+                        </RecoilRoot>
                     </Tracker>
                 </BrowserRouter>
             </QueryClientProvider>

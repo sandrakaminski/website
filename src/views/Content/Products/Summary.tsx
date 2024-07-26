@@ -98,7 +98,7 @@ const Banner = (props: BannerType): JSX.Element => {
                         background: "rgba(255,255,255,.80)",
                         ...style,
                     }}>
-                    <Typography id="soldOut" variant="subtitle1">
+                    <Typography id="sold-out" variant="subtitle1">
                         SOLD OUT
                     </Typography>
                 </Box>
@@ -111,7 +111,7 @@ const Banner = (props: BannerType): JSX.Element => {
                                 ...style,
                             }}>
                             <Typography
-                                id="soldOut"
+                                id="new-product"
                                 color="white"
                                 variant="subtitle1">
                                 NEW

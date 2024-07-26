@@ -29,7 +29,7 @@ import {
 import { CartSkeleton } from "@/components/Outline";
 import { useCartHooks, useErrorHandler } from "@/hooks";
 import { ProductTypes } from "@/types";
-import { useCartContext } from "@/views/Cart/cartProvider";
+import { useCartContext } from "@/views/Cart/cartActions";
 
 type PriceKey = "shipping" | "total";
 
@@ -61,7 +61,7 @@ const Cart = (): JSX.Element => {
 
     const category = state.cart.map((item) => item.category);
     const quantity = checkProductType({
-        cart: state.cart,
+        cart: state.cart as ProductTypes[],
         category: category,
     });
     const shippingTotal = shippingFee({ country, category }) * quantity;
@@ -201,7 +201,7 @@ const Cart = (): JSX.Element => {
                                             <CartItem
                                                 country={country}
                                                 key={Number(index)}
-                                                item={item}
+                                                item={item as ProductTypes}
                                                 increase={increase}
                                                 decrease={decrease}
                                                 remove={remove}

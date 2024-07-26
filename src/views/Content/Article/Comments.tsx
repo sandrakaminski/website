@@ -89,7 +89,13 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
 
     useEffect(() => {
         handleGet();
-    }, [contentEntry.sys.id, handleGet, submitted, contentEntry.fields.slug]);
+    }, [
+        contentEntry.sys.id,
+        handleGet,
+        submitted,
+        contentEntry.fields.slug,
+        response,
+    ]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -100,7 +106,7 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         <Container maxWidth={false} sx={{ maxWidth: 800 }}>
             <Stack sx={{ mt: 10 }} spacing={2}>
                 <Stack alignItems="center" direction="row" spacing={1}>
-                    <Typography variant="h1">Comments </Typography>
+                    <Typography variant="h1">Comments</Typography>
                     {response?.data?.length && (
                         <Chip
                             size="small"

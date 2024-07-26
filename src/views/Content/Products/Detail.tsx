@@ -26,7 +26,7 @@ import Notifier from "@/components/Notifier";
 import Trail from "@/components/Trail";
 import { useImageSrc } from "@/hooks";
 import type { ProductTypes, ContentEntryProps } from "@/types";
-import { useCartContext } from "@/views/Cart/cartProvider";
+import { useCartContext } from "@/views/Cart/cartActions";
 
 const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
     const { contentEntry } = props;
@@ -129,7 +129,7 @@ type HeadingProps = {
     sx?: object;
 };
 
-const Heading = (props: HeadingProps) => {
+const Heading = (props: HeadingProps): JSX.Element => {
     const { contentEntry, sx } = props;
 
     return (

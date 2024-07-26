@@ -67,7 +67,7 @@ describe("<Article />", () => {
 
         expect(headline).toBe("Test Headline");
         expect(coverImg).toBe("https://image.url");
-        expect(date).toBe(" 1 August 2021");
+        expect(date).toBe("1 August 2021");
         expect(author).toBe("Test Author");
     });
 
@@ -88,7 +88,7 @@ describe("<Article />", () => {
 
         expect(headline).toBe("Test Headline");
         expect(coverImg).toBe("https://image.url");
-        expect(date).toBe(" 1 August 2021");
+        expect(date).toBe("1 August 2021");
         expect(author).toBe("Test Author");
         expect(body).toBe("Test body to check it's working");
     });

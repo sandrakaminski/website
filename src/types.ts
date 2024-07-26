@@ -91,7 +91,7 @@ export type ArticleType = {
     coverImage: Asset
 }
 
-// works in the scope of the cartProvider
+// works in the scope of the product in the cart
 export type ProductTypes = {
     inStock: boolean;
     newProduct?: boolean;
@@ -109,3 +109,10 @@ export type ProductTypes = {
     productFiles: Asset[]
     publishDate: string;
 }
+
+// state that is used in the cart
+export type CartState = {
+    cart: ProductTypes[];
+    amount: number;
+    total: number;
+};
