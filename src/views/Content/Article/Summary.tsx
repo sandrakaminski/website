@@ -6,7 +6,7 @@ import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { dateFormatter } from "unix-date-formatter/date";
+import { DateFormatter } from "unix-date-formatter/date";
 
 import LoadingImage from "@/components/LoadingImage";
 import type { ArticleType, ContentEntryProps } from "@/types";
@@ -16,6 +16,8 @@ const Summary = (props: ContentEntryProps<ArticleType>): JSX.Element => {
     const { pathname } = useLocation();
     const { slug } = useParams();
     const navigate = useNavigate();
+
+    const dateFormatter = new DateFormatter(contentEntry?.fields.date);
 
     return (
         <>
@@ -73,7 +75,7 @@ const Summary = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                                 id="date"
                                 color="grayText"
                                 variant="body1">
-                                {dateFormatter(contentEntry.fields.date)}
+                                {dateFormatter.formatDate()}
                             </Typography>
                             <FiberManualRecordIcon
                                 sx={{

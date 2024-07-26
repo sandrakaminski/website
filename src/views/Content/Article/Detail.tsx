@@ -9,7 +9,7 @@ import ReactGA from "react-ga4";
 import ReactMarkdown from "react-markdown";
 import { useNavigate } from "react-router-dom";
 import gfm from "remark-gfm";
-import { dateFormatter } from "unix-date-formatter/date";
+import { DateFormatter } from "unix-date-formatter/date";
 
 import Comments from "./Comments";
 import LoadingImage from "@/components/LoadingImage";
@@ -32,6 +32,8 @@ const Detail = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         });
     };
 
+    const dateFormatter = new DateFormatter(contentEntry?.fields.date);
+
     return (
         <>
             <Trail current={contentEntry?.fields.headline} />
@@ -51,7 +53,7 @@ const Detail = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                         alignItems="center"
                         spacing={2}>
                         <Typography id="date" variant="body1">
-                            {dateFormatter(contentEntry.fields.date)}
+                            {dateFormatter.formatDate()}
                         </Typography>
                         <FiberManualRecordIcon
                             sx={{ height: 2.5, width: 2.5 }}
