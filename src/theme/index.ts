@@ -11,6 +11,14 @@ export const theme: Theme = responsiveFontSizes(createTheme({
     palette,
     typography,
     components: {
+        MuiButton: {
+            styleOverrides: {
+                contained: {
+
+                    boxShadow: 'none',
+                }
+            }
+        },
         MuiCssBaseline: {
             styleOverrides: `
                 @font-face {

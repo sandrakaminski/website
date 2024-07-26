@@ -177,7 +177,7 @@ const Cart = (): JSX.Element => {
             ) : (
                 <Grid alignItems="stretch" spacing={1} container>
                     <Grid xs={12} md={8}>
-                        <Card sx={{ p: 2, minHeight: 250 }}>
+                        <Card variant="outlined" sx={{ p: 2, minHeight: 250 }}>
                             {loading ? (
                                 <CartSkeleton />
                             ) : (
@@ -219,6 +219,7 @@ const Cart = (): JSX.Element => {
                     </Grid>
                     <Grid xs={12} md={4}>
                         <Stack
+                            variant="outlined"
                             component={Card}
                             sx={{ height: "100%", p: 2 }}
                             direction="column"
