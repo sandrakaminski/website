@@ -64,7 +64,7 @@ const Cart = (): JSX.Element => {
         cart: state.cart as ProductTypes[],
         category: category,
     });
-    const shippingTotal = shippingFee({ country, category }) * quantity;
+    const shippingTotal = shippingFee({ country, category, quantity });
     const currency = currencyTypes(country).toLowerCase();
 
     const handleSetCountry = (val: string): void => {

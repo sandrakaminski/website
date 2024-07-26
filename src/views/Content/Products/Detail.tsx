@@ -18,10 +18,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Asset, Entry } from "contentful";
 import ReactGA from "react-ga4";
 import ReactMarkdown from "react-markdown";
+import gfm from "remark-gfm";
 
 import CartPopper from "./CartPopper";
 import ProductReviews from "./ProductReviews";
 import LoadingImage from "@/components/LoadingImage";
+// import Markdown from "@/components/Markdown";
 import Notifier from "@/components/Notifier";
 import Trail from "@/components/Trail";
 import { useImageSrc } from "@/hooks";
@@ -199,18 +201,16 @@ const Body = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
         queryFn: detectLength,
     });
 
-    const formatMd = (text: string): JSX.Element => {
-        return <ReactMarkdown>{text}</ReactMarkdown>;
-    };
-
     return (
         <>
             <Box id="description">
-                {formatMd(
-                    showMore === preview && !hidden
-                        ? `${showMore}...`
-                        : showMore
-                )}
+                <FormatMd
+                    text={
+                        showMore === preview && !hidden
+                            ? `${showMore}...`
+                            : showMore
+                    }
+                />
             </Box>
             {!hidden && showMore === preview ? (
                 <Link sx={{ cursor: "pointer" }} onClick={handleShowMore}>
@@ -223,6 +223,10 @@ const Body = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
             )}
         </>
     );
+};
+
+const FormatMd = ({ text }: { text: string }): JSX.Element => {
+    return <ReactMarkdown remarkPlugins={[gfm]}>{text}</ReactMarkdown>;
 };
 
 type ThumbnailCarouselProps = {

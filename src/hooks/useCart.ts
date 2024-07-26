@@ -207,14 +207,36 @@ export const useCartHooks = () => {
     type ShippingFeeProps = {
         country: string;
         category: string[];
+        quantity: number
     };
+
+    const multipleBooks = (country: string, quantity: number) => {
+        const shippingCost = shippingCosts(country);
+
+        if (country === "NZ") {
+            // if there are 2 books in the cart, the shipping fee is still default
+            if (quantity <= 2) {
+                return shippingCost;
+            }
+            // if there are 3 books in the cart, the shipping fee is 15
+            if (quantity === 3) {
+                return 15;
+            }
+            // if there are 4+ books in the cart, the shipping fee is 20
+            if (quantity >= 4) {
+                return 20;
+            }
+        }
+        return shippingCost * quantity
+    }
 
     // reduces shipping fee for paper products if there is no book in the cart
     const shippingFee = (props: ShippingFeeProps): number => {
-        const { country, category } = props;
+        const { country, category, quantity } = props;
 
         const PaperProductShipping = paperProductShipping(country);
-        const shippingCost = shippingCosts(country);
+        // const shippingCost = shippingCosts(country);
+        const shippingCost = multipleBooks(country, quantity);
 
         let shippingFee: number | undefined;
         if (category.includes("Paper Products")) {
