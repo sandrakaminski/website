@@ -29,7 +29,7 @@ const changeAmount = (state: CartState, id: string, method: string): void => {
 };
 
 export const useCartActions = () => {
-    const [state, setState] = useRecoilState(cartState);
+    const [state, setState] = useRecoilState<CartState>(cartState);
 
     const addToCart = (id: string, amount: number, product: ProductTypes) => {
         const tempItem = state.cart.find((i) => i.productId === id);

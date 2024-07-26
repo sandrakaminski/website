@@ -3,12 +3,8 @@ import { atom, selector } from 'recoil';
 import { ProductTypes, CartState } from "@/types";
 
 export enum ActionTypes {
-    CLEAR = "CLEAR",
-    REMOVE = "REMOVE",
-    CART = "CART",
     INC = "INC",
     DEC = "DEC",
-    GET_TOTALS = "GET_TOTALS",
 }
 
 const getLocalStorage = (): ProductTypes[] => {
