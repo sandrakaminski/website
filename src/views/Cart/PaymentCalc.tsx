@@ -29,7 +29,7 @@ export const CountryDropdown = (props: DropdownProps): JSX.Element => {
     const { setCountry, id, disabled, loading } = props;
 
     const { countriesList } = useCartHooks();
-    const value = localStorage.getItem("country") || "";
+    const value = sessionStorage.getItem("country") || "";
 
     return (
         <>

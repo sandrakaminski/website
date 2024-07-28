@@ -40,7 +40,7 @@ type Prices = {
 const Cart = (): JSX.Element => {
     const navigate = useNavigate();
     const {
-        countriesList,
+        // countriesList,
         currencyTypes,
         shippingFee,
         checkProductType,
@@ -68,29 +68,29 @@ const Cart = (): JSX.Element => {
     const currency = currencyTypes(country).toLowerCase();
 
     const handleSetCountry = (val: string): void => {
-        localStorage.setItem("country", val);
+        sessionStorage.setItem("country", val);
         setCountry(val);
     };
 
-    const getData = async (): Promise<void> => {
-        try {
-            const res = await fetch("https://geolocation-db.com/json/");
-            const body = await res.json();
-            if (!countriesList[body.country_code]) {
-                handleSetCountry("NZ");
-                setLoading(false);
-            }
-            handleSetCountry(body.country_code);
-            setLoading(false);
-        } catch {
-            handleSetCountry("NZ");
-            setLoading(false);
-        }
-    };
+    //  const getData = async (): Promise<void> => {
+    // try {
+    //     const res = await fetch("https://geolocation-db.com/json/");
+    //     const body = await res.json();
+    //     if (!countriesList[body.country_code]) {
+    //         handleSetCountry("NZ");
+    //         setLoading(false);
+    //     }
+    //     handleSetCountry(body.country_code);
+    //     setLoading(false);
+    // } catch {
+    //     handleSetCountry("NZ");
+    //     setLoading(false);
+    // }
+    // };
 
     const trigger = () => {
         if (state.cart.length === 0) {
-            localStorage.removeItem("country");
+            sessionStorage.removeItem("country");
         } else if (
             state.cart?.map((item) => item.nzShippingOnly).includes(true)
         ) {
@@ -98,10 +98,10 @@ const Cart = (): JSX.Element => {
             setLoading(false);
             setNzOnly(true);
         } else {
-            const memorizedCountry = localStorage.getItem("country") || "";
+            const memorizedCountry = sessionStorage.getItem("country") || "";
             setNzOnly(false);
             if (memorizedCountry === "") {
-                getData();
+                handleSetCountry("NZ");
             } else {
                 setCountry(memorizedCountry);
                 setLoading(false);
@@ -235,7 +235,7 @@ const Cart = (): JSX.Element => {
                             />
                             <ButtonGroup size="small">
                                 <CountryDropdown
-                                    loading={loading}
+                                    // loading={loading}
                                     disabled={nzOnly}
                                     id="country"
                                     setCountry={handleSetCountry}
