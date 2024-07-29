@@ -91,19 +91,28 @@ const Header = (): JSX.Element => {
                                 <MenuIcon />
                             </IconButton>
                             <Menu
+                                sx={{
+                                    display: { xs: "block", md: "none" },
+                                }}
                                 anchorEl={anchorEl}
                                 open={open}
                                 onClose={handleClose}>
-                                {menuItems.map((item, index) => (
-                                    <MenuItem
-                                        key={index}
-                                        onClick={() => {
-                                            handleNavigate(item.fields.slug);
-                                        }}>
-                                        {" "}
-                                        {item.fields.name}
-                                    </MenuItem>
-                                ))}
+                                <Box
+                                    sx={{
+                                        minWidth: 200,
+                                    }}>
+                                    {menuItems.map((item, index) => (
+                                        <MenuItem
+                                            key={index}
+                                            onClick={() => {
+                                                handleNavigate(
+                                                    item.fields.slug
+                                                );
+                                            }}>
+                                            {item.fields.name}
+                                        </MenuItem>
+                                    ))}
+                                </Box>
                             </Menu>
                         </Box>
                         <IconButton
