@@ -13,7 +13,6 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Card from "@mui/material/Card";
 import Chip from "@mui/material/Chip";
 import IconButton from "@mui/material/IconButton";
-import ListItemButton from "@mui/material/ListItemButton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -289,26 +288,40 @@ const CartItem = (props: CartItemProps): JSX.Element => {
             spacing={2}
             container
             direction="row"
-            justifyContent="space-between"
-            alignItems="center">
-            <Grid
-                onClick={() => navigate(`/shop/${item.slug}`)}
-                component={ListItemButton}>
+            justifyContent="space-between">
+            <Grid alignItems="flex-start" container>
                 <Avatar
-                    sx={{ height: 55, width: 55 }}
+                    component={Button}
+                    onClick={() => navigate(`/shop/${item.slug}`)}
+                    sx={{ height: 100, width: 75 }}
                     variant="square"
                     alt={item.name}
                     src={item.featureImage.fields.file.url}
                 />
-                <Box sx={{ ml: 2 }}>
+                <Stack justifyContent="space-between" sx={{ ml: 2 }}>
                     <Typography variant="subtitle1">{item.name}</Typography>
                     <CartItemPrice itemPrice={item.price} country={country} />
-                </Box>
+                    <Box
+                        sx={{
+                            display: { xs: "flex", sm: "none" },
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                        }}>
+                        <AmountButtons amount={item} {...props} />
+                        <Button
+                            startIcon={<DeleteIcon fontSize="inherit" />}
+                            color="error"
+                            onClick={() => remove(item.productId)}>
+                            Remove
+                        </Button>
+                    </Box>
+                </Stack>
             </Grid>
             <Grid
+                sx={{ display: { xs: "none", sm: "flex" } }}
                 container
                 direction="row"
-                justifyContent={{ xs: "space-between", sm: "flex-end" }}
+                justifyContent="flex-end"
                 alignItems="center"
                 spacing={4}>
                 <AmountButtons amount={item} {...props} />
