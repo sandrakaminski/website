@@ -14,7 +14,6 @@ export const theme: Theme = responsiveFontSizes(createTheme({
         MuiButton: {
             styleOverrides: {
                 contained: {
-
                     boxShadow: 'none',
                 }
             }

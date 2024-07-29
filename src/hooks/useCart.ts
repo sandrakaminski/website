@@ -235,7 +235,6 @@ export const useCartHooks = () => {
         const { country, category, quantity } = props;
 
         const PaperProductShipping = paperProductShipping(country);
-        // const shippingCost = shippingCosts(country);
         const shippingCost = multipleBooks(country, quantity);
 
         let shippingFee: number | undefined;
@@ -273,7 +272,6 @@ export const useCartHooks = () => {
 
     return {
         countriesList,
-        shippingCosts,
         symbols,
         currencyTypes,
         vat,

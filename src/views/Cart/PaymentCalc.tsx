@@ -204,7 +204,6 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
                 {loading ? <Skeleton variant="rounded" /> : "Order summary"}
             </Typography>
             <Typography>
-                {" "}
                 {loading ? (
                     <Skeleton />
                 ) : (
@@ -218,10 +217,9 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
                     `Shipping: ${symbol}${amount?.shipping?.toFixed(
                         2
                     )} ${newCurrency}`
-                )}{" "}
+                )}
             </Typography>
             <Typography>
-                {" "}
                 {loading ? (
                     <Skeleton />
                 ) : (
