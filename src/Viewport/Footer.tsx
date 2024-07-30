@@ -17,7 +17,7 @@ const Footer = (): JSX.Element => {
     return (
         <Stack
             component="footer"
-            sx={{ my: 6 }}
+            sx={{ mt: 8 }}
             alignItems="center"
             justifyContent="center"
             spacing={2}>

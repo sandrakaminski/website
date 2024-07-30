@@ -22,5 +22,6 @@ export const palette: PaletteOptions = {
     },
     grey: {
         100: '#F5F5F5',
+        200: '#EEEEEE',
     }
 };
