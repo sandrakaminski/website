@@ -12,19 +12,18 @@ import TumblrIcon from "./icons/TumblrIcon";
 
 const Footer = (): JSX.Element => {
     const date = new Date().getFullYear();
+    const name = import.meta.env.VITE_APP_NAME || "Sandra Kaminski";
 
     return (
         <Stack
             component="footer"
-            sx={{ py: 6 }}
+            sx={{ my: 6 }}
             alignItems="center"
             justifyContent="center"
             spacing={2}>
             <Stack alignItems="center" spacing={2}>
                 <Typography align="center" color="grayText" variant="body1">
-                    {`All content © copyright ${date} ${
-                        import.meta.env.VITE_APP_NAME
-                    }.`}
+                    {`All content © copyright ${date} ${name}.`}
                 </Typography>
                 <Typography align="center" color="grayText" variant="body1">
                     All rights reserved.

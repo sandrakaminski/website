@@ -148,8 +148,10 @@ const Cart = (): JSX.Element => {
         }
     };
 
+    const minHeight = `calc(100vh - 290px)`;
+
     return (
-        <Box sx={{ my: 4 }}>
+        <Box sx={{ mt: 4, minHeight }}>
             {state.cart && state.cart.length === 0 ? (
                 <Stack
                     sx={{ mt: 10 }}
