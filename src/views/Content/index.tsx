@@ -1,8 +1,11 @@
 import React, { lazy, useState, JSX } from "react";
 
+import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useQuery } from "@tanstack/react-query";
 import { Entry } from "contentful";
@@ -144,7 +147,17 @@ const GridLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
         setLimit(limit + initialCount);
     };
 
-    const setLayout = () => {
+    const displayCount = (): string => {
+        const maxLimit =
+            limit > content?.fields.references?.length
+                ? content?.fields.references?.length
+                : limit;
+        const total = content?.fields.references?.length;
+
+        return `${maxLimit} of ${total}`;
+    };
+
+    const setLayout = (): number => {
         if (
             limit > content?.fields.references?.length ||
             limit === content?.fields.references?.length
@@ -159,41 +172,57 @@ const GridLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
 
     return (
         <Container maxWidth={false}>
-            {content?.sys?.contentType.sys.id === "assembly" &&
-                content?.fields.layout === "Grid" && (
-                    <Grid container spacing={{ xs: 2, xl: 6 }}>
-                        {content.fields.references
-                            .slice(0, limit)
-                            .map((block, index) => (
+            {content?.sys?.contentType.sys.id === "assembly" && (
+                <>
+                    {content?.fields.layout === "Grid" && (
+                        <Grid container spacing={{ xs: 2, xl: 6 }}>
+                            {content.fields.references
+                                .slice(0, limit)
+                                .map((block, index) => (
+                                    <Grid
+                                        alignItems="stretch"
+                                        key={index}
+                                        xs={12}
+                                        sm={6}
+                                        md={4}
+                                        xl={3}>
+                                        <LoadingState
+                                            type={content?.fields.layout}
+                                            contentEntry={content}>
+                                            <ContentBlock
+                                                contentEntry={block}
+                                            />
+                                        </LoadingState>
+                                    </Grid>
+                                ))}
+                            {content?.fields.references?.length >
+                                initialCount && (
                                 <Grid
-                                    alignItems="stretch"
-                                    key={index}
                                     xs={12}
-                                    sm={6}
-                                    md={4}
-                                    xl={3}>
-                                    <LoadingState
-                                        type={content?.fields.layout}
-                                        contentEntry={contentEntry}>
-                                        <ContentBlock contentEntry={block} />
-                                    </LoadingState>
+                                    display="flex"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    container
+                                    sx={{ mt: 2 }}>
+                                    <Stack
+                                        justifyContent="center"
+                                        alignItems="center">
+                                        <Button
+                                            disabled={disable}
+                                            onClick={limitPage}>
+                                            Show more
+                                        </Button>
+                                        <HorizontalRuleIcon color="disabled" />
+                                        <Typography color="grayText">
+                                            {displayCount()}
+                                        </Typography>
+                                    </Stack>
                                 </Grid>
-                            ))}
-                        {content?.fields.references?.length > initialCount && (
-                            <Grid
-                                xs={12}
-                                display="flex"
-                                justifyContent="center"
-                                alignItems="center"
-                                container
-                                sx={{ mt: 2 }}>
-                                <Button disabled={disable} onClick={limitPage}>
-                                    Show more
-                                </Button>
-                            </Grid>
-                        )}
-                    </Grid>
-                )}
+                            )}
+                        </Grid>
+                    )}
+                </>
+            )}
         </Container>
     );
 };
