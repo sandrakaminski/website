@@ -1,10 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 
-type LoadResp = {
-    load: boolean;
-};
-
-export const useImageSrc = (src: string): LoadResp => {
+export const useImageSrc = (src: string): { load: boolean } => {
     const [load, setLoad] = useState<boolean>(true);
 
     const imageSrc = useCallback((): string => {

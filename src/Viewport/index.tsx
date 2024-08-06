@@ -5,11 +5,7 @@ import Box from "@mui/material/Box";
 import Footer from "./Footer";
 import Header from "./Header";
 
-type ViewportProps = {
-    children: React.ReactNode;
-};
-
-const Viewport = ({ children }: ViewportProps): JSX.Element => {
+const Viewport = ({ children }: { children: React.ReactNode }): JSX.Element => {
     return (
         <>
             <Header />
