@@ -42,19 +42,13 @@ export default LoadingState;
 
 const GridOutline = (): JSX.Element => {
     return (
-        <Box>
-            <Stack spacing={2}>
-                <Skeleton variant="rectangular" height={500} />
-                <Box sx={{ pb: 1, px: 1 }}>
-                    <Skeleton
-                        sx={{ mb: 3 }}
-                        variant="rounded"
-                        height="2.5rem"
-                    />
-                    <Skeleton variant="text" height="2rem" />
-                </Box>
-            </Stack>
-        </Box>
+        <Stack spacing={2}>
+            <Skeleton variant="rectangular" height={500} />
+            <Box sx={{ pb: 1, px: 1 }}>
+                <Skeleton sx={{ mb: 3 }} variant="rounded" height="2.5rem" />
+                <Skeleton variant="text" height="2rem" />
+            </Box>
+        </Stack>
     );
 };
 

@@ -73,7 +73,12 @@ const ProductReviews = (
     });
     const [fullImg, setFullImg] = useState<string>("");
     const url = `/.netlify/functions/reviews`;
+
     const setRating = (rating: number) => {
+        if (starFilled === rating) {
+            setStarFilled(0);
+            return;
+        }
         setStarFilled(rating);
     };
 
@@ -187,7 +192,7 @@ const ProductReviews = (
                                                 spacing={1}
                                                 direction="row"
                                                 alignItems="center">
-                                                {starArr.map((star: number) => (
+                                                {starArr.map((star) => (
                                                     <div key={star}>
                                                         {review.rating >=
                                                         star ? (

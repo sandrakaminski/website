@@ -1,21 +1,19 @@
 import React, { JSX } from "react";
 
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
 type MediaUploaderProps = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     title?: string;
     name?: string;
-    variant?: "text" | "outlined" | "contained";
 };
 
 const MediaUploader = (props: MediaUploaderProps): JSX.Element => {
-    const { title, variant } = props;
+    const { title } = props;
 
     return (
-        <Box>
+        <>
             <input
                 {...props}
                 accept="image/png, image/jpeg"
@@ -26,13 +24,13 @@ const MediaUploader = (props: MediaUploaderProps): JSX.Element => {
             <label htmlFor={"file-upload"}>
                 <Button
                     sx={{ height: "100%" }}
-                    variant={variant || "outlined"}
+                    variant="contained"
                     component="span"
                     startIcon={<CloudUploadIcon />}>
                     {title || "Upload"}
                 </Button>
             </label>
-        </Box>
+        </>
     );
 };
 
