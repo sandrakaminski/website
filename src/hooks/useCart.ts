@@ -7,15 +7,8 @@ type Amount = {
 };
 
 export const useCartHooks = () => {
-    type Init = {
-        [key: string]: {
-            name: string;
-            code: number;
-        };
-    };
-
     // list of countries
-    const countriesList: Init = {
+    const countriesList = {
         AU: { name: "Australia", code: 0 },
         CA: { name: "Canada", code: 1 },
         CL: { name: "Chile", code: 2 },
@@ -210,7 +203,8 @@ export const useCartHooks = () => {
         quantity: number
     };
 
-    const multipleBooks = (country: string, quantity: number) => {
+    // calculates shipping fee if there are multiple books in the cart
+    const multipleBooks = (country: string, quantity: number): number => {
         const shippingCost = shippingCosts(country);
 
         if (country === "NZ") {

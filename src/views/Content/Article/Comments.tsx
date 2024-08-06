@@ -1,8 +1,4 @@
-import React, {
-    useReducer,
-    useState,
-    JSX,
-    useEffect } from "react";
+import React, { useReducer, useState, JSX, useEffect } from "react";
 
 import CheckCircle from "@mui/icons-material/CheckCircle";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -42,24 +38,20 @@ const reducer = (state: State, action: Action): State => {
     }
 };
 
-type SingleComment = {
-    id: string;
-    date: number;
-    name: string;
-    comment: string;
-    commentId: string;
-    replies: Replies[];
-};
-
-type Replies = {
-    name: string;
-    reply: string;
-    date: number;
-    replyId: string;
-};
-
 type CommentsProps = {
-    data: SingleComment[];
+    data: {
+        id: string;
+        date: number;
+        name: string;
+        comment: string;
+        commentId: string;
+        replies: {
+            name: string;
+            reply: string;
+            date: number;
+            replyId: string;
+        }[];
+    }[];
 };
 
 const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
@@ -82,10 +74,10 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
         replies: [],
     };
 
-    const { submitting, submitted, createSubmission } = useCreateSubmission({
+    const { submitting, submitted, createSubmission } = useCreateSubmission(
         url,
-        data,
-    });
+        data
+    );
 
     useEffect(() => {
         handleGet();
@@ -194,11 +186,7 @@ const CommentThread = (props: CommentThreadProps): JSX.Element => {
 
     const method = "PUT";
     const { submitting, error, submitted, createSubmission } =
-        useCreateSubmission({
-            url,
-            method,
-            data,
-        });
+        useCreateSubmission(url, data, method);
 
     return (
         <>

@@ -2,12 +2,6 @@ import { useState } from "react";
 
 import { useErrorHandler } from "./useErrorHandler";
 
-type Submission = {
-    url: string;
-    method?: string;
-    data: object;
-};
-
 type RespBody = {
     submitting: boolean;
     error: {
@@ -18,8 +12,7 @@ type RespBody = {
     createSubmission: () => void;
 }
 
-export const useCreateSubmission = (props: Submission): RespBody => {
-    const { url, method, data } = props;
+export const useCreateSubmission = (url: string, data?: object, method?: string): RespBody => {
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
     const { error, handleError } = useErrorHandler();
@@ -28,17 +21,17 @@ export const useCreateSubmission = (props: Submission): RespBody => {
         try {
             setSubmitting(true);
             const resp = await fetch(url, {
-                method: "POST" || method,
+                method: method || "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
             });
             if (resp.status === 200) {
-                console.log(resp);
                 setSubmitting(false);
                 setSubmitted(true);
             } else {
+                handleError("Cannot submit entry, try again later.");
                 throw new Error(`Error submitting data ${resp.status}`);
             }
         }

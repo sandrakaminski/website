@@ -13,11 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useCartContext } from "@/views/Cart/cartActions";
 
-type CartPopperProps = {
-    clickEvent: boolean;
-};
-
-const CartPopper = (props: CartPopperProps): JSX.Element => {
+const CartPopper = (props: { clickEvent: boolean }): JSX.Element => {
     const { clickEvent } = props;
 
     const { state } = useCartContext();

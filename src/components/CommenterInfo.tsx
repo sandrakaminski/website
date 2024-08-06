@@ -8,12 +8,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { unixFormatter } from "unix-date-formatter/unix";
 
-type CommenterInfoProps = {
-    name: string;
-    date: number;
-};
-
-const CommenterInfo = (props: CommenterInfoProps): JSX.Element => {
+const CommenterInfo = (props: { name: string; date: number }): JSX.Element => {
     const { name, date } = props;
 
     return (

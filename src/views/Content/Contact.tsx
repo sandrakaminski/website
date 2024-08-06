@@ -70,10 +70,7 @@ const Contact = (): JSX.Element => {
 
     const url = `/.netlify/functions/registration`;
     const { submitting, error, submitted, createSubmission } =
-        useCreateSubmission({
-            url,
-            data,
-        });
+        useCreateSubmission(url, data);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

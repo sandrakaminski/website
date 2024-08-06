@@ -102,10 +102,10 @@ const ProductReviews = (
         media: fields.media,
     };
 
-    const { submitting, submitted, createSubmission } = useCreateSubmission({
+    const { submitting, submitted, createSubmission } = useCreateSubmission(
         url,
-        data,
-    });
+        data
+    );
 
     useEffect(() => {
         if (submitted) {

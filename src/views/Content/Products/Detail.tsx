@@ -23,7 +23,6 @@ import gfm from "remark-gfm";
 import CartPopper from "./CartPopper";
 import ProductReviews from "./ProductReviews";
 import LoadingImage from "@/components/LoadingImage";
-// import Markdown from "@/components/Markdown";
 import Notifier from "@/components/Notifier";
 import Trail from "@/components/Trail";
 import { useImageSrc } from "@/hooks";
@@ -113,12 +112,24 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                 </Grid>
             </Grid>
             <CartPopper clickEvent={clickEvent} />
-            <Dialog maxWidth="xl" open={open} onClose={() => setOpen(false)}>
+            <Dialog
+                sx={{
+                    width: "100%",
+                    objectFit: "scale-down",
+                }}
+                fullWidth={true}
+                maxWidth="xl"
+                open={open}
+                onClose={() => setOpen(false)}>
                 <img
-                    style={{ height: "90vh", width: "100%" }}
+                    style={{
+                        height: "90vh",
+                        width: "100%",
+                        objectFit: "scale-down",
+                    }}
                     loading="eager"
                     src={image}
-                    alt={"Feature img"}
+                    alt="Feature img"
                 />
             </Dialog>
         </>

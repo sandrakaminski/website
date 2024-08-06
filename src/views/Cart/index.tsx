@@ -30,16 +30,9 @@ import { useCartHooks, useErrorHandler } from "@/hooks";
 import { ProductTypes } from "@/types";
 import { useCartContext } from "@/views/Cart/cartActions";
 
-type PriceKey = "shipping" | "total";
-
-type Prices = {
-    [key in PriceKey]: number;
-};
-
 const Cart = (): JSX.Element => {
     const navigate = useNavigate();
     const {
-        // countriesList,
         currencyTypes,
         shippingFee,
         checkProductType,
@@ -53,7 +46,10 @@ const Cart = (): JSX.Element => {
     const [loading, setLoading] = useState<boolean>(true);
     const [disable, setDisable] = useState<boolean>(true);
     const [country, setCountry] = useState<string>("");
-    const [amount, setAmount] = useState<Prices>({
+    const [amount, setAmount] = useState<{
+        shipping: number;
+        total: number;
+    }>({
         shipping: 0,
         total: 0,
     });
@@ -148,10 +144,8 @@ const Cart = (): JSX.Element => {
         }
     };
 
-    const minHeight = `calc(100vh - 290px)`;
-
     return (
-        <Box sx={{ mt: 4, minHeight }}>
+        <Box sx={{ mt: 4, minHeight: `calc(100vh - 290px)` }}>
             {state.cart && state.cart.length === 0 ? (
                 <Stack
                     sx={{ mt: 10 }}

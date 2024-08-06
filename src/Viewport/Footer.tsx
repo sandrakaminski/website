@@ -34,7 +34,7 @@ const Footer = (): JSX.Element => {
                 direction="row"
                 alignItems="center"
                 spacing={1}>
-                {social.map((item: Social, index: number) => (
+                {social.map((item, index) => (
                     <Link
                         target="_blank"
                         sx={{ "&:hover": { color: "text.primary" } }}
@@ -50,12 +50,7 @@ const Footer = (): JSX.Element => {
 };
 export default Footer;
 
-type Social = {
-    icon: React.ReactNode;
-    link: string;
-};
-
-const social: Social[] = [
+const social = [
     {
         icon: <FacebookIcon />,
         link: "https://www.facebook.com/sandra.kaminskinz",

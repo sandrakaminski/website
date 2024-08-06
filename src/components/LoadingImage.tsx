@@ -16,7 +16,7 @@ type LoadingImageProps = {
     id?: string;
 };
 
-export const LoadingImage = (props: LoadingImageProps): JSX.Element => {
+const LoadingImage = (props: LoadingImageProps): JSX.Element => {
     const { src, skeletonheight, card, sx } = props;
 
     let imageCard: boolean;
