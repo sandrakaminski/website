@@ -1,5 +1,4 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
-import type { Theme } from '@mui/material/styles';
 
 import ArnoProCaption from './fonts/ArnoProCaption.ttf';
 import MonaSansSemiBold from './fonts/MonaSansSemiBold.ttf';
@@ -7,9 +6,9 @@ import ProximaNova from './fonts/ProximaNovaAltReg.otf';
 import { palette } from './palette';
 import { typography } from './typography';
 
-export const theme: Theme = responsiveFontSizes(createTheme({
-    palette,
+export const theme = responsiveFontSizes(createTheme({
     typography,
+    palette,
     components: {
         MuiButton: {
             styleOverrides: {
