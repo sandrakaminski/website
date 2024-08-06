@@ -24,7 +24,13 @@ export const Markdown: Record<string, unknown> = {
     hr: ({ ...props }) => <Underline {...props} />,
     ul: ({ ...props }) => <TextElement color="grayText" {...props} />,
     td: ({ ...props }) => (
-        <TableCell sx={{ borderBottom: "none" }}>{props.children}</TableCell>
+        <TableCell
+            sx={{
+                borderBottom: "none",
+                display: { xs: "block", md: "table-cell" },
+            }}>
+            {props.children}
+        </TableCell>
     ),
 };
 
