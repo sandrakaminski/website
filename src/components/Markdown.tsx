@@ -6,17 +6,18 @@ import Link from "@mui/material/Link";
 import TableCell from "@mui/material/TableCell";
 import Typography from "@mui/material/Typography";
 
-type Img = {
-    [key: string]: string;
-};
-
-export const Markdown: Record<string, unknown> = {
+export const Markdown = {
     h1: ({ ...props }) => <TextElement variant="h4" {...props} />,
     h2: ({ ...props }) => <TextElement variant="h5" {...props} />,
     h3: ({ ...props }) => <TextElement variant="subtitle1" {...props} />,
     a: ({ ...props }) => <Link target="_blank" {...props} />,
-    img: ({ ...props }, { alt, src }: Img) => (
-        <img style={{ width: "100%" }} src={src} alt={alt} {...props} />
+    img: ({ ...props }) => (
+        <img
+            style={{ width: "100%" }}
+            src={props.src}
+            alt={props.alt}
+            {...props}
+        />
     ),
     p: ({ ...props }) => (
         <TextElement paragraph align="justify" color="grayText" {...props} />
