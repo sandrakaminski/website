@@ -1,3 +1,4 @@
+github.com/everapihq/freecurrencyapi-go v0.1.0/go.mod h1:ubR3wT4CQzyWiWhPz4I6/diXqlBdt9Yl/SOF8A3DBX0=
 github.com/stretchr/testify v1.7.2/go.mod h1:R6va5+xMeoiuVRoj+gSkQ7d3FALtqAAGI1FQKckRals=
 golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 h1:uVc8UZUe6tr40fFVnUP5Oj+veunVezqYl9z7DYw9xzw=
 golang.org/x/sys v0.4.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=

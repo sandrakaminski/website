@@ -2,7 +2,6 @@ go 1.21.1
 
 use (
 	./comments
-	./exchange-rate
 	./payment
 	./registration
 	./reviews

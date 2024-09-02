@@ -136,7 +136,9 @@ const Cart = (): JSX.Element => {
                 const { url } = await resp.json();
                 window.location.replace(url);
             } else {
-                setProcessing(false);
+                throw new Error(
+                    "Error navigating to payment page. Try again later."
+                );
             }
         } catch (err) {
             handleError("Error navigating to payment page. Try again later.");
