@@ -70,6 +70,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		PhoneNumberCollection: &stripe.CheckoutSessionPhoneNumberCollectionParams{
 			Enabled: stripe.Bool(true),
 		},
+		AllowPromotionCodes: stripe.Bool(true),
 		Currency:   stripe.String(string(ord.Currency)),
 		SubmitType: stripe.String("pay"),
 		Mode:       stripe.String(string(stripe.CheckoutSessionModePayment)),
