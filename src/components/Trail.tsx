@@ -10,10 +10,12 @@ const Trail = (props: { current: string }): JSX.Element => {
     const navigate = useNavigate();
     const { type } = useParams();
 
+    const seperator = `\u203a`;
+
     return (
         <Breadcrumbs
             sx={{ display: { xs: "none", sm: "flex" } }}
-            separator="\u203a">
+            separator={seperator}>
             <Link
                 sx={{ cursor: "pointer", textTransform: "capitalize" }}
                 underline="hover"
