@@ -104,7 +104,9 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                             variant="contained">
                             {!contentEntry.fields.inStock
                                 ? "Sold out"
-                                : "Add to Cart"}
+                                : contentEntry.fields.preOrder
+                                ? "Pre-order"
+                                : "Add to cart"}
                         </Button>
                         <ProductReviews contentEntry={contentEntry} />
                     </Stack>

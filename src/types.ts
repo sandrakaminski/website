@@ -108,6 +108,7 @@ export type ProductTypes = {
     description: string;
     productFiles: Asset[]
     publishDate: string;
+    preOrder: boolean;
 }
 
 // state that is used in the cart
