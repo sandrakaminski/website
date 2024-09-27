@@ -232,13 +232,17 @@ export const useCartHooks = () => {
         const shippingCost = multipleBooks(country, quantity);
 
         let shippingFee: number | undefined;
+        if (category.includes("Wrapping Paper")) {
+            shippingFee = 0;
+        }
         if (category.includes("Paper Products")) {
             shippingFee = PaperProductShipping;
         }
         if (category.includes("Book")) {
             shippingFee = shippingCost;
         }
-        if (category.includes("Paper Products") && category.includes("Book")) {
+
+        if (category.includes("Paper Products") && category.includes("Book") && category.includes("Wrapping Paper")) {
             shippingFee = shippingCost;
         } else {
             shippingCost;
