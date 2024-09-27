@@ -57,7 +57,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
             <Trail current={contentEntry.fields.name} />
             <Notifier
                 open={contentEntry.fields.nzShippingOnly}
-                message="This product is only available for shipping within New Zealand."
+                message="This product is only available for purchase within New Zealand."
             />
             <Heading
                 contentEntry={contentEntry}
