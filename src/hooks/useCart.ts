@@ -12,14 +12,15 @@ export const useCartHooks = () => {
         AU: { name: "Australia", code: 0 },
         CA: { name: "Canada", code: 1 },
         CL: { name: "Chile", code: 2 },
-        FR: { name: "France", code: 3 },
-        IT: { name: "Italy", code: 4 },
-        JP: { name: "Japan", code: 5 },
-        NZ: { name: "New Zealand", code: 6 },
-        NO: { name: "Norway", code: 7 },
-        TW: { name: "Taiwan", code: 8 },
-        GB: { name: "United Kingdom", code: 9 },
-        US: { name: "United States", code: 10 },
+        CZ: { name: "Czechia", code: 3 },
+        FR: { name: "France", code: 4 },
+        IT: { name: "Italy", code: 5 },
+        JP: { name: "Japan", code: 6 },
+        NZ: { name: "New Zealand", code: 7 },
+        NO: { name: "Norway", code: 8 },
+        TW: { name: "Taiwan", code: 9 },
+        GB: { name: "United Kingdom", code: 10 },
+        US: { name: "United States", code: 11 },
     };
 
     // standard shipping costs for each country
@@ -31,6 +32,8 @@ export const useCartHooks = () => {
                 return 46.92;
             case "CL":
                 return 31;
+            case "CZ":
+                return 34.92;
             case "FR":
                 return 34.92;
             case "IT":
@@ -66,6 +69,8 @@ export const useCartHooks = () => {
                 return "$";
             case "CL":
                 return "$";
+            case "CZ":
+                return "Kč";
             case "FR":
                 return "€";
             case "IT":
@@ -96,6 +101,8 @@ export const useCartHooks = () => {
                 return "CAD";
             case "CL":
                 return "CLP";
+            case "CZ":
+                return "CZK";
             case "FR":
                 return "EUR";
             case "IT":
@@ -126,6 +133,8 @@ export const useCartHooks = () => {
                 return 0.05;
             case "CL":
                 return 0.19;
+            case "CZ":
+                return 0.19;
             case "FR":
                 return 0.22;
             case "IT":
@@ -155,6 +164,8 @@ export const useCartHooks = () => {
                 return 0.82 * price;
             case "CLP":
                 return 532.98 * price;
+            case "CZK":
+                return 14.27 * price;
             case "EUR":
                 return 0.55 * price;
             case "JPY":
@@ -168,7 +179,7 @@ export const useCartHooks = () => {
             case "GBP":
                 return 0.48 * price;
             case "USD":
-                return 0.59 * price;
+                return 0.63 * price;
             default:
                 return 1 * price;
         }
