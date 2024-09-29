@@ -188,9 +188,9 @@ const Heading = (props: HeadingProps): JSX.Element => {
 const Body = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
     const { contentEntry } = props;
 
-    const sentences = contentEntry.fields.description.split(".");
-    const preview = sentences.slice(0, 2).join(".");
-    const detect = sentences.join(".");
+    const words = contentEntry.fields.description.split(" ");
+    const preview = words.slice(0, 22).join(" ");
+    const detect = words.join(" ");
 
     const [hidden, setHidden] = useState<boolean>(false);
     const [showMore, setShowMore] = useState<string>(preview);
@@ -217,29 +217,35 @@ const Body = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
     return (
         <>
             <Box id="description">
-                <FormatMd
-                    text={
-                        showMore === preview && !hidden
-                            ? `${showMore}...`
-                            : showMore
-                    }
-                />
+                <ReactMarkdown remarkPlugins={[gfm]}>
+                    {words.length < 30
+                        ? contentEntry.fields.description
+                        : showMore === preview && !hidden
+                        ? `${showMore}...`
+                        : showMore}
+                </ReactMarkdown>
             </Box>
-            {!hidden && showMore === preview ? (
-                <Link sx={{ cursor: "pointer" }} onClick={handleShowMore}>
-                    Read more
-                </Link>
+            {words.length < 30 ? (
+                <></>
             ) : (
-                <Link sx={{ cursor: "pointer" }} onClick={handleShowLess}>
-                    Read less
-                </Link>
+                <>
+                    {!hidden && showMore === preview ? (
+                        <Link
+                            sx={{ cursor: "pointer" }}
+                            onClick={handleShowMore}>
+                            Read more
+                        </Link>
+                    ) : (
+                        <Link
+                            sx={{ cursor: "pointer" }}
+                            onClick={handleShowLess}>
+                            Read less
+                        </Link>
+                    )}
+                </>
             )}
         </>
     );
-};
-
-const FormatMd = ({ text }: { text: string }): JSX.Element => {
-    return <ReactMarkdown remarkPlugins={[gfm]}>{text}</ReactMarkdown>;
 };
 
 type ThumbnailCarouselProps = {
