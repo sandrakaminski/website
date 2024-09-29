@@ -75,6 +75,7 @@ type BannerType = {
     state: {
         inStock: boolean;
         newProduct?: boolean;
+        preOrder?: boolean;
     };
 };
 
@@ -104,7 +105,7 @@ const Banner = (props: BannerType): JSX.Element => {
                 </Box>
             ) : (
                 <>
-                    {state.newProduct && (
+                    {state.preOrder ? (
                         <Box
                             sx={{
                                 background: "rgb(98, 107, 63,.80)",
@@ -114,9 +115,24 @@ const Banner = (props: BannerType): JSX.Element => {
                                 id="new-product"
                                 color="white"
                                 variant="subtitle1">
-                                NEW
+                                PRE-ORDER
                             </Typography>
                         </Box>
+                    ) : (
+                        state.newProduct && (
+                            <Box
+                                sx={{
+                                    background: "rgb(98, 107, 63,.80)",
+                                    ...style,
+                                }}>
+                                <Typography
+                                    id="new-product"
+                                    color="white"
+                                    variant="subtitle1">
+                                    NEW
+                                </Typography>
+                            </Box>
+                        )
                     )}
                 </>
             )}
