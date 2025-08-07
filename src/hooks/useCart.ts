@@ -179,7 +179,7 @@ export const useCartHooks = () => {
             case "GBP":
                 return 0.48 * price;
             case "USD":
-                return 0.63 * price;
+                return 0.61 * price;
             default:
                 return 1 * price;
         }
