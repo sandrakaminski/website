@@ -351,24 +351,26 @@ type loadingAvatarProps = {
 const LoadingAvatar = (props: loadingAvatarProps): JSX.Element => {
     const { src, image } = props;
 
-    const avatarSize = { width: 50, height: 80 };
     const { load } = useImageSrc(src);
 
     return (
         <>
             {load ? (
-                <Skeleton sx={avatarSize} variant="rectangular" />
+                <Skeleton sx={{ m: "2px" }} variant="rectangular" />
             ) : (
-                <Avatar
-                    component={CardActionArea}
+                <Box
                     sx={
                         image === src
-                            ? { border: 1, ...avatarSize }
-                            : avatarSize
-                    }
-                    variant="square"
-                    {...props}
-                />
+                            ? { border: 1 }
+                            : { border: 1, borderColor: "transparent" }
+                    }>
+                    <Avatar
+                        sx={{ width: 50, height: 80, m: "2px" }}
+                        component={CardActionArea}
+                        variant="square"
+                        {...props}
+                    />
+                </Box>
             )}
         </>
     );
