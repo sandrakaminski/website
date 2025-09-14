@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import { Entry } from "contentful";
 import { useNavigate } from "react-router-dom";
 
-import LoadingImage from "@/components/LoadingImage";
+import DefaultImage from "@/components/DefaultImage";
 import type { ImageContainerProps, ContentEntryProps } from "@/types";
 
 const ImageContainer = (
@@ -27,10 +27,8 @@ const ImageContainer = (
                     onClick={() => navigate(img.fields.slug)}
                     key={index}>
                     <FloatingText contentEntry={img} />
-                    <LoadingImage
+                    <DefaultImage
                         id="image"
-                        sx={{ minHeight: { xs: "100%", sm: "500" } }}
-                        skeletonheight={500}
                         src={img.fields.image.fields.file.url}
                         alt={`image ${index}`}
                     />

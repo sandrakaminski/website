@@ -6,15 +6,16 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
+import Container from "@mui/material/Container";
 import Dialog from "@mui/material/Dialog";
+import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
-import { useQuery } from "@tanstack/react-query";
 import { Asset, Entry } from "contentful";
 import ReactGA from "react-ga4";
 import ReactMarkdown from "react-markdown";
@@ -22,7 +23,7 @@ import gfm from "remark-gfm";
 
 import CartPopper from "./CartPopper";
 import ProductReviews from "./ProductReviews";
-import LoadingImage from "@/components/LoadingImage";
+import DefaultImage from "@/components/DefaultImage";
 import Notifier from "@/components/Notifier";
 import Trail from "@/components/Trail";
 import { useImageSrc } from "@/hooks";
@@ -59,81 +60,85 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                 open={contentEntry.fields.nzShippingOnly}
                 message="This product is only available for purchase within New Zealand."
             />
-            <Heading
-                contentEntry={contentEntry}
-                sx={{ display: { xs: "flex", md: "none" }, mt: 4 }}
-            />
-            <Grid sx={{ mt: 1 }} container spacing={2}>
-                <Grid xs={12} md={6}>
-                    <Stack justifyContent="center" spacing={2} direction="row">
-                        <ThumbnailCarousel
-                            contentEntry={contentEntry}
-                            image={image}
-                            handleSetImage={handleSetImage}
-                        />
-                        <CardActionArea
-                            sx={{ backgroundColor: "gray.100" }}
-                            onClick={() => setOpen(true)}>
-                            <LoadingImage
-                                id="featureImage"
-                                skeletonheight={"90vh"}
-                                sx={{
-                                    maxHeight: "90vh",
-                                    width: "100%",
-                                    objectFit: "scale-down",
-                                }}
-                                src={image}
-                                alt={"Feature image"}
+            <Container maxWidth="xl">
+                <Grid
+                    sx={{ mt: 1, alignItems: "stretch" }}
+                    container
+                    spacing={2}>
+                    <Grid xs={12} md={8}>
+                        <Card
+                            sx={{ p: 2 }}
+                            variant="outlined"
+                            component={Stack}
+                            spacing={2}
+                            direction="row">
+                            <ThumbnailCarousel
+                                contentEntry={contentEntry}
+                                image={image}
+                                handleSetImage={handleSetImage}
                             />
-                        </CardActionArea>
-                    </Stack>
+                            <CardActionArea
+                                sx={{ backgroundColor: "gray.100" }}
+                                onClick={() => setOpen(true)}>
+                                <DefaultImage
+                                    height="70vh"
+                                    id="featureImage"
+                                    src={image}
+                                    alt={"Feature image"}
+                                />
+                            </CardActionArea>
+                        </Card>
+                    </Grid>
+                    <Grid xs={12} md={4}>
+                        <Card variant="outlined" sx={{ p: 2, height: "100%" }}>
+                            <Heading contentEntry={contentEntry} />
+                            <Stack
+                                sx={{ my: 2 }}
+                                alignItems="flex-start"
+                                spacing={2}>
+                                <Button
+                                    id="addToCart"
+                                    sx={{ mb: 2 }}
+                                    size="large"
+                                    disabled={!contentEntry.fields.inStock}
+                                    onClick={handleCart}
+                                    endIcon={<ShoppingCartOutlinedIcon />}
+                                    variant="contained">
+                                    {!contentEntry.fields.inStock
+                                        ? "Sold out"
+                                        : contentEntry.fields.preOrder
+                                        ? "Pre-order"
+                                        : "Add to cart"}
+                                </Button>
+                                <Divider sx={{ width: "100%" }} />
+                                <ProductReviews contentEntry={contentEntry} />
+                            </Stack>
+                        </Card>
+                    </Grid>
+                    <Grid xs={12}>
+                        <Card variant="outlined" sx={{ p: 2 }}>
+                            <Typography variant="h4">Description</Typography>
+                            <Box id="description">
+                                <ReactMarkdown remarkPlugins={[gfm]}>
+                                    {contentEntry.fields.description}
+                                </ReactMarkdown>
+                            </Box>
+                        </Card>
+                    </Grid>
                 </Grid>
-                <Grid xs={12} md={6}>
-                    <Heading
-                        contentEntry={contentEntry}
-                        sx={{ display: { xs: "none", md: "flex" } }}
+                <CartPopper clickEvent={clickEvent} />
+                <Dialog
+                    maxWidth={false}
+                    open={open}
+                    onClose={() => setOpen(false)}>
+                    <img
+                        style={{ height: "90vh" }}
+                        loading="eager"
+                        src={image}
+                        alt="Feature img"
                     />
-                    <Stack sx={{ my: 2 }} alignItems="center">
-                        <Button
-                            id="addToCart"
-                            sx={{ mb: 2 }}
-                            size="large"
-                            disabled={!contentEntry.fields.inStock}
-                            onClick={handleCart}
-                            startIcon={<ShoppingCartOutlinedIcon />}
-                            variant="contained">
-                            {!contentEntry.fields.inStock
-                                ? "Sold out"
-                                : contentEntry.fields.preOrder
-                                ? "Pre-order"
-                                : "Add to cart"}
-                        </Button>
-                        <ProductReviews contentEntry={contentEntry} />
-                    </Stack>
-                    <Body contentEntry={contentEntry} />
-                </Grid>
-            </Grid>
-            <CartPopper clickEvent={clickEvent} />
-            <Dialog
-                sx={{
-                    width: "100%",
-                    objectFit: "scale-down",
-                }}
-                fullWidth={true}
-                maxWidth="xl"
-                open={open}
-                onClose={() => setOpen(false)}>
-                <img
-                    style={{
-                        height: "90vh",
-                        width: "100%",
-                        objectFit: "scale-down",
-                    }}
-                    loading="eager"
-                    src={image}
-                    alt="Feature img"
-                />
-            </Dialog>
+                </Dialog>
+            </Container>
         </>
     );
 };
@@ -148,12 +153,8 @@ const Heading = (props: HeadingProps): JSX.Element => {
     const { contentEntry, sx } = props;
 
     return (
-        <Stack sx={{ ...sx }} alignItems="center" spacing={2}>
-            <Typography
-                id="productName"
-                variant="h2"
-                align="center"
-                sx={{ pt: 5 }}>
+        <Stack sx={{ ...sx }} alignItems="flex-start" spacing={2}>
+            <Typography id="productName" variant="h2">
                 {contentEntry.fields.name}
             </Typography>
             <Stack
@@ -182,69 +183,6 @@ const Heading = (props: HeadingProps): JSX.Element => {
                 </Stack>
             </Stack>
         </Stack>
-    );
-};
-
-const Body = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
-    const { contentEntry } = props;
-
-    const words = contentEntry.fields.description.split(" ");
-    const preview = words.slice(0, 22).join(" ");
-    const detect = words.join(" ");
-
-    const [hidden, setHidden] = useState<boolean>(false);
-    const [showMore, setShowMore] = useState<string>(preview);
-
-    const handleShowMore = () => {
-        setShowMore(contentEntry.fields.description);
-    };
-
-    const handleShowLess = () => {
-        setShowMore(preview);
-    };
-
-    const detectLength = () => {
-        if (detect.length === preview.length) {
-            setHidden(true);
-        }
-        return detect.length === preview.length;
-    };
-    useQuery({
-        queryKey: [detect.length === preview.length],
-        queryFn: detectLength,
-    });
-
-    return (
-        <>
-            <Box id="description">
-                <ReactMarkdown remarkPlugins={[gfm]}>
-                    {words.length < 30
-                        ? contentEntry.fields.description
-                        : showMore === preview && !hidden
-                        ? `${showMore}...`
-                        : showMore}
-                </ReactMarkdown>
-            </Box>
-            {words.length < 30 ? (
-                <></>
-            ) : (
-                <>
-                    {!hidden && showMore === preview ? (
-                        <Link
-                            sx={{ cursor: "pointer" }}
-                            onClick={handleShowMore}>
-                            Read more
-                        </Link>
-                    ) : (
-                        <Link
-                            sx={{ cursor: "pointer" }}
-                            onClick={handleShowLess}>
-                            Read less
-                        </Link>
-                    )}
-                </>
-            )}
-        </>
     );
 };
 
@@ -356,21 +294,27 @@ const LoadingAvatar = (props: loadingAvatarProps): JSX.Element => {
     return (
         <>
             {load ? (
-                <Skeleton sx={{ m: "2px" }} variant="rectangular" />
+                <Skeleton
+                    sx={{ width: 50, height: 80, m: "2px" }}
+                    variant="rectangular"
+                />
             ) : (
-                <Box
+                <Avatar
                     sx={
                         image === src
-                            ? { border: 1 }
-                            : { border: 1, borderColor: "transparent" }
-                    }>
-                    <Avatar
-                        sx={{ width: 50, height: 80, m: "2px" }}
-                        component={CardActionArea}
-                        variant="square"
-                        {...props}
-                    />
-                </Box>
+                            ? { border: 1, width: 50, height: 80, p: "2px" }
+                            : {
+                                  border: 1,
+                                  borderColor: "transparent",
+                                  width: 50,
+                                  height: 80,
+                                  p: "2px",
+                              }
+                    }
+                    component={CardActionArea}
+                    variant="square"
+                    {...props}
+                />
             )}
         </>
     );

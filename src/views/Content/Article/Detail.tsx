@@ -12,7 +12,7 @@ import gfm from "remark-gfm";
 import { DateFormatter } from "unix-date-formatter/date";
 
 import Comments from "./Comments";
-import LoadingImage from "@/components/LoadingImage";
+import DefaultImage from "@/components/DefaultImage";
 import Markdown from "@/components/Markdown";
 import Trail from "@/components/Trail";
 import type { ArticleType, ContentEntryProps } from "@/types";
@@ -68,10 +68,8 @@ const Detail = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                         </Link>
                     </Stack>
                     <Box maxWidth={800}>
-                        <LoadingImage
+                        <DefaultImage
                             id="coverImage"
-                            skeletonheight={500}
-                            sx={{ width: "100%", height: "auto", py: 4 }}
                             src={
                                 contentEntry?.fields.coverImage.fields.file.url
                             }

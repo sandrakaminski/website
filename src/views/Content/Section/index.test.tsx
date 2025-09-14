@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, fireEvent } from '@testing-library/react'
 import { Entry } from "contentful";
 import { BrowserRouter as Router } from "react-router-dom";
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect, vi } from 'vitest'
 
 import Section from ".";
 import type { Content, ContentEntryProps } from '@/types';
@@ -24,6 +24,10 @@ const repeatFields = {
     ctaSlug: 'test-section-cta-slug',
     body: "Test section body to see that it's working"
 };
+
+vi.mock("@/functions/useImgSrc", () => ({
+    useImageSrc: () => ({ load: false }),
+}));
 
 const mockSectionCenter = {
     fields: {

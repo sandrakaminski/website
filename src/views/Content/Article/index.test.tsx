@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Entry } from "contentful";
 import { BrowserRouter as Router } from "react-router-dom";
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 
 import Article, { ArticleTypes } from ".";
 import { ArticleType } from "@/types";
@@ -33,6 +33,10 @@ const mockArticle = {
         id: "1234556",
     },
 } as Entry<ArticleType>;
+
+vi.mock("@/functions/useImgSrc", () => ({
+    useImageSrc: () => ({ load: false }),
+}));
 
 const TestArticleComponent = (props: ArticleTypes): JSX.Element => {
     const queryClient = new QueryClient();

@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import ReactGA from "react-ga4";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 
-import LoadingImage from "@/components/LoadingImage";
+import DefaultImage from "@/components/DefaultImage";
 import type { ProductTypes, ContentEntryProps } from "@/types";
 
 const Summary = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
@@ -31,9 +31,10 @@ const Summary = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
         <>
             <CardActionArea id="productLink" onClick={() => handleClick()}>
                 <Banner state={contentEntry.fields} />
-                <LoadingImage
+                <DefaultImage
+                    isCard
+                    enableZoom
                     id="featureImage"
-                    card="true"
                     src={contentEntry?.fields.featureImage.fields.file.url}
                     alt={contentEntry.fields.featureImage.fields.title}
                 />

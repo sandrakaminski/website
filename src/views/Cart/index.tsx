@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Card from "@mui/material/Card";
 import Chip from "@mui/material/Chip";
+import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -147,116 +148,121 @@ const Cart = (): JSX.Element => {
     };
 
     return (
-        <Box sx={{ mt: 4, minHeight: `calc(100vh - 290px)` }}>
-            {state.cart && state.cart.length === 0 ? (
-                <Stack
-                    sx={{ mt: 10 }}
-                    justifyContent="space-between"
-                    alignItems="center"
-                    spacing={2}>
-                    <ProductionQuantityLimitsIcon sx={{ fontSize: 100 }} />
-                    <Typography variant="h3" align="center" gutterBottom>
-                        Shopping cart
-                    </Typography>
-                    <Typography
-                        gutterBottom
-                        color="grayText"
-                        variant="subtitle1">
-                        You have nothing in your shopping cart.
-                    </Typography>
-                    <Button
-                        size="large"
-                        variant="contained"
-                        onClick={() => navigate("/shop")}>
-                        Shop now
-                    </Button>
-                </Stack>
-            ) : (
-                <Grid alignItems="stretch" spacing={1} container>
-                    <Grid xs={12} md={8}>
-                        <Card variant="outlined" sx={{ p: 2, minHeight: 250 }}>
-                            {loading ? (
-                                <CartSkeleton />
-                            ) : (
-                                <>
-                                    <Stack
-                                        direction="row"
-                                        justifyContent="space-between"
-                                        alignItems="center"
-                                        spacing={2}>
-                                        <Typography variant="h4">
-                                            Shopping cart
-                                        </Typography>
-                                        <Button
-                                            endIcon={<CloseIcon />}
-                                            onClick={clear}>
-                                            Clear cart
-                                        </Button>
-                                    </Stack>
-                                    <Stack sx={{ mt: 4 }}>
-                                        {state.cart?.map((item, index) => (
-                                            <CartItem
-                                                country={country}
-                                                key={Number(index)}
-                                                item={item as ProductTypes}
-                                                increase={increase}
-                                                decrease={decrease}
-                                                remove={remove}
-                                            />
-                                        ))}
-                                        <Typography
-                                            variant="caption"
-                                            color="grayText">
-                                            *VAT/GST Included in product price
-                                        </Typography>
-                                    </Stack>
-                                </>
-                            )}
-                        </Card>
-                    </Grid>
-                    <Grid xs={12} md={4}>
-                        <Stack
-                            variant="outlined"
-                            component={Card}
-                            sx={{ height: "100%", p: 2 }}
-                            direction="column"
-                            justifyContent="space-between"
-                            spacing={1}>
-                            <CurrencyExchange
-                                quantity={quantity}
-                                setDisable={setDisable}
-                                setAmount={setAmount}
-                                amount={amount}
-                                shippingCosts={shippingTotal}
-                                country={country}
-                            />
-                            <ButtonGroup size="small">
-                                <CountryDropdown
-                                    // loading={loading}
-                                    disabled={nzOnly}
-                                    id="country"
-                                    setCountry={handleSetCountry}
+        <Container maxWidth="xl">
+            <Box sx={{ mt: 4, minHeight: `calc(100vh - 290px)` }}>
+                {state.cart && state.cart.length === 0 ? (
+                    <Stack
+                        sx={{ mt: 10 }}
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={2}>
+                        <ProductionQuantityLimitsIcon sx={{ fontSize: 100 }} />
+                        <Typography variant="h3" align="center" gutterBottom>
+                            Shopping cart
+                        </Typography>
+                        <Typography
+                            gutterBottom
+                            color="grayText"
+                            variant="subtitle1">
+                            You have nothing in your shopping cart.
+                        </Typography>
+                        <Button
+                            size="large"
+                            variant="contained"
+                            onClick={() => navigate("/shop")}>
+                            Shop now
+                        </Button>
+                    </Stack>
+                ) : (
+                    <Grid alignItems="stretch" spacing={1} container>
+                        <Grid xs={12} md={8}>
+                            <Card
+                                variant="outlined"
+                                sx={{ p: 2, minHeight: 250 }}>
+                                {loading ? (
+                                    <CartSkeleton />
+                                ) : (
+                                    <>
+                                        <Stack
+                                            direction="row"
+                                            justifyContent="space-between"
+                                            alignItems="center"
+                                            spacing={2}>
+                                            <Typography variant="h4">
+                                                Shopping cart
+                                            </Typography>
+                                            <Button
+                                                endIcon={<CloseIcon />}
+                                                onClick={clear}>
+                                                Clear cart
+                                            </Button>
+                                        </Stack>
+                                        <Stack sx={{ mt: 4 }}>
+                                            {state.cart?.map((item, index) => (
+                                                <CartItem
+                                                    country={country}
+                                                    key={Number(index)}
+                                                    item={item as ProductTypes}
+                                                    increase={increase}
+                                                    decrease={decrease}
+                                                    remove={remove}
+                                                />
+                                            ))}
+                                            <Typography
+                                                variant="caption"
+                                                color="grayText">
+                                                *VAT/GST Included in product
+                                                price
+                                            </Typography>
+                                        </Stack>
+                                    </>
+                                )}
+                            </Card>
+                        </Grid>
+                        <Grid xs={12} md={4}>
+                            <Stack
+                                variant="outlined"
+                                component={Card}
+                                sx={{ height: "100%", p: 2 }}
+                                direction="column"
+                                justifyContent="space-between"
+                                spacing={1}>
+                                <CurrencyExchange
+                                    quantity={quantity}
+                                    setDisable={setDisable}
+                                    setAmount={setAmount}
+                                    amount={amount}
+                                    shippingCosts={shippingTotal}
+                                    country={country}
                                 />
-                                <LoadingButton
-                                    size="small"
-                                    sx={{ width: 200, ml: 1 }}
-                                    disabled={disable}
-                                    variant="contained"
-                                    loading={processing}
-                                    onClick={handlePurchase}>
-                                    Buy now
-                                </LoadingButton>
-                            </ButtonGroup>
-                            {error.state && (
-                                <Typography color="error">
-                                    {error.message}
-                                </Typography>
-                            )}
-                        </Stack>
+                                <ButtonGroup size="small">
+                                    <CountryDropdown
+                                        // loading={loading}
+                                        disabled={nzOnly}
+                                        id="country"
+                                        setCountry={handleSetCountry}
+                                    />
+                                    <LoadingButton
+                                        size="small"
+                                        sx={{ width: 200, ml: 1 }}
+                                        disabled={disable}
+                                        variant="contained"
+                                        loading={processing}
+                                        onClick={handlePurchase}>
+                                        Buy now
+                                    </LoadingButton>
+                                </ButtonGroup>
+                                {error.state && (
+                                    <Typography color="error">
+                                        {error.message}
+                                    </Typography>
+                                )}
+                            </Stack>
+                        </Grid>
                     </Grid>
-                </Grid>
-            )}
-        </Box>
+                )}
+            </Box>
+        </Container>
     );
 };
 

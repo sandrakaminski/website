@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { DateFormatter } from "unix-date-formatter/date";
 
-import LoadingImage from "@/components/LoadingImage";
+import DefaultImage from "@/components/DefaultImage";
 import type { ArticleType, ContentEntryProps } from "@/types";
 
 const Summary = (props: ContentEntryProps<ArticleType>): JSX.Element => {
@@ -30,9 +30,10 @@ const Summary = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                                 { state: { data: slug } }
                             )
                         }>
-                        <LoadingImage
+                        <DefaultImage
+                            isCard
+                            enableZoom
                             id="coverImage"
-                            card="true"
                             src={
                                 contentEntry?.fields.coverImage.fields.file.url
                             }

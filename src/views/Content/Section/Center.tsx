@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import ReactMarkdown from "react-markdown";
 
 import Resource from "./Resource";
-import LoadingImage from "@/components/LoadingImage";
+import DefaultImage from "@/components/DefaultImage";
 import { SectionMarkDown } from "@/components/Markdown";
 import type { Content, ContentEntryProps } from "@/types";
 
@@ -16,10 +16,8 @@ const Center = (props: ContentEntryProps<Content>): JSX.Element => {
     return (
         <Stack alignItems="center" spacing={2}>
             {contentEntry?.fields.image?.fields.file.url && (
-                <LoadingImage
+                <DefaultImage
                     id="sectionImg"
-                    skeletonheight={500}
-                    sx={{ width: "100%", height: "auto" }}
                     src={contentEntry.fields.image.fields.file.url}
                     alt={contentEntry.fields.image.fields.title}
                 />

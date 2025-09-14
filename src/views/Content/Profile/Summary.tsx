@@ -6,8 +6,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import LoadingImage from "@/components/LoadingImage";
-import type { ProfileType, ContentEntryProps } from '@/types';
+import DefaultImage from "@/components/DefaultImage";
+import type { ProfileType, ContentEntryProps } from "@/types";
 
 const Summary = (props: ContentEntryProps<ProfileType>): JSX.Element => {
     const { contentEntry } = props;
@@ -21,24 +21,34 @@ const Summary = (props: ContentEntryProps<ProfileType>): JSX.Element => {
 
     return (
         <Card>
-            {contentEntry &&
-                <CardActionArea id="profileNav" onClick={() => navigate(`${pathname}/${contentEntry.fields.slug}`)}>
-                    <LoadingImage
+            {contentEntry && (
+                <CardActionArea
+                    id="profileNav"
+                    onClick={() =>
+                        navigate(`${pathname}/${contentEntry.fields.slug}`)
+                    }>
+                    <DefaultImage
+                        isCard
                         id="profileImage"
-                        card="true"
                         src={contentEntry?.fields.image.fields.file.url}
-                        alt={contentEntry.fields.image.fields.title} />
-                    <Stack sx={{ p: 2 }} alignItems="center" direction="column" justifyContent="center" spacing={1}>
-                        <Typography id="profileName" variant="subtitle1" >
+                        alt={contentEntry.fields.image.fields.title}
+                    />
+                    <Stack
+                        sx={{ p: 2 }}
+                        alignItems="center"
+                        direction="column"
+                        justifyContent="center"
+                        spacing={1}>
+                        <Typography id="profileName" variant="subtitle1">
                             {contentEntry.fields.name}
                         </Typography>
-                        <Typography id="profileBody" variant="body1" >
+                        <Typography id="profileBody" variant="body1">
                             {txt}
                         </Typography>
                     </Stack>
                 </CardActionArea>
-            }
+            )}
         </Card>
-    )
-}
-export default Summary; 
+    );
+};
+export default Summary;

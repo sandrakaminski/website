@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Entry } from "contentful";
 import { BrowserRouter as Router } from "react-router-dom";
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 
 import Profile, { BlockProps } from ".";
 import { ProfileType } from "@/types";
@@ -42,6 +42,10 @@ const mockProfile = {
         ],
     },
 } as Entry<ProfileType>;
+
+vi.mock("@/functions/useImgSrc", () => ({
+    useImageSrc: () => ({ load: false }),
+}));
 
 const TestProfileComponent = (props: BlockProps): JSX.Element => {
     const queryClient = new QueryClient();

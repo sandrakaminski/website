@@ -13,7 +13,7 @@ const CommenterInfo = (props: { name: string; date: number }): JSX.Element => {
 
     return (
         <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar />
+            <Avatar sx={{ width: 30, height: 30 }} />
             <Typography variant="subtitle1">{name}</Typography>
             <Typography sx={{ pt: 0.25 }}>{unixFormatter(date)}</Typography>
         </Stack>
@@ -25,7 +25,7 @@ export const CommentSkeleton = (): JSX.Element => {
     return (
         <Box>
             <Stack direction="row" alignItems="center" spacing={2}>
-                <Skeleton variant="circular" width={45} height={45} />
+                <Skeleton variant="circular" width={30} height={30} />
                 <Skeleton width={150} variant="text" />
                 <Skeleton width={100} variant="text" />
             </Stack>

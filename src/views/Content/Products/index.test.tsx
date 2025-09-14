@@ -5,7 +5,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { Entry } from "contentful";
 import { BrowserRouter as Router } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 
 import Products, { ProductProps } from ".";
 import { ProductTypes } from "@/types";
@@ -41,6 +41,10 @@ const productInfo = {
         },
     ],
 };
+
+vi.mock("@/functions/useImgSrc", () => ({
+    useImageSrc: () => ({ load: false }),
+}));
 
 const mockProductNotInstock = {
     fields: {
