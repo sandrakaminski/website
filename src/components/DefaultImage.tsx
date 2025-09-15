@@ -37,9 +37,8 @@ const DefaultImage = (props: DefaultImageProps): JSX.Element => {
                     <Skeleton
                         variant="rectangular"
                         width="100%"
-                        height={resolvedHeight}
                         sx={{
-                            ...(isCard ? cardSize : {}),
+                            height: isCard ? cardSize : resolvedHeight,
                         }}
                     />
                 ) : (
