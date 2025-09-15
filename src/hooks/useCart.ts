@@ -11,7 +11,6 @@ export const useCartHooks = () => {
     const countriesList = {
         AU: { name: "Australia", code: 0 },
         CA: { name: "Canada", code: 1 },
-        CL: { name: "Chile", code: 2 },
         CZ: { name: "Czechia", code: 3 },
         FR: { name: "France", code: 4 },
         IT: { name: "Italy", code: 5 },
@@ -27,11 +26,9 @@ export const useCartHooks = () => {
     const shippingCosts = (country: string): number => {
         switch (country) {
             case "AU":
-                return 44.92;
+                return 24.58;
             case "CA":
-                return 46.92;
-            case "CL":
-                return 31;
+                return 23.10;
             case "CZ":
                 return 34.92;
             case "FR":
@@ -47,9 +44,9 @@ export const useCartHooks = () => {
             case "TW":
                 return 13;
             case "GB":
-                return 32.92;
+                return 50.11;
             case "US":
-                return 37.92;
+                return 31.82;
             default:
                 return 11;
         }
@@ -66,8 +63,6 @@ export const useCartHooks = () => {
             case "AU":
                 return "$";
             case "CA":
-                return "$";
-            case "CL":
                 return "$";
             case "CZ":
                 return "Kč";
@@ -99,8 +94,6 @@ export const useCartHooks = () => {
                 return "AUD";
             case "CA":
                 return "CAD";
-            case "CL":
-                return "CLP";
             case "CZ":
                 return "CZK";
             case "FR":
@@ -131,8 +124,6 @@ export const useCartHooks = () => {
                 return 0;
             case "CA":
                 return 0.05;
-            case "CL":
-                return 0.19;
             case "CZ":
                 return 0.19;
             case "FR":
@@ -162,8 +153,6 @@ export const useCartHooks = () => {
                 return 0.92 * price;
             case "CAD":
                 return 0.82 * price;
-            case "CLP":
-                return 532.98 * price;
             case "CZK":
                 return 14.27 * price;
             case "EUR":

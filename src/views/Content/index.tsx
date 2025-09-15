@@ -1,9 +1,13 @@
-import React, { lazy, useState, JSX } from "react";
+import React, { lazy, useState, JSX, useEffect } from "react";
 
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -21,7 +25,12 @@ import Products from "./Products";
 import Profile from "./Profile";
 import Section from "./Section";
 import LoadingState from "@/components/Outline";
-import { ContentEntryProps, AnyEntry, AssemblyEntry } from "@/types";
+import {
+    ContentEntryProps,
+    AnyEntry,
+    AssemblyEntry,
+    ProductTypes,
+} from "@/types";
 
 const NotFound = lazy(() => import("@/views/NotFound"));
 
@@ -141,6 +150,7 @@ const GridLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
     const initialCount = 12;
     const [limit, setLimit] = useState<number>(initialCount);
     const [disable, setDisable] = useState<boolean>(false);
+    const [category, setCategory] = useState<string>("");
     const { pathname } = useLocation();
 
     const limitPage = () => {
@@ -170,13 +180,64 @@ const GridLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
     };
     useQuery({ queryKey: [limit, pathname], queryFn: setLayout });
 
+    const isShop =
+        pathname.includes("shop") &&
+        content?.sys?.contentType.sys.id === "assembly";
+    const productFilter = (block: Entry<ProductTypes>) =>
+        isShop && category
+            ? (block.fields as ProductTypes).category?.includes(category)
+            : block;
+
+    const handleSetCategory = (param: string) => {
+        setCategory(param);
+        sessionStorage.setItem("category", param);
+    };
+    useEffect(() => {
+        const savedCategory = sessionStorage.getItem("category");
+        if (savedCategory) {
+            setCategory(savedCategory);
+        }
+    }, []);
+
     return (
         <Container maxWidth={false}>
+            {isShop && (
+                <Box
+                    sx={{
+                        mb: 4,
+                        display: "flex",
+                        justifyContent: "flex-end",
+                    }}>
+                    <FormControl sx={{ minWidth: { xs: "100%", sm: 300 } }}>
+                        <InputLabel id="product-filter-label">
+                            Category
+                        </InputLabel>
+                        <Select
+                            value={category}
+                            onChange={(e) => handleSetCategory(e.target.value)}
+                            labelId="product-filter-label"
+                            id="product-filter-select"
+                            label="Product Category">
+                            {categories.map((block, index) => (
+                                <MenuItem
+                                    id={`product-filter-option-${index}`}
+                                    key={index}
+                                    value={block.value}>
+                                    {block.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
+            )}
             {content?.sys?.contentType.sys.id === "assembly" && (
                 <>
                     {content?.fields.layout === "Grid" && (
                         <Grid container spacing={{ xs: 2, xl: 6 }}>
                             {content.fields.references
+                                .filter((block) =>
+                                    productFilter(block as Entry<ProductTypes>)
+                                )
                                 .slice(0, limit)
                                 .map((block, index) => (
                                     <Grid
@@ -228,3 +289,10 @@ const GridLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
 };
 
 export default Content;
+
+const categories = [
+    { name: "All Categories", value: "" },
+    { name: "Books", value: "Book" },
+    { name: "Paper Products", value: "Paper Products" },
+    { name: "Wrapping Paper", value: "Wrapping Paper" },
+];

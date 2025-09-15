@@ -12,7 +12,9 @@ interface DefaultImageProps
     enableZoom?: boolean;
     isCard?: boolean;
     height?: string | number | ResponsiveStyleValue<string | number>;
-    objectFit?: ResponsiveStyleValue<"contain" | "cover" | "fill" | "none" | "scale-down">;
+    objectfit?: ResponsiveStyleValue<
+        "contain" | "cover" | "fill" | "none" | "scale-down"
+    >;
 }
 
 const DefaultImage = (props: DefaultImageProps): JSX.Element => {
@@ -54,7 +56,7 @@ const DefaultImage = (props: DefaultImageProps): JSX.Element => {
                         component="img"
                         alt={rest.alt ?? ""}
                         sx={{
-                            objectFit: isCard ? "cover" : rest.objectFit,
+                            objectFit: isCard ? "cover" : rest.objectfit,
                             width: "100%",
                             height: isCard ? cardSize : resolvedHeight,
                             "&:hover": enableZoom
