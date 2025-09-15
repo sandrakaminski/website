@@ -84,6 +84,7 @@ const Banner = (props: BannerType): JSX.Element => {
     const { state } = props;
 
     const style = {
+        zIndex: 1,
         p: 4,
         position: "absolute",
         display: "flex",

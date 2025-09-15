@@ -3,12 +3,15 @@ import React, { JSX } from "react";
 import Box from "@mui/material/Box";
 import CardMedia from "@mui/material/CardMedia";
 import Skeleton from "@mui/material/Skeleton";
+import { ResponsiveStyleValue } from "@mui/system";
 
 import { useImageSrc } from "@/functions/useImgSrc";
 
-interface DefaultImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface DefaultImageProps
+    extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, "height"> {
     enableZoom?: boolean;
     isCard?: boolean;
+    height?: string | number | ResponsiveStyleValue<string | number>;
 }
 
 const DefaultImage = (props: DefaultImageProps): JSX.Element => {

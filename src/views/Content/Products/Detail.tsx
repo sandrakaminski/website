@@ -61,10 +61,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                 message="This product is only available for purchase within New Zealand."
             />
             <Container maxWidth="xl">
-                <Grid
-                    sx={{ mt: 1, alignItems: "stretch" }}
-                    container
-                    spacing={2}>
+                <Grid sx={{ mt: 1 }} container spacing={2}>
                     <Grid xs={12} md={8}>
                         <Card
                             sx={{ p: 2 }}
@@ -81,7 +78,10 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                                 sx={{ backgroundColor: "gray.100" }}
                                 onClick={() => setOpen(true)}>
                                 <DefaultImage
-                                    height="70vh"
+                                    height={{
+                                        xs: "50vh",
+                                        xl: "70vh",
+                                    }}
                                     id="featureImage"
                                     src={image}
                                     alt={"Feature image"}
@@ -290,24 +290,24 @@ const LoadingAvatar = (props: loadingAvatarProps): JSX.Element => {
     const { src, image } = props;
 
     const { load } = useImageSrc(src);
+    const imgSizing = { width: 50, height: 80 };
 
     return (
         <>
             {load ? (
                 <Skeleton
-                    sx={{ width: 50, height: 80, m: "2px" }}
+                    sx={{ ...imgSizing, m: "2px" }}
                     variant="rectangular"
                 />
             ) : (
                 <Avatar
                     sx={
                         image === src
-                            ? { border: 1, width: 50, height: 80, p: "2px" }
+                            ? { ...imgSizing, border: 1, p: "2px" }
                             : {
+                                  ...imgSizing,
                                   border: 1,
                                   borderColor: "transparent",
-                                  width: 50,
-                                  height: 80,
                                   p: "2px",
                               }
                     }
