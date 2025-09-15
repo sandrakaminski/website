@@ -12,6 +12,7 @@ interface DefaultImageProps
     enableZoom?: boolean;
     isCard?: boolean;
     height?: string | number | ResponsiveStyleValue<string | number>;
+    objectFit?: ResponsiveStyleValue<"contain" | "cover" | "fill" | "none" | "scale-down">;
 }
 
 const DefaultImage = (props: DefaultImageProps): JSX.Element => {
@@ -28,6 +29,8 @@ const DefaultImage = (props: DefaultImageProps): JSX.Element => {
         xl: `calc(${700} - 50%)`,
     };
 
+    const autoSkeletonHeight = !isCard && resolvedHeight === "100%" ? 500 : "";
+
     return (
         <Box sx={{ width: "100%", height: resolvedHeight, display: "flex" }}>
             <Box
@@ -38,6 +41,7 @@ const DefaultImage = (props: DefaultImageProps): JSX.Element => {
                 }}>
                 {load ? (
                     <Skeleton
+                        height={autoSkeletonHeight}
                         variant="rectangular"
                         width="100%"
                         sx={{
@@ -50,7 +54,7 @@ const DefaultImage = (props: DefaultImageProps): JSX.Element => {
                         component="img"
                         alt={rest.alt ?? ""}
                         sx={{
-                            objectFit: isCard ? "cover" : "contain",
+                            objectFit: isCard ? "cover" : rest.objectFit,
                             width: "100%",
                             height: isCard ? cardSize : resolvedHeight,
                             "&:hover": enableZoom

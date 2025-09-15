@@ -78,6 +78,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                                 sx={{ backgroundColor: "gray.100" }}
                                 onClick={() => setOpen(true)}>
                                 <DefaultImage
+                                    objectFit="contain"
                                     height={{
                                         xs: "50vh",
                                         xl: "70vh",

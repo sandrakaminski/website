@@ -21,13 +21,14 @@ const ImageContainer = (
         <ImageList gap={8}>
             {contentEntry?.fields.blocks.map((img, index) => (
                 <ImageListItem
+                    key={index}
                     id="imageContainer"
                     rows={img.fields.imageRows}
                     component={CardActionArea}
-                    onClick={() => navigate(img.fields.slug)}
-                    key={index}>
+                    onClick={() => navigate(img.fields.slug)}>
                     <FloatingText contentEntry={img} />
                     <DefaultImage
+                        enableZoom
                         id="image"
                         src={img.fields.image.fields.file.url}
                         alt={`image ${index}`}
@@ -54,9 +55,7 @@ const FloatingText = (props: FloatingTextProps): JSX.Element => {
             {contentEntry && (
                 <Box
                     sx={{
-                        height: "100%",
-                        width: "100%",
-                        background: "rgba(0,0,0,0.10)",
+                        zIndex: 1,
                         position: "absolute",
                         display: "flex",
                         flexDirection: "column",
