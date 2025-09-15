@@ -183,6 +183,7 @@ const GridLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
     const isShop =
         pathname.includes("shop") &&
         content?.sys?.contentType.sys.id === "assembly";
+        
     const productFilter = (block: Entry<ProductTypes>) =>
         isShop && category
             ? (block.fields as ProductTypes).category?.includes(category)
@@ -294,7 +295,7 @@ const categories = [
     { name: "All Categories", value: "" },
     { name: "Books", value: "Books" },
     { name: "Postcards", value: "Postcards" },
-    { name: "Wrapping Paper", value: "Wrapping Paper" },
     { name: "Soap", value: "Soap" },
     { name: "Stickers", value: "Stickers" },
+    { name: "Wrapping Paper", value: "Wrapping Paper" },
 ];
