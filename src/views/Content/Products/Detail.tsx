@@ -80,7 +80,8 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                                 <DefaultImage
                                     objectFit="contain"
                                     height={{
-                                        xs: "50vh",
+                                        xs: "100%",
+                                        md: 600,
                                         xl: "70vh",
                                     }}
                                     id="featureImage"
