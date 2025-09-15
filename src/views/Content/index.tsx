@@ -292,7 +292,9 @@ export default Content;
 
 const categories = [
     { name: "All Categories", value: "" },
-    { name: "Books", value: "Book" },
-    { name: "Paper Products", value: "Paper Products" },
+    { name: "Books", value: "Books" },
+    { name: "Postcards", value: "Postcards" },
     { name: "Wrapping Paper", value: "Wrapping Paper" },
+    { name: "Soap", value: "Soap" },
+    { name: "Stickers", value: "Stickers" },
 ];
