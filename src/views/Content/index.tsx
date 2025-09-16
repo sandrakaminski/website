@@ -31,6 +31,7 @@ import {
     AssemblyEntry,
     ProductTypes,
 } from "@/types";
+import { productCategories } from "@/hooks/useCart";
 
 const NotFound = lazy(() => import("@/views/NotFound"));
 
@@ -183,7 +184,7 @@ const GridLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
     const isShop =
         pathname.includes("shop") &&
         content?.sys?.contentType.sys.id === "assembly";
-        
+
     const productFilter = (block: Entry<ProductTypes>) =>
         isShop && category
             ? (block.fields as ProductTypes).category?.includes(category)
@@ -219,12 +220,12 @@ const GridLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
                             labelId="product-filter-label"
                             id="product-filter-select"
                             label="Product Category">
-                            {categories.map((block, index) => (
+                            {Object.entries(productCategories).map(([k, v]) => (
                                 <MenuItem
-                                    id={`product-filter-option-${index}`}
-                                    key={index}
-                                    value={block.value}>
-                                    {block.name}
+                                    key={k}
+                                    id={`product-filter-option-${v.value}`}
+                                    value={v.value}>
+                                    {v.name}
                                 </MenuItem>
                             ))}
                         </Select>

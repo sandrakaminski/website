@@ -56,6 +56,7 @@ const Cart = (): JSX.Element => {
     });
 
     const category = state.cart.map((item) => item.category);
+    console.log(category);
     const quantity = checkProductType({
         cart: state.cart as ProductTypes[],
         category: category,

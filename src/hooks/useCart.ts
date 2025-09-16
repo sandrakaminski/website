@@ -11,30 +11,30 @@ export const useCartHooks = () => {
     const countriesList = {
         AU: { name: "Australia", code: 0 },
         CA: { name: "Canada", code: 1 },
-        CZ: { name: "Czechia", code: 3 },
-        FR: { name: "France", code: 4 },
-        IT: { name: "Italy", code: 5 },
-        JP: { name: "Japan", code: 6 },
-        NZ: { name: "New Zealand", code: 7 },
-        NO: { name: "Norway", code: 8 },
-        TW: { name: "Taiwan", code: 9 },
-        GB: { name: "United Kingdom", code: 10 },
-        US: { name: "United States", code: 11 },
+        CZ: { name: "Czechia", code: 2 },
+        FR: { name: "France", code: 3 },
+        IT: { name: "Italy", code: 4 },
+        JP: { name: "Japan", code: 5 },
+        NZ: { name: "New Zealand", code: 6 },
+        NO: { name: "Norway", code: 7 },
+        TW: { name: "Taiwan", code: 8 },
+        GB: { name: "United Kingdom", code: 9 },
+        US: { name: "United States", code: 10 },
     };
 
     // standard shipping costs for each country
     const shippingCosts = (country: string): number => {
         switch (country) {
             case "AU":
-                return 24.58;
+                return 24;
             case "CA":
-                return 23.10;
+                return 23;
             case "CZ":
-                return 34.92;
+                return 34;
             case "FR":
-                return 34.92;
+                return 34;
             case "IT":
-                return 36.92;
+                return 36;
             case "JP":
                 return 21;
             case "NZ":
@@ -149,28 +149,17 @@ export const useCartHooks = () => {
 
     const exchangeRate = (country: string, price: number): number => {
         switch (country) {
-            case "AUD":
-                return 0.92 * price;
-            case "CAD":
-                return 0.82 * price;
-            case "CZK":
-                return 14.27 * price;
-            case "EUR":
-                return 0.55 * price;
-            case "JPY":
-                return 89.5 * price;
-            case "NZD":
-                return 1 * price;
-            case "NOK":
-                return 6.62 * price;
-            case "TWD":
-                return 19.13 * price;
-            case "GBP":
-                return 0.48 * price;
-            case "USD":
-                return 0.61 * price;
-            default:
-                return 1 * price;
+            case "AUD": return 0.92 * price;
+            case "CAD": return 0.82 * price;
+            case "CZK": return 14.27 * price;
+            case "EUR": return 0.55 * price;
+            case "JPY": return 89.5 * price;
+            case "NZD": return 1 * price;
+            case "NOK": return 6.62 * price;
+            case "TWD": return 19.13 * price;
+            case "GBP": return 0.48 * price;
+            case "USD": return 0.61 * price;
+            default: return price;
         }
     };
 
@@ -179,7 +168,7 @@ export const useCartHooks = () => {
         amount: Amount;
     };
 
-    // float to int conversion for Japan and Chile
+    // float to int conversion for Japan 
     const handleJapanChileShipping = (props: AmountProps): string => {
         const { country, amount } = props;
 
@@ -187,7 +176,7 @@ export const useCartHooks = () => {
         if (!amount.shipping) {
             shipping = "";
         } else {
-            if (country === "CL" || country === "JP") {
+            if (country === "JP") {
                 shipping = amount.shipping.toFixed(0);
             } else {
                 shipping =
@@ -232,17 +221,20 @@ export const useCartHooks = () => {
         const shippingCost = multipleBooks(country, quantity);
 
         let shippingFee: number | undefined;
-        if (category.includes("Wrapping Paper")) {
+        if (category.includes(productCategories.wrappingPaper.name)) {
             shippingFee = 0;
         }
-        if (category.includes("Paper Products")) {
+        if (category.includes(productCategories.postcards.name)) {
             shippingFee = PaperProductShipping;
         }
-        if (category.includes("Book")) {
+        if (category.includes(productCategories.books.name)) {
+            shippingFee = shippingCost;
+        }
+        if (category.includes(productCategories.soap.name)) {
             shippingFee = shippingCost;
         }
 
-        if (category.includes("Paper Products") && category.includes("Book") && category.includes("Wrapping Paper")) {
+        if (category.includes(productCategories.postcards.name) && category.includes(productCategories.stickers.name) && category.includes(productCategories.books.name) && category.includes(productCategories.wrappingPaper.name)) {
             shippingFee = shippingCost;
         } else {
             shippingCost;
@@ -260,8 +252,8 @@ export const useCartHooks = () => {
         const { cart, category } = props;
 
         let quantity;
-        if ((category.includes("Paper Products"), category.includes("Book"))) {
-            quantity = cart.filter((item) => item.category !== "Paper Products").map((item) => item.amount).reduce((a, b) => a + b.length, 0);
+        if ((category.includes(productCategories.postcards.name), category.includes(productCategories.books.name), category.includes(productCategories.wrappingPaper.name), category.includes(productCategories.stickers.name))) {
+            quantity = cart.filter((item) => item.category !== productCategories.postcards.name).map((item) => item.amount).reduce((a, b) => a + b.length, 0);
         } else {
             quantity = cart.map((item) => item.amount).reduce((a, b) => a + b.length, 0);
         }
@@ -280,3 +272,12 @@ export const useCartHooks = () => {
         exchangeRate,
     };
 };
+
+export const productCategories = {
+    all: { name: "All Categories", value: "" },
+    books: { name: "Books", value: "Books" },
+    postcards: { name: "Postcards", value: "Postcards" },
+    wrappingPaper: { name: "Wrapping Paper", value: "Wrapping Paper" },
+    soap: { name: "Soap", value: "Soap" },
+    stickers: { name: "Stickers", value: "Stickers" }
+}
