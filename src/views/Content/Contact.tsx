@@ -53,7 +53,9 @@ const init = {
     firstName: "",
     lastName: "",
     email: "",
-    errors: {},
+    errors: {
+        email: "",
+    },
 };
 
 const Contact = (): JSX.Element => {
