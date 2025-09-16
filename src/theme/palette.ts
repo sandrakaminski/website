@@ -6,7 +6,7 @@ export const palette = {
         main: '#7D93DA',
     },
     text: {
-        primary: '#212121 ',
+        primary: '#212121',
     },
     background: {
         default: '#FAFBFB',

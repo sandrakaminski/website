@@ -1,7 +1,7 @@
 import React, { useReducer, useState, JSX, useEffect } from "react";
 
 import CheckCircle from "@mui/icons-material/CheckCircle";
-import LoadingButton from "@mui/lab/LoadingButton";
+import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
@@ -123,14 +123,14 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                             rows={4}
                             fullWidth
                         />
-                        <LoadingButton
+                        <Button
                             disabled={state.name === "" || state.comment === ""}
                             loading={submitting}
                             onClick={createSubmission}
                             variant="contained"
                             size="large">
                             Post comment...
-                        </LoadingButton>
+                        </Button>
                     </Stack>
                 ) : (
                     <Stack alignItems="center" spacing={2}>
@@ -252,7 +252,7 @@ const CommentThread = (props: CommentThreadProps): JSX.Element => {
                                         rows={4}
                                         size="small"
                                     />
-                                    <LoadingButton
+                                    <Button
                                         disabled={
                                             replyFields.name === "" ||
                                             replyFields.reply === ""
@@ -262,7 +262,7 @@ const CommentThread = (props: CommentThreadProps): JSX.Element => {
                                         variant="contained"
                                         size="small">
                                         Reply{" "}
-                                    </LoadingButton>
+                                    </Button>
                                 </Stack>
                             )
                         ) : (

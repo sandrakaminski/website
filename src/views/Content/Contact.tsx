@@ -2,12 +2,12 @@
 import React, { useReducer, JSX } from "react";
 
 import DoneIcon from "@mui/icons-material/Done";
-import LoadingButton from "@mui/lab/LoadingButton";
+import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid2";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Unstable_Grid2";
 import { useParams } from "react-router-dom";
 
 import { useEmailValidate, useCreateSubmission } from "@/hooks";
@@ -96,7 +96,7 @@ const Contact = (): JSX.Element => {
                 {!submitted && (
                     <Container maxWidth="sm">
                         <Grid container spacing={2}>
-                            <Grid xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 6 }} >
                                 <TextField
                                     size="medium"
                                     name="firstName"
@@ -105,7 +105,7 @@ const Contact = (): JSX.Element => {
                                     label="First Name"
                                 />
                             </Grid>
-                            <Grid xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 6 }} >
                                 <TextField
                                     size="medium"
                                     name="lastName"
@@ -115,7 +115,7 @@ const Contact = (): JSX.Element => {
                                     label="Last Name"
                                 />
                             </Grid>
-                            <Grid xs={12}>
+                            <Grid size={{ xs: 12 }}>
                                 <TextField
                                     name="email"
                                     size="medium"
@@ -127,13 +127,13 @@ const Contact = (): JSX.Element => {
                                     label="Email Address"
                                 />
                             </Grid>
-                            <Grid xs={12}>
-                                <LoadingButton
+                            <Grid size={{ xs: 12 }}>
+                                <Button
                                     disabled={!formCheck}
                                     loading={submitting}
                                     onClick={createSubmission}>
                                     Subscribe
-                                </LoadingButton>
+                                </Button>
                             </Grid>
                         </Grid>
                     </Container>

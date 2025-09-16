@@ -11,11 +11,11 @@ import CardActionArea from "@mui/material/CardActionArea";
 import Container from "@mui/material/Container";
 import Dialog from "@mui/material/Dialog";
 import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid2";
 import IconButton from "@mui/material/IconButton";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Unstable_Grid2";
 import { Asset, Entry } from "contentful";
 import ReactGA from "react-ga4";
 import ReactMarkdown from "react-markdown";
@@ -62,7 +62,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
             />
             <Container maxWidth="xl">
                 <Grid sx={{ mt: 1 }} container spacing={2}>
-                    <Grid xs={12} md={8}>
+                    <Grid size={{ xs: 12, md: 8 }}>
                         <Card
                             sx={{ p: 2 }}
                             variant="outlined"
@@ -91,7 +91,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                             </CardActionArea>
                         </Card>
                     </Grid>
-                    <Grid xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                         <Card variant="outlined" sx={{ p: 2, height: "100%" }}>
                             <Heading contentEntry={contentEntry} />
                             <Stack
@@ -117,7 +117,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                             </Stack>
                         </Card>
                     </Grid>
-                    <Grid xs={12}>
+                    <Grid size={{ xs: 12 }}>
                         <Card variant="outlined" sx={{ p: 2 }}>
                             <Typography variant="h4">Description</Typography>
                             <Box id="description">

@@ -4,7 +4,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import LoadingButton from "@mui/lab/LoadingButton";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -282,7 +281,7 @@ const ProductReviews = (
                     </Button>
                 ) : (
                     <>
-                        <LoadingButton
+                        <Button
                             loading={submitting}
                             disabled={
                                 state.review === "" ||
@@ -292,7 +291,7 @@ const ProductReviews = (
                             onClick={createSubmission}
                             variant="contained">
                             Send Review
-                        </LoadingButton>
+                        </Button>
                         <Button
                             color="error"
                             onClick={() => setWriteReview(false)}>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, JSX } from "react";
 
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid2";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
-import Grid from "@mui/material/Unstable_Grid2";
 
 type LoadingStateProps = {
     contentEntry: object;
@@ -97,7 +97,7 @@ export const CartSkeleton = (): JSX.Element => {
                     direction="row"
                     justifyContent="space-between"
                     alignItems="center">
-                    <Grid xs={12} sm={6} container direction="row">
+                    <Grid size={{ xs: 12, sm: 6 }} container direction="row">
                         <Skeleton
                             sx={{ height: 55, width: 55 }}
                             variant="rectangular"
@@ -111,7 +111,7 @@ export const CartSkeleton = (): JSX.Element => {
                             <Skeleton variant="text" width={100} />
                         </Box>
                     </Grid>
-                    <Grid xs={12} sm={6}>
+                    <Grid size={{ xs: 12, sm: 6 }} container>
                         <Stack
                             direction="row"
                             justifyContent={{

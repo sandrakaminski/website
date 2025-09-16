@@ -1,8 +1,8 @@
 import { JSX } from "react";
 
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Unstable_Grid2";
 import ReactMarkdown from "react-markdown";
 
 import Resource from "./Resource";
@@ -17,7 +17,7 @@ export const Left = (props: ContentEntryProps<Content>): JSX.Element => {
         <>
             {contentEntry && (
                 <Grid container direction="row" spacing={2}>
-                    <Grid xs={12} sm={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         {contentEntry.fields.image?.fields.file.url && (
                             <DefaultImage
                                 id="sectionImg"
@@ -26,7 +26,7 @@ export const Left = (props: ContentEntryProps<Content>): JSX.Element => {
                             />
                         )}
                     </Grid>
-                    <Grid xs={12} sm={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <Typography
                             id="sectionHeadline"
                             align="center"

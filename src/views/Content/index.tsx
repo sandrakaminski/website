@@ -5,12 +5,12 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid2";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Unstable_Grid2";
 import { useQuery } from "@tanstack/react-query";
 import { Entry } from "contentful";
 import { useParams } from "react-router-dom";
@@ -243,12 +243,9 @@ const GridLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
                                 .slice(0, limit)
                                 .map((block, index) => (
                                     <Grid
+                                        size={{ xs: 12, sm: 6, md: 4, xl: 3 }}
                                         alignItems="stretch"
-                                        key={index}
-                                        xs={12}
-                                        sm={6}
-                                        md={4}
-                                        xl={3}>
+                                        key={index}>
                                         <LoadingState
                                             type={content?.fields.layout}
                                             contentEntry={content}>
@@ -261,7 +258,7 @@ const GridLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
                             {content?.fields.references?.length >
                                 initialCount && (
                                 <Grid
-                                    xs={12}
+                                    size={{ xs: 12 }}
                                     display="flex"
                                     justifyContent="center"
                                     alignItems="center"

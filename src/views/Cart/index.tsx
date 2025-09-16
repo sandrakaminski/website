@@ -5,7 +5,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import RemoveIcon from "@mui/icons-material/Remove";
-import LoadingButton from "@mui/lab/LoadingButton";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -13,10 +12,10 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Card from "@mui/material/Card";
 import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid2";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Unstable_Grid2";
 import { useQuery } from "@tanstack/react-query";
 import ReactGA from "react-ga4";
 import { useNavigate } from "react-router-dom";
@@ -175,7 +174,7 @@ const Cart = (): JSX.Element => {
                     </Stack>
                 ) : (
                     <Grid alignItems="stretch" spacing={1} container>
-                        <Grid xs={12} md={8}>
+                        <Grid size={{ xs: 12, md: 8 }}>
                             <Card
                                 variant="outlined"
                                 sx={{ p: 2, minHeight: 250 }}>
@@ -219,7 +218,7 @@ const Cart = (): JSX.Element => {
                                 )}
                             </Card>
                         </Grid>
-                        <Grid xs={12} md={4}>
+                        <Grid size={{ xs: 12, md: 4 }}>
                             <Stack
                                 variant="outlined"
                                 component={Card}
@@ -242,7 +241,7 @@ const Cart = (): JSX.Element => {
                                         id="country"
                                         setCountry={handleSetCountry}
                                     />
-                                    <LoadingButton
+                                    <Button
                                         size="small"
                                         sx={{ width: 200, ml: 1 }}
                                         disabled={disable}
@@ -250,7 +249,7 @@ const Cart = (): JSX.Element => {
                                         loading={processing}
                                         onClick={handlePurchase}>
                                         Buy now
-                                    </LoadingButton>
+                                    </Button>
                                 </ButtonGroup>
                                 {error.state && (
                                     <Typography color="error">
