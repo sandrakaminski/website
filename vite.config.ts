@@ -5,7 +5,8 @@ import { defineConfig } from 'vite';
 
 const port = {
   host: true,
-  port: 5173
+  port: 5173,
+  hmr: { overlay: false },
 }
 
 // https://vitejs.dev/config/
@@ -21,4 +22,3 @@ export default defineConfig({
     alias: [{ find: '@', replacement: '/src' }],
   },
 })
-
