@@ -16,16 +16,23 @@ export const useFetchEntries = <T>(id: string, endpoint: string) => {
             q.append("searchText", id);
             const url = `${endpoint}?${q.toString()}`;
             const res = await fetch(url);
-            const data = await res.json();
-            if (res.status === 200) {
-                setLoading(false);
-                setResponse(data);
 
-            } else {
-                throw new Error(`Error fetching data ${data.message || data.status}`);
+            if (!res.ok) {
+                handleError("Cannot fetch entries, try again later.");
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const data = await res.json();
+                setResponse(data);
+            } catch {
+                handleError("Invalid JSON response from server");
             }
         } catch (err) {
             handleError("Cannot fetch entries, try again later.");
+        }
+        finally {
             setLoading(false);
         }
     }, [loading, id, endpoint, handleError]);

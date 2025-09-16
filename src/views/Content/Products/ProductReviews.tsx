@@ -67,7 +67,7 @@ const ProductReviews = (
         title: "",
     });
     const [fullImg, setFullImg] = useState<string>("");
-    const url = `/.netlify/functions/reviews`;
+    const reviewsUrl = `/.netlify/functions/reviews`;
 
     const setRating = (rating: number) => {
         if (starFilled === rating) {
@@ -77,9 +77,9 @@ const ProductReviews = (
         setStarFilled(rating);
     };
 
-    const { loading, response, handleGet } = useFetchEntries<Page>(
+    const { loading, error, response, handleGet } = useFetchEntries<Page>(
         contentEntry?.sys?.id,
-        url
+        reviewsUrl
     );
 
     useEffect(() => {
@@ -99,7 +99,7 @@ const ProductReviews = (
     };
 
     const { submitting, submitted, createSubmission } = useCreateSubmission(
-        url,
+        reviewsUrl,
         data
     );
 
@@ -156,9 +156,15 @@ const ProductReviews = (
             {!fullImg ? (
                 !writeReview && (
                     <>
-                        {loading && <CommentSkeleton />}
-                        {!loading &&
-                            response?.data?.length !== undefined &&
+                        {error && (
+                            <Typography color="error">
+                                {error.message}
+                            </Typography>
+                        )}
+                        {loading ? (
+                            <CommentSkeleton />
+                        ) : (
+                            response?.data?.length &&
                             response?.data?.map(
                                 (review: Review, index: number) => (
                                     <Box sx={{ my: 2 }} key={index}>
@@ -203,10 +209,13 @@ const ProductReviews = (
                                         <Divider />
                                     </Box>
                                 )
-                            )}
-                        {!loading && response?.data?.length === undefined && (
-                            <Typography>No reviews yet</Typography>
+                            )
                         )}
+                        {!loading &&
+                            !error &&
+                            response?.data?.length === undefined && (
+                                <Typography>No reviews yet</Typography>
+                            )}
                     </>
                 )
             ) : (

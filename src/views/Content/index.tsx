@@ -25,13 +25,13 @@ import Products from "./Products";
 import Profile from "./Profile";
 import Section from "./Section";
 import LoadingState from "@/components/Outline";
+import { productCategories } from "@/hooks/useCart";
 import {
     ContentEntryProps,
     AnyEntry,
     AssemblyEntry,
     ProductTypes,
 } from "@/types";
-import { productCategories } from "@/hooks/useCart";
 
 const NotFound = lazy(() => import("@/views/NotFound"));
 
@@ -291,12 +291,3 @@ const GridLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
 };
 
 export default Content;
-
-const categories = [
-    { name: "All Categories", value: "" },
-    { name: "Books", value: "Books" },
-    { name: "Postcards", value: "Postcards" },
-    { name: "Soap", value: "Soap" },
-    { name: "Stickers", value: "Stickers" },
-    { name: "Wrapping Paper", value: "Wrapping Paper" },
-];
