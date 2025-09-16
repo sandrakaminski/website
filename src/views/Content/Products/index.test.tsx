@@ -4,11 +4,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Entry } from "contentful";
 import { BrowserRouter as Router } from "react-router-dom";
-import { RecoilRoot } from "recoil";
 import { describe, test, expect, vi } from "vitest";
 
 import Products, { ProductProps } from ".";
 import { ProductTypes } from "@/types";
+import { CartProvider } from "@/views/Cart/cartActions";
 
 const productInfo = {
     name: "Test Product",
@@ -72,13 +72,11 @@ const TestProductComponent = (props: ProductProps): JSX.Element => {
     const queryClient = new QueryClient();
 
     return (
-        <RecoilRoot>
-            <Router>
-                <QueryClientProvider client={queryClient}>
-                    <Products {...props} />
-                </QueryClientProvider>
-            </Router>
-        </RecoilRoot>
+        <Router>
+            <QueryClientProvider client={queryClient}>
+                <Products {...props} />
+            </QueryClientProvider>
+        </Router>
     );
 };
 
@@ -164,10 +162,12 @@ describe("<Products />", () => {
     // TODO add array of files to test
     test("renders full view correctly", () => {
         const wrapper = render(
-            <TestProductComponent
-                detail={true}
-                contentEntry={mockProductNotInstock}
-            />
+            <CartProvider>
+                <TestProductComponent
+                    detail={true}
+                    contentEntry={mockProductNotInstock}
+                />
+            </CartProvider>
         );
 
         const name =

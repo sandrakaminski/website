@@ -28,11 +28,11 @@ import Notifier from "@/components/Notifier";
 import Trail from "@/components/Trail";
 import { useImageSrc } from "@/hooks";
 import type { ProductTypes, ContentEntryProps } from "@/types";
-import { useCartContext } from "@/views/Cart/cartActions";
+import { useCartContext, ActionTypes } from "@/views/Cart/cartActions";
 
 const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
     const { contentEntry } = props;
-    const { addToCart } = useCartContext();
+    const { dispatch } = useCartContext();
     const [open, setOpen] = useState<boolean>(false);
     const [clickEvent, setClickEvent] = useState<boolean>(false);
     const [image, setImage] = useState<string>(
@@ -41,7 +41,12 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
 
     const handleCart = (): void => {
         setClickEvent(true);
-        addToCart(contentEntry.fields.productId, 1, contentEntry.fields);
+        dispatch({
+            id: contentEntry.fields.productId,
+            amount: 1,
+            product: contentEntry.fields,
+            type: ActionTypes.ADD,
+        });
         ReactGA.event({
             category: "Product Detail",
             action: `Add ${contentEntry.fields.name} to cart`,

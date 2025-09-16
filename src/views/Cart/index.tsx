@@ -28,7 +28,7 @@ import {
 import { CartSkeleton } from "@/components/Outline";
 import { useCartHooks, useErrorHandler } from "@/hooks";
 import { ProductTypes } from "@/types";
-import { useCartContext } from "@/views/Cart/cartActions";
+import { ActionTypes, useCartContext } from "@/views/Cart/cartActions";
 
 const Cart = (): JSX.Element => {
     const navigate = useNavigate();
@@ -38,7 +38,7 @@ const Cart = (): JSX.Element => {
         checkProductType,
         handleJapanChileShipping,
     } = useCartHooks();
-    const { state, clear, decrease, increase, remove } = useCartContext();
+    const { state, dispatch } = useCartContext();
     const { error, handleError } = useErrorHandler();
 
     const [processing, setProcessing] = useState<boolean>(false);
@@ -192,7 +192,11 @@ const Cart = (): JSX.Element => {
                                             </Typography>
                                             <Button
                                                 endIcon={<CloseIcon />}
-                                                onClick={clear}>
+                                                onClick={() =>
+                                                    dispatch({
+                                                        type: ActionTypes.CLEAR,
+                                                    })
+                                                }>
                                                 Clear cart
                                             </Button>
                                         </Stack>
@@ -202,9 +206,24 @@ const Cart = (): JSX.Element => {
                                                     country={country}
                                                     key={Number(index)}
                                                     item={item as ProductTypes}
-                                                    increase={increase}
-                                                    decrease={decrease}
-                                                    remove={remove}
+                                                    increase={(id) =>
+                                                        dispatch({
+                                                            type: ActionTypes.INC,
+                                                            id,
+                                                        })
+                                                    }
+                                                    decrease={(id) =>
+                                                        dispatch({
+                                                            type: ActionTypes.DEC,
+                                                            id,
+                                                        })
+                                                    }
+                                                    remove={(id) =>
+                                                        dispatch({
+                                                            type: ActionTypes.REMOVE,
+                                                            id,
+                                                        })
+                                                    }
                                                 />
                                             ))}
                                             <Typography

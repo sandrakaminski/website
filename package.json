@@ -30,7 +30,6 @@
         "react-ga4": "^2.1.0",
         "react-markdown": "^10.1.0",
         "react-router-dom": "^7.9.1",
-        "recoil": "^0.7.7",
         "remark-gfm": "^4.0.1",
         "unix-date-formatter": "^1.2.8"
     },

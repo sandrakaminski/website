@@ -8,11 +8,11 @@ import { useQuery } from "@tanstack/react-query";
 import ReactGA from "react-ga4";
 import { useNavigate } from "react-router-dom";
 
-import { useCartContext } from "@/views/Cart/cartActions";
+import { useCartContext, ActionTypes } from "@/views/Cart/cartActions";
 
 const PaymentSuccess = (): JSX.Element => {
     const navigate = useNavigate();
-    const { clear } = useCartContext();
+    const { dispatch } = useCartContext();
 
     const getHistory = (): Array<string> => {
         if (document.referrer.includes("https://checkout.stripe.com/")) {
@@ -21,7 +21,7 @@ const PaymentSuccess = (): JSX.Element => {
                 action: `New purchase has been completed`,
                 label: "New Purchase made",
             });
-            clear();
+            dispatch({ type: ActionTypes.CLEAR });
         } else {
             navigate("/shop");
         }
