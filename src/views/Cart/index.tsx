@@ -140,7 +140,7 @@ const Cart = (): JSX.Element => {
                     "Error navigating to payment page. Try again later."
                 );
             }
-        } catch (err) {
+        } catch {
             handleError("Error navigating to payment page. Try again later.");
             setProcessing(false);
         }
@@ -174,7 +174,7 @@ const Cart = (): JSX.Element => {
                     </Stack>
                 ) : (
                     <Grid alignItems="stretch" spacing={1} container>
-                        <Grid size={{ xs: 12, md: 8 }}>
+                        <Grid size={{ xs: 12 }}>
                             <Card
                                 variant="outlined"
                                 sx={{ p: 2, minHeight: 250 }}>
@@ -237,7 +237,7 @@ const Cart = (): JSX.Element => {
                                 )}
                             </Card>
                         </Grid>
-                        <Grid size={{ xs: 12, md: 4 }}>
+                        <Grid size={{ xs: 12 }}>
                             <Stack
                                 variant="outlined"
                                 component={Card}
@@ -299,7 +299,6 @@ const CartItem = (props: CartItemProps): JSX.Element => {
     const navigate = useNavigate();
 
     const inStock = (): boolean => {
-        item.inStock ? "In stock" : "Out of stock";
         return item.inStock;
     };
     useQuery({ queryKey: [item.inStock], queryFn: inStock });
