@@ -153,18 +153,18 @@ const ProductReviews = (
                     {!writeReview ? "Reviews" : "Write a review"}
                 </Typography>
             )}
+
             {!fullImg ? (
                 !writeReview && (
                     <>
-                        {error && (
+                        {error.state ? (
                             <Typography color="error">
                                 {error.message}
                             </Typography>
-                        )}
-                        {loading ? (
+                        ) : loading ? (
                             <CommentSkeleton />
                         ) : (
-                            response?.data?.length &&
+                            response?.data?.length !== undefined &&
                             response?.data?.map(
                                 (review: Review, index: number) => (
                                     <Box sx={{ my: 2 }} key={index}>
@@ -211,8 +211,8 @@ const ProductReviews = (
                                 )
                             )
                         )}
-                        {!loading &&
-                            !error &&
+                        {!error.state &&
+                            !loading &&
                             response?.data?.length === undefined && (
                                 <Typography>No reviews yet</Typography>
                             )}
