@@ -4,7 +4,7 @@ import React, { useReducer, JSX } from "react";
 import DoneIcon from "@mui/icons-material/Done";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -96,7 +96,7 @@ const Contact = (): JSX.Element => {
                 {!submitted && (
                     <Container maxWidth="sm">
                         <Grid container spacing={2}>
-                            <Grid size={{ xs: 12, sm: 6 }} >
+                            <Grid size={{ xs: 12, sm: 6 }}>
                                 <TextField
                                     size="medium"
                                     name="firstName"
@@ -105,7 +105,7 @@ const Contact = (): JSX.Element => {
                                     label="First Name"
                                 />
                             </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }} >
+                            <Grid size={{ xs: 12, sm: 6 }}>
                                 <TextField
                                     size="medium"
                                     name="lastName"

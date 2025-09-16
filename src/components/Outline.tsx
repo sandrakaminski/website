@@ -1,7 +1,7 @@
 import React, { useState, useEffect, JSX } from "react";
 
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 

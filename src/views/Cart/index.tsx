@@ -12,7 +12,7 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Card from "@mui/material/Card";
 import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";

@@ -1,6 +1,6 @@
 import { JSX } from "react";
 
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import { Asset } from "contentful";
