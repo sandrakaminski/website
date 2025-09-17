@@ -8,10 +8,12 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import ButtonBase from "@mui/material/ButtonBase";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Card from "@mui/material/Card";
 import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
+import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
@@ -298,56 +300,86 @@ const CartItem = (props: CartItemProps): JSX.Element => {
     useQuery({ queryKey: [item.inStock], queryFn: inStock });
 
     return (
-        <Grid
-            sx={{ my: 0.5, px: 1 }}
-            spacing={2}
-            container
-            direction="row"
-            justifyContent="space-between">
-            <Grid alignItems="flex-start" container>
-                <Avatar
-                    component={Button}
+        <>
+            <Stack
+                sx={{
+                    my: {
+                        xs: 1,
+                        md: 2,
+                    },
+                    px: 1,
+                }}
+                spacing={{
+                    xs: 0,
+                    sm: 2,
+                }}
+                direction="row"
+                justifyContent="space-between">
+                <ButtonBase
+                    component={Box}
                     onClick={() => navigate(`/shop/${item.slug}`)}
-                    sx={{ height: 100, width: 75 }}
-                    variant="square"
-                    alt={item.name}
-                    src={item.featureImage.fields.file.url}
-                />
-                <Stack justifyContent="space-between" sx={{ ml: 2 }}>
-                    <Typography variant="subtitle1">{item.name}</Typography>
-                    <CartItemPrice itemPrice={item.price} country={country} />
-                    <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        cursor: "pointer",
+                    }}>
+                    <Avatar
+                        sx={{
+                            height: { xs: 75, md: 100 },
+                            width: { xs: 56, md: 75 },
+                        }}
+                        variant="square"
+                        alt={item.name}
+                        src={item.featureImage.fields.file.url}
+                    />
+                    <Stack
+                        sx={{
+                            ml: 2,
+                            justifyContent: "flex-end",
+                        }}>
+                        <Typography variant="subtitle2" gutterBottom>
+                            {item.name}
+                        </Typography>
+                        <CartItemPrice
+                            itemPrice={item.price}
+                            country={country}
+                        />
+                    </Stack>
+                </ButtonBase>
+
+                <Grid
+                    sx={{ display: "flex" }}
+                    container
+                    direction="row"
+                    justifyContent="flex-end"
+                    alignItems="center"
+                    spacing={{
+                        xs: 1,
+                        sm: 2,
+                        md: 4,
+                    }}>
+                    <AmountButtons amount={item} {...props} />
+                    <Button
+                        sx={{
+                            display: { xs: "none", sm: "flex" },
+                        }}
+                        startIcon={<DeleteIcon fontSize="inherit" />}
+                        color="error"
+                        onClick={() => remove(item.productId)}>
+                        Remove
+                    </Button>
+                    <IconButton
                         sx={{
                             display: { xs: "flex", sm: "none" },
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                        }}>
-                        <AmountButtons amount={item} {...props} />
-                        <Button
-                            startIcon={<DeleteIcon fontSize="inherit" />}
-                            color="error"
-                            onClick={() => remove(item.productId)}>
-                            Remove
-                        </Button>
-                    </Box>
-                </Stack>
-            </Grid>
-            <Grid
-                sx={{ display: { xs: "none", sm: "flex" } }}
-                container
-                direction="row"
-                justifyContent="flex-end"
-                alignItems="center"
-                spacing={4}>
-                <AmountButtons amount={item} {...props} />
-                <Button
-                    startIcon={<DeleteIcon fontSize="inherit" />}
-                    color="error"
-                    onClick={() => remove(item.productId)}>
-                    Remove
-                </Button>
-            </Grid>
-        </Grid>
+                        }}
+                        color="error"
+                        onClick={() => remove(item.productId)}>
+                        <DeleteIcon fontSize="inherit" />
+                    </IconButton>
+                </Grid>
+            </Stack>
+            <Divider />
+        </>
     );
 };
 
