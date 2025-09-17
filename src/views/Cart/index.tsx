@@ -172,7 +172,7 @@ const Cart = (): JSX.Element => {
                         <Grid size={{ xs: 12, lg: 8 }}>
                             <Card
                                 variant="outlined"
-                                sx={{ p: 2, minHeight: 250 }}>
+                                sx={{ p: 2, height: "100%" }}>
                                 {loading ? (
                                     <CartSkeleton />
                                 ) : (
