@@ -36,7 +36,7 @@ const Cart = (): JSX.Element => {
         currencyTypes,
         shippingFee,
         checkProductType,
-        handleJapanChileShipping,
+        handleJapanShipping,
     } = useCartHooks();
     const { state, dispatch } = useCartContext();
     const { error, handleError } = useErrorHandler();
@@ -65,23 +65,8 @@ const Cart = (): JSX.Element => {
     const handleSetCountry = (val: string): void => {
         sessionStorage.setItem("country", val);
         setCountry(val);
+        handleError("");
     };
-
-    //  const getData = async (): Promise<void> => {
-    // try {
-    //     const res = await fetch("https://geolocation-db.com/json/");
-    //     const body = await res.json();
-    //     if (!countriesList[body.country_code]) {
-    //         handleSetCountry("NZ");
-    //         setLoading(false);
-    //     }
-    //     handleSetCountry(body.country_code);
-    //     setLoading(false);
-    // } catch {
-    //     handleSetCountry("NZ");
-    //     setLoading(false);
-    // }
-    // };
 
     const trigger = () => {
         if (state.cart.length === 0) {
@@ -106,7 +91,7 @@ const Cart = (): JSX.Element => {
     };
     useQuery({ queryKey: [state.cart, country], queryFn: trigger });
 
-    const jpShipping = handleJapanChileShipping({ country, amount });
+    const jpShipping = handleJapanShipping({ country, amount });
     const data = {
         country: country,
         currency: currency,
@@ -117,6 +102,16 @@ const Cart = (): JSX.Element => {
                 quantity: item.amount.length,
             };
         }),
+    };
+
+    const errHandler = (code: number) => {
+        if (code === 400) {
+            handleError(
+                "This product is not available in your country. If you would like to purchase, please contact us at info@sandrakaminski.com."
+            );
+        } else {
+            handleError("Error navigating to payment page. Try again later.");
+        }
     };
 
     const handlePurchase = async (): Promise<void> => {
@@ -132,16 +127,16 @@ const Cart = (): JSX.Element => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
+            if (!resp.ok) {
+                errHandler(resp.status);
+            }
             if (resp.ok) {
                 const { url } = await resp.json();
                 window.location.replace(url);
-            } else {
-                throw new Error(
-                    "Error navigating to payment page. Try again later."
-                );
             }
         } catch {
             handleError("Error navigating to payment page. Try again later.");
+        } finally {
             setProcessing(false);
         }
     };
@@ -174,7 +169,7 @@ const Cart = (): JSX.Element => {
                     </Stack>
                 ) : (
                     <Grid alignItems="stretch" spacing={1} container>
-                        <Grid size={{ xs: 12 }}>
+                        <Grid size={{ xs: 12, lg: 8 }}>
                             <Card
                                 variant="outlined"
                                 sx={{ p: 2, minHeight: 250 }}>
@@ -237,7 +232,7 @@ const Cart = (): JSX.Element => {
                                 )}
                             </Card>
                         </Grid>
-                        <Grid size={{ xs: 12 }}>
+                        <Grid size={{ xs: 12, lg: 4 }}>
                             <Stack
                                 variant="outlined"
                                 component={Card}
@@ -255,7 +250,6 @@ const Cart = (): JSX.Element => {
                                 />
                                 <ButtonGroup size="small">
                                     <CountryDropdown
-                                        // loading={loading}
                                         disabled={nzOnly}
                                         id="country"
                                         setCountry={handleSetCountry}

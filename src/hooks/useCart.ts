@@ -169,7 +169,7 @@ export const useCartHooks = () => {
     };
 
     // float to int conversion for Japan 
-    const handleJapanChileShipping = (props: AmountProps): string => {
+    const handleJapanShipping = (props: AmountProps): string => {
         const { country, amount } = props;
 
         let shipping;
@@ -237,7 +237,7 @@ export const useCartHooks = () => {
         if (category.includes(productCategories.postcards.name) && category.includes(productCategories.stickers.name) && category.includes(productCategories.books.name) && category.includes(productCategories.wrappingPaper.name)) {
             shippingFee = shippingCost;
         } else {
-            shippingCost;
+            return shippingCost;
         }
         return Number(shippingFee);
     };
@@ -266,7 +266,7 @@ export const useCartHooks = () => {
         currencyTypes,
         vat,
         paperProductShipping,
-        handleJapanChileShipping,
+        handleJapanShipping,
         shippingFee,
         checkProductType,
         exchangeRate,

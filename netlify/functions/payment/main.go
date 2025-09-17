@@ -96,6 +96,14 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 
 	link, err := session.New(params)
 	if err != nil {
+		// if err is 400
+		if stripeErr, ok := err.(*stripe.Error); ok && stripeErr.HTTPStatusCode == 400 {
+			return &events.APIGatewayProxyResponse{
+				StatusCode: 400,
+				Headers:    map[string]string{"Content-Type": "application/json"},
+				Body:       fmt.Sprintf(`{"error":"%s"}`, stripeErr.Msg),
+			}, nil
+		}
 		return nil, fmt.Errorf("error generating payment link: %w", err)
 	}
 	rspByt, err := json.Marshal(link)
