@@ -5,7 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Skeleton from "@mui/material/Skeleton";
 import { ResponsiveStyleValue } from "@mui/system";
 
-import { useImageSrc } from "@/functions/useImgSrc";
+import { useImageSrc } from "@/hooks";
 
 interface DefaultImageProps
     extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, "height"> {
