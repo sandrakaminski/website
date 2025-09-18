@@ -18,7 +18,6 @@ import type { MenuEntry, MenuItemEntry } from "@/types";
 import Menu from "@/Viewport/Menu";
 import { useCartContext } from "@/views/Cart/cartActions";
 import { fetchContent } from "@/views/Content/api";
-import { Stack } from "@mui/system";
 
 const Header = (): JSX.Element => {
     const res = useQuery({
