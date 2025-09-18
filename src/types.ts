@@ -106,6 +106,7 @@ export type ProductTypes = {
     max: number;
     oldPrice: number;
     description: string;
+    promotion?: string;
     productFiles: Asset[]
     publishDate: string;
     preOrder: boolean;

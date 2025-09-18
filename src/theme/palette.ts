@@ -14,6 +14,7 @@ export const palette = {
     info: {
         main: '#cf77c1',
         contrastText: '#fff',
+        lighter: '#f9e6f7',
     },
     success: {
         main: '#52B788',

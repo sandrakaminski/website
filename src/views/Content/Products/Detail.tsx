@@ -112,27 +112,44 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                             sx={{ my: 2 }}
                             alignItems="flex-start"
                             spacing={2}>
-                            <Button
-                                id="addToCart"
-                                sx={{ mb: 2 }}
-                                size="large"
-                                disabled={!contentEntry.fields.inStock}
-                                onClick={handleCart}
-                                endIcon={<ShoppingCartOutlinedIcon />}
-                                variant="contained">
-                                {!contentEntry.fields.inStock
-                                    ? "Sold out"
-                                    : contentEntry.fields.preOrder
-                                    ? "Pre-order"
-                                    : "Add to cart"}
-                            </Button>
+                            <Stack direction="row" spacing={2}>
+                                <Button
+                                    id="addToCart"
+                                    sx={{ mb: 2 }}
+                                    size="large"
+                                    disabled={!contentEntry.fields.inStock}
+                                    onClick={handleCart}
+                                    endIcon={<ShoppingCartOutlinedIcon />}
+                                    variant="contained">
+                                    {!contentEntry.fields.inStock
+                                        ? "Sold out"
+                                        : contentEntry.fields.preOrder
+                                        ? "Pre-order"
+                                        : "Add to cart"}
+                                </Button>
+                                {contentEntry.fields.promotion && (
+                                    <Button
+                                        color="info"
+                                        sx={{ mb: 2 }}
+                                        size="large"
+                                        onClick={() => {
+                                            document
+                                                .querySelector("#promotion")
+                                                ?.scrollIntoView({
+                                                    behavior: "smooth",
+                                                });
+                                        }}
+                                        variant="outlined">
+                                        Gift with purchase
+                                    </Button>
+                                )}
+                            </Stack>
                             <Divider sx={{ width: "100%" }} />
                             <Typography variant="h4">Description</Typography>
                             <Box
                                 sx={{
                                     position: "relative",
                                     overflowY: "auto",
-
                                     maxHeight: window.innerHeight * 0.5,
                                     width: "100%",
                                 }}
@@ -144,6 +161,25 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                         </Stack>
                     </Card>
                 </Grid>
+                {contentEntry.fields.promotion && (
+                    <Grid size={{ xs: 12 }}>
+                        <Card
+                            id="promotion"
+                            variant="outlined"
+                            sx={{
+                                p: 2,
+                                borderColor: "info.main",
+                                bgcolor: "info.lighter",
+                            }}>
+                            <Typography variant="h4">
+                                GIFT WITH PURCHASE OFFERING
+                            </Typography>
+                            <ReactMarkdown remarkPlugins={[gfm]}>
+                                {contentEntry.fields.promotion}
+                            </ReactMarkdown>
+                        </Card>
+                    </Grid>
+                )}
                 <Grid size={{ xs: 12 }}>
                     <Card variant="outlined" sx={{ p: 2 }}>
                         <ProductReviews contentEntry={contentEntry} />
