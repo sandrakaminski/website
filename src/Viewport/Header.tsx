@@ -1,6 +1,5 @@
-import React, { useState, JSX } from "react";
+import { JSX } from "react";
 
-import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AppBar from "@mui/material/AppBar";
 import Badge from "@mui/material/Badge";
@@ -8,8 +7,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import { useQuery } from "@tanstack/react-query";
 import { Entry, EntryCollection } from "contentful";
@@ -18,8 +15,10 @@ import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import LoadingState from "@/components/Outline";
 import type { MenuEntry, MenuItemEntry } from "@/types";
+import Menu from "@/Viewport/Menu";
 import { useCartContext } from "@/views/Cart/cartActions";
 import { fetchContent } from "@/views/Content/api";
+import { Stack } from "@mui/system";
 
 const Header = (): JSX.Element => {
     const res = useQuery({
@@ -31,20 +30,10 @@ const Header = (): JSX.Element => {
         .references as Entry<MenuItemEntry>[];
     const menuItems = allItems?.filter((item) => item.fields.slug !== "home");
 
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
     const navigate = useNavigate();
     const { state } = useCartContext();
 
-    const handleClick = (e: React.MouseEvent<HTMLElement>): void => {
-        setAnchorEl(e.currentTarget);
-    };
-    const handleClose = (): void => {
-        setAnchorEl(null);
-    };
-
     const handleNavigate = (path: string) => {
-        setAnchorEl(null);
         if (path === "home") {
             navigate("/", { state: { data: path } });
         } else {
@@ -86,35 +75,12 @@ const Header = (): JSX.Element => {
                                 </Button>
                             ))}
                         </Box>
-                        <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                            <IconButton onClick={handleClick} color="inherit">
-                                <MenuIcon />
-                            </IconButton>
-                            <Menu
-                                sx={{
-                                    display: { xs: "block", md: "none" },
-                                }}
-                                anchorEl={anchorEl}
-                                open={open}
-                                onClose={handleClose}>
-                                <Box
-                                    sx={{
-                                        minWidth: 200,
-                                    }}>
-                                    {menuItems.map((item, index) => (
-                                        <MenuItem
-                                            key={index}
-                                            onClick={() => {
-                                                handleNavigate(
-                                                    item.fields.slug
-                                                );
-                                            }}>
-                                            {item.fields.name}
-                                        </MenuItem>
-                                    ))}
-                                </Box>
-                            </Menu>
-                        </Box>
+                        <Menu
+                            menuItems={menuItems}
+                            handleNavigate={handleNavigate}
+                            buttonSx={{ color: "inherit" }}
+                        />
+
                         <IconButton
                             color="inherit"
                             onClick={() => handleNavigate("cart")}>

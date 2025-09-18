@@ -344,6 +344,11 @@ const CartItem = (props: CartItemProps): JSX.Element => {
                             itemPrice={item.price}
                             country={country}
                         />
+                        {item.promotion && (
+                            <Typography variant="caption" color="info.main">
+                                Promotion Included
+                            </Typography>
+                        )}
                     </Stack>
                 </ButtonBase>
 
