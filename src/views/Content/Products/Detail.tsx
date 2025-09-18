@@ -1,6 +1,7 @@
 import { useState, JSX } from "react";
 
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Avatar from "@mui/material/Avatar";
@@ -8,9 +9,9 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
-import Fab from "@mui/material/Fab";
 import Dialog from "@mui/material/Dialog";
 import Divider from "@mui/material/Divider";
+import Fab from "@mui/material/Fab";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Skeleton from "@mui/material/Skeleton";
@@ -66,7 +67,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                 message="This product is only available for purchase within New Zealand."
             />
             <Grid sx={{ mt: 1 }} container spacing={2}>
-                <Grid size={{ xs: 12, md: 7 }}>
+                <Grid size={{ xs: 12, lg: 7 }}>
                     <Card
                         sx={{
                             p: 2,
@@ -99,7 +100,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                         />
                     </Card>
                 </Grid>
-                <Grid size={{ xs: 12, md: 5 }}>
+                <Grid size={{ xs: 12, lg: 5 }}>
                     <Card
                         variant="outlined"
                         sx={{
@@ -131,7 +132,8 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                                 sx={{
                                     position: "relative",
                                     overflowY: "auto",
-                                    maxHeight: "30vh",
+
+                                    maxHeight: window.innerHeight * 0.5,
                                     width: "100%",
                                 }}
                                 id="description">
@@ -149,10 +151,26 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                 </Grid>
             </Grid>
             <CartPopper clickEvent={clickEvent} />
+
             <Dialog maxWidth={false} open={open} onClose={() => setOpen(false)}>
-                <img
-                    style={{ height: "90vh" }}
-                    loading="eager"
+                <Fab
+                    size="small"
+                    sx={{
+                        position: "absolute",
+                        bottom: 10,
+                        right: 10,
+                        display: { xs: "flex", sm: "none" },
+                    }}
+                    color="inherit"
+                    onClick={() => setOpen(false)}>
+                    <CloseIcon />
+                </Fab>
+                <DefaultImage
+                    style={{
+                        backgroundColor: "black",
+                    }}
+                    objectfit="contain"
+                    height="90vh"
                     src={image}
                     alt="Feature img"
                 />
