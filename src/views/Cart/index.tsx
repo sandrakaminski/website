@@ -360,7 +360,12 @@ const CartItem = (props: CartItemProps): JSX.Element => {
                     }}>
                     <AmountButtons amount={item} {...props} />
 
-                    <Link color="error" onClick={() => remove(item.productId)}>
+                    <Link
+                        sx={{
+                            cursor: "pointer",
+                        }}
+                        color="error"
+                        onClick={() => remove(item.productId)}>
                         Remove
                     </Link>
                 </Grid>
