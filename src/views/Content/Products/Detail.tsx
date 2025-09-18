@@ -209,7 +209,11 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                         backgroundColor: "black",
                     }}
                     objectfit="contain"
-                    height="90vh"
+                    height={{
+                        // xs: window.innerHeight * 0.9,
+                        sm: window.innerHeight * 0.8,
+                        lg: window.innerHeight * 0.9,
+                    }}
                     src={image}
                     alt="Feature img"
                 />
