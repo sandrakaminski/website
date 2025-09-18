@@ -150,7 +150,10 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                                 sx={{
                                     position: "relative",
                                     overflowY: "auto",
-                                    maxHeight: window.innerHeight * 0.5,
+                                    maxHeight: {
+                                        xs: "100%",
+                                        md: window.innerHeight * 0.5,
+                                    },
                                     width: "100%",
                                 }}
                                 id="description">
