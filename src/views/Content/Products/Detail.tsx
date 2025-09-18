@@ -1,14 +1,14 @@
 import { useState, JSX } from "react";
 
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
-import Container from "@mui/material/Container";
+import Fab from "@mui/material/Fab";
 import Dialog from "@mui/material/Dialog";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
@@ -65,87 +65,98 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                 open={contentEntry.fields.nzShippingOnly}
                 message="This product is only available for purchase within New Zealand."
             />
-            <Container maxWidth="xl">
-                <Grid sx={{ mt: 1 }} container spacing={2}>
-                    <Grid size={{ xs: 12, md: 8 }}>
-                        <Card
-                            sx={{ p: 2 }}
-                            variant="outlined"
-                            component={Stack}
-                            spacing={2}
-                            direction="row">
-                            <ThumbnailCarousel
-                                contentEntry={contentEntry}
-                                image={image}
-                                handleSetImage={handleSetImage}
+            <Grid sx={{ mt: 1 }} container spacing={2}>
+                <Grid size={{ xs: 12, md: 7 }}>
+                    <Card
+                        sx={{
+                            p: 2,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                        }}
+                        variant="outlined"
+                        component={Stack}
+                        spacing={2}>
+                        <CardActionArea
+                            sx={{ backgroundColor: "gray.100" }}
+                            onClick={() => setOpen(true)}>
+                            <DefaultImage
+                                objectfit="contain"
+                                height={{
+                                    xs: "100%",
+                                    md: 600,
+                                    xl: "70vh",
+                                }}
+                                id="featureImage"
+                                src={image}
+                                alt={"Feature image"}
                             />
-                            <CardActionArea
-                                sx={{ backgroundColor: "gray.100" }}
-                                onClick={() => setOpen(true)}>
-                                <DefaultImage
-                                    objectfit="contain"
-                                    height={{
-                                        xs: "100%",
-                                        md: 600,
-                                        xl: "70vh",
-                                    }}
-                                    id="featureImage"
-                                    src={image}
-                                    alt={"Feature image"}
-                                />
-                            </CardActionArea>
-                        </Card>
-                    </Grid>
-                    <Grid size={{ xs: 12, md: 4 }}>
-                        <Card variant="outlined" sx={{ p: 2, height: "100%" }}>
-                            <Heading contentEntry={contentEntry} />
-                            <Stack
-                                sx={{ my: 2 }}
-                                alignItems="flex-start"
-                                spacing={2}>
-                                <Button
-                                    id="addToCart"
-                                    sx={{ mb: 2 }}
-                                    size="large"
-                                    disabled={!contentEntry.fields.inStock}
-                                    onClick={handleCart}
-                                    endIcon={<ShoppingCartOutlinedIcon />}
-                                    variant="contained">
-                                    {!contentEntry.fields.inStock
-                                        ? "Sold out"
-                                        : contentEntry.fields.preOrder
-                                        ? "Pre-order"
-                                        : "Add to cart"}
-                                </Button>
-                                <Divider sx={{ width: "100%" }} />
-                                <ProductReviews contentEntry={contentEntry} />
-                            </Stack>
-                        </Card>
-                    </Grid>
-                    <Grid size={{ xs: 12 }}>
-                        <Card variant="outlined" sx={{ p: 2 }}>
+                        </CardActionArea>
+                        <ThumbnailCarousel
+                            contentEntry={contentEntry}
+                            image={image}
+                            handleSetImage={handleSetImage}
+                        />
+                    </Card>
+                </Grid>
+                <Grid size={{ xs: 12, md: 5 }}>
+                    <Card
+                        variant="outlined"
+                        sx={{
+                            p: 2,
+                            height: "100%",
+                        }}>
+                        <Heading contentEntry={contentEntry} />
+                        <Stack
+                            sx={{ my: 2 }}
+                            alignItems="flex-start"
+                            spacing={2}>
+                            <Button
+                                id="addToCart"
+                                sx={{ mb: 2 }}
+                                size="large"
+                                disabled={!contentEntry.fields.inStock}
+                                onClick={handleCart}
+                                endIcon={<ShoppingCartOutlinedIcon />}
+                                variant="contained">
+                                {!contentEntry.fields.inStock
+                                    ? "Sold out"
+                                    : contentEntry.fields.preOrder
+                                    ? "Pre-order"
+                                    : "Add to cart"}
+                            </Button>
+                            <Divider sx={{ width: "100%" }} />
                             <Typography variant="h4">Description</Typography>
-                            <Box id="description">
+                            <Box
+                                sx={{
+                                    position: "relative",
+                                    overflowY: "auto",
+                                    maxHeight: "30vh",
+                                    width: "100%",
+                                }}
+                                id="description">
                                 <ReactMarkdown remarkPlugins={[gfm]}>
                                     {contentEntry.fields.description}
                                 </ReactMarkdown>
                             </Box>
-                        </Card>
-                    </Grid>
+                        </Stack>
+                    </Card>
                 </Grid>
-                <CartPopper clickEvent={clickEvent} />
-                <Dialog
-                    maxWidth={false}
-                    open={open}
-                    onClose={() => setOpen(false)}>
-                    <img
-                        style={{ height: "90vh" }}
-                        loading="eager"
-                        src={image}
-                        alt="Feature img"
-                    />
-                </Dialog>
-            </Container>
+                <Grid size={{ xs: 12 }}>
+                    <Card variant="outlined" sx={{ p: 2 }}>
+                        <ProductReviews contentEntry={contentEntry} />
+                    </Card>
+                </Grid>
+            </Grid>
+            <CartPopper clickEvent={clickEvent} />
+            <Dialog maxWidth={false} open={open} onClose={() => setOpen(false)}>
+                <img
+                    style={{ height: "90vh" }}
+                    loading="eager"
+                    src={image}
+                    alt="Feature img"
+                />
+            </Dialog>
         </>
     );
 };
@@ -242,20 +253,45 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps): JSX.Element => {
         carouselScroll(index);
     };
 
-    const buttonSize = { height: 40, width: 40 };
+    const buttonSize = {
+        height: 40,
+        width: 40,
+        display: { xs: "none", sm: "inline-flex" },
+    };
 
     return (
         <>
             {contentEntry.fields.productFiles && (
-                <Stack spacing={1} direction="column" alignItems="center">
+                <Stack
+                    spacing={{
+                        xs: 0.5,
+                        sm: 1,
+                    }}
+                    direction="row"
+                    alignItems="center">
                     {contentEntry.fields.productFiles.length > initialCount && (
-                        <IconButton
-                            disabled={offset === 0}
-                            sx={buttonSize}
-                            onClick={handleThumbnailLess}>
-                            <KeyboardArrowUpIcon />
-                        </IconButton>
+                        <>
+                            <IconButton
+                                disabled={offset === 0}
+                                sx={buttonSize}
+                                onClick={handleThumbnailLess}>
+                                <KeyboardArrowLeftIcon />
+                            </IconButton>
+                            <Fab
+                                disabled={offset === 0}
+                                size="small"
+                                sx={{
+                                    position: "absolute",
+                                    left: 4,
+                                    display: { xs: "flex", sm: "none" },
+                                    bgcolor: "background.paper",
+                                }}
+                                onClick={handleThumbnailLess}>
+                                <KeyboardArrowLeftIcon />
+                            </Fab>
+                        </>
                     )}
+
                     {contentEntry.fields.productFiles
                         .slice(offset, count)
                         .map((img: Asset, index: number) => (
@@ -268,16 +304,34 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps): JSX.Element => {
                                 onClick={() => handleImage(img, index)}
                             />
                         ))}
+
                     {contentEntry.fields.productFiles.length > initialCount && (
-                        <IconButton
-                            disabled={
-                                count >
-                                contentEntry.fields.productFiles.length - 1
-                            }
-                            sx={buttonSize}
-                            onClick={handleThumbnailMore}>
-                            <KeyboardArrowDownIcon />
-                        </IconButton>
+                        <>
+                            <IconButton
+                                disabled={
+                                    count >
+                                    contentEntry.fields.productFiles.length - 1
+                                }
+                                sx={buttonSize}
+                                onClick={handleThumbnailMore}>
+                                <ChevronRightIcon />
+                            </IconButton>
+                            <Fab
+                                disabled={
+                                    count >
+                                    contentEntry.fields.productFiles.length - 1
+                                }
+                                size="small"
+                                sx={{
+                                    position: "absolute",
+                                    right: 4,
+                                    display: { xs: "flex", sm: "none" },
+                                    bgcolor: "background.paper",
+                                }}
+                                onClick={handleThumbnailMore}>
+                                <ChevronRightIcon />
+                            </Fab>
+                        </>
                     )}
                 </Stack>
             )}
