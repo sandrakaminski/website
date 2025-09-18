@@ -303,7 +303,8 @@ const CartItem = (props: CartItemProps): JSX.Element => {
         <>
             <Stack
                 sx={{
-                    my: {
+                    bgcolor: item.promotion && "info.lighter",
+                    py: {
                         xs: 1,
                         md: 2,
                     },
@@ -345,7 +346,12 @@ const CartItem = (props: CartItemProps): JSX.Element => {
                             country={country}
                         />
                         {item.promotion && (
-                            <Typography variant="caption" color="info.main">
+                            <Typography
+                                sx={{
+                                    display: { xs: "none", sm: "block" },
+                                }}
+                                variant="caption"
+                                color="info.main">
                                 Promotion Included
                             </Typography>
                         )}
