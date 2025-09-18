@@ -14,7 +14,7 @@ const Trail = (props: { current: string }): JSX.Element => {
 
     return (
         <Breadcrumbs
-            sx={{ display: { xs: "none", sm: "flex" } }}
+            sx={{ display: { xs: "none", md: "flex" } }}
             separator={seperator}>
             <Link
                 sx={{ cursor: "pointer", textTransform: "capitalize" }}
