@@ -303,7 +303,10 @@ const CartItem = (props: CartItemProps): JSX.Element => {
         <>
             <Stack
                 sx={{
-                    bgcolor: item.promotion && "info.lighter",
+                    bgcolor: {
+                        xs: item.promotion && "info.lighter",
+                        sm: "inherit",
+                    },
                     py: {
                         xs: 1,
                         md: 2,
