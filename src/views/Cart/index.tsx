@@ -2,7 +2,6 @@ import { useState, JSX } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
-import DeleteIcon from "@mui/icons-material/Delete";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Avatar from "@mui/material/Avatar";
@@ -16,6 +15,7 @@ import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
+import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useQuery } from "@tanstack/react-query";
@@ -359,23 +359,10 @@ const CartItem = (props: CartItemProps): JSX.Element => {
                         md: 4,
                     }}>
                     <AmountButtons amount={item} {...props} />
-                    <Button
-                        sx={{
-                            display: { xs: "none", sm: "flex" },
-                        }}
-                        startIcon={<DeleteIcon fontSize="inherit" />}
-                        color="error"
-                        onClick={() => remove(item.productId)}>
+
+                    <Link color="error" onClick={() => remove(item.productId)}>
                         Remove
-                    </Button>
-                    <IconButton
-                        sx={{
-                            display: { xs: "flex", sm: "none" },
-                        }}
-                        color="error"
-                        onClick={() => remove(item.productId)}>
-                        <DeleteIcon fontSize="inherit" />
-                    </IconButton>
+                    </Link>
                 </Grid>
             </Stack>
             <Divider />
@@ -418,7 +405,21 @@ const AmountButtons = (props: AmountButtonsProps): JSX.Element => {
                 size="small">
                 <RemoveIcon fontSize="inherit" />
             </IconButton>
-            <Chip variant="outlined" label={amount?.amount.length} />
+            <Chip
+                sx={{
+                    display: { xs: "none", sm: "flex" },
+                }}
+                variant="outlined"
+                label={amount?.amount.length}
+            />
+            <Chip
+                sx={{
+                    display: { xs: "flex", sm: "none" },
+                }}
+                size="small"
+                variant="outlined"
+                label={amount?.amount.length}
+            />
             <IconButton
                 onClick={() => increase(amount?.productId)}
                 size="small">
