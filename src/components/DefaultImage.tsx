@@ -54,7 +54,6 @@ const DefaultImage = (props: DefaultImageProps): JSX.Element => {
                     <CardMedia
                         src={img}
                         component="img"
-                        alt={rest.alt ?? ""}
                         sx={{
                             objectFit: isCard ? "cover" : rest.objectfit,
                             width: "100%",

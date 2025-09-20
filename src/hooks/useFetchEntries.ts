@@ -29,7 +29,7 @@ export const useFetchEntries = <T>(id: string, endpoint: string) => {
             } catch {
                 handleError("Invalid JSON response from server");
             }
-        } catch (err) {
+        } catch {
             handleError("Cannot fetch entries, try again later.");
         }
         finally {

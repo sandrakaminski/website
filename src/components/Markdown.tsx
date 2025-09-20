@@ -6,14 +6,16 @@ import Link from "@mui/material/Link";
 import TableCell from "@mui/material/TableCell";
 import Typography from "@mui/material/Typography";
 
+import DefaultImage from "./DefaultImage";
+
 export const Markdown = {
     h1: ({ ...props }) => <TextElement variant="h4" {...props} />,
     h2: ({ ...props }) => <TextElement variant="h5" {...props} />,
     h3: ({ ...props }) => <TextElement variant="subtitle1" {...props} />,
     a: ({ ...props }) => <Link target="_blank" {...props} />,
     img: ({ ...props }) => (
-        <img
-            style={{ width: "100%" }}
+        <DefaultImage
+            style={{ width: "100%", height: "100%" }}
             src={props.src}
             alt={props.alt}
             {...props}
