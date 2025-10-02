@@ -3,7 +3,7 @@ import { JSX } from "react";
 import { render } from "@testing-library/react";
 import { Entry } from "contentful";
 import { BrowserRouter as Router } from "react-router-dom";
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 
 import ImageBanner from "./ImageBanner";
 import type { ContentEntryProps, ImageBannerType } from "@/types";
@@ -29,8 +29,13 @@ const mockImageBanner = {
     },
 } as Entry<ImageBannerType>;
 
+vi.mock("@/hooks", () => ({
+    useImageSrc: () => ({ load: false }),
+}));
+
 const TestImageBannerComponent = (
-    props: ContentEntryProps<ImageBannerType>): JSX.Element => {
+    props: ContentEntryProps<ImageBannerType>
+): JSX.Element => {
     return (
         <Router>
             <ImageBanner {...props} />
@@ -43,7 +48,6 @@ describe("<ImageBanner />", () => {
         const wrapper = render(
             <TestImageBannerComponent contentEntry={mockImageBanner} />
         );
-        expect(wrapper).toBeTruthy();
 
         const image = wrapper.container
             .querySelector("#image")

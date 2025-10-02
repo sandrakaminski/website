@@ -43,7 +43,7 @@ const mockProfile = {
     },
 } as Entry<ProfileType>;
 
-vi.mock("@/functions/useImgSrc", () => ({
+vi.mock("@/hooks", () => ({
     useImageSrc: () => ({ load: false }),
 }));
 

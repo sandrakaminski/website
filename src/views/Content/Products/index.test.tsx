@@ -42,9 +42,29 @@ const productInfo = {
     ],
 };
 
-vi.mock("@/functions/useImgSrc", () => ({
+vi.mock("@/hooks", () => ({
     useImageSrc: () => ({ load: false }),
+    useFetchEntries: () => ({
+        loading: false,
+        error: {
+            message: "",
+            state: false,
+        },
+        response: [],
+        handleGet: vi.fn(),
+        rerender: vi.fn(),
+    }),
+    useCreateSubmission: () => ({
+        submitting: false,
+        error: {
+            message: "",
+            state: false,
+        },
+        submitted: false,
+        createSubmission: vi.fn(),
+    }),
 }));
+
 
 const mockProductNotInstock = {
     fields: {

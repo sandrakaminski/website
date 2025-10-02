@@ -85,7 +85,7 @@ export const Content = (props: ContentProps): JSX.Element => {
     const entry = res.data?.items[0] as Entry<AnyEntry>;
 
     return (
-        <Box sx={{ my: 4 }}>
+        <Box>
             <GridLayout contentEntry={entry} />
             <DefaultLayout contentEntry={entry} />
             <DetailedLayout contentEntry={entry} />
@@ -134,7 +134,16 @@ const DefaultLayout = (props: ContentEntryProps<AnyEntry>): JSX.Element => {
                         type={content?.fields.layout}
                         contentEntry={content}>
                         {content.fields.references.map((block, index) => (
-                            <Box key={index} sx={{ py: 4 }}>
+                            <Box
+                                key={index}
+                                sx={
+                                    index ===
+                                    content.fields.references.length - 1
+                                        ? {}
+                                        : {
+                                              py: { xs: 2, md: 4 },
+                                          }
+                                }>
                                 <ContentBlock contentEntry={block} />
                             </Box>
                         ))}

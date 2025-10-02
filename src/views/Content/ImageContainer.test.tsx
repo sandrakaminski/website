@@ -46,7 +46,7 @@ const mockImageBanner = {
     },
 } as Entry<ImageContainerProps>;
 
-vi.mock("@/functions/useImgSrc", () => ({
+vi.mock("@/hooks", () => ({
     useImageSrc: () => ({ load: false }),
 }));
 

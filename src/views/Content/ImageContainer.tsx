@@ -21,6 +21,7 @@ const ImageContainer = (
         <ImageList gap={8}>
             {contentEntry?.fields.blocks.map((img, index) => (
                 <ImageListItem
+                    data-testid="imageContainer"
                     key={index}
                     id="imageContainer"
                     rows={img.fields.imageRows}
@@ -29,6 +30,7 @@ const ImageContainer = (
                     <FloatingText contentEntry={img} />
                     <DefaultImage
                         enableZoom
+                        data-testid="image"
                         id="image"
                         src={img.fields.image.fields.file.url}
                         alt={`image ${index}`}
@@ -63,6 +65,7 @@ const FloatingText = (props: FloatingTextProps): JSX.Element => {
                         alignItems: "center",
                     }}>
                     <Typography
+                        data-testid="title"
                         id="title"
                         variant="h2"
                         gutterBottom
@@ -70,6 +73,7 @@ const FloatingText = (props: FloatingTextProps): JSX.Element => {
                         {contentEntry.fields.title}
                     </Typography>
                     <Typography
+                        data-testid="subheader"
                         id="subheader"
                         variant="body1"
                         sx={{

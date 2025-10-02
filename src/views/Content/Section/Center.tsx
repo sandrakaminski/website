@@ -1,25 +1,34 @@
 import { JSX } from "react";
 
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import ReactMarkdown from "react-markdown";
 
 import Resource from "./Resource";
-import DefaultImage from "@/components/DefaultImage";
 import { SectionMarkDown } from "@/components/Markdown";
+import { useImageSrc } from "@/hooks";
 import type { Content, ContentEntryProps } from "@/types";
 
 const Center = (props: ContentEntryProps<Content>): JSX.Element => {
     const { contentEntry } = props;
 
+    const src = contentEntry?.fields.image?.fields.file.url;
+    const { load } = useImageSrc(src);
+
     return (
         <Stack alignItems="center" spacing={2}>
-            {contentEntry?.fields.image?.fields.file.url && (
-                <DefaultImage
+            {src && (
+                <Box
                     id="sectionImg"
-                    src={contentEntry.fields.image.fields.file.url}
-                    alt={contentEntry.fields.image.fields.title}
+                    sx={{
+                        background: load ? "#000" : `url(${src})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        height: { xs: 200, md: 500 },
+                        width: "100%",
+                    }}
                 />
             )}
             {contentEntry?.fields.headline && (

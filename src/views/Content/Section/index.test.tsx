@@ -25,7 +25,7 @@ const repeatFields = {
     body: "Test section body to see that it's working",
 };
 
-vi.mock("@/functions/useImgSrc", () => ({
+vi.mock("@/hooks", () => ({
     useImageSrc: () => ({ load: false }),
 }));
 
@@ -84,11 +84,7 @@ describe("<Section />", () => {
         const wrapper = render(
             <TestSectionComponent contentEntry={mockSectionCenter} />
         );
-        expect(wrapper).toBeTruthy();
 
-        const image = wrapper.container
-            .querySelector("#sectionImg")
-            ?.getAttribute("src");
         const healine =
             wrapper.container.querySelector("#sectionHeadline")?.textContent;
         const ctaLabel =
@@ -103,7 +99,6 @@ describe("<Section />", () => {
         expect(navigate).toBeTruthy();
         fireEvent.click(await navigate);
 
-        expect(image).toBe("https://image.url");
         expect(healine).toBe("Test section headline");
         expect(ctaLabel).toBe("Test section ctaLabel");
         expect(ctaSlug).toBe("test-section-cta-slug");
