@@ -1,7 +1,6 @@
 import { useState, JSX } from "react";
 
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Avatar from "@mui/material/Avatar";
@@ -9,7 +8,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
-import Dialog from "@mui/material/Dialog";
 import Divider from "@mui/material/Divider";
 import Fab from "@mui/material/Fab";
 import Grid from "@mui/material/Grid";
@@ -34,7 +32,6 @@ import { useCartContext, ActionTypes } from "@/views/Cart/cartActions";
 const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
     const { contentEntry } = props;
     const { dispatch } = useCartContext();
-    const [open, setOpen] = useState<boolean>(false);
     const [clickEvent, setClickEvent] = useState<boolean>(false);
     const [image, setImage] = useState<string>(
         contentEntry.fields.featureImage.fields.file.url
@@ -78,21 +75,17 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                         variant="outlined"
                         component={Stack}
                         spacing={2}>
-                        <CardActionArea
-                            sx={{ backgroundColor: "gray.100" }}
-                            onClick={() => setOpen(true)}>
-                            <DefaultImage
-                                objectfit="contain"
-                                height={{
-                                    xs: "100%",
-                                    md: 600,
-                                    xl: "70vh",
-                                }}
-                                id="featureImage"
-                                src={image}
-                                alt={"Feature image"}
-                            />
-                        </CardActionArea>
+                        <DefaultImage
+                            objectfit="contain"
+                            height={{
+                                xs: "100%",
+                                md: 600,
+                                xl: "70vh",
+                            }}
+                            id="featureImage"
+                            src={image}
+                            alt={"Feature image"}
+                        />
                         <ThumbnailCarousel
                             contentEntry={contentEntry}
                             image={image}
@@ -190,34 +183,6 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                 </Grid>
             </Grid>
             <CartPopper clickEvent={clickEvent} />
-
-            <Dialog maxWidth={false} open={open} onClose={() => setOpen(false)}>
-                <Fab
-                    size="small"
-                    sx={{
-                        position: "absolute",
-                        bottom: 10,
-                        right: 10,
-                        display: { xs: "flex", sm: "none" },
-                    }}
-                    color="inherit"
-                    onClick={() => setOpen(false)}>
-                    <CloseIcon />
-                </Fab>
-                <DefaultImage
-                    style={{
-                        backgroundColor: "black",
-                    }}
-                    objectfit="contain"
-                    height={{
-                        // xs: window.innerHeight * 0.9,
-                        sm: window.innerHeight * 0.8,
-                        lg: window.innerHeight * 0.9,
-                    }}
-                    src={image}
-                    alt="Feature img"
-                />
-            </Dialog>
         </>
     );
 };
