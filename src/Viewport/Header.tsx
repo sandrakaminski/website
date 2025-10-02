@@ -47,12 +47,14 @@ const Header = (): JSX.Element => {
                     <Toolbar>
                         <Box sx={{ flexGrow: 1 }}>
                             <Link
+                                data-testid="home-link"
                                 onClick={() => handleNavigate("home")}
                                 component="button"
                                 sx={{ cursor: "pointer" }}
                                 underline="none"
                                 color="inherit">
                                 <Box
+                                    data-testid="logo"
                                     component="img"
                                     sx={{ width: { xs: "40vw", sm: 200 } }}
                                     loading="lazy"
@@ -64,6 +66,7 @@ const Header = (): JSX.Element => {
                         <Box sx={{ display: { xs: "none", md: "flex" } }}>
                             {menuItems.map((item, index) => (
                                 <Button
+                                    data-testid={`nav-${item.fields.name}`}
                                     sx={{ mx: 1 }}
                                     color="inherit"
                                     onClick={() =>
