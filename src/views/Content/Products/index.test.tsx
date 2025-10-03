@@ -189,5 +189,10 @@ describe("<Products />", () => {
         expect(featureImage).toBe("https://image.url");
         expect(description).toBe("Test description");
         expect(productFiles.length).toBe(2);
+
+        expect(productFiles[0]?.getAttribute("src")).toBe("https://file.url");
+        expect(productFiles[1]?.getAttribute("src")).toBe("https://file2.url");
+
+
     });
 });

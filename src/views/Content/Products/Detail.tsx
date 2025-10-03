@@ -395,18 +395,32 @@ const LoadingAvatar = (props: loadingAvatarProps): JSX.Element => {
                 <Avatar
                     sx={
                         image === src
-                            ? { ...imgSizing, border: 1, p: "2px" }
+                            ? {
+                                  ...imgSizing,
+                                  bgcolor: "transparent",
+                                  border: 1,
+                                  p: "2px",
+                                  borderColor: "primary.main",
+                              }
                             : {
                                   ...imgSizing,
                                   border: 1,
-                                  borderColor: "transparent",
+                                  bgcolor: "transparent",
                                   p: "2px",
                               }
                     }
                     component={CardActionArea}
-                    variant="square"
-                    {...props}
-                />
+                    variant="square">
+                    <DefaultImage
+                        data-testid={props.id}
+                        id={props.id}
+                        height="100%"
+                        objectfit="cover"
+                        src={src}
+                        alt={props.alt}
+                        onClick={props.onClick}
+                    />
+                </Avatar>
             )}
         </>
     );
