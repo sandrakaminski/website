@@ -34,6 +34,7 @@ const Summary = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                 <DefaultImage
                     isCard
                     enableZoom
+                    data-testid="featureImage"
                     id="featureImage"
                     src={contentEntry?.fields.featureImage.fields.file.url}
                     alt={contentEntry.fields.featureImage.fields.title}
@@ -45,6 +46,7 @@ const Summary = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                     justifyContent="center"
                     spacing={1}>
                     <Typography
+                        data-testid="productName"
                         id="productName"
                         variant="h6">{`${contentEntry.fields.name}`}</Typography>
                     <Stack
@@ -54,6 +56,7 @@ const Summary = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                         spacing={1}>
                         {contentEntry.fields.oldPrice && (
                             <Typography
+                                data-testid="oldPrice"
                                 id="oldPrice"
                                 color="grayText"
                                 sx={{ textDecoration: "line-through" }}
@@ -61,7 +64,11 @@ const Summary = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                                 ${contentEntry.fields.oldPrice.toFixed(2)}
                             </Typography>
                         )}
-                        <Typography id="price" color="grayText" variant="body1">
+                        <Typography
+                            id="price"
+                            data-testid="price"
+                            color="grayText"
+                            variant="body1">
                             ${contentEntry.fields.price.toFixed(2)} NZD
                         </Typography>
                     </Stack>
@@ -101,7 +108,10 @@ const Banner = (props: BannerType): JSX.Element => {
                         background: "rgba(255,255,255,.80)",
                         ...style,
                     }}>
-                    <Typography id="sold-out" variant="subtitle1">
+                    <Typography
+                        id="sold-out"
+                        data-testid="sold-out"
+                        variant="subtitle1">
                         SOLD OUT
                     </Typography>
                 </Box>
@@ -114,7 +124,8 @@ const Banner = (props: BannerType): JSX.Element => {
                                 ...style,
                             }}>
                             <Typography
-                                id="new-product"
+                                id="pre-order-product"
+                                data-testid="pre-order-product"
                                 color="white"
                                 variant="subtitle1">
                                 PRE-ORDER
@@ -129,6 +140,7 @@ const Banner = (props: BannerType): JSX.Element => {
                                 }}>
                                 <Typography
                                     id="new-product"
+                                    data-testid="new-product"
                                     color="white"
                                     variant="subtitle1">
                                     NEW

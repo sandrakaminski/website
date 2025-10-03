@@ -61,21 +61,15 @@ const TestProfileComponent = (props: BlockProps): JSX.Element => {
 
 describe("<Profile />", () => {
     test("renders summary view correctly", async () => {
-        const wrapper = render(
+        const { getByTestId } = render(
             <TestProfileComponent contentEntry={mockProfile} />
         );
-        expect(wrapper).toBeTruthy();
 
-        const name =
-            wrapper.container.querySelector("#profileName")?.textContent;
-        const coverImg = wrapper.container
-            .querySelector("#profileImage")
-            ?.getAttribute("src");
-        const body =
-            wrapper.container.querySelector("#profileBody")?.textContent;
+        const name = getByTestId("profileName")?.textContent;
+        const coverImg = getByTestId("profileImage")?.getAttribute("src");
+        const body = getByTestId("profileBody")?.textContent;
 
         const navigate = screen.findByText("Test Name");
-        expect(navigate).toBeTruthy();
         fireEvent.click(await navigate);
 
         expect(name).toBe("Test Name");
@@ -84,35 +78,30 @@ describe("<Profile />", () => {
     });
 
     test("renders full view correctly", () => {
-        const wrapper = render(
+        const { getByTestId, getAllByTestId } = render(
             <TestProfileComponent detail={true} contentEntry={mockProfile} />
         );
-        expect(wrapper).toBeTruthy();
 
-        const title = wrapper.container.querySelector("#title")?.textContent;
-        const coverImg = wrapper.container
-            .querySelector("#profileImage")
-            ?.getAttribute("src");
-        const body = wrapper.container.querySelector("#body")?.textContent;
-        const otherImg = wrapper.container
-            .querySelector("#otherImages")
-            ?.getAttribute("src");
-        const otherImgDescription = wrapper.container.querySelector(
-            "#otherImgDescription"
-        )?.textContent;
+        const title = getByTestId("title")?.textContent;
+        const coverImg = getByTestId("profileImage")?.getAttribute("src");
+        const body = getByTestId("body")?.textContent;
 
-        const imgLength =
-            wrapper.container.querySelectorAll("#otherImages").length;
-        const otherImgDescriptionLength = wrapper.container.querySelectorAll(
-            "#otherImgDescription"
-        ).length;
-        expect(imgLength).toBe(2);
-        expect(otherImgDescriptionLength).toBe(2);
+        const otherImages = getAllByTestId("otherImages");
+        const otherImgDescription = getAllByTestId("otherImgDescription");
+
+        expect(otherImages.length).toBe(2);
+        expect(otherImages[0].getAttribute("src")).toBe(
+            "https://other-images1.url"
+        );
+        expect(otherImages[1].getAttribute("src")).toBe(
+            "https://other-images2.url"
+        );
+        expect(otherImgDescription.length).toBe(2);
+        expect(otherImgDescription[0].textContent).toBe("Test description");
+        expect(otherImgDescription[1].textContent).toBe("Test description 2");
 
         expect(title).toBe("About Test Profile");
         expect(coverImg).toBe("https://image.url");
         expect(body).toBe("Test body to check it's working");
-        expect(otherImg).toBe("https://other-images1.url");
-        expect(otherImgDescription).toBe("Test description");
     });
 });

@@ -28,6 +28,7 @@ const Summary = (props: ContentEntryProps<ProfileType>): JSX.Element => {
                         navigate(`${pathname}/${contentEntry.fields.slug}`)
                     }>
                     <DefaultImage
+                        data-testid="profileImage"
                         isCard
                         id="profileImage"
                         src={contentEntry?.fields.image.fields.file.url}
@@ -39,10 +40,10 @@ const Summary = (props: ContentEntryProps<ProfileType>): JSX.Element => {
                         direction="column"
                         justifyContent="center"
                         spacing={1}>
-                        <Typography id="profileName" variant="subtitle1">
+                        <Typography id="profileName" data-testid="profileName" variant="subtitle1">
                             {contentEntry.fields.name}
                         </Typography>
-                        <Typography id="profileBody" variant="body1">
+                        <Typography id="profileBody" data-testid="profileBody" variant="body1">
                             {txt}
                         </Typography>
                     </Stack>

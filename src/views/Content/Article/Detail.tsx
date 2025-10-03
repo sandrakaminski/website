@@ -40,6 +40,7 @@ const Detail = (props: ContentEntryProps<ArticleType>): JSX.Element => {
             {contentEntry && (
                 <Stack sx={{ my: 4 }} spacing={2} alignItems="center">
                     <Typography
+                        data-testid="headline"
                         id="headline"
                         sx={{ my: 2, maxWidth: "md" }}
                         variant="h1"
@@ -52,13 +53,17 @@ const Detail = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                         justifyContent="space-between"
                         alignItems="center"
                         spacing={2}>
-                        <Typography id="date" variant="body1">
+                        <Typography
+                            data-testid="date"
+                            id="date"
+                            variant="body1">
                             {dateFormatter.formatDate()}
                         </Typography>
                         <FiberManualRecordIcon
                             sx={{ height: 2.5, width: 2.5 }}
                         />
                         <Link
+                            data-testid="author"
                             id="author"
                             underline="hover"
                             sx={{ cursor: "pointer" }}
@@ -69,6 +74,7 @@ const Detail = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                     </Stack>
                     <Box maxWidth={800}>
                         <DefaultImage
+                            data-testid="coverImage"
                             id="coverImage"
                             src={
                                 contentEntry?.fields.coverImage.fields.file.url

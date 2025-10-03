@@ -9,6 +9,25 @@ import { describe, test, expect, vi } from "vitest";
 import Section from ".";
 import type { Content, ContentEntryProps } from "@/types";
 
+const resources = [
+    {
+        fields: {
+            flexDirection: "Row",
+            headline: "Test resource headline",
+            description: "Test resource description",
+            link: "test-resource-slug",
+        },
+    },
+    {
+        fields: {
+            flexDirection: "Row",
+            headline: "Test resource headline 2",
+            description: "Test resource description ",
+            link: "test-resource-slug",
+        },
+    },
+];
+
 // reduce repeated fields
 const directions = ["Center", "Right", "Left", "Column"];
 const repeatFields = {
@@ -46,6 +65,7 @@ const mockSectionRight = {
         image: repeatFields.image,
         headline: repeatFields.headline,
         body: repeatFields.body,
+        resources,
     },
 } as Entry<Content>;
 
@@ -55,6 +75,7 @@ const mockSectionLeft = {
         image: repeatFields.image,
         headline: repeatFields.headline,
         body: repeatFields.body,
+        resources,
     },
 } as Entry<Content>;
 
@@ -62,6 +83,7 @@ const mockSectionColumn = {
     fields: {
         sectionType: directions[3],
         headline: repeatFields.headline,
+        resources,
     },
 } as Entry<Content>;
 
@@ -81,22 +103,20 @@ const TestSectionComponent = (
 
 describe("<Section />", () => {
     test("Center Section renders correctly", async () => {
-        const wrapper = render(
+        const { getByTestId } = render(
             <TestSectionComponent contentEntry={mockSectionCenter} />
         );
 
-        const healine =
-            wrapper.container.querySelector("#sectionHeadline")?.textContent;
-        const ctaLabel =
-            wrapper.container.querySelector("#sectionCta")?.textContent;
-        const ctaSlug = wrapper.container
-            .querySelector("#sectionCta")
-            ?.getAttribute("href");
-        const sectionBody =
-            wrapper.container.querySelector("#sectionBody")?.textContent;
+        const healine = getByTestId("sectionHeadline")?.textContent;
+        const ctaLabel = getByTestId("sectionCta")?.textContent;
+        const ctaSlug = getByTestId("sectionCta")?.getAttribute("href");
+        const sectionBody = getByTestId("sectionBody")?.textContent;
+        const sectionImg = getByTestId("sectionImg");
+        const styles = window.getComputedStyle(sectionImg);
+
+        expect(styles.backgroundImage).toBe(`url("https://image.url")`);
 
         const navigate = screen.findByText("Test section ctaLabel");
-        expect(navigate).toBeTruthy();
         fireEvent.click(await navigate);
 
         expect(healine).toBe("Test section headline");
@@ -107,51 +127,55 @@ describe("<Section />", () => {
     });
 
     test("Right Section renders correctly", () => {
-        const wrapper = render(
+        const { getByTestId, getAllByTestId } = render(
             <TestSectionComponent contentEntry={mockSectionRight} />
         );
-        expect(wrapper).toBeTruthy();
 
-        const image = wrapper.container
-            .querySelector("#sectionImg")
-            ?.getAttribute("src");
-        const healine =
-            wrapper.container.querySelector("#sectionHeadline")?.textContent;
-        const sectionBody =
-            wrapper.container.querySelector("#sectionBody")?.textContent;
+        const image = getByTestId("sectionImg")?.getAttribute("src");
+        const healine = getByTestId("sectionHeadline")?.textContent;
+        const sectionBody = getByTestId("sectionBody")?.textContent;
 
         expect(image).toBe("https://image.url");
         expect(healine).toBe("Test section headline");
         expect(sectionBody).toBe("Test section body to see that it's working");
+
+        const resourceHeadline = getAllByTestId("resourceHeadline");
+
+        expect(resourceHeadline).toHaveLength(2);
+        expect(resourceHeadline[0].textContent).toBe("Test resource headline");
+        expect(healine).toBe("Test section headline");
     });
 
     test("Left Section renders correctly", () => {
-        const wrapper = render(
+        const { getByTestId, getAllByTestId } = render(
             <TestSectionComponent contentEntry={mockSectionLeft} />
         );
-        expect(wrapper).toBeTruthy();
 
-        const image = wrapper.container
-            .querySelector("#sectionImg")
-            ?.getAttribute("src");
-        const healine =
-            wrapper.container.querySelector("#sectionHeadline")?.textContent;
-        const sectionBody =
-            wrapper.container.querySelector("#sectionBody")?.textContent;
+        const image = getByTestId("sectionImg")?.getAttribute("src");
+        const healine = getByTestId("sectionHeadline")?.textContent;
+        const sectionBody = getByTestId("sectionBody")?.textContent;
 
         expect(image).toBe("https://image.url");
         expect(healine).toBe("Test section headline");
         expect(sectionBody).toBe("Test section body to see that it's working");
+
+        const resourceHeadline = getAllByTestId("resourceHeadline");
+
+        expect(resourceHeadline).toHaveLength(2);
+        expect(resourceHeadline[0].textContent).toBe("Test resource headline");
+        expect(healine).toBe("Test section headline");
     });
 
     test("Column Section renders correctly", () => {
-        const wrapper = render(
+        const { getByTestId, getAllByTestId } = render(
             <TestSectionComponent contentEntry={mockSectionColumn} />
         );
-        expect(wrapper).toBeTruthy();
 
-        const healine =
-            wrapper.container.querySelector("#sectionHeadline")?.textContent;
+        const healine = getByTestId("sectionHeadline")?.textContent;
+        const resourceHeadline = getAllByTestId("resourceHeadline");
+
+        expect(resourceHeadline).toHaveLength(2);
+        expect(resourceHeadline[0].textContent).toBe("Test resource headline");
         expect(healine).toBe("Test section headline");
     });
 });

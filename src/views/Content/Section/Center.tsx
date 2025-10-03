@@ -21,6 +21,7 @@ const Center = (props: ContentEntryProps<Content>): JSX.Element => {
         <Stack alignItems="center" spacing={2}>
             {src && (
                 <Box
+                    data-testid="sectionImg"
                     id="sectionImg"
                     sx={{
                         background: load ? "#000" : `url(${src})`,
@@ -33,6 +34,7 @@ const Center = (props: ContentEntryProps<Content>): JSX.Element => {
             )}
             {contentEntry?.fields.headline && (
                 <Typography
+                    data-testid="sectionHeadline"
                     id="sectionHeadline"
                     align="center"
                     variant="h3"
@@ -57,6 +59,7 @@ const Center = (props: ContentEntryProps<Content>): JSX.Element => {
             </ReactMarkdown>
             {contentEntry?.fields.ctaLabel && (
                 <Button
+                    data-testid="sectionCta"
                     id="sectionCta"
                     href={contentEntry.fields.ctaSlug}
                     size="large"

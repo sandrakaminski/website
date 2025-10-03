@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect } from "vitest";
 
-import Resource, { ResourceProps } from './Resource';
-import type { ResourceType } from '@/types';
+import Resource, { ResourceProps } from "./Resource";
+import type { ResourceType } from "@/types";
 
 const mockResource = {
     fields: {
@@ -17,19 +17,19 @@ const mockResource = {
                     file: {
                         url: "https://file.url",
                     },
-                    title: "Test file title"
-                }
+                    title: "Test file title",
+                },
             },
             {
                 fields: {
                     file: {
                         url: "https://file2.url",
                     },
-                    title: "Test file 2 title"
-                }
-            }
-        ]
-    }
+                    title: "Test file 2 title",
+                },
+            },
+        ],
+    },
 } as ResourceType;
 
 const mockResourceFlex = {
@@ -41,19 +41,19 @@ const mockResourceFlex = {
                     file: {
                         url: "https://file.url",
                     },
-                    title: "Test file title"
-                }
+                    title: "Test file title",
+                },
             },
             {
                 fields: {
                     file: {
                         url: "https://file2.url",
                     },
-                    title: "Test file 2 title"
-                }
-            }
-        ]
-    }
+                    title: "Test file 2 title",
+                },
+            },
+        ],
+    },
 } as ResourceType;
 
 const TestResourceComponent = (props: ResourceProps) => {
@@ -65,35 +65,37 @@ const TestResourceComponent = (props: ResourceProps) => {
                 <Resource {...props} />
             </QueryClientProvider>
         </Router>
-    )
-}
+    );
+};
 
 describe("<Resource />", () => {
     test("Flex resource correctly", () => {
-        const { container } = render(<TestResourceComponent resource={mockResourceFlex} />);
-        expect(container).toBeTruthy();
+        const {  getAllByTestId } = render(
+            <TestResourceComponent resource={mockResourceFlex} />
+        );
 
-        const file = container.querySelector("#resourceItem")?.getAttribute("href");
-        expect(file).toBe("https://file.url");
+        const file = getAllByTestId("resourceItem")
+        expect(file[0]?.getAttribute("href")).toBe("https://file.url");
 
-        const fileTitle = container.querySelector("#resourceItem")?.textContent;
+        const fileTitle = getAllByTestId("resourceItem")[0]?.textContent;
         expect(fileTitle).toBe("Test file title");
 
-        const fileArr = container.querySelectorAll("#resourceItem");
+        const fileArr = getAllByTestId("resourceItem");
         expect(fileArr.length).toBe(2);
     });
 
     test("Column resource correctly", () => {
-        const { container } = render(<TestResourceComponent resource={mockResource} />);
-        expect(container).toBeTruthy();
+        const {  getAllByTestId } = render(
+            <TestResourceComponent resource={mockResource} />
+        );
 
-        const file = container.querySelector("#resourceItem")?.getAttribute("href");
+        const file = getAllByTestId("resourceItem")[0]?.getAttribute("href");
         expect(file).toBe("https://file.url");
 
-        const fileTitle = container.querySelector("#resourceItem")?.textContent;
+        const fileTitle = getAllByTestId("resourceItem")[0]?.textContent;
         expect(fileTitle).toBe("Test file title");
 
-        const fileArr = container.querySelectorAll("#resourceItem");
+        const fileArr = getAllByTestId("resourceItem");
         expect(fileArr.length).toBe(2);
     });
-})
+});

@@ -20,6 +20,7 @@ export const Right = (props: ContentEntryProps<Content>): JSX.Element => {
                     <Grid size={{ xs: 12, sm: 6 }}>
                         {contentEntry.fields.image?.fields.file.url && (
                             <DefaultImage
+                                data-testid="sectionImg"
                                 id="sectionImg"
                                 src={contentEntry.fields.image.fields.file.url}
                                 alt={contentEntry.fields.image.fields.title}
@@ -28,6 +29,7 @@ export const Right = (props: ContentEntryProps<Content>): JSX.Element => {
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                         <Typography
+                            data-testid="sectionHeadline"
                             id="sectionHeadline"
                             align="center"
                             variant="h2">
@@ -38,6 +40,8 @@ export const Right = (props: ContentEntryProps<Content>): JSX.Element => {
                                 <Box key={index}>
                                     {item.fields.headline && (
                                         <Typography
+                                            data-testid="resourceHeadline"
+                                            id="resourceHeadline"
                                             align="center"
                                             variant="h3"
                                             sx={{

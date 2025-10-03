@@ -82,6 +82,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                                 md: 600,
                                 xl: "70vh",
                             }}
+                            data-testid="featureImage"
                             id="featureImage"
                             src={image}
                             alt={"Feature image"}
@@ -149,6 +150,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                                     },
                                     width: "100%",
                                 }}
+                                data-testid="description"
                                 id="description">
                                 <ReactMarkdown remarkPlugins={[gfm]}>
                                     {contentEntry.fields.description}
@@ -198,7 +200,7 @@ const Heading = (props: HeadingProps): JSX.Element => {
 
     return (
         <Stack sx={{ ...sx }} alignItems="flex-start" spacing={2}>
-            <Typography id="productName" variant="h2">
+            <Typography id="productName" data-testid="productName" variant="h2">
                 {contentEntry.fields.name}
             </Typography>
             <Stack
@@ -209,6 +211,7 @@ const Heading = (props: HeadingProps): JSX.Element => {
                 {contentEntry.fields.oldPrice && (
                     <Typography
                         id="oldPrice"
+                        data-testid="oldPrice"
                         color="grayText"
                         sx={{ textDecoration: "line-through" }}
                         variant="body1">
@@ -217,6 +220,7 @@ const Heading = (props: HeadingProps): JSX.Element => {
                 )}
                 <Stack
                     id="price"
+                    data-testid="price"
                     spacing={1}
                     direction="row"
                     alignItems="flex-end">
@@ -322,6 +326,7 @@ const ThumbnailCarousel = (props: ThumbnailCarouselProps): JSX.Element => {
                         .slice(offset, count)
                         .map((img: Asset, index: number) => (
                             <LoadingAvatar
+                                data-testid="productFiles"
                                 id="productFiles"
                                 key={index}
                                 src={img.fields.file.url}

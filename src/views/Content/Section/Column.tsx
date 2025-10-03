@@ -14,6 +14,7 @@ export const Column = (props: ContentEntryProps<Content>): JSX.Element => {
             {contentEntry && (
                 <>
                     <Typography
+                        data-testid="sectionHeadline"
                         id="sectionHeadline"
                         align="center"
                         gutterBottom
@@ -25,6 +26,7 @@ export const Column = (props: ContentEntryProps<Content>): JSX.Element => {
                             (item: ResourceType, index: number) => (
                                 <Grid key={index} size={{ xs: 12, sm: 6 }}>
                                     <Typography
+                                        data-testid="resourceHeadline"
                                         align="center"
                                         variant="h3"
                                         sx={{ pt: 4 }}>

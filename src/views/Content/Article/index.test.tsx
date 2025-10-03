@@ -71,18 +71,14 @@ const TestArticleComponent = (props: ArticleTypes): JSX.Element => {
 
 describe("<Article />", () => {
     test("renders summary view correctly", async () => {
-        const wrapper = render(
+        const { getByTestId } = render(
             <TestArticleComponent contentEntry={mockArticle} />
         );
-        expect(wrapper).toBeTruthy();
 
-        const headline =
-            wrapper.container.querySelector("#headline")?.textContent;
-        const coverImg = wrapper.container
-            .querySelector("#coverImage")
-            ?.getAttribute("src");
-        const date = wrapper.container.querySelector("#date")?.textContent;
-        const author = wrapper.container.querySelector("#author")?.textContent;
+        const headline = getByTestId("headline")?.textContent;
+        const coverImg = getByTestId("coverImage")?.getAttribute("src");
+        const date = getByTestId("date")?.textContent;
+        const author = getByTestId("author")?.textContent;
         const navigate = screen.findByText("Test Headline");
         fireEvent.click(await navigate);
 
@@ -95,19 +91,15 @@ describe("<Article />", () => {
     });
 
     test("renders detail view correctly", () => {
-        const wrapper = render(
-            <TestArticleComponent detail={true} contentEntry={mockArticle} />
-        );
-        expect(wrapper).toBeTruthy();
+       const { getByTestId } = render(
+           <TestArticleComponent detail={true} contentEntry={mockArticle} />
+       );
 
-        const headline =
-            wrapper.container.querySelector("#headline")?.textContent;
-        const coverImg = wrapper.container
-            .querySelector("#coverImage")
-            ?.getAttribute("src");
-        const date = wrapper.container.querySelector("#date")?.textContent;
-        const author = wrapper.container.querySelector("#author")?.textContent;
-        const body = wrapper.container.querySelector("#body")?.textContent;
+        const headline = getByTestId("headline")?.textContent;
+        const coverImg = getByTestId("coverImage")?.getAttribute("src");
+        const date = getByTestId("date")?.textContent;
+        const author = getByTestId("author")?.textContent;
+        const body = getByTestId("body")?.textContent;
 
         expect(headline).toBe("Test Headline");
         expect(coverImg).toBe("https://image.url");

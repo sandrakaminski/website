@@ -33,6 +33,7 @@ const Summary = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                         <DefaultImage
                             isCard
                             enableZoom
+                            data-testid="coverImage"
                             id="coverImage"
                             src={
                                 contentEntry?.fields.coverImage.fields.file.url
@@ -41,6 +42,7 @@ const Summary = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                         />
                     </CardActionArea>
                     <Link
+                        data-testid="headline"
                         id="headline"
                         color="primary"
                         underline="none"
@@ -73,6 +75,7 @@ const Summary = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                             alignItems="center"
                             spacing={2}>
                             <Typography
+                                data-testid="date"
                                 id="date"
                                 color="grayText"
                                 variant="body1">
@@ -86,6 +89,7 @@ const Summary = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                                 }}
                             />
                             <Link
+                                data-testid="author"
                                 id="author"
                                 color="grayText"
                                 underline="hover"

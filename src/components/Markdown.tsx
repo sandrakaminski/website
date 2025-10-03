@@ -42,6 +42,7 @@ export const SectionMarkDown = {
     p: ({ ...props }) => (
         <Typography
             id="sectionBody"
+            data-testid="sectionBody"
             sx={{ mx: { md: 4 }, lineHeight: 1.75, maxWidth: { md: 600 } }}
             align="justify"
             variant="body1"
@@ -57,6 +58,7 @@ export default Markdown;
 const TextElement = ({ ...props }): JSX.Element => {
     return (
         <Container
+            data-testid="body"
             id="body"
             component={Typography}
             maxWidth={false}

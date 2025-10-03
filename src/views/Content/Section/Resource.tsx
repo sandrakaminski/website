@@ -27,6 +27,7 @@ export const Resource = (props: ResourceProps): JSX.Element => {
                         (file: Asset, index: number) => (
                             <Grid key={index}>
                                 <Link
+                                    data-testid="resourceItem"
                                     id="resourceItem"
                                     sx={{ textUnderlineOffset: "6px" }}
                                     href={`${file.fields.file.url}`}
@@ -44,6 +45,7 @@ export const Resource = (props: ResourceProps): JSX.Element => {
                     {resource?.fields.files?.map(
                         (file: Asset, index: number) => (
                             <Link
+                                data-testid="resourceItem"
                                 id="resourceItem"
                                 key={index}
                                 href={`${file.fields.file.url}`}

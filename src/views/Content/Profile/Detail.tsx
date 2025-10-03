@@ -5,7 +5,6 @@ import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { Asset } from "contentful";
 import ReactMarkdown from "react-markdown";
 
 import DefaultImage from "@/components/DefaultImage";
@@ -27,13 +26,14 @@ const Detail = (props: ContentEntryProps<ProfileType>): JSX.Element => {
                     alignItems="center">
                     <Box sx={{ mt: 4 }}>
                         <DefaultImage
+                            data-testid="profileImage"
                             id="profileImage"
                             width={500}
                             src={contentEntry?.fields.image.fields.file.url}
                             alt={contentEntry.fields.image.fields.title}
                         />
                     </Box>
-                    <Typography id="title" variant="h3">
+                    <Typography id="title" data-testid="title" variant="h3">
                         {contentEntry.fields.title}
                     </Typography>
                     <Container maxWidth="sm">
@@ -46,15 +46,17 @@ const Detail = (props: ContentEntryProps<ProfileType>): JSX.Element => {
                             spacing={1}
                             alignItems="flex-start">
                             {contentEntry.fields.otherImages.map(
-                                (image: Asset, index: number) => (
+                                (image, index) => (
                                     <Box key={index}>
                                         <DefaultImage
+                                            data-testid="otherImages"
                                             id="otherImages"
                                             src={image.fields.file.url}
                                             alt={image.fields.title}
                                         />
                                         <Typography
                                             id="otherImgDescription"
+                                            data-testid="otherImgDescription"
                                             color="grayText"
                                             sx={{ mt: 2 }}
                                             variant="caption">

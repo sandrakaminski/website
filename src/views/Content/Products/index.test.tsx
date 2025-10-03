@@ -65,7 +65,6 @@ vi.mock("@/hooks", () => ({
     }),
 }));
 
-
 const mockProductNotInstock = {
     fields: {
         inStock: false,
@@ -102,20 +101,15 @@ const TestProductComponent = (props: ProductProps): JSX.Element => {
 
 describe("<Products />", () => {
     test("renders summary view correctly for the out of stock state", async () => {
-        const wrapper = render(
+        const { getByTestId } = render(
             <TestProductComponent contentEntry={mockProductNotInstock} />
         );
 
-        const name =
-            wrapper.container.querySelector("#productName")?.textContent;
-        const price = wrapper.container.querySelector("#price")?.textContent;
-        const oldPrice =
-            wrapper.container.querySelector("#oldPrice")?.textContent;
-        const featureImage = wrapper.container
-            .querySelector("#featureImage")
-            ?.getAttribute("src");
-        const soldOut =
-            wrapper.container.querySelector("#sold-out")?.textContent;
+        const name = getByTestId("productName")?.textContent;
+        const price = getByTestId("price")?.textContent;
+        const oldPrice = getByTestId("oldPrice")?.textContent;
+        const featureImage = getByTestId("featureImage")?.getAttribute("src");
+        const soldOut = getByTestId("sold-out")?.textContent;
 
         const navigate = screen.findByText("Test Product");
         fireEvent.click(await navigate);
@@ -128,20 +122,17 @@ describe("<Products />", () => {
     });
 
     test("renders summary view correctly for the in stock state", async () => {
-        const wrapper = render(
+        const { getByTestId, container } = render(
             <TestProductComponent contentEntry={mockProductInstock} />
         );
 
-        const name =
-            wrapper.container.querySelector("#productName")?.textContent;
-        const price = wrapper.container.querySelector("#price")?.textContent;
-        const oldPrice =
-            wrapper.container.querySelector("#oldPrice")?.textContent;
-        const featureImage = wrapper.container
-            .querySelector("#featureImage")
-            ?.getAttribute("src");
-        const soldOut =
-            wrapper.container.querySelector("#sold-out")?.textContent;
+        const name = getByTestId("productName")?.textContent;
+        const price = getByTestId("price")?.textContent;
+        const oldPrice = getByTestId("oldPrice")?.textContent;
+        const featureImage = getByTestId("featureImage")?.getAttribute("src");
+
+        // sold out banner should not be present
+        const soldOut = container.querySelector("#sold-out")?.textContent;
 
         const navigate = screen.findByText("Test Product");
         fireEvent.click(await navigate);
@@ -150,24 +141,20 @@ describe("<Products />", () => {
         expect(price).toBe("$10.00 NZD");
         expect(oldPrice).toBe("$20.00");
         expect(featureImage).toBe("https://image.url");
+
         expect(soldOut).toBeUndefined();
     });
 
     test("renders summary view correctly for the new product state", async () => {
-        const wrapper = render(
+        const { getByTestId } = render(
             <TestProductComponent contentEntry={mockNewProduct} />
         );
 
-        const name =
-            wrapper.container.querySelector("#productName")?.textContent;
-        const price = wrapper.container.querySelector("#price")?.textContent;
-        const oldPrice =
-            wrapper.container.querySelector("#oldPrice")?.textContent;
-        const featureImage = wrapper.container
-            .querySelector("#featureImage")
-            ?.getAttribute("src");
-        const newProduct =
-            wrapper.container.querySelector("#new-product")?.textContent;
+        const name = getByTestId("productName")?.textContent;
+        const price = getByTestId("price")?.textContent;
+        const oldPrice = getByTestId("oldPrice")?.textContent;
+        const featureImage = getByTestId("featureImage")?.getAttribute("src");
+        const newProduct = getByTestId("new-product")?.textContent;
 
         const navigate = screen.findByText("Test Product");
         fireEvent.click(await navigate);
@@ -179,9 +166,8 @@ describe("<Products />", () => {
         expect(newProduct).toBe("NEW");
     });
 
-    // TODO add array of files to test
     test("renders full view correctly", () => {
-        const wrapper = render(
+        const { getByTestId, getAllByTestId } = render(
             <CartProvider>
                 <TestProductComponent
                     detail={true}
@@ -190,21 +176,18 @@ describe("<Products />", () => {
             </CartProvider>
         );
 
-        const name =
-            wrapper.container.querySelector("#productName")?.textContent;
-        const price = wrapper.container.querySelector("#price")?.textContent;
-        const oldPrice =
-            wrapper.container.querySelector("#oldPrice")?.textContent;
-        const featureImage = wrapper.container
-            .querySelector("#featureImage")
-            ?.getAttribute("src");
-        const description =
-            wrapper.container.querySelector("#description")?.textContent;
+        const name = getByTestId("productName")?.textContent;
+        const price = getByTestId("price")?.textContent;
+        const oldPrice = getByTestId("oldPrice")?.textContent;
+        const featureImage = getByTestId("featureImage")?.getAttribute("src");
+        const description = getByTestId("description")?.textContent;
+        const productFiles = getAllByTestId("productFiles");
 
         expect(name).toBe("Test Product");
         expect(price).toBe("$10.00NZD");
         expect(oldPrice).toBe("$20.00");
         expect(featureImage).toBe("https://image.url");
         expect(description).toBe("Test description");
+        expect(productFiles.length).toBe(2);
     });
 });
