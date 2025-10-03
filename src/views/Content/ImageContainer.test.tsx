@@ -64,25 +64,21 @@ const TestImageBannerComponent = (
 
 describe("<ImageContainer />", () => {
     test("renders correctly", async () => {
-        const wrapper = render(
+        const { getAllByTestId } = render(
             <TestImageBannerComponent contentEntry={mockImageBanner} />
         );
-        expect(wrapper).toBeTruthy();
 
-        const image = wrapper.container
-            .querySelector("#image")
-            ?.getAttribute("src");
-        expect(image).toBe("https://image.url");
+        const image = getAllByTestId("image");
+        expect(image[0]?.getAttribute("src")).toBe("https://image.url");
 
-        const imgArr = wrapper.container.querySelectorAll("#image");
+        const imgArr = getAllByTestId("image");
         expect(imgArr.length).toBe(2);
 
-        const title = wrapper.container.querySelector("#title")?.textContent;
-        expect(title).toBe("Test Image Container");
+        const title = getAllByTestId("title");
+        expect(title[0]?.textContent).toBe("Test Image Container");
 
-        const subheader =
-            wrapper.container.querySelector("#subheader")?.textContent;
-        expect(subheader).toBe("Test Subheader");
+        const subheader = getAllByTestId("subheader");
+        expect(subheader[0]?.textContent).toBe("Test Subheader");
 
         const navigate = screen.findByText("Test Image Container");
         fireEvent.click(await navigate);

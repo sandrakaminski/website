@@ -14,8 +14,9 @@ const ImageBanner = (
     return (
         <ImageList gap={contentEntry?.fields.spacing} cols={3}>
             {contentEntry?.fields.images.map((img, index) => (
-                <ImageListItem data-testid="image" key={index}>
+                <ImageListItem  key={index}>
                     <DefaultImage
+                        data-testid="image"
                         id="image"
                         src={img.fields.file.url}
                         alt={img.fields.title}

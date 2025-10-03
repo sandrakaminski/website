@@ -45,16 +45,14 @@ const TestImageBannerComponent = (
 
 describe("<ImageBanner />", () => {
     test("renders correctly", () => {
-        const wrapper = render(
+        const { getAllByTestId } = render(
             <TestImageBannerComponent contentEntry={mockImageBanner} />
         );
 
-        const image = wrapper.container
-            .querySelector("#image")
-            ?.getAttribute("src");
-        expect(image).toBe("https://image.url");
+        const image = getAllByTestId("image");
+        expect(image[0]?.getAttribute("src")).toBe("https://image.url");
 
-        const imgArr = wrapper.container.querySelectorAll("#image");
+        const imgArr = getAllByTestId("image");
         expect(imgArr.length).toBe(2);
     });
 });
