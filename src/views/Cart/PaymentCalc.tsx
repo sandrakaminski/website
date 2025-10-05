@@ -1,5 +1,6 @@
 import { useState, JSX, useEffect } from "react";
 
+import { useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -8,7 +9,6 @@ import Select from "@mui/material/Select";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import { useQuery } from "@tanstack/react-query";
-import { useMediaQuery, useTheme } from "@mui/material";
 
 import { useCartHooks } from "@/hooks";
 import { useCartContext } from "@/views/Cart/cartActions";
