@@ -175,7 +175,20 @@ const Cart = (): JSX.Element => {
                 ) : (
                     <Card variant="outlined" sx={{ p: 2, mb: 4 }}>
                         <Grid alignItems="stretch" spacing={1} container>
-                            <Grid size={{ xs: 12, md: 8 }}>
+                            <Grid
+                                size={{ xs: 12, md: 8 }}
+                                sx={{
+                                    borderBottom: {
+                                        xs: "1px solid rgba(0, 0, 0, 0.12)",
+                                        md: 0,
+                                    },
+                                    borderRight: {
+                                        md: "1px solid rgba(0, 0, 0, 0.12)",
+                                        xs: 0,
+                                    },
+                                    pr: { md: 2 },
+                                    pb: { xs: 2, md: 0 },
+                                }}>
                                 {loading ? (
                                     <CartSkeleton />
                                 ) : (
@@ -237,18 +250,7 @@ const Cart = (): JSX.Element => {
 
                             <Grid size={{ xs: 12, md: 4 }}>
                                 <Stack
-                                    sx={{
-                                        ...cardPadding,
-                                        borderTop: {
-                                            xs: "1px solid rgba(0, 0, 0, 0.12)",
-                                            md: 0,
-                                        },
-                                        borderLeft: {
-                                            md: "1px solid rgba(0, 0, 0, 0.12)",
-                                            xs: 0,
-                                        },
-                                        pl: { md: 2 },
-                                    }}
+                                    sx={cardPadding}
                                     direction="column"
                                     spacing={1}>
                                     <CurrencyExchange
@@ -364,10 +366,7 @@ const CartItem = (props: CartItemProps): JSX.Element => {
                     sm: 2,
                     md: 4,
                 }}>
-                <CartItemPrice
-                    itemPrice={item.price}
-                    country={country}
-                />
+                <CartItemPrice itemPrice={item.price} country={country} />
             </Grid>
         </Stack>
     );
