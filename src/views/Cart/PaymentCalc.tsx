@@ -12,8 +12,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useCartHooks } from "@/hooks";
 import { useCartContext } from "@/views/Cart/cartActions";
 
-type Amount = {
-    subtotal: number;
+type TAmount = {
+    subtotal?: number;
     shipping: number;
     total: number;
     currency?: string;
@@ -71,8 +71,8 @@ type CurrencyExchProps = {
     quantity: number;
     country: string;
     shippingCosts: number;
-    setAmount: (amount: Amount) => void;
-    amount: Amount;
+    setAmount: (amount: TAmount) => void;
+    amount: TAmount;
     setDisable: (disable: boolean) => typeof disable | void;
 };
 
