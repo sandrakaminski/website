@@ -13,6 +13,7 @@ import { useCartHooks } from "@/hooks";
 import { useCartContext } from "@/views/Cart/cartActions";
 
 type Amount = {
+    subtotal: number;
     shipping: number;
     total: number;
     currency?: string;
@@ -123,9 +124,11 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
     const totalCosts = totalCost.toFixed(2);
 
     const handleSetCurrency = () => {
+        const subtotal = exchangeRate(newCurrency, state.total);
         const shipping = exchangeRate(newCurrency, shippingCosts);
         const newTotal = exchangeRate(newCurrency, Number(totalCosts));
         setAmount({
+            subtotal: subtotal,
             total: newTotal,
             shipping: shipping,
             currency: newCurrency,
@@ -193,7 +196,7 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
                     {loading ? (
                         <Skeleton />
                     ) : (
-                        `${symbol}${state.total?.toFixed(2)} ${newCurrency}`
+                        `${symbol}${amount?.subtotal?.toFixed(2)} ${newCurrency}`
                     )}
                 </Typography>
             </Box>
