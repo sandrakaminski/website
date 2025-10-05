@@ -8,6 +8,7 @@ import Select from "@mui/material/Select";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import { useQuery } from "@tanstack/react-query";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 import { useCartHooks } from "@/hooks";
 import { useCartContext } from "@/views/Cart/cartActions";
@@ -98,12 +99,15 @@ export const CartItemPrice = (props: ICartItemPrice): JSX.Element => {
         setLoading(false);
     }, [country, itemPrice, exchangeRate, newCurrency]);
 
+    const theme = useTheme();
+    const hideSymbol = useMediaQuery(theme.breakpoints.down("md"));
+
     return (
         <Typography variant="subtitle2">
             {loading ? (
                 <Skeleton />
             ) : (
-                `${symbol}${price.toFixed(2)} ${newCurrency}`
+                `${symbol}${price.toFixed(2)} ${hideSymbol ? "" : newCurrency}`
             )}
         </Typography>
     );
@@ -196,7 +200,9 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
                     {loading ? (
                         <Skeleton />
                     ) : (
-                        `${symbol}${amount?.subtotal?.toFixed(2)} ${newCurrency}`
+                        `${symbol}${amount?.subtotal?.toFixed(
+                            2
+                        )} ${newCurrency}`
                     )}
                 </Typography>
             </Box>
