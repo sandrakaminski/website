@@ -1,21 +1,16 @@
 import { useState, JSX } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
-import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import ButtonBase from "@mui/material/ButtonBase";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import Card from "@mui/material/Card";
-import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
-import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useQuery } from "@tanstack/react-query";
@@ -170,11 +165,9 @@ const Cart = (): JSX.Element => {
                         </Button>
                     </Stack>
                 ) : (
-                    <Grid alignItems="stretch" spacing={1} container>
-                        <Grid size={{ xs: 12, lg: 8 }}>
-                            <Card
-                                variant="outlined"
-                                sx={{ p: 2, height: "100%" }}>
+                    <Card variant="outlined" sx={{ p: 2, mb: 4 }}>
+                        <Grid alignItems="stretch" spacing={1} container>
+                            <Grid size={{ xs: 12, md: 8, lg: 9 }}>
                                 {loading ? (
                                     <CartSkeleton />
                                 ) : (
@@ -185,10 +178,10 @@ const Cart = (): JSX.Element => {
                                             alignItems="center"
                                             spacing={2}>
                                             <Typography variant="h4">
-                                                Shopping cart
+                                                Your Shopping Cart
                                             </Typography>
                                             <Button
-                                                endIcon={<CloseIcon />}
+                                                endIcon={<DeleteIcon />}
                                                 onClick={() =>
                                                     dispatch({
                                                         type: ActionTypes.CLEAR,
@@ -197,12 +190,12 @@ const Cart = (): JSX.Element => {
                                                 Clear cart
                                             </Button>
                                         </Stack>
-                                        <Stack sx={{ mt: 4 }}>
+                                        <Stack sx={{ mt: 2 }}>
                                             {state.cart?.map((item, index) => (
                                                 <CartItem
                                                     country={country}
-                                                    key={Number(index)}
-                                                    item={item as ProductTypes}
+                                                    key={index}
+                                                    item={item}
                                                     increase={(id) =>
                                                         dispatch({
                                                             type: ActionTypes.INC,
@@ -223,57 +216,62 @@ const Cart = (): JSX.Element => {
                                                     }
                                                 />
                                             ))}
-                                            <Typography
-                                                variant="caption"
-                                                color="grayText">
-                                                *VAT/GST Included in product
-                                                price
-                                            </Typography>
                                         </Stack>
                                     </>
                                 )}
-                            </Card>
-                        </Grid>
-                        <Grid size={{ xs: 12, lg: 4 }}>
-                            <Stack
-                                variant="outlined"
-                                component={Card}
-                                sx={{ height: "100%", p: 2 }}
-                                direction="column"
-                                justifyContent="space-between"
-                                spacing={1}>
-                                <CurrencyExchange
-                                    quantity={quantity}
-                                    setDisable={setDisable}
-                                    setAmount={setAmount}
-                                    amount={amount}
-                                    shippingCosts={shippingTotal}
-                                    country={country}
-                                />
-                                <ButtonGroup size="small">
+                            </Grid>
+
+                            <Grid size={{ xs: 12, md: 4, lg: 3 }}>
+                                <Stack
+                                    sx={{
+                                        height: "100%",
+                                        p: 2,
+                                        borderTop: {
+                                            xs: "1px solid rgba(0, 0, 0, 0.12)",
+                                            md: 0,
+                                        },
+                                        borderLeft: {
+                                            md: "1px solid rgba(0, 0, 0, 0.12)",
+                                            xs: 0,
+                                        },
+                                    }}
+                                    direction="column"
+                                    spacing={1}>
+                                    <CurrencyExchange
+                                        quantity={quantity}
+                                        setDisable={setDisable}
+                                        setAmount={setAmount}
+                                        amount={amount}
+                                        shippingCosts={shippingTotal}
+                                        country={country}
+                                    />
                                     <CountryDropdown
                                         disabled={nzOnly}
                                         id="country"
                                         setCountry={handleSetCountry}
                                     />
+
                                     <Button
-                                        size="small"
-                                        sx={{ width: 200, ml: 1 }}
+                                        size="large"
                                         disabled={disable}
                                         variant="contained"
                                         loading={processing}
                                         onClick={handlePurchase}>
-                                        Buy now
+                                        Continue to checkout
                                     </Button>
-                                </ButtonGroup>
-                                {error.state && (
-                                    <Typography color="error">
-                                        {error.message}
+
+                                    <Typography color="GrayText">
+                                        Taxes & shipping calculated at checkout
                                     </Typography>
-                                )}
-                            </Stack>
+                                    {error.state && (
+                                        <Typography color="error">
+                                            {error.message}
+                                        </Typography>
+                                    )}
+                                </Stack>
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </Card>
                 )}
             </Box>
         </Container>
@@ -291,7 +289,7 @@ type CartItemProps = {
 };
 
 const CartItem = (props: CartItemProps): JSX.Element => {
-    const { item, remove, country } = props;
+    const { item, country } = props;
     const navigate = useNavigate();
 
     const inStock = (): boolean => {
@@ -300,92 +298,65 @@ const CartItem = (props: CartItemProps): JSX.Element => {
     useQuery({ queryKey: [item.inStock], queryFn: inStock });
 
     return (
-        <>
-            <Stack
-                sx={{
-                    bgcolor: {
-                        xs: item.promotion && "info.lighter",
-                        sm: "inherit",
-                    },
-                    py: {
-                        xs: 1,
-                        md: 2,
-                    },
-                    px: 1,
-                }}
-                spacing={{
-                    xs: 0,
-                    sm: 2,
-                }}
-                direction="row"
-                justifyContent="space-between">
-                <ButtonBase
-                    component={Box}
+        <Stack
+            sx={{
+                py: {
+                    xs: 1,
+                    md: 2,
+                },
+                px: { sm: 0, md: 1 },
+                justifyContent: "space-between",
+            }}
+            direction="row"
+            justifyContent="start">
+            <Stack direction="row">
+                <Avatar
                     onClick={() => navigate(`/shop/${item.slug}`)}
                     sx={{
-                        display: "flex",
-                        alignItems: "center",
                         cursor: "pointer",
-                    }}>
-                    <Avatar
-                        sx={{
-                            height: { xs: 75, md: 100 },
-                            width: { xs: 56, md: 75 },
-                        }}
-                        variant="square"
-                        alt={item.name}
-                        src={item.featureImage.fields.file.url}
-                    />
-                    <Stack
-                        sx={{
-                            ml: 2,
-                            justifyContent: "flex-end",
-                        }}>
-                        <Typography variant="subtitle2" gutterBottom>
-                            {item.name}
-                        </Typography>
-                        <CartItemPrice
-                            itemPrice={item.price}
-                            country={country}
-                        />
-                        {item.promotion && (
-                            <Typography
-                                sx={{
-                                    display: { xs: "none", sm: "block" },
-                                }}
-                                variant="caption"
-                                color="info.main">
-                                Promotion Included
-                            </Typography>
-                        )}
-                    </Stack>
-                </ButtonBase>
+                        height: 100,
+                        width: 100,
+                        borderRadius: 2,
+                    }}
+                    variant="square"
+                    alt={item.name}
+                    src={item.featureImage.fields.file.url}
+                />
 
-                <Grid
-                    sx={{ display: "flex" }}
-                    container
-                    direction="row"
-                    justifyContent="flex-end"
-                    alignItems="center"
-                    spacing={{
-                        xs: 1,
-                        sm: 2,
-                        md: 4,
+                <Stack
+                    sx={{
+                        ml: 2,
+                        justifyContent: "space-between",
                     }}>
+                    <Typography
+                        sx={{ cursor: "pointer" }}
+                        onClick={() => navigate(`/shop/${item.slug}`)}
+                        variant="subtitle2"
+                        gutterBottom>
+                        {item.name}
+                    </Typography>
+
                     <AmountButtons amount={item} {...props} />
-
-                    <Link
-                        sx={{
-                            cursor: "pointer",
-                        }}
-                        color="error"
-                        onClick={() => remove(item.productId)}>
-                        Remove
-                    </Link>
-                </Grid>
+                </Stack>
             </Stack>
-            <Divider />
-        </>
+
+            <Grid
+                sx={{ display: "flex" }}
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="start"
+                spacing={{
+                    xs: 1,
+                    sm: 2,
+                    md: 4,
+                }}>
+                <CartItemPrice
+                    itemPrice={item.price}
+                    country={country}
+                />
+            </Grid>
+        </Stack>
     );
 };
 
@@ -418,28 +389,34 @@ const AmountButtons = (props: AmountButtonsProps): JSX.Element => {
     });
 
     return (
-        <Stack direction="row" justifyContent="center" alignItems="center">
+        <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            sx={{
+                bgcolor: "background.default",
+                borderRadius: 2,
+                width: 100,
+            }}>
             <IconButton
+                color="primary"
                 onClick={() => decrease(amount?.productId)}
                 size="small">
-                <RemoveIcon fontSize="inherit" />
+                {amount?.amount.length === 1 ? (
+                    <DeleteIcon fontSize="inherit" />
+                ) : (
+                    <RemoveIcon fontSize="inherit" />
+                )}
             </IconButton>
-            <Chip
+            <Typography
+                variant="subtitle2"
                 sx={{
-                    display: { xs: "none", sm: "flex" },
-                }}
-                variant="outlined"
-                label={amount?.amount.length}
-            />
-            <Chip
-                sx={{
-                    display: { xs: "flex", sm: "none" },
-                }}
-                size="small"
-                variant="outlined"
-                label={amount?.amount.length}
-            />
+                    p: 1,
+                }}>
+                {amount?.amount.length}
+            </Typography>
             <IconButton
+                color="primary"
                 onClick={() => increase(amount?.productId)}
                 size="small">
                 <AddIcon fontSize="inherit" />

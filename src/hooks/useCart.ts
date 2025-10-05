@@ -117,35 +117,6 @@ export const useCartHooks = () => {
         }
     };
 
-    // exact tax rate for each country
-    const vat = (country: string): number => {
-        switch (country) {
-            case "AU":
-                return 0;
-            case "CA":
-                return 0.05;
-            case "CZ":
-                return 0.19;
-            case "FR":
-                return 0.22;
-            case "IT":
-                return 0.24;
-            case "JP":
-                return 0.1;
-            case "NZ":
-                return 0.15;
-            case "NO":
-                return 0.25;
-            case "TW":
-                return 0.05;
-            case "GB":
-                return 0.2;
-            case "US":
-                return 0;
-            default:
-                return 0.15;
-        }
-    };
 
     const exchangeRate = (country: string, price: number): number => {
         switch (country) {
@@ -264,7 +235,6 @@ export const useCartHooks = () => {
         countriesList,
         symbols,
         currencyTypes,
-        vat,
         paperProductShipping,
         handleJapanShipping,
         shippingFee,

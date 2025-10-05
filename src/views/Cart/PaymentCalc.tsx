@@ -98,7 +98,7 @@ export const CartItemPrice = (props: ICartItemPrice): JSX.Element => {
     }, [country, itemPrice, exchangeRate, newCurrency]);
 
     return (
-        <Typography>
+        <Typography variant="subtitle2">
             {loading ? (
                 <Skeleton />
             ) : (
@@ -114,14 +114,12 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
     const { state } = useCartContext();
     const [loading, setLoading] = useState<boolean>(true);
 
-    const { currencyTypes, symbols, vat, exchangeRate } = useCartHooks();
+    const { currencyTypes, symbols, exchangeRate } = useCartHooks();
     const currency = currencyTypes("NZD");
-    const vatCosts = vat(country);
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
 
     const totalCost = state.total + shippingCosts;
-    const vatTotal = vatCosts * amount.total;
     const totalCosts = totalCost.toFixed(2);
 
     const handleSetCurrency = () => {
@@ -133,25 +131,6 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
             currency: newCurrency,
         });
         setLoading(false);
-        // try {
-        //     const respTotal = await fetch(
-        //         `${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${totalCosts}`
-        //     );
-        //     const respShipping = await fetch(
-        //         `${BASE_URL}?base=${currency}&symbols=${newCurrency}&amount=${shippingCosts}`
-        //     );
-        //     const total = await respTotal.json();
-        //     const shipping = await respShipping.json();
-
-        //     setAmount({
-        //         total: total?.rates[newCurrency],
-        //         shipping: shipping?.rates[newCurrency],
-        //         currency: newCurrency,
-        //     });
-        //     setLoading(false);
-        // } catch {
-        //     setLoading(false);
-        // }
     };
 
     const handlePricing = () => {
@@ -198,36 +177,52 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
         queryFn: checkState,
     });
 
+    const boxStyle = {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+    };
+
     return (
         <Box>
-            <Typography gutterBottom variant="h4">
-                {loading ? <Skeleton variant="rounded" /> : "Order summary"}
-            </Typography>
-            <Typography>
-                {loading ? (
-                    <Skeleton />
-                ) : (
-                    `VAT/GST: ${symbol}${vatTotal?.toFixed(2)} ${newCurrency}`
-                )}
-            </Typography>
-            <Typography>
-                {loading ? (
-                    <Skeleton />
-                ) : (
-                    `Shipping: ${symbol}${amount?.shipping?.toFixed(
-                        2
-                    )} ${newCurrency}`
-                )}
-            </Typography>
-            <Typography>
-                {loading ? (
-                    <Skeleton />
-                ) : (
-                    `Total: ${symbol}${amount?.total?.toFixed(
-                        2
-                    )} ${newCurrency}`
-                )}
-            </Typography>
+            <Box sx={boxStyle}>
+                <Typography variant="body1">
+                    {loading ? <Skeleton /> : "Subtotal"}
+                </Typography>
+                <Typography variant="subtitle2">
+                    {loading ? (
+                        <Skeleton />
+                    ) : (
+                        `${symbol}${state.total?.toFixed(2)} ${newCurrency}`
+                    )}
+                </Typography>
+            </Box>
+            <Box sx={boxStyle}>
+                <Typography variant="body1">
+                    {loading ? <Skeleton /> : "Shipping"}
+                </Typography>
+                <Typography variant="subtitle2">
+                    {loading ? (
+                        <Skeleton />
+                    ) : (
+                        `${symbol}${amount?.shipping?.toFixed(
+                            2
+                        )} ${newCurrency}`
+                    )}
+                </Typography>
+            </Box>
+            <Box sx={boxStyle}>
+                <Typography variant="body1">
+                    {loading ? <Skeleton /> : "Total"}
+                </Typography>
+                <Typography variant="subtitle2">
+                    {loading ? (
+                        <Skeleton />
+                    ) : (
+                        `${symbol}${amount?.total?.toFixed(2)} ${newCurrency}`
+                    )}
+                </Typography>
+            </Box>
         </Box>
     );
 };

@@ -53,7 +53,10 @@ export const typography: TypographyVariantsOptions = {
         fontSize: '0.9rem',
         fontWeight: 800,
         letterSpacing: '.025em',
-        // fontFamily: 'proxima-nova',
+        "@media (max-width:809px)": {
+            fontSize: '0.8rem',
+            letterSpacing: '.02em',
+        },
     },
     body1: {
         fontSize: '14px',
@@ -75,6 +78,10 @@ export const typography: TypographyVariantsOptions = {
         fontWeight: 500,
         fontFamily: 'Futura',
         letterSpacing: '.25em',
+        "@media (max-width:809px)": {
+            fontSize: '10px',
+            letterSpacing: '.2em',
+        },
     },
     caption: {
         fontSize: '0.75rem',
