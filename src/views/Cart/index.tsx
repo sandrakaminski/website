@@ -27,6 +27,14 @@ import { useCartHooks, useErrorHandler } from "@/hooks";
 import { ProductTypes } from "@/types";
 import { ActionTypes, useCartContext } from "@/views/Cart/cartActions";
 
+const cardPadding = {
+    px: { sm: 0, md: 1 },
+    py: {
+        xs: 1,
+        md: 2,
+    },
+};
+
 const Cart = (): JSX.Element => {
     const navigate = useNavigate();
     const {
@@ -167,7 +175,7 @@ const Cart = (): JSX.Element => {
                 ) : (
                     <Card variant="outlined" sx={{ p: 2, mb: 4 }}>
                         <Grid alignItems="stretch" spacing={1} container>
-                            <Grid size={{ xs: 12, md: 8, lg: 9 }}>
+                            <Grid size={{ xs: 12, md: 8 }}>
                                 {loading ? (
                                     <CartSkeleton />
                                 ) : (
@@ -181,6 +189,12 @@ const Cart = (): JSX.Element => {
                                                 Your Shopping Cart
                                             </Typography>
                                             <Button
+                                                sx={{
+                                                    display: {
+                                                        xs: "none",
+                                                        md: "inline-flex",
+                                                    },
+                                                }}
                                                 endIcon={<DeleteIcon />}
                                                 onClick={() =>
                                                     dispatch({
@@ -221,11 +235,10 @@ const Cart = (): JSX.Element => {
                                 )}
                             </Grid>
 
-                            <Grid size={{ xs: 12, md: 4, lg: 3 }}>
+                            <Grid size={{ xs: 12, md: 4 }}>
                                 <Stack
                                     sx={{
-                                        height: "100%",
-                                        p: 2,
+                                        ...cardPadding,
                                         borderTop: {
                                             xs: "1px solid rgba(0, 0, 0, 0.12)",
                                             md: 0,
@@ -234,6 +247,7 @@ const Cart = (): JSX.Element => {
                                             md: "1px solid rgba(0, 0, 0, 0.12)",
                                             xs: 0,
                                         },
+                                        pl: { md: 2 },
                                     }}
                                     direction="column"
                                     spacing={1}>
@@ -252,6 +266,9 @@ const Cart = (): JSX.Element => {
                                     />
 
                                     <Button
+                                        sx={{
+                                            py: { xs: 1.5, md: 1 },
+                                        }}
                                         size="large"
                                         disabled={disable}
                                         variant="contained"
@@ -300,11 +317,7 @@ const CartItem = (props: CartItemProps): JSX.Element => {
     return (
         <Stack
             sx={{
-                py: {
-                    xs: 1,
-                    md: 2,
-                },
-                px: { sm: 0, md: 1 },
+                ...cardPadding,
                 justifyContent: "space-between",
             }}
             direction="row"
