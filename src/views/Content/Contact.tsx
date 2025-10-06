@@ -151,14 +151,16 @@ const Contact = (): JSX.Element => {
 
             setIsSubmitting(false);
             setSubmitted(true);
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Error:", error);
             setIsSubmitting(false);
             setError({
                 state: true,
                 title: "Submission Error",
                 body:
-                    error.message || "There was a problem with the submission.",
+                    error instanceof Error && error.message
+                        ? error.message
+                        : "There was a problem with the submission.",
             });
         }
     };
@@ -218,15 +220,16 @@ const Contact = (): JSX.Element => {
                                 required
                                 disabled={isSubmitting}
                                 error={error.state && state.errors.email}
-                                multiline={false}
                                 onChange={handleChange}
                                 type="email"
                                 fullWidth
                                 label="Email Address"
                             />
                         </Grid>
-                        <Grid size={{ xs: 12 }} sx={{ display: "flex" }}>
+                        <Grid size={12} sx={{ display: "flex" }}>
                             <Button
+                                variant="contained"
+                                size="large"
                                 sx={{ width: { xs: "100%", md: "auto" } }}
                                 loading={isSubmitting}
                                 onClick={handleSubmit}>
@@ -234,7 +237,7 @@ const Contact = (): JSX.Element => {
                             </Button>
                         </Grid>
                         {error.state && (
-                            <Grid size={{ xs: 12 }}>
+                            <Grid size={12}>
                                 <ErrorMessage
                                     title={error.title}
                                     body={error.body}
