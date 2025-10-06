@@ -136,15 +136,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                                 )}
                             </Stack>
                             <Divider sx={{ width: "100%" }} />
-                            {contentEntry.fields.nzShippingOnly && (
-                                <Alert
-                                    sx={{ color: "info.contrastText" }}
-                                    variant="filled"
-                                    severity="info">
-                                    This product is only available for purchase
-                                    within New Zealand.
-                                </Alert>
-                            )}
+
                             <Typography variant="h4">Description</Typography>
                             <Box
                                 sx={{
@@ -162,6 +154,15 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                                     {contentEntry.fields.description}
                                 </ReactMarkdown>
                             </Box>
+                            {contentEntry.fields.nzShippingOnly && (
+                                <Alert
+                                    sx={{ color: "info.contrastText" }}
+                                    variant="filled"
+                                    severity="info">
+                                    This product is only available for purchase
+                                    within New Zealand.
+                                </Alert>
+                            )}
                         </Stack>
                     </Card>
                 </Grid>
