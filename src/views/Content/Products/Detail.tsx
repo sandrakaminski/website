@@ -3,6 +3,7 @@ import { useState, JSX } from "react";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import Alert from "@mui/material/Alert";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -23,7 +24,6 @@ import gfm from "remark-gfm";
 import CartPopper from "./CartPopper";
 import ProductReviews from "./ProductReviews";
 import DefaultImage from "@/components/DefaultImage";
-import Notifier from "@/components/Notifier";
 import Trail from "@/components/Trail";
 import { useImageSrc } from "@/hooks";
 import type { ProductTypes, ContentEntryProps } from "@/types";
@@ -59,10 +59,7 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
     return (
         <>
             <Trail current={contentEntry.fields.name} />
-            <Notifier
-                open={contentEntry.fields.nzShippingOnly}
-                message="This product is only available for purchase within New Zealand."
-            />
+
             <Grid sx={{ mt: 1 }} container spacing={2}>
                 <Grid size={{ xs: 12, lg: 7 }}>
                     <Card
@@ -139,6 +136,15 @@ const Detail = (props: ContentEntryProps<ProductTypes>): JSX.Element => {
                                 )}
                             </Stack>
                             <Divider sx={{ width: "100%" }} />
+                            {contentEntry.fields.nzShippingOnly && (
+                                <Alert
+                                    sx={{ color: "info.contrastText" }}
+                                    variant="filled"
+                                    severity="info">
+                                    This product is only available for purchase
+                                    within New Zealand.
+                                </Alert>
+                            )}
                             <Typography variant="h4">Description</Typography>
                             <Box
                                 sx={{

@@ -243,7 +243,6 @@ const Contact = (): JSX.Element => {
                         )}
                     </Grid>
                 )}
-                {/* </Stack> */}
             </Container>
         );
     return <></>;
