@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
 
 import { useEmailValidate, useCreateSubmission } from "@/hooks";
+import ErrorMessage from "@/components/ErrorMessage";
 
 const validEmail = new RegExp("^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$");
 
@@ -85,12 +86,12 @@ const Contact = (): JSX.Element => {
                 {submitted && (
                     <DoneIcon sx={{ fontSize: 100, color: "success.main" }} />
                 )}
+
                 <Typography
                     gutterBottom
                     align="center"
                     variant="h4"
                     sx={{ mt: 6, mb: 2 }}>
-                    {error.state && error.message}
                     {!submitted
                         ? "Sign up to my newsletter for exclusive monthly updates."
                         : "Thank you for signing up!"}
@@ -137,6 +138,14 @@ const Contact = (): JSX.Element => {
                                     Subscribe
                                 </Button>
                             </Grid>
+                            {error.state && (
+                                <Grid size={{ xs: 12 }}>
+                                    <ErrorMessage
+                                        title="Submission Error"
+                                        body={error.message}
+                                    />
+                                </Grid>
+                            )}
                         </Grid>
                     </Container>
                 )}

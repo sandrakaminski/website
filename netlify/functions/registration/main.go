@@ -23,19 +23,32 @@ type Contact struct {
 	Contacts []Person `json:"contacts"`
 }
 
-func (p Person) addContact() {
+func (p Person) addContact() error {
 	godotenv.Load(".env")
+	
+	apiKey := os.Getenv("SENDGRID_API_KEY")
+	if apiKey == "" {
+		log.Println("Missing required environment variables.")
+		return fmt.Errorf("cannot send email, try again later")
+	}
 
-	req := send.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/marketing/contacts", "https://api.sendgrid.com")
+	req := send.GetRequest(apiKey, "/v3/marketing/contacts", "https://api.sendgrid.com")
 	req.Method = "PUT"
 
 	req.Body, _ = json.Marshal(Contact{Contacts: []Person{p}})
 	response, err := send.API(req)
 	if err != nil {
-		fmt.Println(err)
-	} else {
-		log.Println(response.Body)
+		log.Println(err)
+		return err
+	} 
+
+	if response.StatusCode != 202 {
+		err := fmt.Errorf("There was a problem with the submission.")
+		log.Println(err, response.Body)
+		return err
 	}
+
+	return nil
 }
 
 func handler(e events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
@@ -45,7 +58,18 @@ func handler(e events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, 
 		return nil, err
 	}
 
-	p.addContact()
+	err := p.addContact()
+	if err != nil {
+		errorResponse, _ := json.Marshal(map[string]string{
+			"error": fmt.Sprintf("Error sending email: %v", err),
+		})
+
+		return &events.APIGatewayProxyResponse{
+			StatusCode: 500,
+			Headers:    map[string]string{"Content-Type": "application/json"},
+			Body:       string(errorResponse),
+		}, nil
+	}
 
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 200,

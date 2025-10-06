@@ -11,6 +11,10 @@ export const palette = {
     background: {
         default: '#FAFBFB',
     },
+    error: {
+        main: "#E11D1D",
+        contrastText: '#fff',
+    },
     info: {
         main: '#cf77c1',
         contrastText: '#fff',
