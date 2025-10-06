@@ -35,7 +35,7 @@ export const useCreateSubmission = (url: string, data?: object, method?: string)
                 throw new Error(`Error submitting data ${resp.status}`);
             }
         }
-        catch (error) {
+        catch {
             handleError("Entry cannot be submitted, try again later.");
             setSubmitting(false);
         }

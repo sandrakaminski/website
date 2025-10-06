@@ -1,52 +1,56 @@
 /* eslint-disable camelcase */
-import React, { useReducer, JSX } from "react";
+import React, { useReducer, JSX, useState } from "react";
 
 import DoneIcon from "@mui/icons-material/Done";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
 
-import { useEmailValidate, useCreateSubmission } from "@/hooks";
 import ErrorMessage from "@/components/ErrorMessage";
+import InputField from "@/components/InputField";
 
-const validEmail = new RegExp("^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$");
+const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 type State = {
     firstName: string;
     lastName: string;
     email: string;
     errors: {
-        email?: string;
+        email?: boolean;
+        firstName?: boolean;
+        lastName?: boolean;
     };
 };
 
-type Action = {
-    [key: string]: string;
-};
+type Action =
+    | { type: "firstName"; value: string }
+    | { type: "lastName"; value: string }
+    | { type: "email"; value: string }
+    | { type: "validate"; value: string };
 
 const reducer = (state: State, action: Action): State => {
-    let error;
-
     switch (action.type) {
         case "firstName":
             return { ...state, firstName: action.value };
         case "lastName":
             return { ...state, lastName: action.value };
         case "email":
-            if (!validEmail.test(action.value.toLowerCase())) {
-                error = "Please enter a valid email address";
-            }
+            return { ...state, email: action.value };
+        case "validate":
             return {
                 ...state,
-                email: action.value,
-                errors: { ...state.errors, email: error },
+                errors: {
+                    email: !validEmail.test(state.email) ? true : false,
+                    firstName: !state.firstName ? true : false,
+                    lastName: !state.lastName ? true : false,
+                },
             };
-        default:
-            throw new Error(`Unhandled action type: ${action.type}`);
+        default: {
+            throw new Error(`Unhandled action type`);
+        }
     }
 };
 
@@ -55,15 +59,56 @@ const init = {
     lastName: "",
     email: "",
     errors: {
-        email: "",
+        email: false,
+        firstName: false,
+        lastName: false,
     },
+};
+
+type ErrorState = {
+    state: boolean;
+    title: string;
+    body: string;
+};
+
+const hasErrors = (
+    state: State,
+    setError: (error: ErrorState) => void,
+    dispatch: (value: Action) => void
+) => {
+    dispatch({ type: "validate", value: "" });
+    if (!state.firstName || !state.lastName) {
+        setError({
+            state: true,
+            title: "Error submitting",
+            body: "Please complete all required fields and try again.",
+        });
+        return true;
+    }
+
+    if (!state.email || !validEmail.test(state.email)) {
+        setError({
+            state: true,
+            title: "Invalid email address",
+            body: "Please double check the email you entered and try again.",
+        });
+        return true;
+    }
+
+    return false;
 };
 
 const Contact = (): JSX.Element => {
     const { slug } = useParams();
 
     const [state, dispatch] = useReducer(reducer, init);
-    const formCheck = useEmailValidate(state);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [submitted, setSubmitted] = useState<boolean>(false);
+    const [error, setError] = useState<ErrorState>({
+        state: false,
+        title: "",
+        body: "",
+    });
 
     const data = {
         first_name: state.firstName,
@@ -71,22 +116,69 @@ const Contact = (): JSX.Element => {
         email: state.email,
     };
 
-    const url = `/.netlify/functions/registration`;
-    const { submitting, error, submitted, createSubmission } =
-        useCreateSubmission(url, data);
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        dispatch({ type: name, value: value });
+        dispatch({
+            type: e.target.name as Action["type"],
+            value: e.target.value,
+        });
+
+        if (error.state) {
+            setError((prev) => ({ ...prev, state: false }));
+        }
+    };
+
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+
+        if (hasErrors(state, setError, dispatch)) {
+            return;
+        }
+
+        setIsSubmitting(true);
+        try {
+            const resp = await fetch("/.netlify/functions/registration", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            const responseData = await resp.json();
+            if (!resp.ok) {
+                throw new Error(responseData.error || "Failed to submit form");
+            }
+
+            setIsSubmitting(false);
+            setSubmitted(true);
+        } catch (error: any) {
+            console.error("Error:", error);
+            setIsSubmitting(false);
+            setError({
+                state: true,
+                title: "Submission Error",
+                body:
+                    error.message || "There was a problem with the submission.",
+            });
+        }
     };
 
     if (slug === "contact")
         return (
-            <Stack justifyContent="center" alignItems="center" spacing={2}>
-                {submitted && (
-                    <DoneIcon sx={{ fontSize: 100, color: "success.main" }} />
-                )}
-
+            <Container maxWidth="md">
+                <Stack
+                    sx={{
+                        mt: 2,
+                    }}
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={2}>
+                    {submitted && (
+                        <DoneIcon
+                            sx={{ fontSize: 100, color: "success.main" }}
+                        />
+                    )}
+                </Stack>
                 <Typography
                     gutterBottom
                     align="center"
@@ -97,59 +189,62 @@ const Contact = (): JSX.Element => {
                         : "Thank you for signing up!"}
                 </Typography>
                 {!submitted && (
-                    <Container maxWidth="sm">
-                        <Grid container spacing={2}>
-                            <Grid size={{ xs: 12, sm: 6 }}>
-                                <TextField
-                                    size="medium"
-                                    name="firstName"
-                                    onChange={handleChange}
-                                    fullWidth
-                                    label="First Name"
-                                />
-                            </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }}>
-                                <TextField
-                                    size="medium"
-                                    name="lastName"
-                                    onChange={handleChange}
-                                    type="text"
-                                    fullWidth
-                                    label="Last Name"
-                                />
-                            </Grid>
-                            <Grid size={{ xs: 12 }}>
-                                <TextField
-                                    name="email"
-                                    size="medium"
-                                    helperText={state.errors.email}
-                                    error={state.errors.email ? true : false}
-                                    onChange={handleChange}
-                                    type="email"
-                                    fullWidth
-                                    label="Email Address"
-                                />
-                            </Grid>
-                            <Grid size={{ xs: 12 }}>
-                                <Button
-                                    disabled={!formCheck}
-                                    loading={submitting}
-                                    onClick={createSubmission}>
-                                    Subscribe
-                                </Button>
-                            </Grid>
-                            {error.state && (
-                                <Grid size={{ xs: 12 }}>
-                                    <ErrorMessage
-                                        title="Submission Error"
-                                        body={error.message}
-                                    />
-                                </Grid>
-                            )}
+                    <Grid container spacing={2}>
+                        <Grid size={{ xs: 12, md: 6 }}>
+                            <InputField
+                                name="firstName"
+                                onChange={handleChange}
+                                disabled={isSubmitting}
+                                required
+                                error={error.state && state.errors.firstName}
+                                fullWidth
+                                label="First Name"
+                            />
                         </Grid>
-                    </Container>
+                        <Grid size={{ xs: 12, md: 6 }}>
+                            <InputField
+                                name="lastName"
+                                required
+                                onChange={handleChange}
+                                disabled={isSubmitting}
+                                error={error.state && state.errors.lastName}
+                                fullWidth
+                                label="Last Name"
+                            />
+                        </Grid>
+                        <Grid size={{ xs: 12 }}>
+                            <InputField
+                                name="email"
+                                required
+                                disabled={isSubmitting}
+                                error={error.state && state.errors.email}
+                                multiline={false}
+                                onChange={handleChange}
+                                type="email"
+                                fullWidth
+                                label="Email Address"
+                            />
+                        </Grid>
+                        <Grid size={{ xs: 12 }} sx={{ display: "flex" }}>
+                            <Button
+                                sx={{ width: { xs: "100%", md: "auto" } }}
+                                loading={isSubmitting}
+                                onClick={handleSubmit}>
+                                Subscribe
+                            </Button>
+                        </Grid>
+                        {error.state && (
+                            <Grid size={{ xs: 12 }}>
+                                <ErrorMessage
+                                    title={error.title}
+                                    body={error.body}
+                                />
+                            </Grid>
+                        )}
+                    </Grid>
                 )}
-            </Stack>
+                {/* </Stack> */}
+            </Container>
         );
     return <></>;
 };

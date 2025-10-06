@@ -74,7 +74,7 @@ func handler(e events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, 
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 200,
 		Headers:    map[string]string{"Content-Type": "application/json"},
-		Body:       "Contact added",
+		Body:       `{"message": "Contact added successfully"}`,
 	}, nil
 }
 
