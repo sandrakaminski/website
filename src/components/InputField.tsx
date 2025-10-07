@@ -53,7 +53,7 @@ const InputField = (props: TextProps): JSX.Element => {
                         px: 2,
                         mt: multiline ? "12px" : 0,
                         border: "none",
-                        height: multiline ? "178px" : 60,
+                        height: multiline ? "auto" : 60,
                     }}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}

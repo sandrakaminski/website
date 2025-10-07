@@ -7,11 +7,11 @@ import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
 
 import CommenterInfo, { CommentSkeleton } from "@/components/CommenterInfo";
+import InputField from "@/components/InputField";
 import ToggleStory from "@/components/ToggleStory";
 import { useCreateSubmission, useFetchEntries } from "@/hooks";
 import type { ArticleType, ContentEntryProps } from "@/types";
@@ -108,19 +108,18 @@ const Comments = (props: ContentEntryProps<ArticleType>): JSX.Element => {
                     )}
                 </Stack>
                 {!submitted ? (
-                    <Stack alignItems="flex-end" spacing={2}>
-                        <TextField
+                    <Stack spacing={2}>
+                        <InputField
                             onChange={handleChange}
                             label="Name"
                             name="name"
                             fullWidth
                         />
-                        <TextField
+                        <InputField
                             onChange={handleChange}
                             label="Comment"
                             name="comment"
                             multiline
-                            rows={4}
                             fullWidth
                         />
                         <Button
@@ -232,36 +231,29 @@ const CommentThread = (props: CommentThreadProps): JSX.Element => {
                         ))}
                         {!submitted ? (
                             replyTo === item.commentId && (
-                                <Stack
-                                    sx={{ p: 1, ml: 2 }}
-                                    alignItems="flex-start"
-                                    spacing={2}>
-                                    <TextField
-                                        sx={{ width: 400 }}
+                                <Stack sx={{ p: 1, ml: 2 }} spacing={2}>
+                                    <InputField
                                         name="name"
                                         label="Name"
                                         onChange={replyChange}
-                                        size="small"
                                     />
-                                    <TextField
-                                        sx={{ width: 400 }}
+                                    <InputField
                                         name="reply"
                                         label="Reply"
                                         onChange={replyChange}
                                         multiline
                                         rows={4}
-                                        size="small"
                                     />
                                     <Button
+                                        size="large"
                                         disabled={
                                             replyFields.name === "" ||
                                             replyFields.reply === ""
                                         }
                                         loading={submitting}
                                         onClick={() => createSubmission()}
-                                        variant="contained"
-                                        size="small">
-                                        Reply{" "}
+                                        variant="contained">
+                                        Reply
                                     </Button>
                                 </Stack>
                             )
