@@ -2,7 +2,7 @@ import { TypographyVariantsOptions } from "@mui/material";
 
 export const typography: TypographyVariantsOptions = {
     h1: {
-        fontFamily: 'ltc-bodoni-175, serif',
+        fontFamily: 'ltc-bodoni-175, sans-serif',
         fontSize: '40px',
         fontWeight: 500,
         letterSpacing: '0em',
@@ -10,14 +10,15 @@ export const typography: TypographyVariantsOptions = {
         color: '#000',
     },
     h2: {
-        fontFamily: 'Playfair Display SC, serif',
+        fontFamily: 'playfair-display, sans-serif',
         fontSize: '45px',
         fontWeight: 400,
         fontStyle: 'normal',
         textTransform: 'uppercase',
+        letterSpacing: '.02em',
     },
     h3: {
-        fontFamily: 'arno-pro-caption, serif',
+        fontFamily: 'arno-pro-caption, sans-serif',
         fontSize: '34px',
         fontWeight: 500,
         fontStyle: 'normal',
@@ -36,7 +37,7 @@ export const typography: TypographyVariantsOptions = {
         textTransform: 'uppercase',
     },
     h6: {
-        fontFamily: 'ltc-bodoni-175, serif',
+        fontFamily: 'ltc-bodoni-175, sans-serif',
         fontSize: '24px',
         fontWeight: 400,
         fontStyle: 'normal',
@@ -70,11 +71,10 @@ export const typography: TypographyVariantsOptions = {
         fontFamily: 'proxima-nova-black, sans-serif',
         fontSize: '14px',
         fontWeight: 300,
-        letterSpacing: '.05em',
-        color: '#00000080',
+        letterSpacing: '.05em'
     },
     button: {
-        fontFamily: 'Futura, sans-serif',
+        fontFamily: 'futura-pt-web-medium, sans-serif',
         fontSize: '12px',
         fontWeight: 500,
         letterSpacing: '.25em',
