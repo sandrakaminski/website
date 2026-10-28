@@ -124,13 +124,10 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
     const newCurrency = currencyTypes(country);
     const symbol = symbols(country);
 
-    const totalCost = state.total + shippingCosts;
-    const totalCosts = totalCost.toFixed(2);
-
     const handleSetCurrency = () => {
         const subtotal = exchangeRate(newCurrency, state.total);
-        const shipping = exchangeRate(newCurrency, shippingCosts);
-        const newTotal = exchangeRate(newCurrency, Number(totalCosts));
+        const shipping = shippingCosts;
+        const newTotal = subtotal + shipping;
         setAmount({
             subtotal: subtotal,
             total: newTotal,
@@ -147,7 +144,7 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
             currency,
             country,
             newCurrency,
-            totalCosts,
+            shippingCosts,
             setAmount,
             setDisable,
             location.reload,
@@ -159,7 +156,7 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
             currency,
             country,
             newCurrency,
-            totalCosts,
+            shippingCosts,
             setAmount,
             setDisable,
             location.reload,

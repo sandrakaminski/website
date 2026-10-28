@@ -76,7 +76,8 @@ export const typography: TypographyVariantsOptions = {
     button: {
         fontFamily: 'futura-pt-web-medium, sans-serif',
         fontSize: '12px',
-        fontWeight: 500,
+        fontStyle: 'normal',
+        fontWeight: 400,
         letterSpacing: '.25em',
         "@media (max-width:809px)": {
             fontSize: '10px',

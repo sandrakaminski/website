@@ -22,31 +22,31 @@ export const useCartHooks = () => {
         US: { name: "United States", code: 10 },
     };
 
-    // standard shipping costs for each country
+    // standard shipping costs for each country (in that country's currency)
     const shippingCosts = (country: string): number => {
         switch (country) {
             case "AU":
-                return 24;
+                return 22;
             case "CA":
-                return 23;
+                return 26;
             case "CZ":
-                return 34;
+                return 485;
             case "FR":
-                return 34;
+                return 19;
             case "IT":
-                return 36;
+                return 20;
             case "JP":
-                return 21;
+                return 1880;
             case "NZ":
                 return 11;
             case "NO":
-                return 42;
+                return 280;
             case "TW":
-                return 13;
+                return 250;
             case "GB":
-                return 50.11;
+                return 24.00;
             case "US":
-                return 31.82;
+                return 20;
             default:
                 return 11;
         }
