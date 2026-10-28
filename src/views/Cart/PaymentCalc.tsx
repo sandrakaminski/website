@@ -1,4 +1,4 @@
-import { useState, JSX, useEffect } from "react";
+import { useEffect, JSX } from "react";
 
 import { useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -8,9 +8,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
-import { useQuery } from "@tanstack/react-query";
 
-import { useCartHooks } from "@/hooks";
+import { useCartHooks, useStripePrices } from "@/hooks";
 import { useCartContext } from "@/views/Cart/cartActions";
 
 type TAmount = {
@@ -69,7 +68,6 @@ export const CountryDropdown = (props: DropdownProps): JSX.Element => {
 };
 
 type CurrencyExchProps = {
-    quantity: number;
     country: string;
     shippingCosts: number;
     setAmount: (amount: TAmount) => void;
@@ -80,152 +78,159 @@ type CurrencyExchProps = {
 type ICartItemPrice = {
     country: string;
     itemPrice: number;
+    productId: string;
 };
 
 export const CartItemPrice = (props: ICartItemPrice): JSX.Element => {
-    const { country, itemPrice } = props;
+    const { country, itemPrice, productId } = props;
+    const { state } = useCartContext();
 
-    const { currencyTypes, symbols, exchangeRate } = useCartHooks();
-    const newCurrency = currencyTypes(country);
+    const { currencyTypes, symbols } = useCartHooks();
+    const currency = currencyTypes(country);
     const symbol = symbols(country);
+    const isNzd = !currency || currency === "NZD";
+    const productIds = state.cart.map((item) => item.productId);
 
-    const [price, setPrice] = useState<number>(itemPrice);
-    const [loading, setLoading] = useState<boolean>(true);
+    const { data, isFetching, isError } = useStripePrices({
+        productIds,
+        currency,
+    });
 
-    // fetches the original price and converts it to the new currency
-    useEffect(() => {
-        const res = exchangeRate(newCurrency, itemPrice);
-        setPrice(res);
-        setLoading(false);
-    }, [country, itemPrice, exchangeRate, newCurrency]);
+    const price = isNzd ? itemPrice : data?.prices[productId];
+    const loading = !isNzd && (isFetching || (!data && !isError));
 
     const theme = useTheme();
     const hideSymbol = useMediaQuery(theme.breakpoints.down("md"));
 
     return (
         <Typography variant="subtitle2">
-            {loading ? (
-                <Skeleton />
+            {loading || price === undefined ? (
+                <Skeleton width={80} />
             ) : (
-                `${symbol}${price.toFixed(2)} ${hideSymbol ? "" : newCurrency}`
+                `${symbol}${price.toFixed(2)} ${hideSymbol ? "" : currency}`
             )}
         </Typography>
     );
 };
 
-// displays the approximate costs
+/** Cart totals: Contentful NZD locally; Stripe currency_options for other currencies. */
 export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
     const { country, shippingCosts, setAmount, amount, setDisable } = props;
     const { state } = useCartContext();
-    const [loading, setLoading] = useState<boolean>(true);
 
-    const { currencyTypes, symbols, exchangeRate } = useCartHooks();
-    const currency = currencyTypes("NZD");
-    const newCurrency = currencyTypes(country);
+    const { currencyTypes, symbols } = useCartHooks();
+    const currency = currencyTypes(country);
     const symbol = symbols(country);
+    const isNzd = !currency || currency === "NZD";
+    const productIds = state.cart.map((item) => item.productId);
 
-    const handleSetCurrency = () => {
-        const subtotal = exchangeRate(newCurrency, state.total);
-        const shipping = shippingCosts;
-        const newTotal = subtotal + shipping;
-        setAmount({
-            subtotal: subtotal,
-            total: newTotal,
-            shipping: shipping,
-            currency: newCurrency,
-        });
-        setLoading(false);
-    };
-
-    const handlePricing = () => {
-        setLoading(true);
-        handleSetCurrency();
-        return [
-            currency,
-            country,
-            newCurrency,
-            shippingCosts,
-            setAmount,
-            setDisable,
-            location.reload,
-        ];
-    };
-
-    const loadRate = useQuery({
-        queryKey: [
-            currency,
-            country,
-            newCurrency,
-            shippingCosts,
-            setAmount,
-            setDisable,
-            location.reload,
-        ],
-        queryFn: handlePricing,
-        refetchOnWindowFocus: true,
+    const { data, isFetching, isError } = useStripePrices({
+        productIds,
+        currency,
     });
 
-    const checkState = (): (
-        | boolean
-        | ((disable: boolean) => boolean | void)
-    )[] => {
-        if (loadRate.isLoading) {
-            setDisable(true);
+    const loading = !isNzd && (isFetching || (!data && !isError));
+
+    useEffect(() => {
+        if (isNzd) {
+            const subtotal = state.total;
+            setAmount({
+                subtotal,
+                shipping: shippingCosts,
+                total: subtotal + shippingCosts,
+                currency,
+            });
+            setDisable(false);
+            return;
         }
-        setDisable(false);
-        return [loadRate.isLoading, setDisable];
-    };
 
-    useQuery({
-        queryKey: [loadRate.isLoading, setDisable],
-        queryFn: checkState,
-    });
+        if (isError) {
+            setDisable(true);
+            return;
+        }
+
+        if (!data?.prices) {
+            setDisable(true);
+            return;
+        }
+
+        const subtotal = state.cart.reduce((acc, item) => {
+            const unit = data.prices[item.productId];
+            if (unit === undefined) {
+                return acc;
+            }
+            return acc + unit * item.amount.length;
+        }, 0);
+
+        setAmount({
+            subtotal,
+            shipping: shippingCosts,
+            total: subtotal + shippingCosts,
+            currency,
+        });
+        setDisable(false);
+    }, [
+        isNzd,
+        isError,
+        data,
+        state.cart,
+        state.total,
+        shippingCosts,
+        currency,
+        setAmount,
+        setDisable,
+    ]);
 
     const boxStyle = {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        width: "100%",
+    };
+
+    const amountSx = {
+        ml: "auto",
+        textAlign: "right",
+        minWidth: "40%",
+        display: "flex",
+        justifyContent: "flex-end",
     };
 
     return (
         <Box>
             <Box sx={boxStyle}>
                 <Typography variant="body1">
-                    {loading ? <Skeleton /> : "Subtotal"}
+                    {loading ? <Skeleton width={80} /> : "Subtotal"}
                 </Typography>
-                <Typography variant="subtitle2">
+                <Typography variant="subtitle2" sx={amountSx}>
                     {loading ? (
-                        <Skeleton />
+                        <Skeleton width="100%" />
                     ) : (
-                        `${symbol}${amount?.subtotal?.toFixed(
-                            2
-                        )} ${newCurrency}`
+                        `${symbol}${amount?.subtotal?.toFixed(2)} ${currency}`
                     )}
                 </Typography>
             </Box>
             <Box sx={boxStyle}>
                 <Typography variant="body1">
-                    {loading ? <Skeleton /> : "Shipping"}
+                    {loading ? <Skeleton width={80} /> : "Shipping"}
                 </Typography>
-                <Typography variant="subtitle2">
+                <Typography variant="subtitle2" sx={amountSx}>
                     {loading ? (
-                        <Skeleton />
+                        <Skeleton width="100%" />
                     ) : (
-                        `${symbol}${amount?.shipping?.toFixed(
-                            2
-                        )} ${newCurrency}`
+                        `${symbol}${amount?.shipping?.toFixed(2)} ${currency}`
                     )}
                 </Typography>
             </Box>
             <Box sx={boxStyle}>
                 <Typography variant="body1">
-                    {loading ? <Skeleton /> : "Total"}
+                    {loading ? <Skeleton width={80} /> : "Total"}
                 </Typography>
-                <Typography variant="subtitle2">
+                <Typography variant="subtitle2" sx={amountSx}>
                     {loading ? (
-                        <Skeleton />
+                        <Skeleton width="100%" />
                     ) : (
-                        `${symbol}${amount?.total?.toFixed(2)} ${newCurrency}`
+                        `${symbol}${amount?.total?.toFixed(2)} ${currency}`
                     )}
                 </Typography>
             </Box>

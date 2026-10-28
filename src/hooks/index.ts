@@ -4,3 +4,4 @@ export * from "./useEmailValidate";
 export * from "./useErrorHandler";
 export * from "./useFetchEntries";
 export * from "./useImgSrc";
+export * from "./useStripePrices";

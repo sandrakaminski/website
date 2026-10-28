@@ -137,7 +137,8 @@ const Cart = (): JSX.Element => {
             }
             if (resp.ok) {
                 const { url } = await resp.json();
-                window.location.replace(url);
+                // assign (not replace) so browser back returns to the cart
+                window.location.assign(url);
             }
         } catch {
             handleError("Error navigating to payment page. Try again later.");
@@ -254,7 +255,6 @@ const Cart = (): JSX.Element => {
                                     direction="column"
                                     spacing={1}>
                                     <CurrencyExchange
-                                        quantity={quantity}
                                         setDisable={setDisable}
                                         setAmount={setAmount}
                                         amount={amount}
@@ -366,7 +366,11 @@ const CartItem = (props: CartItemProps): JSX.Element => {
                     sm: 2,
                     md: 4,
                 }}>
-                <CartItemPrice itemPrice={item.price} country={country} />
+                <CartItemPrice
+                    itemPrice={item.price}
+                    productId={item.productId}
+                    country={country}
+                />
             </Grid>
         </Stack>
     );

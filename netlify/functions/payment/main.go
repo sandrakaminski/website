@@ -56,6 +56,8 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 
 	for prdIter.Next() {
 		prod := prdIter.Product()
+		// Default Price carries currency_options; Checkout picks the
+		// matching amount from session Currency.
 		lineItems = append(lineItems, &stripe.CheckoutSessionLineItemParams{
 			Price:    stripe.String(prod.DefaultPrice.ID),
 			Quantity: stripe.Int64(ordItems[prod.ID].Quantity),

@@ -116,24 +116,6 @@ export const useCartHooks = () => {
                 return "NZD";
         }
     };
-
-
-    const exchangeRate = (country: string, price: number): number => {
-        switch (country) {
-            case "AUD": return 0.92 * price;
-            case "CAD": return 0.82 * price;
-            case "CZK": return 14.27 * price;
-            case "EUR": return 0.55 * price;
-            case "JPY": return 89.5 * price;
-            case "NZD": return 1 * price;
-            case "NOK": return 6.62 * price;
-            case "TWD": return 19.13 * price;
-            case "GBP": return 0.48 * price;
-            case "USD": return 0.61 * price;
-            default: return price;
-        }
-    };
-
     type AmountProps = {
         country: string;
         amount: Amount;
@@ -239,7 +221,6 @@ export const useCartHooks = () => {
         handleJapanShipping,
         shippingFee,
         checkProductType,
-        exchangeRate,
     };
 };
 
