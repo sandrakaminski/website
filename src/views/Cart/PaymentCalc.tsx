@@ -139,7 +139,8 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
         currency,
     });
 
-    const loading = !isNzd && (isFetching || (!data && !isError));
+    // Keep totals in a loading state until Stripe returns usable prices
+    const loading = !isNzd && (!data?.prices || isFetching || isError);
 
     useEffect(() => {
         if (isNzd) {
@@ -159,7 +160,7 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
             setDisable(true);
             if (isError) {
                 handleError(
-                    `This product cannot be shipped to ${countryName}. If you would like to purchase, please contact us at info@sandrakaminski.com.`
+                    `This product cannot be shipped to ${countryName}. If you would like to purchase, please contact us at info@sandrakaminski.com.`,
                 );
             }
             return;
@@ -213,9 +214,7 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
     return (
         <Box>
             <Box sx={boxStyle}>
-                <Typography variant="body1">
-                    {loading ? <Skeleton width={80} /> : "Subtotal"}
-                </Typography>
+                <Typography variant="body1">Subtotal</Typography>
                 <Typography variant="subtitle2" sx={amountSx}>
                     {loading ? (
                         <Skeleton width="100%" />
@@ -225,9 +224,7 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
                 </Typography>
             </Box>
             <Box sx={boxStyle}>
-                <Typography variant="body1">
-                    {loading ? <Skeleton width={80} /> : "Shipping"}
-                </Typography>
+                <Typography variant="body1">Shipping</Typography>
                 <Typography variant="subtitle2" sx={amountSx}>
                     {loading ? (
                         <Skeleton width="100%" />
@@ -237,9 +234,7 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
                 </Typography>
             </Box>
             <Box sx={boxStyle}>
-                <Typography variant="body1">
-                    {loading ? <Skeleton width={80} /> : "Total"}
-                </Typography>
+                <Typography variant="body1">Total</Typography>
                 <Typography variant="subtitle2" sx={amountSx}>
                     {loading ? (
                         <Skeleton width="100%" />

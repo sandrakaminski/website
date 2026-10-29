@@ -32,9 +32,14 @@ export const useStripePrices = ({
             if (!resp.ok) {
                 throw new Error("Failed to fetch Stripe prices");
             }
+            if (currency === undefined) {
+                throw new Error("Currency is undefined");
+            }
+
             return resp.json();
         },
         staleTime: 5 * 60 * 1000,
         retry: 1,
+
     });
 };
