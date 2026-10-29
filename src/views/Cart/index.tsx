@@ -256,6 +256,7 @@ const Cart = (): JSX.Element => {
                                     spacing={1}>
                                     <CurrencyExchange
                                         setDisable={setDisable}
+                                        handleError={handleError}
                                         setAmount={setAmount}
                                         amount={amount}
                                         shippingCosts={shippingTotal}

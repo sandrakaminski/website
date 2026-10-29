@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 type ErrorHandler = {
     state: boolean;
     message: string;
-}
+};
 
 export const useErrorHandler = () => {
     const [error, setError] = useState<ErrorHandler>({
@@ -17,9 +17,9 @@ export const useErrorHandler = () => {
         }
     }, [error]);
 
-    const handleError = (message: string): void => {
-        setError({ state: true, message });
-    };
+    const handleError = useCallback((message: string): void => {
+        setError({ state: Boolean(message), message });
+    }, []);
 
     return { error, handleError };
 };

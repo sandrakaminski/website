@@ -73,6 +73,7 @@ type CurrencyExchProps = {
     setAmount: (amount: TAmount) => void;
     amount: TAmount;
     setDisable: (disable: boolean) => typeof disable | void;
+    handleError: (message: string) => void;
 };
 
 type ICartItemPrice = {
@@ -115,14 +116,23 @@ export const CartItemPrice = (props: ICartItemPrice): JSX.Element => {
 
 /** Cart totals: Contentful NZD locally; Stripe currency_options for other currencies. */
 export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
-    const { country, shippingCosts, setAmount, amount, setDisable } = props;
+    const {
+        country,
+        shippingCosts,
+        setAmount,
+        amount,
+        setDisable,
+        handleError,
+    } = props;
     const { state } = useCartContext();
 
-    const { currencyTypes, symbols } = useCartHooks();
+    const { countriesList, currencyTypes, symbols } = useCartHooks();
     const currency = currencyTypes(country);
     const symbol = symbols(country);
     const isNzd = !currency || currency === "NZD";
     const productIds = state.cart.map((item) => item.productId);
+    const countryName =
+        countriesList[country as keyof typeof countriesList]?.name ?? country;
 
     const { data, isFetching, isError } = useStripePrices({
         productIds,
@@ -141,16 +151,17 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
                 currency,
             });
             setDisable(false);
+            handleError("");
             return;
         }
 
-        if (isError) {
+        if (isError || !data?.prices) {
             setDisable(true);
-            return;
-        }
-
-        if (!data?.prices) {
-            setDisable(true);
+            if (isError) {
+                handleError(
+                    `This product cannot be shipped to ${countryName}. If you would like to purchase, please contact us at info@sandrakaminski.com.`
+                );
+            }
             return;
         }
 
@@ -169,6 +180,7 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
             currency,
         });
         setDisable(false);
+        handleError("");
     }, [
         isNzd,
         isError,
@@ -177,8 +189,10 @@ export const CurrencyExchange = (props: CurrencyExchProps): JSX.Element => {
         state.total,
         shippingCosts,
         currency,
+        countryName,
         setAmount,
         setDisable,
+        handleError,
     ]);
 
     const boxStyle = {
